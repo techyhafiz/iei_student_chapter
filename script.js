@@ -62,9 +62,9 @@
   var loadFill = $("#loadFill");
   var loadPct = $("#loadPct");
   var bootSeq = [
-    "> initializing nullsec kernel .......... [ok]",
-    "> mounting /dev/curiosity .............. [ok]",
-    "> handshake: dept. of cybersecurity .... [ok]",
+    "> initializing IEI SC kernel .......... [ok]",
+    "> mounting /dev/ghrcemp ................ [ok]",
+    "> handshake: IEI student chapter ....... [ok]",
     "> decrypting interface ................. [ok]"
   ];
 
@@ -297,9 +297,9 @@
   var termBody = $("#termBody");
   var termScript = [
     { t: "whoami", c: "cmd" },
-    { t: "nullsec // cybersecurity club — est. 2021", c: "out" },
+    { t: "iei student chapter // ghrcemp", c: "out" },
     { t: "cat mission.txt", c: "cmd" },
-    { t: "turn curiosity into capability.", c: "out" },
+    { t: "turn curiosity into engineering capability.", c: "out" },
     { t: "ls labs/", c: "cmd" },
     { t: "web/  pwn/  crypto/  forensics/  osint/", c: "out" },
     { t: "./join --now", c: "cmd" },

@@ -66,10 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentIndex = 0;
   const total = OPERATORS_DATA.length;
 
-  // Render 3D cards stack
+  // Render 3D cards stack with professional hover hint overlay
   cardsWrapper.innerHTML = OPERATORS_DATA.map((op, idx) => `
     <div class="deck-card" data-index="${idx}" data-pos="${idx}">
       <img src="${op.image}" alt="${op.name} Portrait" loading="eager" draggable="false" />
+      <div class="deck-card-hover-hint mono">
+        <span>NEXT OPERATOR</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
       <div class="deck-card-overlay">
         <span class="deck-card-tag mono">${op.role.split("//")[0]}</span>
         <h4 class="deck-card-title">${op.name}</h4>
@@ -125,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let autoplayTimer = null;
-  const AUTOPLAY_DELAY = 2000; // Auto advances every 2 seconds unless hovered
+  const AUTOPLAY_DELAY = 4000; // Auto advances every 4 seconds unless hovered
 
   function startAutoplay() {
     stopAutoplay();
@@ -141,11 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  const teamSection = document.getElementById("team");
-  if (teamSection) {
-    teamSection.addEventListener("mouseenter", stopAutoplay);
-    teamSection.addEventListener("mouseleave", startAutoplay);
-  }
+  // Stop slideshow when hovering over text panel OR card deck image area
+  textPanel.addEventListener("mouseenter", stopAutoplay);
+  textPanel.addEventListener("mouseleave", startAutoplay);
+
+  cardsWrapper.addEventListener("mouseenter", stopAutoplay);
+  cardsWrapper.addEventListener("mouseleave", startAutoplay);
 
   // Start autoplay initially
   startAutoplay();

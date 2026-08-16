@@ -258,14 +258,14 @@
   text-align: center;
 }
 
-/* Secondary Prev Button */
+/* Secondary Prev Button (Clean Arrow Only) */
 .deck-btn-prev {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  border: 1px solid rgba(212, 160, 23, 0.35);
-  background: rgba(13, 15, 18, 0.8);
-  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -275,40 +275,56 @@
 .deck-btn-prev:hover {
   border-color: var(--accent);
   color: var(--accent);
-  background: rgba(212, 160, 23, 0.12);
+  background: rgba(212, 160, 23, 0.1);
   transform: translateX(-3px);
 }
 
-/* Creative Primary Next Button with Pulse Ring & Hover Arrow Motion */
+.deck-btn-prev svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Primary Creative NEXT Pill Button */
 .deck-btn-next-wrapper {
   position: relative;
-  width: 64px;
-  height: 64px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .deck-btn-next {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  border: 2px solid var(--accent);
-  background: radial-gradient(circle, rgba(212, 160, 23, 0.35) 0%, rgba(212, 160, 23, 0.12) 100%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  height: 48px;
+  border-radius: 30px;
+  border: 1px solid var(--accent);
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.25) 0%, rgba(212, 160, 23, 0.08) 100%);
   color: #ffffff;
-  display: grid;
-  place-items: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-  box-shadow: 0 0 20px rgba(212, 160, 23, 0.35);
+  box-shadow: 0 0 16px rgba(212, 160, 23, 0.2);
   position: relative;
   z-index: 2;
+}
+
+.btn-next-text {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
 }
 
 .deck-btn-next::before {
   content: "";
   position: absolute;
-  inset: -6px;
-  border-radius: 50%;
+  inset: -4px;
+  border-radius: 34px;
   border: 1px solid rgba(212, 160, 23, 0.3);
   animation: pulseGlow 2.4s infinite ease-in-out;
   pointer-events: none;
@@ -320,7 +336,7 @@
     opacity: 0.3;
   }
   50% {
-    transform: scale(1.12);
+    transform: scale(1.05, 1.1);
     opacity: 0.7;
   }
 }
@@ -328,14 +344,14 @@
 .deck-btn-next:hover {
   background: var(--accent);
   color: #0d0f12;
-  transform: scale(1.08);
-  box-shadow: 0 10px 30px rgba(212, 160, 23, 0.6), 0 0 25px rgba(212, 160, 23, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 160, 23, 0.5), 0 0 15px rgba(212, 160, 23, 0.7);
 }
 
 .deck-btn-next svg {
   pointer-events: none;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2.6;
@@ -345,7 +361,38 @@
 }
 
 .deck-btn-next:hover svg {
-  transform: translateX(3px);
+  transform: translateX(4px);
+}
+
+/* Card Hover Professional Hint Badge */
+.deck-card-hover-hint {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(13, 15, 18, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 160, 23, 0.4);
+  color: var(--accent);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+}
+
+.deck-card:hover .deck-card-hover-hint {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 /* 3D Stack positions */
