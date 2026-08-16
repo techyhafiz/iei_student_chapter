@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NULLSEC // Cybersecurity Club — Break Systems. Build Defenders.</title>
+  <meta name="description"
+    content="NULLSEC — the college cybersecurity club. CTFs, red-team labs, workshops and research. Break systems. Build defenders.">
+  <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="operators.css">
+</head>
+
+<body>
+
+  <!-- ======= PRELOADER (injected visibility via .js class) ======= -->
+  <div id="loader" aria-hidden="true">
+    <div class="load-inner mono">
+      <div class="load-logo">NULLSEC<span>_</span></div>
+      <div id="loadLines" class="load-lines"></div>
+      <div class="load-bar"><span id="loadFill"></span></div>
+      <div class="load-meta"><span>ESTABLISHING SECURE CHANNEL</span><span id="loadPct">000%</span></div>
+    </div>
+  </div>
+  <noscript>
+    <style>
+      #loader {
+        display: none !important
+      }
+    </style>
+  </noscript>
+
+  <!-- ======= GLOBAL FX LAYERS ======= -->
+  <div id="progressBar" aria-hidden="true"></div>
+  <div id="bgGrid" class="bg-layer" aria-hidden="true"></div>
+  <div id="bgGlow" class="bg-layer" aria-hidden="true"></div>
+  <div id="bgMid" class="bg-layer" aria-hidden="true"></div>
+  <div id="scanlines" aria-hidden="true"></div>
+  <div id="noise" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- ======= NAV ======= -->
+  <header id="nav">
+    <a class="logo mono" href="#hero">NULL<span>SEC</span><i class="blink">_</i></a>
+    <nav class="nav-links mono" aria-label="Primary">
+      <a href="#about"><em>01</em> ABOUT</a>
+      <a href="#events"><em>02</em> EVENTS</a>
+      <a href="#team"><em>03</em> TEAM</a>
+      <a href="#gallery"><em>04</em> GALLERY</a>
+    </nav>
+    <a class="btn btn-sm" href="#join" data-hover>JOIN US</a>
+    <button id="burger" aria-label="Open menu" aria-expanded="false"
+      aria-controls="mobileMenu"><span></span><span></span><span></span></button>
+  </header>
+
+  <div id="mobileMenu" aria-hidden="true">
+    <nav class="mono" aria-label="Mobile">
+      <a href="#about">01 // ABOUT</a>
+      <a href="#events">02 // EVENTS</a>
+      <a href="#team">03 // TEAM</a>
+      <a href="#gallery">04 // GALLERY</a>
+      <a href="#join" class="mm-join">05 // JOIN US</a>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ======= HERO ======= -->
+    <section id="hero">
+      <!-- Background image with fade -->
+      <div class="hero-bg" aria-hidden="true">
+        <img src="assets/hero_bg_user.png" alt="" loading="eager" />
+        <div class="hero-bg-fade"></div>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-kicker mono">// CYBERSECURITY CLUB — DEPT. OF CYBERSECURITY</p>
+        <h1 id="heroTitle">BREAK SYSTEMS.<br>BUILD DEFENDERS.</h1>
+        <p class="hero-sub">We are NULLSEC — a student collective of hackers, researchers and defenders.<br>
+          We break things in controlled labs so we know exactly how to protect them in the wild.</p>
+        <div class="hero-cta">
+          <a href="#join" class="btn btn-primary" data-hover>JOIN THE CLUB <span class="btn-arrow">→</span></a>
+          <a href="#events" class="btn btn-ghost" data-hover>VIEW EVENTS</a>
+        </div>
+      </div>
+
+      <!-- Stats bar -->
+      <div class="hero-stats-bar">
+        <!-- Main Stats Card (Left) -->
+        <div class="hero-stats-card">
+          <!-- Culture blurb -->
+          <div class="stats-cell stats-culture">
+            <div class="stats-culture-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"
+                aria-hidden="true">
+                <path d="M12 2L3 7v6c0 5.5 3.8 10.3 9 12 5.2-1.7 9-6.5 9-12V7l-9-5z" />
+                <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <div class="stats-culture-text">
+              <span class="stats-culture-title mono">NOT JUST A CLUB..<br>A CULTURE.</span>
+              <span class="stats-culture-sub">Built on trust. Driven by<br>curiosity. Bound by impact.</span>
+            </div>
+          </div>
+
+          <!-- Stat counters -->
+          <div class="stats-cell stat-item">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
+                aria-hidden="true">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <span class="stat-num mono" data-count="120" data-suffix="+">0</span>
+            <span class="stat-label mono">ACTIVE<br>MEMBERS</span>
+          </div>
+
+          <div class="stats-cell stat-item">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
+                aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+                <line x1="9" y1="10" x2="9" y2="22" />
+                <line x1="15" y1="10" x2="15" y2="22" />
+                <line x1="3" y1="16" x2="21" y2="16" />
+              </svg>
+            </div>
+            <span class="stat-num mono" data-count="25" data-suffix="+">0</span>
+            <span class="stat-label mono">EVENTS<br>CONDUCTED</span>
+          </div>
+
+          <div class="stats-cell stat-item">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
+                aria-hidden="true">
+                <path d="M9 3h6" />
+                <path d="M10 3v6.5L4 19a1.5 1.5 0 0 0 1.3 2.2h13.4A1.5 1.5 0 0 0 20 19l-6-9.5V3" />
+                <path d="M8.5 14h7" />
+              </svg>
+            </div>
+            <span class="stat-num mono" data-count="8" data-suffix="+">0</span>
+            <span class="stat-label mono">HANDS-ON<br>LABS</span>
+          </div>
+
+          <div class="stats-cell stat-item">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
+                aria-hidden="true">
+                <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2" />
+                <path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2" />
+                <path d="M6 3h12v7a6 6 0 0 1-12 0V3z" />
+                <path d="M12 16v2" />
+                <path d="M8 21h8" />
+                <path d="M8 21v-3h8v3" />
+              </svg>
+            </div>
+            <span class="stat-num mono" data-count="10" data-suffix="+">0</span>
+            <span class="stat-label mono">CTF WINS &<br>RECOGNITIONS</span>
+          </div>
+        </div>
+
+        <!-- Separate Right Card: System Status -->
+        <div class="hero-status-card">
+          <span class="stats-system-title mono">SYSTEM STATUS</span>
+          <div class="stats-system-status">
+            <i class="dot-ok"></i>
+            <span class="mono" style="color:#4ae274">OPERATIONAL</span>
+          </div>
+          <span class="stats-system-tagline mono">LEARN • BREAK • DEFEND</span>
+          <div class="stats-system-bars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Scroll to explore -->
+      <div class="scroll-hint mono" aria-hidden="true">
+        <div class="scroll-hint-icon">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
+            aria-hidden="true">
+            <rect x="7" y="2" width="10" height="16" rx="5" />
+            <line x1="12" y1="6" x2="12" y2="10" stroke-linecap="round" />
+          </svg>
+        </div>
+        <span>SCROLL TO EXPLORE</span>
+        <span class="scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- ======= MARQUEE ======= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track mono">
+        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> CAPTURE THE FLAG <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
+          AN ATTACKER <i>▚</i> </span>
+        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> CAPTURE THE FLAG <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
+          AN ATTACKER <i>▚</i> </span>
+      </div>
+    </div>
+
+    <!-- ======= ABOUT ======= -->
+    <section id="about" class="section">
+      <div class="about-grid">
+        <div class="about-left">
+          <p class="kicker mono" data-reveal>// 01 — ABOUT</p>
+          <h2 class="sec-title" data-reveal>The campus<br>firewall.</h2>
+          <div class="glass term-card" data-reveal data-tilt>
+            <div class="term-head mono"><span class="t-dot"></span><span class="t-dot"></span><span
+                class="t-dot"></span><em>root@nullsec:~</em></div>
+            <div class="term-body mono" id="termBody" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="about-right">
+          <p class="lead" data-reveal>NULLSEC is the official student club of the Cybersecurity department. We exist for
+            one reason: to turn curious students into capable security engineers — hands on keyboards, not noses in
+            textbooks.</p>
+          <p data-reveal>Every week we run attack-and-defend labs, reverse-engineering nights and CTF practice sessions.
+            Our members have disclosed real vulnerabilities, published research, and brought home trophies from national
+            competitions.</p>
+          <p data-reveal>No experience required. If you can be curious, we can teach you the rest.</p>
+          <div class="stats">
+            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="120"
+                data-suffix="+">0</span><span class="stat-label mono">ACTIVE MEMBERS</span></div>
+            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="24"
+                data-suffix="+">0</span><span class="stat-label mono">WORKSHOPS RUN</span></div>
+            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="9">0</span><span
+                class="stat-label mono">CTF VICTORIES</span></div>
+            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="500"
+                data-suffix="+">0</span><span class="stat-label mono">FLAGS CAPTURED</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= EVENTS (horizontal scroll) ======= -->
+    <section id="events" class="section">
+      <div class="sec-head">
+        <div>
+          <p class="kicker mono" data-reveal>// 02 — EVENTS</p>
+          <h2 class="sec-title" data-reveal>Operations log</h2>
+        </div>
+        <p class="sec-hint mono" data-reveal>KEEP SCROLLING — THE LOG MOVES SIDEWAYS <span class="hint-arrow">→</span>
+        </p>
+      </div>
+      <div class="ev-wrap" id="evWrap">
+        <div class="ev-track" id="evTrack">
+
+          <article class="glass ev-card" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-ctf">CTF</span><time datetime="2025-12-12">DEC 12
+                2025</time></div>
+            <h3>MIDNIGHT CTF <span class="accent">0x05</span></h3>
+            <p>Our flagship overnight capture-the-flag. Web, pwn, crypto and forensics challenges that escalate from
+              “freshman-friendly” to “make the organizers sweat.” Bring caffeine.</p>
+            <div class="ev-meta mono">JEOPARDY · 12HRS · LAB 0x2A</div>
+          </article>
+
+          <article class="glass ev-card" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><time datetime="2025-11-28">NOV 28
+                2025</time></div>
+            <h3>ZERO-DAY <span class="accent">WEB EXPLOITATION</span></h3>
+            <p>Hands-on with the OWASP top ten — SSRF, IDOR and insecure deserialization, exploited on a live firing
+              range we built ourselves.</p>
+            <div class="ev-meta mono">HANDS-ON · BEGINNER OK</div>
+          </article>
+
+          <article class="glass ev-card" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-talk">TALK</span><time datetime="2025-11-09">NOV 09
+                2025</time></div>
+            <h3>THREAT INTEL <span class="accent">IN THE AGE OF AI</span></h3>
+            <p>An industry threat hunter on tracking APTs, and why AI changed the SOC — without replacing the humans
+              inside it.</p>
+            <div class="ev-meta mono">GUEST SPEAKER · AUDITORIUM</div>
+          </article>
+
+          <article class="glass ev-card" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-boot">BOOTCAMP</span><time datetime="2025-10-20">OCT 20
+                2025</time></div>
+            <h3>RED VS BLUE: <span class="accent">LIVE FIRE</span></h3>
+            <p>Two teams. One network. Attack and defend in a scored six-hour engagement with a live scoreboard and
+              post-mortem.</p>
+            <div class="ev-meta mono">TEAM FORMAT · SCORED</div>
+          </article>
+
+          <article class="glass ev-card ev-win" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-win">★ 1ST PLACE</span><time datetime="2025-10-02">OCT 02
+                2025</time></div>
+            <h3>INTER-COLLEGE <span class="accent">CTF FINALS</span></h3>
+            <p>Our squad took first of thirty-two teams. Flags captured: 47. Sleep: none. Pride: immeasurable.</p>
+            <div class="ev-meta mono">ARCHIVE · NATIONAL ROUND</div>
+          </article>
+
+          <article class="glass ev-card" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><time datetime="2025-09-18">SEP 18
+                2025</time></div>
+            <h3>OSINT: <span class="accent">FIND ANYTHING</span></h3>
+            <p>Open-source intelligence techniques — geolocation, username enumeration and recon workflows, on sanitized
+              targets.</p>
+            <div class="ev-meta mono">ARCHIVE · RESEARCH TRACK</div>
+          </article>
+
+          <article class="glass ev-card ev-end" data-tilt>
+            <div class="ev-top mono"><span class="ev-tag tag-end">EOF</span></div>
+            <h3>YOUR EVENT <span class="accent">HERE?</span></h3>
+            <p>Pitch a workshop, host a talk, or sponsor a CTF. The log is always being written.</p>
+            <a href="#join" class="btn btn-ghost btn-sm" data-hover>PITCH AN EVENT →</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= TEAM (3D Stacked Deck Operators) ======= -->
+    <section id="team" class="operators-deck-section section">
+      <div class="sec-head">
+        <div>
+          <p class="kicker mono" data-reveal>// 03 — TEAM OPERATORS</p>
+          <h2 class="sec-title" data-reveal>The Operators</h2>
+        </div>
+      </div>
+
+      <div class="operators-deck-grid">
+        <!-- Left Panel: Animated Dynamic Copy -->
+        <div class="deck-text-panel" id="opTextPanel">
+          <span class="op-role-badge mono" id="opRole">PRESIDENT // CRYPTOGRAPHY</span>
+          <h3 class="op-name" id="opName">Aria Vance</h3>
+          <p class="op-bio" id="opBio">Runs the ship with strategic vision and relentless energy. A three-time intercollegiate CTF team captain, Aria specializes in advanced cryptanalysis and lattice-based cipher research, believing every protocol hides a vulnerable secret waiting to be uncovered.</p>
+
+          <div class="op-stats-grid" id="opStats">
+            <div class="op-stat-box">
+              <span class="stat-lbl mono">ORIGIN</span>
+              <strong class="stat-val" id="opOrigin">SEATTLE</strong>
+            </div>
+            <div class="op-stat-box">
+              <span class="stat-lbl mono">SPECIALTY</span>
+              <strong class="stat-val" id="opSpec">CRYPTANALYSIS</strong>
+            </div>
+            <div class="op-stat-box">
+              <span class="stat-lbl mono">CLEARANCE</span>
+              <strong class="stat-val" id="opClearance">LEVEL 5</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: 3D Stacked Image Deck -->
+        <div class="deck-cards-wrapper" id="opCardsStack">
+          <!-- Stacked cards rendered dynamically by operators.js -->
+        </div>
+      </div>
+
+      <!-- Center Aligned Creative Deck Navigation Controls -->
+      <div class="deck-actions" data-reveal>
+        <div class="deck-controls">
+          <button class="deck-btn-prev" id="opPrevBtn" aria-label="Previous Operator" type="button">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="deck-counter mono" id="opCounter">01 / 05</div>
+          <div class="deck-btn-next-wrapper">
+            <button class="deck-btn-next" id="opNextBtn" aria-label="Next Operator" type="button">
+              <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= GALLERY ======= -->
+    <section id="gallery" class="section">
+      <div class="sec-head">
+        <div>
+          <p class="kicker mono" data-reveal>// 04 — GALLERY</p>
+          <h2 class="sec-title" data-reveal>Captured packets</h2>
+        </div>
+        <p class="sec-hint mono" data-reveal>CLICK ANY FRAME TO INSPECT <span class="hint-arrow">⌕</span></p>
+      </div>
+
+      <div class="gal">
+        <figure class="gal-item glass cs3 rs2" data-speed="1.4" data-caption="CTF FINALS — OCT 2025" tabindex="0"
+          role="button" aria-label="Open image: CTF finals">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Abstract radar sweep">
+              <rect width="400" height="300" fill="#15181d" />
+              <g stroke="#d4a017" fill="none" opacity=".32">
+                <circle cx="200" cy="150" r="42" />
+                <circle cx="200" cy="150" r="84" />
+                <circle cx="200" cy="150" r="126" />
+              </g>
+              <line x1="200" y1="150" x2="318" y2="66" stroke="#f2c14e" stroke-width="2" opacity=".85" />
+              <circle cx="258" cy="108" r="4" fill="#f2c14e" />
+              <circle cx="150" cy="204" r="3" fill="#d4a017" opacity=".7" />
+              <circle cx="230" cy="210" r="2.5" fill="#8a9a5b" opacity=".8" />
+            </svg>
+          </div>
+          <figcaption class="mono">CTF FINALS — OCT 2025</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs3" data-speed="0.8" data-caption="ZERO-DAY WORKSHOP — NOV 2025" tabindex="0"
+          role="button" aria-label="Open image: workshop waveform">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Abstract signal waveform">
+              <rect width="400" height="300" fill="#15181d" />
+              <g stroke="rgba(212,160,23,.12)">
+                <line x1="0" y1="75" x2="400" y2="75" />
+                <line x1="0" y1="150" x2="400" y2="150" />
+                <line x1="0" y1="225" x2="400" y2="225" />
+              </g>
+              <polyline
+                points="0,150 30,150 45,90 60,210 75,120 90,175 120,150 160,150 175,58 190,232 205,150 260,150 275,100 290,192 305,150 400,150"
+                stroke="#d4a017" fill="none" stroke-width="2" opacity=".85" />
+            </svg>
+          </div>
+          <figcaption class="mono">ZERO-DAY WORKSHOP</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs3" data-speed="1.1" data-caption="RED VS BLUE BOOTCAMP" tabindex="0"
+          role="button" aria-label="Open image: score bars">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract bar chart">
+              <rect width="400" height="300" fill="#15181d" />
+              <g fill="#d4a017">
+                <rect x="42" y="200" width="26" height="60" opacity=".4" />
+                <rect x="86" y="140" width="26" height="120" opacity=".55" />
+                <rect x="130" y="170" width="26" height="90" opacity=".45" />
+                <rect x="174" y="80" width="26" height="180" opacity=".8" />
+                <rect x="218" y="120" width="26" height="140" opacity=".6" />
+                <rect x="262" y="52" width="26" height="208" fill="#f2c14e" />
+                <rect x="306" y="160" width="26" height="100" opacity=".5" />
+                <rect x="350" y="110" width="26" height="150" opacity=".65" />
+              </g>
+              <line x1="20" y1="260" x2="390" y2="260" stroke="rgba(212,160,23,.35)" />
+            </svg>
+          </div>
+          <figcaption class="mono">RED VS BLUE — SCOREBOARD</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs2" data-speed="1.6" data-caption="LAB NIGHT — 0x2A" tabindex="0" role="button"
+          aria-label="Open image: hex tiles">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Abstract hex tile wall">
+              <rect width="400" height="300" fill="#15181d" />
+              <g fill="none" stroke="#d4a017">
+                <polygon points="136,90 118,121 82,121 64,90 82,59 118,59" opacity=".5" />
+                <polygon points="208,90 190,121 154,121 136,90 154,59 190,59" opacity=".25" />
+                <polygon points="172,152 154,183 118,183 100,152 118,121 154,121" fill="rgba(212,160,23,.12)"
+                  opacity=".9" />
+                <polygon points="244,152 226,183 190,183 172,152 190,121 226,121" opacity=".4" />
+                <polygon points="208,214 190,245 154,245 136,214 154,183 190,183" opacity=".3" />
+                <polygon points="280,90 262,121 226,121 208,90 226,59 262,59" opacity=".18" />
+              </g>
+            </svg>
+          </div>
+          <figcaption class="mono">LAB NIGHT — 0x2A</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs4" data-speed="0.9" data-caption="GUEST LECTURE SERIES" tabindex="0"
+          role="button" aria-label="Open image: circuit path">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Abstract circuit traces">
+              <rect width="400" height="300" fill="#15181d" />
+              <path d="M30 70 H150 V150 H250 V230 H370" stroke="#d4a017" fill="none" stroke-width="2" opacity=".7" />
+              <path d="M30 230 H110 V110 H210 V190 H370" stroke="#d4a017" fill="none" opacity=".28" />
+              <g fill="#f2c14e">
+                <circle cx="150" cy="70" r="4" />
+                <circle cx="250" cy="150" r="4" />
+                <circle cx="110" cy="230" r="3" opacity=".6" />
+                <circle cx="210" cy="110" r="3" opacity=".6" />
+              </g>
+            </svg>
+          </div>
+          <figcaption class="mono">GUEST LECTURE SERIES</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs3" data-speed="1.2"
+          data-caption="FRESHMAN INDUCTION — 'CAPTURE YOUR FIRST FLAG'" tabindex="0" role="button"
+          aria-label="Open image: shield emblem">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Abstract shield with keyhole">
+              <rect width="400" height="300" fill="#15181d" />
+              <path d="M200 38 L302 78 V158 C302 220 256 256 200 272 C144 256 98 220 98 158 V78 Z" stroke="#d4a017"
+                fill="rgba(212,160,23,.06)" stroke-width="2" />
+              <circle cx="200" cy="140" r="18" stroke="#f2c14e" fill="none" stroke-width="2" />
+              <rect x="194" y="152" width="12" height="34" rx="5" fill="#f2c14e" opacity=".9" />
+            </svg>
+          </div>
+          <figcaption class="mono">FRESHMAN INDUCTION</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs3 rs2" data-speed="0.7" data-caption="HACK THE NIGHT — ANNUAL GRID EVENT"
+          tabindex="0" role="button" aria-label="Open image: binary rain">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Abstract binary columns">
+              <rect width="400" height="300" fill="#15181d" />
+              <g font-family="monospace" font-size="16" fill="#d4a017">
+                <text x="60" y="40" opacity=".7">1<tspan x="60" dy="22">0</tspan>
+                  <tspan x="60" dy="22">1</tspan>
+                  <tspan x="60" dy="22">1</tspan>
+                  <tspan x="60" dy="22">0</tspan>
+                  <tspan x="60" dy="22">0</tspan>
+                  <tspan x="60" dy="22">1</tspan>
+                  <tspan x="60" dy="22">0</tspan>
+                  <tspan x="60" dy="22">1</tspan>
+                  <tspan x="60" dy="22">1</tspan>
+                </text>
+                <text x="140" y="60" opacity=".35">0<tspan x="140" dy="22">1</tspan>
+                  <tspan x="140" dy="22">0</tspan>
+                  <tspan x="140" dy="22">0</tspan>
+                  <tspan x="140" dy="22">1</tspan>
+                  <tspan x="140" dy="22">1</tspan>
+                  <tspan x="140" dy="22">0</tspan>
+                  <tspan x="140" dy="22">1</tspan>
+                </text>
+                <text x="220" y="30" fill="#f2c14e" opacity=".9">1<tspan x="220" dy="22">1</tspan>
+                  <tspan x="220" dy="22">0</tspan>
+                  <tspan x="220" dy="22">1</tspan>
+                  <tspan x="220" dy="22">0</tspan>
+                  <tspan x="220" dy="22">1</tspan>
+                  <tspan x="220" dy="22">1</tspan>
+                  <tspan x="220" dy="22">0</tspan>
+                  <tspan x="220" dy="22">0</tspan>
+                  <tspan x="220" dy="22">1</tspan>
+                </text>
+                <text x="300" y="70" opacity=".3">0<tspan x="300" dy="22">0</tspan>
+                  <tspan x="300" dy="22">1</tspan>
+                  <tspan x="300" dy="22">0</tspan>
+                  <tspan x="300" dy="22">1</tspan>
+                  <tspan x="300" dy="22">1</tspan>
+                </text>
+              </g>
+            </svg>
+          </div>
+          <figcaption class="mono">HACK THE NIGHT</figcaption>
+        </figure>
+
+        <figure class="gal-item glass cs3" data-speed="1.5" data-caption="AWARDS DAY — 1ST PLACE, NATIONALS"
+          tabindex="0" role="button" aria-label="Open image: key graphic">
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract key">
+              <rect width="400" height="300" fill="#15181d" />
+              <circle cx="130" cy="150" r="42" stroke="#f2c14e" fill="none" stroke-width="3" />
+              <circle cx="130" cy="150" r="16" stroke="#d4a017" fill="none" opacity=".5" />
+              <line x1="172" y1="150" x2="348" y2="150" stroke="#f2c14e" stroke-width="3" />
+              <line x1="300" y1="150" x2="300" y2="186" stroke="#f2c14e" stroke-width="3" />
+              <line x1="330" y1="150" x2="330" y2="174" stroke="#f2c14e" stroke-width="3" />
+            </svg>
+          </div>
+          <figcaption class="mono">AWARDS DAY — NATIONALS</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ======= JOIN ======= -->
+    <section id="join" class="section">
+      <div class="join-grid">
+        <div class="join-info">
+          <p class="kicker mono" data-reveal>// 05 — JOIN</p>
+          <h2 class="sec-title" data-reveal>Request<br>access</h2>
+          <p class="lead" data-reveal>Membership is open to every student — any branch, any year, zero experience
+            required. Submit a request and an operator will ping you within 48 hours.</p>
+          <ul class="mono-list mono" data-reveal>
+            <li><span class="prompt">&gt;</span> mail — club@nullsec.edu</li>
+            <li><span class="prompt">&gt;</span> discord — /nullsec</li>
+            <li><span class="prompt">&gt;</span> lab — Block C, Room 0x2A</li>
+            <li><span class="prompt">&gt;</span> hours — FRI 17:00 → LATE</li>
+          </ul>
+          <div class="socials mono" data-reveal>
+            <a href="#" data-hover>[GITHUB]</a><a href="#" data-hover>[LINKEDIN]</a><a href="#" data-hover>[X]</a><a
+              href="#" data-hover>[INSTA]</a>
+          </div>
+        </div>
+
+        <form id="joinForm" class="glass form" data-reveal novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label class="mono" for="fName">NAME *</label>
+              <input id="fName" name="name" type="text" autocomplete="name" required placeholder="Ada Lovelace">
+            </div>
+            <div class="field">
+              <label class="mono" for="fMail">EMAIL *</label>
+              <input id="fMail" name="email" type="email" autocomplete="email" required placeholder="you@college.edu">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label class="mono" for="fYear">YEAR / BRANCH</label>
+              <input id="fYear" name="year" type="text" placeholder="2nd yr / CSE">
+            </div>
+            <div class="field">
+              <label class="mono" for="fTrack">INTEREST</label>
+              <select id="fTrack" name="track">
+                <option>Undecided — show me everything</option>
+                <option>CTF / Competitions</option>
+                <option>Red Team / Offensive</option>
+                <option>Blue Team / Defense</option>
+                <option>Research / Malware</option>
+                <option>OSINT / Forensics</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label class="mono" for="fMsg">MESSAGE</label>
+            <textarea id="fMsg" name="message" rows="4"
+              placeholder="Why do you want in? (Optional. Curiosity is a valid answer.)"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" data-hover>REQUEST ACCESS <span
+              class="btn-arrow">→</span></button>
+          <p id="formStatus" class="mono form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ======= FOOTER ======= -->
+  <footer>
+    <div class="foot-word mono" aria-hidden="true">NULLSEC</div>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="logo mono" href="#hero">NULL<span>SEC</span></a>
+        <p>Student cybersecurity club under the Department of Cybersecurity. Break systems. Build defenders.</p>
+      </div>
+      <div class="foot-col mono">
+        <h4>// NAVIGATE</h4>
+        <a href="#about">ABOUT</a><a href="#events">EVENTS</a><a href="#team">TEAM</a><a href="#gallery">GALLERY</a><a
+          href="#join">JOIN</a>
+      </div>
+      <div class="foot-col mono">
+        <h4>// SIGNALS</h4>
+        <a href="#">GITHUB</a><a href="#">LINKEDIN</a><a href="#">X / TWITTER</a><a href="#">DISCORD</a>
+      </div>
+      <div class="foot-col mono">
+        <h4>// STATUS</h4>
+        <p class="foot-status"><i class="dot-ok"></i> ALL SYSTEMS MONITORED</p>
+        <p class="foot-uptime">uptime: 4y 27d — zero incidents*</p>
+        <p class="foot-fine">*that we'll talk about</p>
+      </div>
+    </div>
+    <div class="foot-bottom mono">
+      <span>© 2025 NULLSEC // DEPT. OF CYBERSECURITY</span>
+      <span>EOF</span>
+    </div>
+  </footer>
+
+  <!-- ======= LIGHTBOX ======= -->
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button class="lb-close mono" aria-label="Close viewer">[ESC] CLOSE ✕</button>
+    <div class="lb-content glass">
+      <div id="lbContent"></div>
+      <p id="lbCap" class="mono"></p>
+    </div>
+  </div>
+
+  <!-- ======= LIBS + APP ======= -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="operators.js" defer></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
