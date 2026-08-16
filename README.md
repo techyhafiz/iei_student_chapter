@@ -1,7 +1,7 @@
-# NULLSEC // Department of Cybersecurity Landing Page
+# IEI Student Chapter // GHRCEMP Landing Page
 
 > **Break Systems. Build Defenders.**  
-> A high-performance, dark-themed, interactive landing page for the NULLSEC Cybersecurity Club.
+> A high-performance, dark-themed, interactive landing page for the IEI Student Chapter at G H Raisoni College of Engineering and Management Pune (GHRCEMP).
 
 ![NULLSEC Landing Page](assets/hero_bg_user.png)
 
