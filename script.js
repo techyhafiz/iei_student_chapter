@@ -193,6 +193,27 @@
     });
   }
 
+  /* ------------------------------------------------------------
+     THEME TOGGLE — light/dark with persistence
+     ------------------------------------------------------------ */
+  var themeToggle = $("#themeToggle");
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    if (themeToggle) themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+  }
+
+  if (themeToggle) {
+    var stored = null;
+    try { stored = localStorage.getItem("iei-theme"); } catch (e) { }
+    applyTheme(stored === "light" ? "light" : "dark");
+    themeToggle.addEventListener("click", function () {
+      var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      applyTheme(next);
+      try { localStorage.setItem("iei-theme", next); } catch (e) { }
+    });
+  }
+
   var navMap = { about: 0, events: 0, team: 0, gallery: 0, join: 0 };
   function setActive(id) {
     $all(".nav-links a").forEach(function (a) {
