@@ -5,54 +5,54 @@
 document.addEventListener("DOMContentLoaded", () => {
   const OPERATORS_DATA = [
     {
-      name: "Aria Vance",
-      role: "PRESIDENT // CRYPTOGRAPHY",
-      bio: "Runs the ship with strategic vision and relentless energy. A three-time intercollegiate CTF team captain, Aria specializes in advanced cryptanalysis and lattice-based cipher research, believing every protocol hides a vulnerable secret waiting to be uncovered.",
-      origin: "SEATTLE",
-      specialty: "CRYPTANALYSIS",
+      name: "Technical Team",
+      role: "TECHNICAL // PROJECTS & EVENTS",
+      bio: "Responsible for technical planning, technical events, workshops, projects, cybersecurity activities, competitions, and technical content.",
+      origin: "CYBERSEC",
+      specialty: "TECHNICAL PLANNING",
       clearance: "LEVEL 5",
-      image: "https://picsum.photos/seed/aria-vance/800/1000",
-      dossier: "#aria"
+      image: "https://picsum.photos/seed/tech-team/800/1000",
+      dossier: "#tech"
     },
     {
-      name: "Dev Okafor",
-      role: "VICE PRESIDENT // RED TEAM",
-      bio: "Breaks high-security perimeters professionally and leads our offensive operations team. When Dev spots an authentication portal or complex system boundary, he dissects its protocol layer, uncovering misconfigurations and bypasses before attackers ever get the chance.",
-      origin: "AUSTIN",
-      specialty: "PEN TESTING",
-      clearance: "LEVEL 5",
-      image: "https://picsum.photos/seed/dev-okafor/800/1000",
-      dossier: "#dev"
-    },
-    {
-      name: "Maya Lin",
-      role: "CTF CAPTAIN // RESEARCH",
-      bio: "Pioneers our vulnerability research group and regularly files CVE disclosures. Maya leads weekly exploit development dojos, guiding members through binary reverse engineering, memory corruption mechanics, kernel debugging, and real-world payload development.",
-      origin: "SAN FRANCISCO",
-      specialty: "EXPLOIT DEV",
+      name: "PR Team",
+      role: "PUBLIC RELATIONS // COMMUNICATIONS",
+      bio: "Responsible for communication, outreach, announcements, promotions, coordination with students, and maintaining the chapter's public presence.",
+      origin: "CYBERSEC",
+      specialty: "COMMUNICATION",
       clearance: "LEVEL 4",
-      image: "https://picsum.photos/seed/maya-lin/800/1000",
-      dossier: "#maya"
+      image: "https://picsum.photos/seed/pr-team/800/1000",
+      dossier: "#pr"
     },
     {
-      name: "Sam Rivera",
-      role: "WORKSHOPS LEAD // BLUE TEAM",
-      bio: "Transforms complex defense theory into battle-tested operational infrastructure. Sam architected our isolated campus malware lab and designs hands-on workshops covering threat hunting, SIEM log analysis, network defense, and active incident mitigation.",
-      origin: "CHICAGO",
-      specialty: "NET DEFENSE",
+      name: "Event Team",
+      role: "EVENTS // LOGISTICS",
+      bio: "Responsible for planning and executing chapter events, coordinating logistics, managing participants, and ensuring events run smoothly.",
+      origin: "CYBERSEC",
+      specialty: "EVENT MGMT",
       clearance: "LEVEL 4",
-      image: "https://picsum.photos/seed/sam-rivera/800/1000",
-      dossier: "#sam"
+      image: "https://picsum.photos/seed/event-team/800/1000",
+      dossier: "#event"
     },
     {
-      name: "Zoe Adeyemi",
-      role: "OUTREACH & OPS // OSINT",
-      bio: "Powers our strategic partnerships, event operations, and open-source intelligence labs. Zoe connects the club with industry mentors while training squad members in ethical OSINT, social engineering diagnostics, digital forensics, and footprint analysis.",
-      origin: "NEW YORK",
-      specialty: "SOCIAL ENG",
+      name: "Creative Team",
+      role: "CREATIVE // DESIGN & BRANDING",
+      bio: "Responsible for visual content, posters, social media creatives, event designs, branding, and other creative requirements.",
+      origin: "CYBERSEC",
+      specialty: "DESIGN",
       clearance: "LEVEL 3",
-      image: "https://picsum.photos/seed/zoe-adeyemi/800/1000",
-      dossier: "#zoe"
+      image: "https://picsum.photos/seed/creative-team/800/1000",
+      dossier: "#creative"
+    },
+    {
+      name: "Treasurer",
+      role: "TREASURER // FINANCE",
+      bio: "Responsible for handling and maintaining the chapter's financial activities and related responsibilities.",
+      origin: "CYBERSEC",
+      specialty: "FINANCE",
+      clearance: "LEVEL 5",
+      image: "https://picsum.photos/seed/treasurer/800/1000",
+      dossier: "#treasurer"
     }
   ];
 
