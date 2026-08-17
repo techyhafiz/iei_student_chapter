@@ -1,0 +1,518 @@
+/* ============================================================
+   TEAM NETWORK VISUALIZATION - 3D SPATIAL
+   ============================================================ */
+
+.team-network-section {
+  position: relative;
+  padding: clamp(3rem, 5vw, 5.5rem) clamp(1.5rem, 4vw, 3.5rem);
+  width: 100%;
+  max-width: 100%;
+  margin-inline: auto;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(212, 160, 23, 0.05), transparent 70%),
+              var(--bg);
+}
+
+.team-sec-head {
+  text-align: center;
+  margin-bottom: 2rem;
+  z-index: 20;
+  position: relative;
+}
+
+.team-sec-head .sec-title {
+  margin-inline: auto;
+}
+
+.sec-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 600px;
+  margin: 1rem auto 0;
+  font-size: 1.1rem;
+}
+
+/* ---------- Network Container (3D Space) ---------- */
+.network-container {
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: 2rem auto 0;
+  height: clamp(800px, 90vh, 1100px);
+  perspective: 1500px; /* Stronger perspective for 3D depth */
+  transform-style: preserve-3d;
+}
+
+/* ---------- SVG Connection Lines ---------- */
+.network-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  transform-style: preserve-3d;
+}
+
+.connection-line {
+  stroke: url(#lineGradient); /* Defined in JS */
+  stroke-width: 1.5px;
+  fill: none;
+  transition: stroke-width 0.4s ease, opacity 0.4s ease;
+  opacity: 0.4;
+}
+
+.connection-line.active {
+  stroke: url(#lineGradientActive);
+  stroke-width: 2.5px;
+  opacity: 1;
+  filter: drop-shadow(0 0 10px rgba(212, 160, 23, 0.8));
+}
+
+.connection-particle {
+  fill: #f2c14e;
+  filter: drop-shadow(0 0 6px #f2c14e);
+}
+
+/* Anchor Line for Popup */
+.anchor-line {
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 1px;
+  stroke-dasharray: 4 4;
+  fill: none;
+  transition: opacity 0.3s ease;
+  z-index: 9998;
+}
+
+/* ---------- Network Nodes (Floating in 3D) ---------- */
+.network-nodes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  transform-style: preserve-3d;
+  transform: translateZ(50px);
+}
+
+.network-node {
+  position: absolute;
+  /* Transform is entirely managed by JS for parallax + floating */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+  will-change: transform;
+}
+
+.network-node.active-node {
+  z-index: 50 !important;
+}
+
+/* Continuous Subtle Float Animation */
+@keyframes continuousFloat {
+  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+  25% { transform: translateY(-8px) rotateX(2deg) rotateY(-2deg); }
+  50% { transform: translateY(0px) rotateX(4deg) rotateY(0deg); }
+  75% { transform: translateY(8px) rotateX(2deg) rotateY(2deg); }
+}
+
+.node-float-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: continuousFloat 12s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.network-node.active-node .node-float-wrapper {
+  transform: scale(1.15) !important;
+}
+
+.network-node:hover .node-float-wrapper {
+  transform: scale(1.08);
+}
+
+.network-node.dimmed {
+  opacity: 0.25;
+  filter: grayscale(60%);
+}
+
+.node-image-wrapper {
+  position: relative;
+  border-radius: 50%;
+  padding: 4px;
+  background: rgba(13, 15, 18, 0.8);
+  border: 1px solid rgba(212, 160, 23, 0.4);
+  box-shadow: 0 0 20px rgba(212, 160, 23, 0.15);
+  transition: all 0.4s ease;
+  overflow: visible; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Base Dimensions for Hierarchy Sizes */
+.node-xl .node-image-wrapper { width: 150px; height: 150px; }
+.node-lg .node-image-wrapper { width: 130px; height: 130px; }
+.node-ml .node-image-wrapper { width: 115px; height: 115px; }
+.node-md .node-image-wrapper { width: 100px; height: 100px; }
+.node-sm .node-image-wrapper { width: 85px;  height: 85px;  }
+
+.node-image-wrapper::before {
+  content: "";
+  position: absolute;
+  top: -8px; left: -8px; right: -8px; bottom: -8px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.network-node:hover .node-image-wrapper,
+.network-node.active-node .node-image-wrapper {
+  border-color: rgba(212, 160, 23, 0.9);
+  box-shadow: 0 0 35px rgba(212, 160, 23, 0.5);
+}
+
+.network-node:hover .node-image-wrapper::before,
+.network-node.active-node .node-image-wrapper::before {
+  border-color: rgba(212, 160, 23, 0.5);
+  animation: spinRing 4s linear infinite;
+}
+
+@keyframes spinRing {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.node-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.node-info {
+  margin-top: 12px;
+  text-align: center;
+  background: rgba(13, 15, 18, 0.85);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.network-node:hover .node-info,
+.network-node.active-node .node-info {
+  border-color: rgba(212, 160, 23, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.node-name {
+  font-family: var(--disp);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.node-role {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  white-space: nowrap;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* ---------- Center Node (IEI Logo) & Orbital Rings ---------- */
+.network-node.center-node {
+  z-index: 10;
+  cursor: default; 
+}
+
+.orbital-system {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.orbital-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.orbital-ring-1 {
+  width: 200px;
+  height: 200px;
+  border: 1px dashed rgba(122, 162, 255, 0.3);
+  animation: spinRing 20s linear infinite;
+}
+
+.orbital-ring-2 {
+  width: 320px;
+  height: 320px;
+  border: 1px solid rgba(122, 162, 255, 0.1);
+  box-shadow: inset 0 0 20px rgba(122, 162, 255, 0.05);
+  animation: spinRing 40s linear infinite reverse;
+}
+
+.orbital-ring-3 {
+  width: 480px;
+  height: 480px;
+  border: 1px dashed rgba(212, 160, 23, 0.1);
+  animation: spinRing 60s linear infinite;
+}
+
+.network-node.center-node .node-image-wrapper {
+  width: 160px;
+  height: 160px;
+  background: rgba(13, 15, 18, 0.95);
+  border: 2px solid rgba(122, 162, 255, 0.6); 
+  box-shadow: 0 0 50px rgba(122, 162, 255, 0.4), inset 0 0 25px rgba(122, 162, 255, 0.2);
+  padding: 12px;
+  z-index: 2;
+}
+
+.network-node.center-node .node-image {
+  border-radius: 0; 
+  object-fit: contain; 
+}
+
+.network-node.center-node .node-info {
+  margin-top: 50px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.network-node.center-node .node-name {
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 15px rgba(122, 162, 255, 0.9);
+}
+
+
+/* ---------- Floating Member Details Popup ---------- */
+.member-popup {
+  position: absolute;
+  z-index: 9999;
+  width: 320px;
+  background: rgba(18, 22, 28, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 160, 23, 0.15);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  
+  /* Start animation slightly smaller and off-center */
+  transform: scale(0.95) translate(0, 10px);
+  transform-origin: center;
+  transition: opacity 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              visibility 0.3s;
+  overflow: hidden;
+}
+
+.member-popup.is-open {
+  opacity: 1;
+  visibility: visible;
+  /* Final state managed by JS */
+}
+
+.member-popup-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.member-popup-close:hover {
+  background: rgba(212, 160, 23, 0.2);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.member-popup-content {
+  padding: 1.5rem;
+}
+
+.member-popup-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.member-popup-img-wrapper {
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  padding: 3px;
+  border: 1px solid var(--accent);
+}
+
+.member-popup-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.member-popup-title h3 {
+  font-family: var(--disp);
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+
+.member-popup-title p {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.member-popup-body h4 {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.1em;
+}
+
+.member-popup-body p {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1.2rem;
+}
+
+.member-skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.member-skills-list li {
+  background: rgba(212, 160, 23, 0.1);
+  border: 1px solid rgba(212, 160, 23, 0.2);
+  color: var(--accent);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.65rem;
+}
+
+.member-socials {
+  display: flex;
+  gap: 8px;
+}
+
+.member-socials a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.7rem;
+  transition: all 0.2s ease;
+}
+
+.member-socials a:hover {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+/* ---------- Responsive Adjustments ---------- */
+@media (max-width: 768px) {
+  .network-container {
+    height: 700px;
+  }
+  
+  /* Scale down nodes on mobile */
+  .node-xl .node-image-wrapper { width: 100px; height: 100px; }
+  .node-lg .node-image-wrapper { width: 90px; height: 90px; }
+  .node-ml .node-image-wrapper { width: 80px; height: 80px; }
+  .node-md .node-image-wrapper { width: 70px; height: 70px; }
+  .node-sm .node-image-wrapper { width: 60px; height: 60px; }
+
+  .network-node.center-node .node-image-wrapper {
+    width: 110px;
+    height: 110px;
+  }
+  
+  .orbital-ring-1 { width: 140px; height: 140px; }
+  .orbital-ring-2 { width: 220px; height: 220px; }
+  .orbital-ring-3 { width: 300px; height: 300px; }
+
+  /* Center popup on mobile instead of floating */
+  .member-popup {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(0.95) !important;
+    width: 90%;
+    max-width: 360px;
+    z-index: 10000;
+  }
+  
+  .member-popup.is-open {
+    transform: translate(-50%, -50%) scale(1) !important;
+  }
+  
+  /* Hide anchor line on mobile */
+  .anchor-line {
+    display: none;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .node-float-wrapper, .orbital-ring-1, .orbital-ring-2, .orbital-ring-3 {
+    animation: none;
+  }
+  .network-node {
+    transition: none;
+  }
+  .connection-particle {
+    display: none;
+  }
+}

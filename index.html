@@ -14,7 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="operators.css">
+  <link rel="stylesheet" href="network.css">
 </head>
 
 <body>
@@ -325,55 +325,49 @@
       </div>
     </section>
 
-    <!-- ======= TEAM (3D Stacked Deck Operators) ======= -->
-    <section id="team" class="operators-deck-section section">
-      <div class="sec-head">
+    <!-- ======= TEAM (INTERACTIVE NETWORK) ======= -->
+    <section id="team" class="team-network-section section">
+      <div class="sec-head team-sec-head">
         <div>
-          <p class="kicker mono" data-reveal>// 03 — TEAM OPERATORS</p>
-          <h2 class="sec-title" data-reveal>The Operators</h2>
+          <p class="kicker mono" data-reveal>// 03 — TEAM NETWORK</p>
+          <h2 class="sec-title" data-reveal>Meet the Minds Behind IEI</h2>
+          <p class="sec-subtitle" data-reveal>Every initiative, event, and innovation is powered by a connected network
+            of passionate students and mentors.</p>
         </div>
       </div>
 
-      <div class="operators-deck-grid">
-        <!-- Left Panel: Animated Dynamic Copy -->
-        <div class="deck-text-panel" id="opTextPanel">
-          <span class="op-role-badge mono" id="opRole">PRESIDENT // CRYPTOGRAPHY</span>
-          <h3 class="op-name" id="opName">Aria Vance</h3>
-          <p class="op-bio" id="opBio">Runs the ship with strategic vision and relentless energy. A three-time intercollegiate CTF team captain, Aria specializes in advanced cryptanalysis and lattice-based cipher research, believing every protocol hides a vulnerable secret waiting to be uncovered.</p>
+      <div class="network-container" id="networkContainer">
+        <!-- SVG for connecting lines -->
+        <svg class="network-lines" id="networkLines"></svg>
 
-          <div class="op-stats-grid" id="opStats">
-            <div class="op-stat-box">
-              <span class="stat-lbl mono">ORIGIN</span>
-              <strong class="stat-val" id="opOrigin">SEATTLE</strong>
+        <!-- Nodes will be injected here by network.js -->
+        <div class="network-nodes" id="networkNodes"></div>
+      </div>
+
+      <!-- Member Details Popup Card -->
+      <div class="member-popup" id="memberPopup" aria-hidden="true" role="dialog" aria-modal="false"
+        aria-label="Team member details">
+        <button class="member-popup-close mono" id="memberPopupClose" aria-label="Close popup">✕</button>
+        <div class="member-popup-content">
+          <div class="member-popup-header">
+            <div class="member-popup-img-wrapper">
+              <img src="" alt="" id="popupImage" class="member-popup-img">
             </div>
-            <div class="op-stat-box">
-              <span class="stat-lbl mono">SPECIALTY</span>
-              <strong class="stat-val" id="opSpec">CRYPTANALYSIS</strong>
-            </div>
-            <div class="op-stat-box">
-              <span class="stat-lbl mono">CLEARANCE</span>
-              <strong class="stat-val" id="opClearance">LEVEL 5</strong>
+            <div class="member-popup-title">
+              <h3 id="popupName">Name</h3>
+              <p class="mono accent" id="popupRole">Role</p>
             </div>
           </div>
-        </div>
+          <div class="member-popup-body">
+            <h4 class="mono">ABOUT</h4>
+            <p id="popupBio">Bio goes here</p>
 
-        <!-- Right Panel: 3D Stacked Image Deck -->
-        <div class="deck-cards-wrapper" id="opCardsStack">
-          <!-- Stacked cards rendered dynamically by operators.js -->
-        </div>
-      </div>
+            <h4 class="mono">SKILLS</h4>
+            <ul id="popupSkills" class="member-skills-list mono">
+            </ul>
 
-      <!-- Center Aligned Creative Deck Navigation Controls -->
-      <div class="deck-actions" data-reveal>
-        <div class="deck-controls">
-          <button class="deck-btn-prev" id="opPrevBtn" aria-label="Previous Operator" type="button">
-            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <div class="deck-counter mono" id="opCounter">01 / 05</div>
-          <div class="deck-btn-next-wrapper">
-            <button class="deck-btn-next" id="opNextBtn" aria-label="Next Operator" type="button">
-              <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
-            </button>
+            <div class="member-socials mono" id="popupLinks">
+            </div>
           </div>
         </div>
       </div>
@@ -675,8 +669,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="operators.js" defer></script>
-  <script src="script.js"></script>
+  <script src="teamData.js" defer></script>
+  <script src="network.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 
 </html>
