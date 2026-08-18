@@ -514,7 +514,7 @@
       item._holdTimer = setTimeout(function () {
         item.classList.add("gal-focus");
         focusedGal = item;
-      }, 1500);
+      }, 500);
     });
     item.addEventListener("mouseleave", function () {
       clearTimeout(item._holdTimer);
@@ -525,7 +525,7 @@
         clearGalFocus();
         item.classList.add("gal-focus");
         focusedGal = item;
-      }, 1500);
+      }, 500);
     });
     item.addEventListener("blur", function () {
       if (focusedGal === item) clearGalFocus();

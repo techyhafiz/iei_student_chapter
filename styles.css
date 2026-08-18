@@ -1761,7 +1761,8 @@ html.no-gsap [data-reveal] {
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  padding: 0
+  padding: 0;
+  transition: transform .6s var(--ease), box-shadow .6s var(--ease)
 }
 
 .cs2 {
@@ -1788,10 +1789,11 @@ html.no-gsap [data-reveal] {
 
 .gal-img svg {
   width: 100%;
-  height: 100%
+  height: 100%;
+  transition: transform .6s cubic-bezier(.22, .61, .36, 1)
 }
 
-.gal-item:hover .gal-img {
+.gal-item:hover .gal-img svg {
   transform: scale(1.06)
 }
 
@@ -1831,7 +1833,7 @@ html.no-gsap [data-reveal] {
   box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .5), 0 0 30px rgba(212, 160, 23, .15)
 }
 
-/* ---------- hold-hover expand: tile grows in place after 1.5s ---------- */
+/* ---------- hold-hover expand: tile lifts & grows subtly in place ---------- */
 .gal-cta {
   position: absolute;
   left: 50%;
@@ -1853,10 +1855,9 @@ html.no-gsap [data-reveal] {
 
 @media (min-width:961px) {
   .gal-item.gal-focus {
-    grid-column: span 4;
-    grid-row: span 3;
     z-index: 6;
-    animation: galPop .55s var(--ease)
+    transform: scale(1.18);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .5)
   }
 
   .gal-item.gal-focus::after {
@@ -1873,21 +1874,9 @@ html.no-gsap [data-reveal] {
   }
 }
 
-@keyframes galPop {
-  0% {
-    transform: scale(.96);
-    opacity: .6
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1
-  }
-}
-
 @media (prefers-reduced-motion:reduce) {
-  .gal-item.gal-focus {
-    animation: none
+  .gal-item {
+    transition: none
   }
 }
 
@@ -2424,6 +2413,10 @@ html[data-theme="light"] #lbContent svg rect[fill="#15181d"] {
 
 html[data-theme="light"] .gal-item figcaption {
   background: linear-gradient(transparent, rgba(233, 227, 212, .95));
+}
+
+html[data-theme="light"] .gal-item.gal-focus {
+  box-shadow: 0 14px 34px rgba(70, 58, 26, .25)
 }
 
 html[data-theme="light"] #lightbox {
