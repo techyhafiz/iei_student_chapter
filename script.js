@@ -56,13 +56,16 @@
 
   /* ------------------------------------------------------------
      PRELOADER — boot sequence
+     ⚠️ NOTE: the loader markup in index.html is commented out for
+     faster local debugging. UNCOMMENT it before deployment.
+     (runLoader safely skips the boot animation when #loader is missing.)
      ------------------------------------------------------------ */
   var loader = $("#loader");
   var loadLines = $("#loadLines");
   var loadFill = $("#loadFill");
   var loadPct = $("#loadPct");
   var bootSeq = [
-    "> initializing IEI SC kernel .......... [ok]",
+    "> initializing IEI Student Chapter kernel .......... [ok]",
     "> mounting /dev/ghrcemp ................ [ok]",
     "> handshake: IEI student chapter ....... [ok]",
     "> decrypting interface ................. [ok]"
@@ -399,37 +402,21 @@
   }
 
   /* ------------------------------------------------------------
-     EVENTS — pinned horizontal scroll (desktop)
+     EVENTS — activity calendar timeline (alternating sides)
      ------------------------------------------------------------ */
   var evTrack = $("#evTrack");
-  var evWrap = $("#evWrap");
-  var evST = null;
-
-  function setupEvents() {
-    if (!evTrack || !evWrap) return;
-    if (evST) { evST.kill(); evST = null; }
-    gsap && gsap.set(evTrack, { x: 0 });
-    var desktop = window.innerWidth > 900 && hasGsap && !reduced;
-    if (desktop) {
-      evWrap.style.overflow = "visible";
-      var dist = function () { return evTrack.scrollWidth - window.innerWidth + 120; };
-      evST = gsap.to(evTrack, {
-        x: function () { return -dist(); },
-        ease: "none",
-        scrollTrigger: {
-          trigger: "#events",
-          start: "top top",
-          end: function () { return "+=" + dist(); },
-          pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1
-        }
-      }).scrollTrigger;
-    } else {
-      evWrap.style.overflowX = "auto";
-      evWrap.style.WebkitOverflowScrolling = "touch";
-    }
+  if (evTrack) {
+    $all(".tl-node", evTrack).forEach(function (node, i) {
+      if (node.classList.contains("tl-eof")) return;
+      (i % 2 === 0) ? node.classList.remove("tl-alt") : node.classList.add("tl-alt");
+    });
+    $all(".ev-card", evTrack).forEach(function (card) {
+      card.addEventListener("click", function (e) {
+        if (e.target.closest("a")) return;
+        card.classList.toggle("is-open");
+      });
+    });
   }
-  if (hasGsap) { setupEvents(); window.addEventListener("resize", function () { ScrollTrigger.refresh(); }); }
-  else if (evWrap) { evWrap.style.overflowX = "auto"; }
 
   /* ------------------------------------------------------------
      TEAM — stacked card depth (scale as next covers)
@@ -497,10 +484,51 @@
     if (lenis) lenis.start();
     if (lastFocus) lastFocus.focus();
   }
+  var focusedGal = null;
+  function clearGalFocus() {
+    if (focusedGal) {
+      clearTimeout(focusedGal._holdTimer);
+      focusedGal.classList.remove("gal-focus");
+      focusedGal = null;
+    }
+  }
+  var galSection = $("#gallery");
+  if (galSection) galSection.addEventListener("mouseleave", clearGalFocus);
+
   $all(".gal-item").forEach(function (item) {
     item.addEventListener("click", function () { openLightbox(item); });
     item.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(item); }
+    });
+
+    var cta = document.createElement("span");
+    cta.className = "gal-cta mono";
+    cta.textContent = "CLICK TO VIEW EVENT";
+    item.appendChild(cta);
+
+    item._holdTimer = null;
+
+    item.addEventListener("mouseenter", function () {
+      if (focusedGal && focusedGal !== item) clearGalFocus();
+      clearTimeout(item._holdTimer);
+      item._holdTimer = setTimeout(function () {
+        item.classList.add("gal-focus");
+        focusedGal = item;
+      }, 1500);
+    });
+    item.addEventListener("mouseleave", function () {
+      clearTimeout(item._holdTimer);
+    });
+    item.addEventListener("focus", function () {
+      clearTimeout(item._holdTimer);
+      item._holdTimer = setTimeout(function () {
+        clearGalFocus();
+        item.classList.add("gal-focus");
+        focusedGal = item;
+      }, 1500);
+    });
+    item.addEventListener("blur", function () {
+      if (focusedGal === item) clearGalFocus();
     });
   });
   if (lbClose) lbClose.addEventListener("click", closeLightbox);

@@ -28,6 +28,8 @@
 <body>
 
   <!-- ======= PRELOADER (injected visibility via .js class) ======= -->
+  <!-- ⚠️ UNCOMMENT before deployment — disabled only for faster local debugging -->
+  <!--
   <div id="loader" aria-hidden="true">
     <div class="load-inner mono">
       <div class="load-logo">IEI<span>_</span></div>
@@ -36,6 +38,7 @@
       <div class="load-meta"><span>ESTABLISHING SECURE CHANNEL</span><span id="loadPct">000%</span></div>
     </div>
   </div>
+  -->
   <noscript>
     <style>
       #loader {
@@ -56,7 +59,7 @@
 
   <!-- ======= NAV ======= -->
   <header id="nav">
-    <a class="logo mono" href="#hero">IEI<span>_SC</span><i class="blink">_</i></a>
+    <a class="logo mono" href="#hero">IEI<span>_STUDENT CHAPTER</span><i class="blink">_</i></a>
     <nav class="nav-links mono" aria-label="Primary">
       <a href="#about"><em>01</em> ABOUT</a>
       <a href="#events"><em>02</em> EVENTS</a>
@@ -257,80 +260,136 @@
       </div>
     </section>
 
-    <!-- ======= EVENTS (horizontal scroll) ======= -->
+    <!-- ======= EVENTS (activity calendar timeline) ======= -->
     <section id="events" class="section">
       <div class="sec-head">
         <div>
           <p class="kicker mono" data-reveal>// 02 — EVENTS</p>
-          <h2 class="sec-title" data-reveal>Operations log</h2>
+          <h2 class="sec-title" data-reveal>Activity calendar</h2>
         </div>
-        <p class="sec-hint mono" data-reveal>KEEP SCROLLING — THE LOG MOVES SIDEWAYS <span class="hint-arrow">→</span>
-        </p>
+        <p class="sec-hint mono" data-reveal>ONE SPINE — EVENTS LEFT, DATES RIGHT. FLIPPED EVERY ENTRY <span
+            class="hint-arrow">↓</span></p>
       </div>
-      <div class="ev-wrap" id="evWrap">
-        <div class="ev-track" id="evTrack">
 
-          <article class="glass ev-card" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-ctf">CTF</span><time datetime="2025-12-12">DEC 12
-                2025</time></div>
+      <div class="tl-track" id="evTrack">
+
+        <div class="tl-node">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-ctf">CTF</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>MIDNIGHT CTF <span class="accent">0x05</span></h3>
-            <p>Our flagship overnight capture-the-flag. Web, pwn, crypto and forensics challenges that escalate from
-              “freshman-friendly” to “make the organizers sweat.” Bring caffeine.</p>
-            <div class="ev-meta mono">JEOPARDY · 12HRS · LAB 0x2A</div>
+            <div class="ev-body">
+              <div>
+                <p>Our flagship overnight capture-the-flag. Web, pwn, crypto and forensics challenges that escalate
+                  from
+                  “freshman-friendly” to “make the organizers sweat.” Bring caffeine.</p>
+                <div class="ev-meta mono">JEOPARDY · 12HRS · LAB 0x2A</div>
+              </div>
+            </div>
           </article>
-
-          <article class="glass ev-card" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><time datetime="2025-11-28">NOV 28
-                2025</time></div>
-            <h3>ZERO-DAY <span class="accent">WEB EXPLOITATION</span></h3>
-            <p>Hands-on with the OWASP top ten — SSRF, IDOR and insecure deserialization, exploited on a live firing
-              range we built ourselves.</p>
-            <div class="ev-meta mono">HANDS-ON · BEGINNER OK</div>
-          </article>
-
-          <article class="glass ev-card" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-talk">TALK</span><time datetime="2025-11-09">NOV 09
-                2025</time></div>
-            <h3>THREAT INTEL <span class="accent">IN THE AGE OF AI</span></h3>
-            <p>An industry threat hunter on tracking APTs, and why AI changed the SOC — without replacing the humans
-              inside it.</p>
-            <div class="ev-meta mono">GUEST SPEAKER · AUDITORIUM</div>
-          </article>
-
-          <article class="glass ev-card" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-boot">BOOTCAMP</span><time datetime="2025-10-20">OCT 20
-                2025</time></div>
-            <h3>RED VS BLUE: <span class="accent">LIVE FIRE</span></h3>
-            <p>Two teams. One network. Attack and defend in a scored six-hour engagement with a live scoreboard and
-              post-mortem.</p>
-            <div class="ev-meta mono">TEAM FORMAT · SCORED</div>
-          </article>
-
-          <article class="glass ev-card ev-win" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-win">★ 1ST PLACE</span><time datetime="2025-10-02">OCT 02
-                2025</time></div>
-            <h3>INTER-COLLEGE <span class="accent">CTF FINALS</span></h3>
-            <p>Our squad took first of thirty-two teams. Flags captured: 47. Sleep: none. Pride: immeasurable.</p>
-            <div class="ev-meta mono">ARCHIVE · NATIONAL ROUND</div>
-          </article>
-
-          <article class="glass ev-card" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><time datetime="2025-09-18">SEP 18
-                2025</time></div>
-            <h3>OSINT: <span class="accent">FIND ANYTHING</span></h3>
-            <p>Open-source intelligence techniques — geolocation, username enumeration and recon workflows, on sanitized
-              targets.</p>
-            <div class="ev-meta mono">ARCHIVE · RESEARCH TRACK</div>
-          </article>
-
-          <article class="glass ev-card ev-end" data-tilt>
-            <div class="ev-top mono"><span class="ev-tag tag-end">EOF</span></div>
-            <h3>YOUR EVENT <span class="accent">HERE?</span></h3>
-            <p>Pitch a workshop, host a talk, or sponsor a CTF. The log is always being written.</p>
-            <a href="#join" class="btn btn-ghost btn-sm" data-hover>PITCH AN EVENT →</a>
-          </article>
-
+          <div class="tl-date mono"><time datetime="2025-12-12"><span class="tl-mo">DEC</span><span class="tl-day">12</span><span class="tl-year">2025</span></time></div>
         </div>
+
+        <div class="tl-node">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><span class="ev-hint">HOVER ⌕</span>
+            </div>
+            <h3>ZERO-DAY <span class="accent">WEB EXPLOITATION</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Hands-on with the OWASP top ten — SSRF, IDOR and insecure deserialization, exploited on a live
+                  firing
+                  range we built ourselves.</p>
+                <div class="ev-meta mono">HANDS-ON · BEGINNER OK</div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-11-28"><span class="tl-mo">NOV</span><span class="tl-day">28</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <div class="tl-node">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-talk">TALK</span><span class="ev-hint">HOVER ⌕</span></div>
+            <h3>THREAT INTEL <span class="accent">IN THE AGE OF AI</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>An industry threat hunter on tracking APTs, and why AI changed the SOC — without replacing the
+                  humans
+                  inside it.</p>
+                <div class="ev-meta mono">GUEST SPEAKER · AUDITORIUM</div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-11-09"><span class="tl-mo">NOV</span><span class="tl-day">09</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <div class="tl-node">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-boot">BOOTCAMP</span><span class="ev-hint">HOVER ⌕</span>
+            </div>
+            <h3>RED VS BLUE: <span class="accent">LIVE FIRE</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Two teams. One network. Attack and defend in a scored six-hour engagement with a live scoreboard and
+                  post-mortem.</p>
+                <div class="ev-meta mono">TEAM FORMAT · SCORED</div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-10-20"><span class="tl-mo">OCT</span><span class="tl-day">20</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <div class="tl-node">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card ev-win tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-win">★ 1ST PLACE</span><span class="ev-hint">HOVER
+                ⌕</span></div>
+            <h3>INTER-COLLEGE <span class="accent">CTF FINALS</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Our squad took first of thirty-two teams. Flags captured: 47. Sleep: none. Pride: immeasurable.</p>
+                <div class="ev-meta mono">ARCHIVE · NATIONAL ROUND</div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-10-02"><span class="tl-mo">OCT</span><span class="tl-day">02</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <div class="tl-node">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><span class="ev-hint">HOVER ⌕</span>
+            </div>
+            <h3>OSINT: <span class="accent">FIND ANYTHING</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Open-source intelligence techniques — geolocation, username enumeration and recon workflows, on
+                  sanitized
+                  targets.</p>
+                <div class="ev-meta mono">ARCHIVE · RESEARCH TRACK</div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-09-18"><span class="tl-mo">SEP</span><span class="tl-day">18</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <div class="tl-node tl-eof">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card ev-end tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-end">EOF</span><span class="ev-hint">HOVER ⌕</span></div>
+            <h3>YOUR EVENT <span class="accent">HERE?</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Pitch a workshop, host a talk, or sponsor a CTF. The calendar is always being written.</p>
+                <a href="#join" class="btn btn-ghost btn-sm" data-hover>PITCH AN EVENT →</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
       </div>
     </section>
 
@@ -343,49 +402,8 @@
         </div>
       </div>
 
-      <div class="operators-deck-grid">
-        <!-- Left Panel: Animated Dynamic Copy -->
-        <div class="deck-text-panel" id="opTextPanel">
-          <span class="op-role-badge mono" id="opRole">PRESIDENT // CRYPTOGRAPHY</span>
-          <h3 class="op-name" id="opName">Aria Vance</h3>
-          <p class="op-bio" id="opBio">Runs the ship with strategic vision and relentless energy. A three-time intercollegiate CTF team captain, Aria specializes in advanced cryptanalysis and lattice-based cipher research, believing every protocol hides a vulnerable secret waiting to be uncovered.</p>
-
-          <div class="op-stats-grid" id="opStats">
-            <div class="op-stat-box">
-              <span class="stat-lbl mono">ORIGIN</span>
-              <strong class="stat-val" id="opOrigin">SEATTLE</strong>
-            </div>
-            <div class="op-stat-box">
-              <span class="stat-lbl mono">SPECIALTY</span>
-              <strong class="stat-val" id="opSpec">CRYPTANALYSIS</strong>
-            </div>
-            <div class="op-stat-box">
-              <span class="stat-lbl mono">CLEARANCE</span>
-              <strong class="stat-val" id="opClearance">LEVEL 5</strong>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Panel: 3D Stacked Image Deck -->
-        <div class="deck-cards-wrapper" id="opCardsStack">
-          <!-- Stacked cards rendered dynamically by operators.js -->
-        </div>
-      </div>
-
-      <!-- Center Aligned Creative Deck Navigation Controls -->
-      <div class="deck-actions" data-reveal>
-        <div class="deck-controls">
-          <button class="deck-btn-prev" id="opPrevBtn" aria-label="Previous Operator" type="button">
-            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-          </button>
-          <div class="deck-counter mono" id="opCounter">01 / 05</div>
-          <div class="deck-btn-next-wrapper">
-            <button class="deck-btn-next" id="opNextBtn" aria-label="Next Operator" type="button">
-              <span class="btn-next-text mono">NEXT</span>
-              <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
-            </button>
-          </div>
-        </div>
+      <div class="operators-solo-board" id="opSoloBoard" data-reveal>
+        <!-- Solo operator cards rendered dynamically by operators.js -->
       </div>
     </section>
 
@@ -643,10 +661,10 @@
 
   <!-- ======= FOOTER ======= -->
   <footer>
-    <div class="foot-word mono" aria-hidden="true">IEI SC</div>
+    <div class="foot-word mono" aria-hidden="true">IEI Student Chapter</div>
     <div class="foot-grid">
       <div class="foot-brand">
-        <a class="logo mono" href="#hero">IEI<span>_SC</span></a>
+        <a class="logo mono" href="#hero">IEI<span>_STUDENT CHAPTER</span></a>
         <p>IEI Student Chapter at the Cybersecurity Department.</p>
       </div>
       <div class="foot-col mono">

@@ -1332,44 +1332,234 @@ html.no-gsap [data-reveal] {
 }
 
 /* ============================================================
-   EVENTS — horizontal scroll
+   EVENTS — activity calendar timeline
+   Central spine, event cards on one side, date stamp on the
+   opposite side; sides alternate every entry.
    ============================================================ */
 #events {
   padding-bottom: clamp(4rem, 8vw, 7rem)
 }
 
-.ev-wrap {
-  overflow: visible
+.tl-track {
+  position: relative;
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: .5rem 0 1rem
 }
 
-.ev-track {
-  display: flex;
-  gap: 1.4rem;
-  width: max-content;
-  padding: .5rem .2rem 1.5rem
+.tl-track::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(212, 160, 23, .4) 6%,
+      rgba(212, 160, 23, .4) 94%,
+      transparent 100%)
 }
 
+.tl-node {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
+  align-items: center;
+  padding: .45rem 0
+}
+
+.tl-dot {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 4px rgba(212, 160, 23, .12), 0 0 14px rgba(212, 160, 23, .45)
+}
+
+.tl-card {
+  grid-row: 1;
+  width: min(100%, 430px)
+}
+
+.tl-node:not(.tl-alt) .tl-card {
+  grid-column: 1;
+  justify-self: end
+}
+
+.tl-node.tl-alt .tl-card {
+  grid-column: 3;
+  justify-self: start
+}
+
+.tl-date {
+  grid-row: 1;
+  position: relative;
+  line-height: 1;
+  color: var(--muted)
+}
+
+.tl-node:not(.tl-alt) .tl-date {
+  grid-column: 3;
+  text-align: left
+}
+
+.tl-node.tl-alt .tl-date {
+  grid-column: 1;
+  text-align: right
+}
+
+.tl-date time {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .55rem
+}
+
+.tl-node.tl-alt .tl-date time {
+  flex-direction: row-reverse
+}
+
+.tl-date .tl-day {
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: .02em
+}
+
+.tl-date .tl-mo {
+  color: var(--accent);
+  font-size: .72rem;
+  letter-spacing: .22em
+}
+
+.tl-date .tl-year {
+  display: block;
+  margin-top: .2rem;
+  font-size: .58rem;
+  letter-spacing: .3em;
+  color: var(--muted)
+}
+
+.tl-date::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 1px;
+  background: rgba(212, 160, 23, .45)
+}
+
+.tl-node:not(.tl-alt) .tl-date::before {
+  left: -34px
+}
+
+.tl-node.tl-alt .tl-date::before {
+  right: -34px
+}
+
+.tl-eof .tl-card {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, 430px);
+  text-align: center;
+  align-items: center
+}
+
+/* ---------- cards (kept from the old log) ---------- */
 .ev-card {
-  width: min(360px, 82vw);
-  flex: 0 0 auto;
-  padding: 1.8rem 1.7rem;
+  padding: .9rem 1.15rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  min-height: 300px;
+  gap: .55rem;
+  cursor: pointer;
+  outline: none
+}
+
+.ev-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .45s var(--ease)
+}
+
+.ev-body>div {
+  overflow: hidden;
+  min-height: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s var(--ease), transform .45s var(--ease);
+  display: flex;
+  flex-direction: column;
+  gap: .6rem
+}
+
+.ev-card:hover .ev-body,
+.ev-card:focus-within .ev-body,
+.ev-card.is-open .ev-body {
+  grid-template-rows: 1fr
+}
+
+.ev-card:hover .ev-body>div,
+.ev-card:focus-within .ev-body>div,
+.ev-card.is-open .ev-body>div {
+  opacity: 1;
+  transform: none
+}
+
+.ev-card:hover h3,
+.ev-card.is-open h3 {
+  color: var(--accent-hi)
+}
+
+.ev-card h3 {
+  transition: color .3s var(--ease)
+}
+
+.ev-hint {
+  margin-left: auto;
+  font-size: .55rem;
+  letter-spacing: .26em;
+  color: var(--muted);
+  opacity: .65;
+  transition: opacity .3s var(--ease)
+}
+
+.ev-card:hover .ev-hint,
+.ev-card.is-open .ev-hint {
+  opacity: 0
+}
+
+@media (hover:none) {
+  .ev-hint {
+    display: none
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .ev-body {
+    transition: none
+  }
+
+  .ev-body>div {
+    transition: none
+  }
 }
 
 .ev-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: .6rem;
   font-size: .62rem;
   letter-spacing: .16em;
   color: var(--muted)
 }
 
 .ev-tag {
-  padding: .32rem .7rem;
+  padding: .22rem .6rem;
   border-radius: 8px;
   border: 1px solid var(--border);
   color: var(--accent);
@@ -1389,22 +1579,22 @@ html.no-gsap [data-reveal] {
 
 .ev-card h3 {
   font-family: var(--disp);
-  font-size: 1.3rem;
-  line-height: 1.2;
+  font-size: 1.08rem;
+  line-height: 1.15;
   font-weight: 600
 }
 
-.ev-card p {
-  font-size: .88rem;
-  flex: 1
+.ev-body p {
+  font-size: .82rem;
+  line-height: 1.55
 }
 
 .ev-meta {
-  font-size: .6rem;
+  font-size: .58rem;
   letter-spacing: .18em;
   color: var(--muted);
   border-top: 1px solid var(--border);
-  padding-top: 1rem
+  padding-top: .6rem
 }
 
 .ev-win {
@@ -1412,9 +1602,59 @@ html.no-gsap [data-reveal] {
 }
 
 .ev-end {
-  justify-content: center;
-  align-items: flex-start;
   border-style: dashed
+}
+
+.tl-eof .tl-card.ev-end .ev-body>div {
+  align-items: center
+}
+
+@media (max-width:820px) {
+  .tl-track::before {
+    left: 10px;
+    transform: none
+  }
+
+  .tl-node {
+    grid-template-columns: 1fr;
+    padding-left: 44px
+  }
+
+  .tl-dot {
+    grid-column: 1;
+    justify-self: start;
+    margin-left: -40px
+  }
+
+  .tl-node:not(.tl-alt) .tl-card,
+  .tl-node.tl-alt .tl-card,
+  .tl-eof .tl-card {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: stretch;
+    width: 100%
+  }
+
+  .tl-node:not(.tl-alt) .tl-date,
+  .tl-node.tl-alt .tl-date {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: left;
+    margin-bottom: .7rem
+  }
+
+  .tl-node.tl-alt .tl-date time {
+    flex-direction: row
+  }
+
+  .tl-date::before,
+  .tl-node.tl-alt .tl-date::before {
+    display: none
+  }
+
+  .tl-date .tl-day {
+    font-size: 1.5rem
+  }
 }
 
 /* ============================================================
@@ -1589,6 +1829,66 @@ html.no-gsap [data-reveal] {
 
 .gal-item:hover::after {
   box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .5), 0 0 30px rgba(212, 160, 23, .15)
+}
+
+/* ---------- hold-hover expand: tile grows in place after 1.5s ---------- */
+.gal-cta {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 4;
+  padding: .55rem 1.1rem;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  color: var(--bg);
+  background: var(--accent);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(212, 160, 23, .45);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.85);
+  pointer-events: none;
+  transition: opacity .35s var(--ease), transform .35s var(--ease)
+}
+
+@media (min-width:961px) {
+  .gal-item.gal-focus {
+    grid-column: span 4;
+    grid-row: span 3;
+    z-index: 6;
+    animation: galPop .55s var(--ease)
+  }
+
+  .gal-item.gal-focus::after {
+    box-shadow: inset 0 0 0 2px rgba(212, 160, 23, .7), 0 0 40px rgba(212, 160, 23, .25)
+  }
+
+  .gal-item.gal-focus figcaption {
+    opacity: 0
+  }
+
+  .gal-item.gal-focus .gal-cta {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1)
+  }
+}
+
+@keyframes galPop {
+  0% {
+    transform: scale(.96);
+    opacity: .6
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .gal-item.gal-focus {
+    animation: none
+  }
 }
 
 #lightbox {
