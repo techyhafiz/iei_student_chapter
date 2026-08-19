@@ -418,7 +418,8 @@
       </div>
 
       <div class="gal">
-        <figure class="gal-item glass cs3 rs2" data-speed="1.4" data-caption="CTF FINALS — OCT 2025" tabindex="0"
+        <figure class="gal-item glass cs3 rs2" data-speed="1.4" data-caption="CTF FINALS — OCT 2025"
+          data-desc="Thirty-two squads, one network, six hours of web, pwn and crypto. Flags captured: 47." tabindex="0"
           role="button" aria-label="Open image: CTF finals">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
@@ -438,7 +439,8 @@
           <figcaption class="mono">CTF FINALS — OCT 2025</figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3" data-speed="0.8" data-caption="ZERO-DAY WORKSHOP — NOV 2025" tabindex="0"
+        <figure class="gal-item glass cs3" data-speed="0.8" data-caption="ZERO-DAY WORKSHOP — NOV 2025"
+          data-desc="Hands-on exploitation of the OWASP top ten on a live firing range we built ourselves." tabindex="0"
           role="button" aria-label="Open image: workshop waveform">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
@@ -457,7 +459,8 @@
           <figcaption class="mono">ZERO-DAY WORKSHOP</figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3" data-speed="1.1" data-caption="RED VS BLUE BOOTCAMP" tabindex="0"
+        <figure class="gal-item glass cs3" data-speed="1.1" data-caption="RED VS BLUE BOOTCAMP" data-date="OCT 2025"
+          data-desc="Attack vs defend on a scored six-hour engagement — live scoreboard, full post-mortem." tabindex="0"
           role="button" aria-label="Open image: score bars">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract bar chart">
@@ -478,7 +481,8 @@
           <figcaption class="mono">RED VS BLUE — SCOREBOARD</figcaption>
         </figure>
 
-        <figure class="gal-item glass cs2" data-speed="1.6" data-caption="LAB NIGHT — 0x2A" tabindex="0" role="button"
+        <figure class="gal-item glass cs2" data-speed="1.6" data-caption="LAB NIGHT — 0x2A" data-date="SEP 2025"
+          data-desc="Weekly open-lab sessions in Room 0x2A — build, break, repeat." tabindex="0" role="button"
           aria-label="Open image: hex tiles">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
@@ -498,8 +502,9 @@
           <figcaption class="mono">LAB NIGHT — 0x2A</figcaption>
         </figure>
 
-        <figure class="gal-item glass cs4" data-speed="0.9" data-caption="GUEST LECTURE SERIES" tabindex="0"
-          role="button" aria-label="Open image: circuit path">
+        <figure class="gal-item glass cs4" data-speed="0.9" data-caption="GUEST LECTURE SERIES" data-date="NOV 2025"
+          data-desc="Industry operators on threat hunting, malware, and life inside the SOC." tabindex="0" role="button"
+          aria-label="Open image: circuit path">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
               aria-label="Abstract circuit traces">
@@ -518,7 +523,8 @@
         </figure>
 
         <figure class="gal-item glass cs3" data-speed="1.2"
-          data-caption="FRESHMAN INDUCTION — 'CAPTURE YOUR FIRST FLAG'" tabindex="0" role="button"
+          data-caption="FRESHMAN INDUCTION — 'CAPTURE YOUR FIRST FLAG'" data-date="AUG 2025"
+          data-desc="First-year onboarding — capture your first flag and join the chapter." tabindex="0" role="button"
           aria-label="Open image: shield emblem">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
@@ -533,8 +539,10 @@
           <figcaption class="mono">FRESHMAN INDUCTION</figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3 rs2" data-speed="0.7" data-caption="HACK THE NIGHT — ANNUAL GRID EVENT"
-          tabindex="0" role="button" aria-label="Open image: binary rain">
+        <figure class="gal-item glass cs3 rs2" data-speed="0.7"
+          data-caption="HACK THE NIGHT — ANNUAL GRID EVENT" data-date="DEC 2025"
+          data-desc="Our annual overnight grid event — challenges run until sunrise." tabindex="0" role="button"
+          aria-label="Open image: binary rain">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
               aria-label="Abstract binary columns">
@@ -581,7 +589,8 @@
         </figure>
 
         <figure class="gal-item glass cs3" data-speed="1.5" data-caption="AWARDS DAY — 1ST PLACE, NATIONALS"
-          tabindex="0" role="button" aria-label="Open image: key graphic">
+          data-date="OCT 2025" data-desc="First place at nationals — 47 flags, zero sleep, one trophy." tabindex="0"
+          role="button" aria-label="Open image: key graphic">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract key">
               <rect width="400" height="300" fill="#15181d" />
@@ -693,9 +702,25 @@
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
     <button class="lb-close mono" aria-label="Close viewer">[ESC] CLOSE ✕</button>
     <div class="lb-content glass">
-      <div id="lbContent"></div>
-      <p id="lbCap" class="mono"></p>
+      <aside class="lb-info">
+        <div class="lb-meta mono">
+          <p id="lbName"></p>
+          <p id="lbDate"></p>
+        </div>
+        <p id="lbDesc"></p>
+        <span id="lbCount" aria-live="polite">01 / 01</span>
+        <p class="lb-hint mono">← → NAVIGATE · ESC CLOSE</p>
+      </aside>
+      <div class="lb-stage">
+        <button class="lb-arrow lb-prev" aria-label="Previous image">‹</button>
+        <div id="lbContent"></div>
+        <button class="lb-arrow lb-next" aria-label="Next image">›</button>
+      </div>
     </div>
+    <button id="lbPeek" class="lb-peek mono" aria-label="Go to next image">
+      <span id="lbPeekImg" aria-hidden="true"></span>
+      <span class="lb-peek-tag">NEXT ›</span>
+    </button>
   </div>
 
   <!-- ======= LIBS + APP ======= -->
