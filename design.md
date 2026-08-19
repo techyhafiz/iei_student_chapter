@@ -77,7 +77,7 @@ Layered under content, all pointer-events-none below the cursor:
 | `#bgMid` | 16 floating hex-fragment spans (`AES::256`, `SYN→ACK`, …), JS-parallaxed on scroll |
 | `#scanlines` | CRT scanlines, multiply blend |
 | `#noise` | SVG turbulence grain @ 3.5% |
-| cursor dot + ring | follows pointer; ring grows & glows over interactive elements (`a, button, [data-hover], .gal-item, inputs`) |
+| Cursor | Native system cursor (clean, responsive, standard OS pointer) |
 
 Custom cursor and parallax are disabled for coarse pointers and `prefers-reduced-motion`.
 
@@ -89,9 +89,9 @@ One frame = **one event**. Grid: `repeat(6, 1fr)`, `grid-auto-rows: 120px`, fram
 
 Per frame:
 - `.gal-img` cover art (SVG plate) + parallax drift on scroll (`data-speed`).
-- `figcaption` bottom-left, fades during hover-hold.
-- **photo-count badge** (top-right): mono chip “06 PHOTOS”.
-- Hover-hold (500ms) → `gal-focus`: frame lifts, “CLICK TO VIEW EVENT” CTA appears.
+- `figcaption` bottom-left caption bar.
+- **Fluid Focus & Sibling Dimming**: Hovering lifts the active card (`scale 1.045 / translateY -6px`) with golden ambient glow while non-hovered siblings smoothly dim to `40% opacity`.
+- **Cursor Hover Pill**: Minimalist pill `[ VIEW EVENT ↗ ]` follows the cursor smoothly within the hovered card.
 - `data-caption` (name/date), `data-date`, `data-desc` (short description shown in the viewer).
 
 ### Photo model
@@ -104,28 +104,28 @@ Each event carries an **album of 5–6 photos**: the cover plate + generated var
 
 ## 5. Lightbox — Event Viewer
 
-Compact, framed, per-event slideshow — intentionally **not** full-bleed. Two-column layout: persistent event info on the left, the framed image stage on the right.
+Compact, framed, per-event slideshow — intentionally **not** full-bleed. Two-column layout: framed image stage on the left, persistent event info & next preview on the right.
 
 ```
-┌──────────────────────────────────────────────────────┐
-│                                  [ESC] CLOSE ✕       │
-│  ┌ info column ┐        ┌── stage ──────────────┐    │
-│  │ EVENT NAME  │        │                       │    │
-│  │ OCT 2025    │        │ [‹]    image     [›]  │    │
-│  │ short       │        │                       │    │
-│  │ description │        └───────────────────────┘    │
-│  │ ┌01 / 06┐   │                    ┌ next peek ┐    │
-│  │ hint      │                      │ faded img  │    │
-│  └─────────────┘                    │ NEXT ›     │    │
-│                                     └────────────┘    │
-└──────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│                                    [ESC] CLOSE ✕       │
+│  ┌── stage ──────────────┐  ┌ info column ──────────┐  │
+│  │                       │  │ EVENT NAME            │  │
+│  │ [‹]    image     [›]  │  │ OCT 2025              │  │
+│  │                       │  │ short description     │  │
+│  └───────────────────────┘  │ [01 / 06]  ← → · ESC  │  │
+│                             │ ┌ VIEW MORE IMAGES ─┐ │  │
+│                             │ │ mini thumbnail ›  │ │  │
+│                             │ └───────────────────┘ │  │
+│                             └───────────────────────┘  │
+└────────────────────────────────────────────────────────┘
 ```
 
 Rules:
-- Grid `minmax(160px,240px) 1fr`, max-width `min(820px, 94vw)`; stacks to one column ≤760px.
-- **Info column** stays constant across the album: event name (accent-hi), date (muted), short description (from `data-desc`), counter chip `01 / 06`, nav hint.
-- Image sits in a bordered stage (`--border` + `--panel` mat); `‹` `›` arrows overlay its edges.
-- **Next-photo preview** pinned to the right screen edge — `clamp(140px, 16vw, 190px)` wide at `opacity .55 → 1` on hover (hidden ≤760px). Clicking it advances.
+- Grid `minmax(0, 1fr) minmax(260px, 340px)`, max-width `min(1120px, 94vw)`; stacks to one column ≤860px (image stage on top, info underneath).
+- **Image Stage (Left)**: Bordered stage (`--border` + `--panel` mat); `‹` `›` arrows overlay its edges without any external overlay collision.
+- **Info Column (Right)**: Contains persistent event details: event name (accent-hi), date (muted), short description (from `data-desc`), counter chip `01 / 06`, nav hint, and docked **`// VIEW MORE IMAGES` preview card**.
+- **Next-photo preview**: Docked inside the sidebar, previews the upcoming image in the album, and advances on click.
 - Navigation wraps within the event; `←` `→` keys, `Esc` or backdrop click closes; focus is saved/restored.
 - Backdrop: `rgba(13,15,18,.82)` + `blur(14px)` (light: warm-paper equivalent).
 

@@ -414,7 +414,11 @@
           <p class="kicker mono" data-reveal>// 04 — GALLERY</p>
           <h2 class="sec-title" data-reveal>Captured packets</h2>
         </div>
-        <p class="sec-hint mono" data-reveal>CLICK ANY FRAME TO INSPECT <span class="hint-arrow">⌕</span></p>
+        <div class="gal-sec-pill mono" data-reveal>
+          <span class="pill-dot"></span>
+          <span>HOVER TO FOCUS · CLICK TO EXPAND</span>
+          <span class="pill-lens">⛶</span>
+        </div>
       </div>
 
       <div class="gal">
@@ -700,27 +704,32 @@
 
   <!-- ======= LIGHTBOX ======= -->
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <button class="lb-close mono" aria-label="Close viewer">[ESC] CLOSE ✕</button>
     <div class="lb-content glass">
+      <button class="lb-close mono" aria-label="Close viewer">[ESC] CLOSE ✕</button>
+      <div class="lb-stage">
+        <button class="lb-arrow lb-prev" aria-label="Previous image">‹</button>
+        <div id="lbContent"></div>
+        <button class="lb-arrow lb-next" aria-label="Next image">›</button>
+      </div>
       <aside class="lb-info">
         <div class="lb-meta mono">
           <p id="lbName"></p>
           <p id="lbDate"></p>
         </div>
         <p id="lbDesc"></p>
-        <span id="lbCount" aria-live="polite">01 / 01</span>
-        <p class="lb-hint mono">← → NAVIGATE · ESC CLOSE</p>
+        <div class="lb-status-row">
+          <span id="lbCount" aria-live="polite">01 / 01</span>
+          <p class="lb-hint mono">← → NAV · ESC</p>
+        </div>
+        <button id="lbPeek" class="lb-peek mono" aria-label="View more images">
+          <span class="lb-peek-head">
+            <span class="lb-peek-tag">// VIEW MORE IMAGES</span>
+            <span class="lb-peek-arrow">›</span>
+          </span>
+          <span id="lbPeekImg" aria-hidden="true"></span>
+        </button>
       </aside>
-      <div class="lb-stage">
-        <button class="lb-arrow lb-prev" aria-label="Previous image">‹</button>
-        <div id="lbContent"></div>
-        <button class="lb-arrow lb-next" aria-label="Next image">›</button>
-      </div>
     </div>
-    <button id="lbPeek" class="lb-peek mono" aria-label="Go to next image">
-      <span id="lbPeekImg" aria-hidden="true"></span>
-      <span class="lb-peek-tag">NEXT ›</span>
-    </button>
   </div>
 
   <!-- ======= LIBS + APP ======= -->

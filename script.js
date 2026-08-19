@@ -631,10 +631,6 @@
       album.push(parsePieceInner(GEN[idx](mulberry32(ei * 97 + i * 5321 + 7))));
     }
     item._album = album;
-    var count = document.createElement("span");
-    count.className = "gal-count mono";
-    count.textContent = pad2(album.length) + " PHOTOS";
-    item.appendChild(count);
   });
 
   function galEventInfo(item) {
@@ -694,51 +690,75 @@
     lbIndex = (lbIndex + delta + lbAlbum.length) % lbAlbum.length;
     renderLightbox();
   }
-  var focusedGal = null;
-  function clearGalFocus() {
-    if (focusedGal) {
-      clearTimeout(focusedGal._holdTimer);
-      focusedGal.classList.remove("gal-focus");
-      focusedGal = null;
-    }
-  }
-  var galSection = $("#gallery");
-  if (galSection) galSection.addEventListener("mouseleave", clearGalFocus);
 
+  var galGrid = $(".gal");
   galItems.forEach(function (item) {
     item.addEventListener("click", function () { openLightbox(item); });
     item.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(item); }
     });
 
-    var cta = document.createElement("span");
-    cta.className = "gal-cta mono";
-    cta.textContent = "CLICK TO VIEW EVENT";
-    item.appendChild(cta);
+    var hud = document.createElement("div");
+    hud.className = "gal-hud mono";
+    hud.setAttribute("aria-hidden", "true");
+    hud.innerHTML = '<span>VIEW EVENT</span> <span class="hud-arrow">↗</span>';
+    item.appendChild(hud);
 
-    item._holdTimer = null;
+    var qX = hasGsap && finePointer ? gsap.quickTo(hud, "x", { duration: 0.28, ease: "power2.out" }) : null;
+    var qY = hasGsap && finePointer ? gsap.quickTo(hud, "y", { duration: 0.28, ease: "power2.out" }) : null;
 
-    item.addEventListener("mouseenter", function () {
-      if (focusedGal && focusedGal !== item) clearGalFocus();
-      clearTimeout(item._holdTimer);
-      item._holdTimer = setTimeout(function () {
-        item.classList.add("gal-focus");
-        focusedGal = item;
-      }, 500);
+    function setPos(e) {
+      var rect = item.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      if (qX && qY) {
+        qX(x);
+        qY(y);
+      } else {
+        item.style.setProperty("--mx", x + "px");
+        item.style.setProperty("--my", y + "px");
+      }
+    }
+
+    item.addEventListener("mouseenter", function (e) {
+      if (galGrid) galGrid.classList.add("has-active-item");
+      item.classList.add("is-active");
+      var rect = item.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      if (hasGsap && finePointer) {
+        gsap.set(hud, { x: x, y: y });
+      } else {
+        item.style.setProperty("--mx", x + "px");
+        item.style.setProperty("--my", y + "px");
+      }
     });
+
+    item.addEventListener("mousemove", setPos);
+
     item.addEventListener("mouseleave", function () {
-      clearTimeout(item._holdTimer);
+      item.classList.remove("is-active");
+      if (galGrid) {
+        var any = galGrid.querySelector(".gal-item.is-active");
+        if (!any) galGrid.classList.remove("has-active-item");
+      }
     });
+
     item.addEventListener("focus", function () {
-      clearTimeout(item._holdTimer);
-      item._holdTimer = setTimeout(function () {
-        clearGalFocus();
-        item.classList.add("gal-focus");
-        focusedGal = item;
-      }, 500);
+      if (galGrid) galGrid.classList.add("has-active-item");
+      item.classList.add("is-active");
+      var rect = item.getBoundingClientRect();
+      if (hasGsap && finePointer) {
+        gsap.set(hud, { x: rect.width / 2, y: rect.height / 2 });
+      }
     });
+
     item.addEventListener("blur", function () {
-      if (focusedGal === item) clearGalFocus();
+      item.classList.remove("is-active");
+      if (galGrid) {
+        var any = galGrid.querySelector(".gal-item.is-active");
+        if (!any) galGrid.classList.remove("has-active-item");
+      }
     });
   });
   if (lbClose) lbClose.addEventListener("click", closeLightbox);
@@ -774,27 +794,7 @@
     });
   }
 
-  /* ------------------------------------------------------------
-     CUSTOM CURSOR
-     ------------------------------------------------------------ */
-  var cDot = $("#cursorDot");
-  var cRing = $("#cursorRing");
-  if (cDot && cRing && finePointer && !reduced) {
-    var cx = 0, cy = 0, rx2 = 0, ry2 = 0;
-    document.addEventListener("mousemove", function (e) {
-      cx = e.clientX; cy = e.clientY;
-      cDot.style.left = cx + "px"; cDot.style.top = cy + "px";
-    }, { passive: true });
-    (function ringLoop() {
-      rx2 += (cx - rx2) * .16; ry2 += (cy - ry2) * .16;
-      cRing.style.left = rx2 + "px"; cRing.style.top = ry2 + "px";
-      requestAnimationFrame(ringLoop);
-    })();
-    document.addEventListener("mouseover", function (e) {
-      var hot = e.target.closest("a,button,[data-hover],.gal-item,input,select,textarea");
-      cRing.classList.toggle("hot", !!hot);
-    }, { passive: true });
-  }
+
 
   /* ------------------------------------------------------------
      JOIN FORM
