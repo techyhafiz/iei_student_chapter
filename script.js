@@ -814,86 +814,6 @@
     });
   }
 
-  /* ------------------------------------------------------------
-      THE REEL — pinned horizontal archive (desktop).
-      Vertical scroll drives the strip; falls back to a native
-      swipe strip on small screens / reduced motion / no GSAP.
-      ------------------------------------------------------------ */
-  if (hasGsap && !reduced && $("#reelStage")) {
-    var reelStageEl = $("#reelStage");
-    var reelTrackEl = $("#reelTrack");
-    var reelCountEl = $("#reelCount");
-    var reelFillEl = $("#reelFill");
-
-    function reelVisible() {
-      return $all(".gal-item:not(.is-filtered-out)", reelTrackEl);
-    }
-
-    function updateReelUI(progress) {
-      var n = Math.max(1, reelVisible().length);
-      var idx = Math.min(n, Math.max(1, Math.round(progress * (n - 1)) + 1));
-      if (reelCountEl) { reelCountEl.textContent = pad2(idx) + " / " + pad2(n); }
-      if (reelFillEl) { reelFillEl.style.transform = "scaleX(" + progress.toFixed(4) + ")"; }
-    }
-
-    gsap.matchMedia().add("(min-width: 861px)", function () {
-
-      /* entrance sweep as the stage approaches, before the pin engages */
-      var panels = $all(".reel-panel", reelTrackEl);
-      gsap.set(panels, { autoAlpha: 0, x: 90 });
-      gsap.to(panels, {
-        autoAlpha: 1, x: 0,
-        duration: .9, stagger: .08, ease: "power3.out",
-        scrollTrigger: { trigger: reelStageEl, start: "top 72%", once: true },
-        clearProps: "transform"
-      });
-
-      var amount = function () {
-        return Math.max(0, reelTrackEl.scrollWidth - window.innerWidth);
-      };
-
-      var reelTween = gsap.to(reelTrackEl, {
-        x: function () { return -amount(); },
-        ease: "none",
-        scrollTrigger: {
-          trigger: reelStageEl,
-          start: "top top",
-          end: function () { return "+=" + amount(); },
-          pin: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: function (self) { updateReelUI(self.progress); }
-        }
-      });
-
-      /* per-panel art drift while travelling through the reel */
-      $all(".gal-img", reelTrackEl).forEach(function (img) {
-        var host = img.closest(".reel-panel");
-        var spd = parseFloat((host && host.dataset.speed) || "1");
-        gsap.set(img, { scale: 1.16 });
-        gsap.fromTo(img,
-          { xPercent: -4.5 * spd },
-          {
-            xPercent: 4.5 * spd, ease: "none",
-            scrollTrigger: {
-              trigger: host,
-              containerAnimation: reelTween,
-              start: "left right",
-              end: "right left",
-              scrub: true
-            }
-          }
-        );
-      });
-
-      window.__updateReelUI = function () {
-        var st = reelTween.scrollTrigger;
-        if (st) { updateReelUI(st.progress); }
-      };
-    });
-  }
-
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
   var lightbox = $("#lightbox");
@@ -991,33 +911,24 @@
         album.push(img);
       });
     } else {
-      var cover = item.querySelector("img, svg");
+      var cover = null;
+    if (item.dataset.img) {
+      cover = document.createElement("img");
+      cover.src = item.dataset.img;
+      cover.alt = "";
+    } else {
+      cover = item.querySelector("img, svg");
+    }
       if (cover) album.push(cover.cloneNode(true));
     }
     item._album = album;
   });
 
   /* "+N FRAMES" chip in each caption — hints at the multi-photo album */
+  /* per-row frame counters in the archive log */
   galItems.forEach(function (item) {
-    var n = item._album ? item._album.length : 1;
-    var fc = $("figcaption", item);
-    if (n > 1 && fc && !$(".gal-frames", fc)) {
-      var chip = document.createElement("span");
-      chip.className = "gal-frames";
-      chip.textContent = "\u25A3 " + pad2(n);
-      fc.insertBefore(chip, $(".gal-action-hint", fc));
-    }
-  });
-
-  /* frozen capture timestamp per feed (deterministic per channel) */
-  galItems.forEach(function (item, fi) {
-    var st = $(".cam-stamp", item);
-    if (!st) return;
-    var r = mulberry32(fi * 7919 + 41);
-    st.textContent = (item.dataset.date || "ARCHIVE") + " " +
-      pad2(Math.floor(r() * 24)) + ":" +
-      pad2(Math.floor(r() * 60)) + ":" +
-      pad2(Math.floor(r() * 60));
+    var f = $(".arx-frames", item);
+    if (f && item._album) { f.textContent = "\u25A3 " + pad2(item._album.length); }
   });
 
   /* live UTC clock on the archive bar */
@@ -1034,24 +945,21 @@
     setInterval(tickGalClock, 1000);
   }
 
-  /* ambient signal glitches — random feeds flicker while the wall is on screen */
-  if (!reduced && $(".reel-track") && typeof IntersectionObserver !== "undefined") {
-    var galOnScreen = false;
+  /* ambient glitch — the preview screen flickers now and then */
+  if (!reduced && $("#arxSplit") && typeof IntersectionObserver !== "undefined") {
+    var arxOnScreen = false;
     new IntersectionObserver(function (entries) {
-      galOnScreen = entries[0].isIntersecting;
-    }).observe($(".reel-track"));
+      arxOnScreen = entries[0].isIntersecting;
+    }).observe($("#arxSplit"));
     setInterval(function () {
-      if (!galOnScreen || document.hidden) return;
-      var vis = galItems.filter(function (it) {
-        return !it.classList.contains("is-filtered-out");
-      });
-      if (!vis.length) return;
-      var target = vis[Math.floor(Math.random() * vis.length)];
-      target.classList.add("is-glitching");
+      if (!arxOnScreen || document.hidden || window.innerWidth <= 900) return;
+      var screenEl = $("#arxScreen");
+      if (!screenEl) return;
+      screenEl.classList.add("is-glitching");
       setTimeout(function () {
-        target.classList.remove("is-glitching");
-      }, 220 + Math.random() * 200);
-    }, 3400);
+        screenEl.classList.remove("is-glitching");
+      }, 200 + Math.random() * 180);
+    }, 3600);
   }
 
   function galEventInfo(item) {
@@ -1209,13 +1117,88 @@
     });
   });
 
-  var galGrid = $("#reelTrack");
-  galItems.forEach(function (item) {
-    item.addEventListener("click", function () { openLightbox(item); });
-    item.addEventListener("keydown", function (e) {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(item); }
-    });
+  /* ------------------------------------------------------------
+      ARCHIVE INDEX — row selection drives the preview viewer
+      ------------------------------------------------------------ */
+  var arxRows = $all(".arx-row");
+  var arxIndexEl = $(".arx-index");
+  var arxImg = $("#arxImg");
+  var arxTagEl = $("#arxTag");
+  var arxRecEl = $("#arxRec");
+  var arxNameEl = $("#arxName");
+  var arxDateEl = $("#arxDate");
+  var arxDescEl = $("#arxDesc");
+  var arxFramesEl = $("#arxFrames");
+  var arxOpenBtn = $("#arxOpen");
+  var arxActive = null;
+
+  function arxSelect(row, fromUser) {
+    if (!row || !arxImg) return;
+    arxActive = row;
+    arxRows.forEach(function (r) { r.classList.toggle("is-active", r === row); });
+
+    arxImg.style.opacity = "0";
+    setTimeout(function () {
+      if (arxActive !== row && fromUser) return;
+      arxImg.src = row.dataset.img || "";
+      arxImg.alt = (row.getAttribute("aria-label") || "").replace(/^Preview: /i, "");
+      arxImg.style.opacity = "1";
+    }, 150);
+
+    if (arxTagEl) { arxTagEl.textContent = row.dataset.tag || ""; }
+    if (arxRecEl) {
+      var standby = row.dataset.rec === "standby";
+      arxRecEl.className = "rec-pill " + (standby ? "is-standby" : "is-rec");
+      arxRecEl.innerHTML = "<i></i>" + (standby ? "STANDBY" : "REC");
+    }
+    if (arxNameEl) { arxNameEl.textContent = row.dataset.name || ""; }
+    if (arxDateEl) {
+      arxDateEl.textContent = (row.dataset.date || "ARCHIVE") +
+        " · ALBUM " + pad2((row._album || []).length);
+    }
+    if (arxDescEl) { arxDescEl.textContent = row.dataset.desc || ""; }
+    if (arxFramesEl) { arxFramesEl.textContent = "\u25A3 " + pad2((row._album || []).length) + " FRAMES"; }
+
+    /* on small screens the viewer is hidden — a tap opens the album */
+    if (fromUser && window.matchMedia("(max-width: 900px)").matches) {
+      openLightbox(row);
+    }
+  }
+
+  arxRows.forEach(function (row) {
+    row.addEventListener("click", function () { arxSelect(row, true); });
+    row.addEventListener("mouseenter", function () { if (finePointer) { arxSelect(row, false); } });
+    row.addEventListener("focus", function () { arxSelect(row, false); });
   });
+
+  if (arxOpenBtn) {
+    arxOpenBtn.addEventListener("click", function () {
+      if (arxActive) { openLightbox(arxActive); }
+    });
+  }
+
+  /* arrow keys walk the log */
+  if (arxIndexEl) {
+    arxIndexEl.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+      e.preventDefault();
+      var vis = arxRows.filter(function (r) { return !r.classList.contains("is-filtered-out"); });
+      if (!vis.length) return;
+      var i = vis.indexOf(arxActive);
+      var next;
+      if (e.key === "ArrowDown") { next = vis[Math.min(vis.length - 1, i + 1)]; }
+      else { next = vis[Math.max(0, i - 1)]; }
+      if (!next) { next = vis[0]; }
+      arxSelect(next, false);
+      next.focus();
+    });
+  }
+
+  window.__arxReselect = function () {
+    var vis = arxRows.filter(function (r) { return !r.classList.contains("is-filtered-out"); });
+    if (!vis.length) { return; }
+    if (vis.indexOf(arxActive) < 0) { arxSelect(vis[0], false); }
+  };
 
   if (lbClose) lbClose.addEventListener("click", closeLightbox);
   if (lbPrev) lbPrev.addEventListener("click", function (e) { e.stopPropagation(); showLightbox(-1); });
@@ -1270,11 +1253,12 @@
         galItems.forEach(function (it) { it.classList.remove("is-filtered-out"); });
       }
 
-      var scrollTarget = targetEl.closest(".reel-stage") || targetEl;
+      arxSelect(targetEl, false);
+
       if (lenis) {
-        lenis.scrollTo(scrollTarget, { offset: -70, duration: 1.2 });
+        lenis.scrollTo(targetEl, { offset: -90, duration: 1.2 });
       } else {
-        scrollTarget.scrollIntoView({ behavior: "smooth", block: scrollTarget === targetEl ? "center" : "start" });
+        targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
       }
 
       targetEl.classList.remove("target-highlight");

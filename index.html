@@ -551,231 +551,154 @@
 
       <p class="gal-livebar mono" data-reveal><span class="live-dot" aria-hidden="true"></span>LIVE ARCHIVE — <span id="galClock">--:--:--</span> UTC · 10 CHANNELS ONLINE</p>
 
-      <div class="reel-stage" id="reelStage">
-        <div class="reel-track" id="reelTrack">
-        <!-- 1. Inter-College CTF Finals -->
-        <figure class="gal-item glass reel-panel is-wide" id="gal-ctf-finals" data-category="ctf" data-speed="1.4" data-caption="INTER-COLLEGE CTF FINALS — OCT 2025"
-          data-date="OCT 2025" data-desc="National Round victory — our squad captured 47 flags across pwn, reverse engineering, web exploitation, and crypto to win 1st Place overall against 32 universities." tabindex="0"
-          role="button" aria-label="Open image: CTF Finals championship celebration">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_01 ▸ FINALS ★</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80" alt="Students celebrating 1st Place at the National CTF Finals on stage" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 01</span>
-            <span class="gal-title">CTF NATIONALS — 1ST PLACE OVERALL</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+      <div class="arx" id="arxSplit">
 
-        <!-- 2. Zero-Day Web Exploitation -->
-        <figure class="gal-item glass reel-panel" id="gal-zeroday" data-category="workshop" data-speed="0.8" data-caption="ZERO-DAY WEB EXPLOITATION — NOV 2025"
-          data-date="NOV 2025" data-desc="Hands-on exploitation lab targeting OWASP Top 10 vulnerabilities — SSRF, prototype pollution, IDOR, and serialized payloads on live firing ranges." tabindex="0"
-          role="button" aria-label="Open image: zero day web exploitation lab">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_02 ▸ WEB LAB</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="Cybersecurity exploit code and terminal payload inspection" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 02</span>
-            <span class="gal-title">ZERO-DAY WEB EXPLOITATION LAB</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+        <div class="arx-index mono" role="list" aria-label="Event archive index">
+          <div class="arx-head" aria-hidden="true"><span>ID</span><span>EVENT LOG</span><span>REC</span></div>
 
-        <!-- 3. Red vs Blue Bootcamp -->
-        <figure class="gal-item glass reel-panel" id="gal-red-blue" data-category="drill" data-speed="1.1" data-caption="RED VS BLUE BOOTCAMP — OCT 2025"
-          data-date="OCT 2025" data-desc="A high-intensity 6-hour live cyber engagement: Red Cell executing active directory pivoting while Blue Cell implemented firewall ACLs and EDR telemetry." tabindex="0"
-          role="button" aria-label="Open image: red vs blue security operations center">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_03 ▸ RED VS BLUE</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" alt="Security operations center with blue and red team dashboards" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 03</span>
-            <span class="gal-title">RED VS BLUE LIVE ENGAGEMENT</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 01 -->
+          <button type="button" class="arx-row gal-item is-active" id="gal-ctf-finals" role="listitem" data-category="ctf"
+            data-img="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80"
+            data-caption="INTER-COLLEGE CTF FINALS — OCT 2025" data-name="CTF NATIONALS — 1ST PLACE OVERALL" data-date="OCT 2025" data-tag="CAM_01 ▸ FINALS ★" data-rec="rec"
+            data-desc="National Round victory — our squad captured 47 flags across pwn, reverse engineering, web exploitation, and crypto to win 1st Place overall against 32 universities."
+            aria-label="Preview: CTF Nationals first place">
+            <span class="arx-num">01</span>
+            <span class="arx-name">CTF NATIONALS — 1ST PLACE OVERALL</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">OCT 2025</span></span>
+          </button>
 
-        <!-- 4. Threat Intel in AI -->
-        <figure class="gal-item glass reel-panel" id="gal-threat-intel" data-category="workshop" data-speed="1.6" data-caption="THREAT INTEL & AI IN SOC — NOV 2025"
-          data-date="NOV 2025" data-desc="Auditorium session featuring Senior Threat Intelligence Engineers covering automated APT graph clustering, behavioral heuristic parsing, and LLM attack vectors." tabindex="0" role="button"
-          aria-label="Open image: threat intel speaker presentation">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_04 ▸ SOC BRIEF</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=800&q=80" alt="Threat intelligence guest speaker delivering talk to students in auditorium" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 04</span>
-            <span class="gal-title">THREAT INTEL & AI IN SOC</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 02 -->
+          <button type="button" class="arx-row gal-item" id="gal-zeroday" role="listitem" data-category="workshop"
+            data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80"
+            data-caption="ZERO-DAY WEB EXPLOITATION — NOV 2025" data-name="ZERO-DAY WEB EXPLOITATION LAB" data-date="NOV 2025" data-tag="CAM_02 ▸ WEB LAB" data-rec="rec"
+            data-desc="Hands-on exploitation lab targeting OWASP Top 10 vulnerabilities — SSRF, prototype pollution, IDOR, and serialized payloads on live firing ranges."
+            aria-label="Preview: Zero-Day Web Exploitation lab">
+            <span class="arx-num">02</span>
+            <span class="arx-name">ZERO-DAY WEB EXPLOITATION LAB</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">NOV 2025</span></span>
+          </button>
 
-        <!-- 5. OSINT: Find Anything -->
-        <figure class="gal-item glass reel-panel" id="gal-osint" data-category="workshop" data-speed="0.9" data-caption="OSINT: FIND ANYTHING — SEP 2025"
-          data-date="SEP 2025" data-desc="Hands-on recon workshop diving deep into satellite imagery geolocation, EXIF parsing, social graph mapping, and domain infrastructure footprints." tabindex="0" role="button"
-          aria-label="Open image: OSINT reconnaissance investigation">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_05 ▸ RECON</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=800&q=80" alt="Open-source intelligence recon workflow on dual monitors" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 05</span>
-            <span class="gal-title">OSINT RECONNAISSANCE WORKSHOP</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 03 -->
+          <button type="button" class="arx-row gal-item" id="gal-red-blue" role="listitem" data-category="drill"
+            data-img="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80"
+            data-caption="RED VS BLUE BOOTCAMP — OCT 2025" data-name="RED VS BLUE LIVE ENGAGEMENT" data-date="OCT 2025" data-tag="CAM_03 ▸ RED VS BLUE" data-rec="rec"
+            data-desc="A high-intensity 6-hour live cyber engagement: Red Cell executing active directory pivoting while Blue Cell implemented firewall ACLs and EDR telemetry."
+            aria-label="Preview: Red vs Blue bootcamp">
+            <span class="arx-num">03</span>
+            <span class="arx-name">RED VS BLUE LIVE ENGAGEMENT</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">OCT 2025</span></span>
+          </button>
 
-        <!-- 6. Malware Reverse Engineering -->
-        <figure class="gal-item glass reel-panel" id="gal-malware" data-category="workshop" data-speed="0.7"
-          data-caption="MALWARE REVERSE ENGINEERING 101 — MAY 2025" data-date="MAY 2025"
-          data-desc="Deep dive into disassembly: x86/x64 assembly instruction breakdown, stack frame forensics, packing unpacking routines, and C2 payload decryption." tabindex="0" role="button"
-          aria-label="Open image: malware disassembly code">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_06 ▸ REV ENG</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" alt="Disassembler code analysis on monitor in engineering lab" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 06</span>
-            <span class="gal-title">MALWARE REVERSE ENGINEERING</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 04 -->
+          <button type="button" class="arx-row gal-item" id="gal-threat-intel" role="listitem" data-category="workshop"
+            data-img="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80"
+            data-caption="THREAT INTEL & AI IN SOC — NOV 2025" data-name="THREAT INTEL & AI IN SOC" data-date="NOV 2025" data-tag="CAM_04 ▸ SOC BRIEF" data-rec="rec"
+            data-desc="Auditorium session featuring Senior Threat Intelligence Engineers covering automated APT graph clustering, behavioral heuristic parsing, and LLM attack vectors."
+            aria-label="Preview: Threat Intel briefing">
+            <span class="arx-num">04</span>
+            <span class="arx-name">THREAT INTEL & AI IN SOC</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">NOV 2025</span></span>
+          </button>
 
-        <!-- 7. Hardware & Badge Hacking -->
-        <figure class="gal-item glass reel-panel" id="gal-hardware" data-category="workshop" data-speed="1.2"
-          data-caption="HARDWARE & BADGE HACKING — AUG 2025" data-date="AUG 2025"
-          data-desc="Engineering lab session on custom ESP32 badge fabrication, surface-mount soldering, UART header extraction, and logic analyzer sniffing." tabindex="0" role="button"
-          aria-label="Open image: hardware badge soldering">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_07 ▸ HARDWARE</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=800&q=80" alt="Soldering iron and PCB badge components in hardware lab" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 07</span>
-            <span class="gal-title">HARDWARE & BADGE WORKSHOP</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 05 -->
+          <button type="button" class="arx-row gal-item" id="gal-osint" role="listitem" data-category="workshop"
+            data-img="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80"
+            data-caption="OSINT: FIND ANYTHING — SEP 2025" data-name="OSINT RECONNAISSANCE WORKSHOP" data-date="SEP 2025" data-tag="CAM_05 ▸ RECON" data-rec="rec"
+            data-desc="Hands-on recon workshop diving deep into satellite imagery geolocation, EXIF parsing, social graph mapping, and domain infrastructure footprints."
+            aria-label="Preview: OSINT workshop">
+            <span class="arx-num">05</span>
+            <span class="arx-name">OSINT RECONNAISSANCE WORKSHOP</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">SEP 2025</span></span>
+          </button>
 
-        <!-- 8. National Cyber Drill -->
-        <figure class="gal-item glass reel-panel" id="gal-cyber-drill" data-category="drill" data-speed="1.5" data-caption="NATIONAL CYBER DRILL // BLUE CELL — MAR 2025"
-          data-date="MAR 2025" data-desc="Simulated enterprise crisis drill: neutralizing lateral ransomware traversal, rotating Active Directory Kerberos keys, and orchestrating full network recovery." tabindex="0"
-          role="button" aria-label="Open image: national cyber drill response">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_08 ▸ BLUE CELL</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80" alt="Engineers defending network during simulated ransomware drill" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 08</span>
-            <span class="gal-title">NATIONAL CYBER DRILL SIMULATION</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 06 -->
+          <button type="button" class="arx-row gal-item" id="gal-malware" role="listitem" data-category="workshop"
+            data-img="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80"
+            data-caption="MALWARE REVERSE ENGINEERING 101 — MAY 2025" data-name="MALWARE REVERSE ENGINEERING" data-date="MAY 2025" data-tag="CAM_06 ▸ REV ENG" data-rec="rec"
+            data-desc="Deep dive into disassembly: x86/x64 assembly instruction breakdown, stack frame forensics, packing unpacking routines, and C2 payload decryption."
+            aria-label="Preview: Malware Reverse Engineering">
+            <span class="arx-num">06</span>
+            <span class="arx-name">MALWARE REVERSE ENGINEERING</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">MAY 2025</span></span>
+          </button>
 
-        <!-- 9. Annual Hackathon Grid Con '24 -->
-        <figure class="gal-item glass reel-panel" id="gal-gridcon" data-category="ctf" data-speed="1.3" data-caption="ANNUAL HACKATHON GRID CON '24 — NOV 2024"
-          data-date="NOV 2024" data-desc="Our signature 24-hour campus hackathon: 30 teams built zero-knowledge voting protocols, decentralized threat mesh nodes, and AI packet inspectors." tabindex="0"
-          role="button" aria-label="Open image: Grid Con hackathon">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_09 ▸ HACKATHON</span>
-            <span class="rec-pill is-rec"><i></i>REC</span>
-          </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1000&q=80" alt="Students building cybersecurity tools during the 24-hour campus hackathon" loading="lazy" />
-          </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 09</span>
-            <span class="gal-title">GRID CON '24 CAMPUS HACKATHON</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
+          <!-- 07 -->
+          <button type="button" class="arx-row gal-item" id="gal-hardware" role="listitem" data-category="workshop"
+            data-img="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1200&q=80"
+            data-caption="HARDWARE & BADGE HACKING — AUG 2025" data-name="HARDWARE & BADGE WORKSHOP" data-date="AUG 2025" data-tag="CAM_07 ▸ HARDWARE" data-rec="rec"
+            data-desc="Engineering lab session on custom ESP32 badge fabrication, surface-mount soldering, UART header extraction, and logic analyzer sniffing."
+            aria-label="Preview: Hardware badge workshop">
+            <span class="arx-num">07</span>
+            <span class="arx-name">HARDWARE & BADGE WORKSHOP</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">AUG 2025</span></span>
+          </button>
 
-        <!-- 10. Midnight CTF 0x05 -->
-        <figure class="gal-item glass reel-panel is-wide" id="gal-midnight-ctf" data-category="ctf" data-speed="1.0" data-caption="MIDNIGHT CTF 0x05 — DEC 2025"
-          data-date="DEC 2025" data-desc="The upcoming edition of our flagship overnight jeopardy competition: dynamic flag scoring, custom challenge infrastructure, and open to all years." tabindex="0"
-          role="button" aria-label="Open image: midnight CTF competition">
-          <div class="cam-hud mono" aria-hidden="true">
-            <span class="cam-tag">CAM_10 ▸ MIDNIGHT</span>
-            <span class="rec-pill is-standby"><i></i>STANDBY</span>
+          <!-- 08 -->
+          <button type="button" class="arx-row gal-item" id="gal-cyber-drill" role="listitem" data-category="drill"
+            data-img="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80"
+            data-caption="NATIONAL CYBER DRILL // BLUE CELL — MAR 2025" data-name="NATIONAL CYBER DRILL SIMULATION" data-date="MAR 2025" data-tag="CAM_08 ▸ BLUE CELL" data-rec="rec"
+            data-desc="Simulated enterprise crisis drill: neutralizing lateral ransomware traversal, rotating Active Directory Kerberos keys, and orchestrating full network recovery."
+            aria-label="Preview: National Cyber Drill">
+            <span class="arx-num">08</span>
+            <span class="arx-name">NATIONAL CYBER DRILL SIMULATION</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">MAR 2025</span></span>
+          </button>
+
+          <!-- 09 -->
+          <button type="button" class="arx-row gal-item" id="gal-gridcon" role="listitem" data-category="ctf"
+            data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80"
+            data-caption="ANNUAL HACKATHON GRID CON '24 — NOV 2024" data-name="GRID CON '24 CAMPUS HACKATHON" data-date="NOV 2024" data-tag="CAM_09 ▸ HACKATHON" data-rec="rec"
+            data-desc="Our signature 24-hour campus hackathon: 30 teams built zero-knowledge voting protocols, decentralized threat mesh nodes, and AI packet inspectors."
+            aria-label="Preview: Grid Con hackathon">
+            <span class="arx-num">09</span>
+            <span class="arx-name">GRID CON '24 CAMPUS HACKATHON</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">NOV 2024</span></span>
+          </button>
+
+          <!-- 10 -->
+          <button type="button" class="arx-row gal-item" id="gal-midnight-ctf" role="listitem" data-category="ctf"
+            data-img="https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=1200&q=80"
+            data-caption="MIDNIGHT CTF 0x05 — DEC 2025" data-name="MIDNIGHT CTF 0x05 // FLAGSHIP" data-date="DEC 2025" data-tag="CAM_10 ▸ MIDNIGHT" data-rec="standby"
+            data-desc="The upcoming edition of our flagship overnight jeopardy competition: dynamic flag scoring, custom challenge infrastructure, and open to all years."
+            aria-label="Preview: Midnight CTF upcoming">
+            <span class="arx-num">10</span>
+            <span class="arx-name">MIDNIGHT CTF 0x05 // FLAGSHIP</span>
+            <img class="arx-thumb" src="https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
+            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">DEC 2025</span></span>
+          </button>
+
+          <a class="arx-more mono" href="#join">+ YOUR EVENT HERE? START TRANSMITTING →</a>
+        </div>
+
+        <aside class="arx-viewer glass">
+          <div class="arx-screen" id="arxScreen">
+            <img id="arxImg" src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80" alt="Students celebrating 1st Place at the National CTF Finals on stage" />
+            <div class="cam-hud mono" aria-hidden="true">
+              <span id="arxTag" class="cam-tag">CAM_01 ▸ FINALS ★</span>
+              <span id="arxRec" class="rec-pill is-rec"><i></i>REC</span>
+            </div>
+            <div class="arx-scan" aria-hidden="true"></div>
           </div>
-          <div class="cam-frame" aria-hidden="true"></div>
-          <span class="cam-stamp mono" aria-hidden="true"></span>
-          <div class="gal-img">
-            <img src="https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=1000&q=80" alt="Midnight CTF glowing keyboards and night hacking atmosphere" loading="lazy" />
+          <div class="arx-info">
+            <p id="arxName">CTF NATIONALS — 1ST PLACE OVERALL</p>
+            <p id="arxDate" class="mono">OCT 2025 · NATIONAL ROUND</p>
+            <p id="arxDesc">National Round victory — our squad captured 47 flags across pwn, reverse engineering, web exploitation, and crypto to win 1st Place overall against 32 universities.</p>
+            <div class="arx-actions">
+              <span id="arxFrames" class="mono">▣ -- FRAMES</span>
+              <button type="button" id="arxOpen" class="btn-ev-gallery mono">OPEN FULL ALBUM ⧉</button>
+            </div>
           </div>
-          <figcaption class="mono">
-            <span class="cam-sig" aria-hidden="true">▂▄▆█</span>
-            <span class="gal-idx">// 10</span>
-            <span class="gal-title">MIDNIGHT CTF 0x05 // FLAGSHIP</span>
-            <span class="gal-action-hint">OPEN FEED ⧉</span>
-          </figcaption>
-        </figure>
-        <aside class="reel-panel reel-cta glass" aria-label="Join the club">
-          <p class="kicker mono">// SIGNAL LOST</p>
-          <h3>YOUR EVENT <span class="accent">HERE?</span></h3>
-          <p>Pitch a workshop, host a talk, or sponsor a CTF — the next frame in this reel is yours to record.</p>
-          <a href="#join" class="btn btn-ghost btn-sm" data-hover>START TRANSMITTING →</a>
         </aside>
-        </div>
-        <div class="reel-ui mono" aria-hidden="true">
-          <span id="reelCount">01 / 10</span>
-          <span class="reel-rail"><span id="reelFill"></span></span>
-          <span class="reel-hint">SCROLL &#9656;</span>
-        </div>
+
       </div>
     </section>
 

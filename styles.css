@@ -1,6 +1,6 @@
 ﻿/* ============================================================
-   NULLSEC â€” Cybersecurity Club
-   Dark console Â· glassmorphism Â· 2.5D parallax Â· scroll-driven
+   NULLSEC — Cybersecurity Club
+   Dark console · glassmorphism · 2.5D parallax · scroll-driven
    Palette LOCKED
    ============================================================ */
 
@@ -25,25 +25,25 @@
 }
 
 /* ============================================================
-   THEME TOKENS â€” LIGHT MODE
-   Clean Tech White: crisp porcelain canvas, pure white
-   surfaces, cool slate ink, sharp amber-gold accents with a
-   steel-blue second voice. Toggling data-theme="light" on
-   <html> re-skins every component through these tokens +
-   explicit overrides below.
+   THEME TOKENS — LIGHT MODE
+   Clean tech, low glare: soft porcelain canvas (#e8ecf2),
+   gentle off-white surfaces (#f5f7fa), cool slate ink,
+   sharp amber accents with a steel-blue second voice.
+   Toggling data-theme="light" on <html> re-skins every
+   component through these tokens + explicit overrides below.
    ============================================================ */
 :root[data-theme="light"] {
-  --bg: #f4f6f9;
-  --panel: #ffffff;
-  --glass: rgba(255, 255, 255, 0.84);
-  --text: #0f172a;
-  --muted: #5b6577;
+  --bg: #e8ecf2;
+  --panel: #f5f7fa;
+  --glass: rgba(245, 247, 250, 0.85);
+  --text: #101827;
+  --muted: #55607a;
   --accent: #b45309;
   --accent-hi: #92400e;
-  --border: rgba(15, 23, 42, 0.10);
-  --ok: #16a34a;
+  --border: rgba(16, 24, 39, 0.10);
+  --ok: #15803d;
   --on-accent: #ffffff;
-  --shadow-strong: rgba(15, 23, 42, 0.08);
+  --shadow-strong: rgba(16, 24, 39, 0.08);
   color-scheme: light;
 }
 
@@ -679,7 +679,7 @@ html:not([data-theme="light"]) .theme-toggle .icon-moon {
   display: block;
 }
 
-/* Radar â€” concentric rings, rotating sweep, pinging contact blips */
+/* Radar — concentric rings, rotating sweep, pinging contact blips */
 .hero-radar {
   position: absolute;
   right: min(-14vmin, -90px);
@@ -878,7 +878,7 @@ html:not([data-theme="light"]) .theme-toggle .icon-moon {
   border-right: none;
 }
 
-/* Culture blurb cell â€” leftmost */
+/* Culture blurb cell — leftmost */
 .stats-culture {
   display: flex;
   align-items: center;
@@ -1271,7 +1271,7 @@ html.no-gsap [data-reveal] {
 }
 
 /* ============================================================
-   EVENTS â€” activity calendar timeline (HORIZONTAL)
+   EVENTS — activity calendar timeline (HORIZONTAL)
    Central horizontal spine, event cards branch above/below,
    date stamp on the opposite side; sides alternate every entry.
    Scrollable viewport, default anchored on upcoming events;
@@ -1400,7 +1400,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   width: 100%
 }
 
-/* branch A â€” card ABOVE the spine, date BELOW */
+/* branch A — card ABOVE the spine, date BELOW */
 .tl-node:not(.tl-alt) .tl-card {
   grid-row: 1;
   align-self: end;
@@ -1413,7 +1413,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   margin-top: 1rem
 }
 
-/* branch B â€” date ABOVE the spine, card BELOW */
+/* branch B — date ABOVE the spine, card BELOW */
 .tl-node.tl-alt .tl-card {
   grid-row: 3;
   align-self: start;
@@ -1492,7 +1492,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   align-items: center
 }
 
-/* ---------- horizontal chrome â€” edge fades + scroll arrows ---------- */
+/* ---------- horizontal chrome — edge fades + scroll arrows ---------- */
 .tl-fade {
   position: absolute;
   top: 0;
@@ -1577,7 +1577,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
 }
 
 /* ============================================================
-   TIMELINE COLOR CODING â€” UPCOMING (GOLD) vs HAPPENED (SLATE BLUE)
+   TIMELINE COLOR CODING — UPCOMING (GOLD) vs HAPPENED (SLATE BLUE)
    ============================================================ */
 
 /* --- 1. UPCOMING EVENTS (Active Golden Cyber Beacon) --- */
@@ -1713,7 +1713,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   z-index: 7
 }
 
-/* detail panel â€” floats over the OPPOSITE branch so the strip's
+/* detail panel — floats over the OPPOSITE branch so the strip's
    geometry (spine, dots, node heights) never shifts on expand */
 .ev-body {
   position: absolute;
@@ -1972,7 +1972,10 @@ html[data-theme="light"] .btn-ev-gallery:hover {
 }
 
 /* ============================================================
-   GALLERY
+   GALLERY — THE ARCHIVE INDEX
+   Split dossier browser: terminal-style event log on the left,
+   sticky preview viewer on the right. Rows select; the OPEN
+   ALBUM action (or a tap on mobile) opens the lightbox.
    ============================================================ */
 .gal-filter-bar {
   display: flex;
@@ -2007,240 +2010,29 @@ html[data-theme="light"] .btn-ev-gallery:hover {
   display: none !important;
 }
 
-/* ---------- THE REEL â€” pinned cinematic horizontal archive ----------
-   Desktop: the stage pins fullscreen and vertical scroll drives the
-   strip horizontally (GSAP scrub). Mobile / reduced-motion / no-JS:
-   the same markup degrades to a native swipe strip. */
-.reel-stage {
-  position: relative;
-  height: 100vh;
-  height: 100svh;
-  padding-top: 76px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.reel-track {
+/* live archive bar */
+.gal-livebar {
   display: flex;
   align-items: center;
-  gap: clamp(1.5rem, 3.5vw, 3.5rem);
-  width: max-content;
-  padding: 0 clamp(1.2rem, 5vw, 4rem);
-  will-change: transform;
+  gap: .55rem;
+  max-width: 1240px;
+  margin: 0 auto 1.4rem;
+  font-size: .58rem;
+  letter-spacing: .2em;
+  color: var(--muted);
 }
 
-.reel-panel {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  padding: 0;
-  border-radius: var(--r);
+.live-dot {
   flex: none;
-  width: min(58vw, 900px);
-  height: min(62vh, 640px);
-  transition: transform .5s cubic-bezier(.22, .61, .36, 1),
-              opacity .5s cubic-bezier(.22, .61, .36, 1),
-              filter .5s cubic-bezier(.22, .61, .36, 1),
-              box-shadow .5s cubic-bezier(.22, .61, .36, 1),
-              border-color .4s;
-  will-change: transform, opacity;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff5f56;
+  box-shadow: 0 0 10px rgba(255, 95, 86, .9);
+  animation: rec-blink 1.4s infinite;
 }
 
-.reel-panel.is-wide {
-  width: min(72vw, 1100px);
-}
-
-/* signal lock â€” hovered feed lifts and locks */
-.reel-panel:hover,
-.reel-panel:focus-visible {
-  z-index: 10;
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, .55), 0 0 30px rgba(212, 160, 23, .22);
-}
-
-/* art fills the frame; GSAP owns its transform (cover scale + drift) */
-.reel-panel .gal-img img,
-.reel-panel .gal-img svg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* caption scales up for the big frames */
-.reel-panel figcaption {
-  padding: 2.6rem 1.3rem 1rem;
-  font-size: .66rem;
-}
-
-.reel-panel .gal-title {
-  font-size: .72rem;
-  letter-spacing: .16em;
-}
-
-.reel-panel .cam-tag,
-.reel-panel .rec-pill {
-  font-size: .56rem;
-}
-
-.reel-panel .cam-stamp {
-  bottom: 3.2rem;
-  font-size: .56rem;
-}
-
-/* EOF panel â€” invite the next recording */
-.reel-cta {
-  cursor: default;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1.1rem;
-  width: min(44vw, 560px);
-  height: min(62vh, 640px);
-  padding: clamp(1.5rem, 3vw, 3rem);
-  border-style: dashed;
-}
-
-.reel-cta h3 {
-  font-family: var(--disp);
-  font-size: clamp(1.7rem, 3vw, 2.6rem);
-  line-height: 1.05;
-  margin: 0;
-}
-
-.reel-cta p {
-  color: var(--muted);
-  font-size: .92rem;
-  max-width: 42ch;
-}
-
-.reel-cta .kicker {
-  margin-bottom: 0;
-}
-
-/* progress rail + feed counter */
-.reel-ui {
-  position: absolute;
-  left: clamp(1.2rem, 5vw, 4rem);
-  right: clamp(1.2rem, 5vw, 4rem);
-  bottom: clamp(1.1rem, 3vh, 2rem);
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-  font-size: .62rem;
-  letter-spacing: .22em;
-  color: var(--muted);
-}
-
-#reelCount {
-  color: var(--accent);
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.reel-rail {
-  flex: 1;
-  height: 2px;
-  background: var(--border);
-  position: relative;
-  overflow: hidden;
-  border-radius: 2px;
-}
-
-#reelFill {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, var(--accent), var(--accent-hi));
-  transform-origin: left;
-  transform: scaleX(0);
-}
-
-.reel-hint {
-  white-space: nowrap;
-  opacity: .7;
-}
-
-/* native swipe fallback â€” small screens and reduced motion */
-@media (max-width: 860px), (prefers-reduced-motion: reduce) {
-  .reel-stage {
-    height: auto;
-    padding: 0;
-  }
-
-  .reel-track {
-    width: auto;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .reel-track::-webkit-scrollbar {
-    display: none;
-  }
-
-  .reel-panel,
-  .reel-cta {
-    width: min(84vw, 540px);
-    height: 58vh;
-    scroll-snap-align: center;
-  }
-
-  .reel-panel.is-wide {
-    width: min(92vw, 580px);
-  }
-
-  .reel-ui {
-    display: none;
-  }
-}
-
-/* no-GSAP safety net */
-html.no-gsap .reel-stage {
-  height: auto;
-  padding: 0;
-}
-
-html.no-gsap .reel-track {
-  width: auto;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-html.no-gsap .reel-track::-webkit-scrollbar {
-  display: none;
-}
-
-html.no-gsap .reel-panel,
-html.no-gsap .reel-cta {
-  width: min(84vw, 720px);
-  height: 60vh;
-}
-
-html.no-gsap .reel-ui {
-  display: none;
-}
-
-.gal-img {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  transition: transform .6s cubic-bezier(.22, .61, .36, 1), opacity .5s cubic-bezier(.22, .61, .36, 1), filter .5s cubic-bezier(.22, .61, .36, 1);
-}
-
-.gal-img svg,
-.gal-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .6s cubic-bezier(.22, .61, .36, 1);
-}
-
-/* --- Surveillance wall HUD --- */
+/* camera HUD chrome (shared by the viewer screen) */
 .cam-hud {
   position: absolute;
   top: .6rem;
@@ -2293,7 +2085,7 @@ html.no-gsap .reel-ui {
   border-radius: 50%;
   background: #ff5f56;
   box-shadow: 0 0 8px rgba(255, 95, 86, .9);
-  animation: rec-blink 1.6s infinite
+  animation: rec-blink 1.6s infinite;
 }
 
 @keyframes rec-blink {
@@ -2301,25 +2093,166 @@ html.no-gsap .reel-ui {
   70%, 100% { opacity: .12 }
 }
 
-/* upcoming events aren't recording yet */
 .rec-pill.is-standby {
   color: #ffd043;
-  border-color: rgba(255, 208, 67, .45)
+  border-color: rgba(255, 208, 67, .45);
 }
 
 .rec-pill.is-standby i {
   background: transparent;
   box-shadow: none;
   border: 1px solid #ffd043;
-  animation: none
+  animation: none;
 }
 
-/* CRT overlay â€” scanlines + vignette + targeting brackets */
-.cam-frame {
-  --brk: rgba(242, 193, 78, .65);
+/* ---------- split layout ---------- */
+.arx {
+  display: grid;
+  grid-template-columns: minmax(340px, 11fr) 13fr;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  max-width: 1240px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.arx-index {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: rgba(21, 24, 29, .45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: .4rem;
+}
+
+.arx-head {
+  display: flex;
+  justify-content: space-between;
+  padding: .6rem .85rem .5rem;
+  font-size: .52rem;
+  letter-spacing: .26em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.arx-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .75rem;
+  width: 100%;
+  text-align: left;
+  padding: .72rem .85rem;
+  background: transparent;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 9px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+}
+
+.arx-row:hover {
+  background: rgba(212, 160, 23, .06);
+  color: var(--text);
+}
+
+.arx-row:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.arx-row.is-active {
+  background: rgba(212, 160, 23, .1);
+  border-left-color: var(--accent);
+  color: var(--text);
+}
+
+.arx-num {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: .6rem;
+}
+
+.arx-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.arx-meta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .7rem;
+}
+
+.arx-frames {
+  font-size: .54rem;
+  color: var(--accent-hi);
+  white-space: nowrap;
+}
+
+.arx-date {
+  font-size: .56rem;
+  letter-spacing: .14em;
+  opacity: .7;
+  white-space: nowrap;
+}
+
+.arx-thumb {
+  display: none;
+}
+
+.arx-more {
+  margin-top: .35rem;
+  padding: .75rem .85rem;
+  border-top: 1px dashed var(--border);
+  font-size: .56rem;
+  letter-spacing: .16em;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .25s var(--ease);
+}
+
+.arx-more:hover {
+  color: var(--accent-hi);
+}
+
+/* right: preview viewer */
+.arx-viewer {
+  position: sticky;
+  top: 84px;
+  overflow: hidden;
+  border-radius: var(--r);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .35);
+}
+
+.arx-screen {
+  position: relative;
+  height: clamp(280px, 42vh, 460px);
+  overflow: hidden;
+  background: #0c0e12;
+}
+
+#arxImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1.04);
+  transition: transform .8s var(--ease), opacity .3s ease;
+}
+
+.arx-scan {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 2;
   pointer-events: none;
   background:
     repeating-linear-gradient(0deg,
@@ -2330,240 +2263,93 @@ html.no-gsap .reel-ui {
         rgba(4, 5, 8, .42) 100%);
 }
 
-.cam-frame::before,
-.cam-frame::after {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  transition: transform .35s var(--ease), border-color .35s var(--ease)
+/* ambient glitch on the screen */
+.arx-screen.is-glitching #arxImg {
+  animation: arx-jitter .28s steps(2, end) 1;
+  filter: contrast(1.25) saturate(1.3) brightness(1.12);
 }
 
-.cam-frame::before {
-  top: 9px;
-  left: 9px;
-  border-top: 2px solid var(--brk);
-  border-left: 2px solid var(--brk)
+@keyframes arx-jitter {
+  0% { transform: scale(1.04) translateX(0) }
+  25% { transform: scale(1.04) translateX(-6px) skewX(-1.2deg) }
+  50% { transform: scale(1.04) translateX(5px) }
+  75% { transform: scale(1.04) translateX(-3px) skewX(.8deg) }
+  100% { transform: scale(1.04) translateX(0) }
 }
 
-.cam-frame::after {
-  bottom: 9px;
-  right: 9px;
-  border-bottom: 2px solid var(--brk);
-  border-right: 2px solid var(--brk)
-}
-
-/* signal lock â€” brackets flare outward on hover */
-.gal-item:hover .cam-frame::before,
-.gal-item:focus-visible .cam-frame::before {
-  transform: translate(-4px, -4px);
-  border-color: rgba(242, 193, 78, 1)
-}
-
-.gal-item:hover .cam-frame::after,
-.gal-item:focus-visible .cam-frame::after {
-  transform: translate(4px, 4px);
-  border-color: rgba(242, 193, 78, 1)
-}
-
-.gal-item:hover .gal-img,
-.gal-item:focus-visible .gal-img {
-  filter: brightness(1.09) contrast(1.05)
-}
-
-/* frozen capture stamp */
-.cam-stamp {
-  position: absolute;
-  right: .7rem;
-  bottom: 2.75rem;
-  z-index: 5;
-  font-size: .5rem;
-  letter-spacing: .14em;
-  color: rgba(255, 217, 138, .78);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
-  pointer-events: none
-}
-
-/* signal strength bars in the caption */
-.cam-sig {
-  color: var(--accent);
-  opacity: .9;
-  letter-spacing: .06em
-}
-
-/* ambient glitch burst (JS toggles .is-glitching at random) */
-.gal-item.is-glitching .gal-img {
-  animation: cam-jitter .28s steps(2, end) 1;
-  filter: contrast(1.25) saturate(1.3) brightness(1.12)
-}
-
-.gal-item.is-glitching::before {
-  opacity: 1;
-  top: -12%;
-  height: 124%;
-  background: repeating-linear-gradient(0deg,
-      rgba(255, 255, 255, .07) 0 2px,
-      transparent 2px 6px)
-}
-
-@keyframes cam-jitter {
-  0% { transform: translateX(0) }
-  25% { transform: translateX(-5px) skewX(-1.5deg) }
-  50% { transform: translateX(4px) }
-  75% { transform: translateX(-2px) skewX(1deg) }
-  100% { transform: translateX(0) }
-}
-
-/* live archive bar above the wall */
-.gal-livebar {
+.arx-info {
+  padding: 1.15rem 1.35rem 1.25rem;
   display: flex;
-  align-items: center;
-  gap: .55rem;
-  max-width: 1240px;
-  margin: 0 auto 1.4rem;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+#arxName {
+  margin: 0;
+  font-family: var(--disp);
+  font-size: 1.02rem;
+  letter-spacing: .05em;
+  color: var(--text);
+}
+
+#arxDate {
+  margin: 0;
   font-size: .58rem;
-  letter-spacing: .2em;
-  color: var(--muted)
+  letter-spacing: .22em;
+  color: var(--accent);
 }
 
-.live-dot {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #ff5f56;
-  box-shadow: 0 0 10px rgba(255, 95, 86, .9);
-  animation: rec-blink 1.4s infinite
+#arxDesc {
+  margin: 0;
+  font-size: .84rem;
+  line-height: 1.65;
+  color: var(--muted);
+  font-family: var(--sans);
 }
 
-/* Caption docked on a gradient scrim â€” art breathes, text stays legible */
-.gal-item figcaption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 4;
+.arx-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: .5rem;
-  padding: 1.7rem .9rem .6rem;
-  font-size: .58rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  color: #ffffff;
-  background: linear-gradient(to top,
-      rgba(11, 13, 16, .94) 26%,
-      rgba(11, 13, 16, .55) 68%,
-      transparent 100%);
-  pointer-events: none;
-  transition: color .3s var(--ease), background .3s var(--ease);
+  gap: 1rem;
+  margin-top: .3rem;
+  padding-top: .85rem;
+  border-top: 1px dashed var(--border);
 }
 
-.gal-idx {
-  color: var(--accent);
-  opacity: .85;
-  font-weight: 800;
+#arxFrames {
+  font-size: .56rem;
+  letter-spacing: .18em;
+  color: var(--muted);
 }
 
-.gal-title {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* jump-flash from the events timeline */
+.arx-row.target-highlight {
+  animation: gal-target-flash 1.6s ease;
 }
 
-.gal-action-hint {
-  font-size: .54rem;
-  color: var(--accent-hi);
-  opacity: 0;
-  transform: translateX(4px);
-  transition: all .3s ease;
-}
-
-.gal-item:hover .gal-action-hint,
-.gal-item:focus-visible .gal-action-hint {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.gal-item::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: var(--r);
-  box-shadow: inset 0 0 0 1px transparent;
-  transition: box-shadow .4s;
-  pointer-events: none;
-}
-
-.gal-item:hover::after,
-.gal-item:focus-visible::after {
-  box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .65);
-}
-
-/* Radar scan sweep â€” one gold pass over the frame on hover */
-.gal-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -60%;
-  height: 46%;
-  z-index: 3;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(to bottom,
-      transparent 0%,
-      rgba(242, 193, 78, .05) 35%,
-      rgba(242, 193, 78, .22) 50%,
-      rgba(242, 193, 78, .05) 65%,
-      transparent 100%);
-}
-
-.gal-item:hover::before,
-.gal-item:focus-visible::before {
-  animation: gal-scan 1s cubic-bezier(.4, 0, .2, 1) both;
-}
-
-@keyframes gal-scan {
-  0% {
-    top: -60%;
-    opacity: 0
+/* mobile: the log is the interface; thumbs appear and taps open albums */
+@media (max-width: 900px) {
+  .arx {
+    grid-template-columns: 1fr;
   }
 
-  12% {
-    opacity: 1
+  .arx-viewer {
+    display: none;
   }
 
-  88% {
-    opacity: 1
+  .arx-row {
+    grid-template-columns: auto 56px minmax(0, 1fr) auto;
+    padding: .55rem .65rem;
   }
 
-  100% {
-    top: 115%;
-    opacity: 0
-  }
-}
-
-/* per-album frame count chip in the caption */
-.gal-frames {
-  font-size: .52rem;
-  font-weight: 700;
-  letter-spacing: .14em;
-  color: var(--accent);
-  opacity: .85;
-  white-space: nowrap;
-}
-
-
-
-@media (prefers-reduced-motion:reduce) {
-  .gal-item {
-    transition: none;
-    transform: none;
-    filter: none;
-    opacity: 1;
+  .arx-thumb {
+    display: block;
+    width: 56px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border);
   }
 }
 
@@ -3281,5 +3067,482 @@ footer {
   #loader {
     display: none
   }
+}
+
+/* ============================================================
+   LIGHT THEME — COMPONENT OVERRIDES
+   Clean Tech White: porcelain canvas (#f4f6f9), pure white
+   elevated surfaces, cool slate ink (#0f172a), sharp amber
+   accents (#b45309) with steel-blue as the second voice.
+   A deep slate footer + dark terminal keep the page grounded
+   so it never feels washed out.
+   ============================================================ */
+
+/* Navigation */
+html[data-theme="light"] #nav.scrolled {
+  background: rgba(235, 239, 245, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom-color: rgba(16, 24, 39, 0.08);
+  box-shadow: 0 4px 24px rgba(16, 24, 39, 0.06);
+}
+
+html[data-theme="light"] #mobileMenu {
+  background: rgba(233, 237, 243, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+html[data-theme="light"] #mobileMenu a {
+  color: var(--muted);
+}
+
+html[data-theme="light"] #mobileMenu a:hover {
+  color: var(--accent);
+}
+
+/* Glass Panels & Surfaces */
+html[data-theme="light"] .glass {
+  background: rgba(245, 247, 250, 0.86);
+  border-color: rgba(16, 24, 39, 0.08);
+  box-shadow: 0 8px 28px rgba(16, 24, 39, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+html[data-theme="light"] .glass:hover {
+  border-color: rgba(180, 83, 9, 0.35);
+  box-shadow: 0 14px 40px rgba(16, 24, 39, 0.09), 0 0 22px rgba(180, 83, 9, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+/* Buttons */
+html[data-theme="light"] .btn-primary {
+  background: linear-gradient(135deg, #d97706, #b45309);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(180, 83, 9, 0.30);
+}
+
+html[data-theme="light"] .btn-primary:hover {
+  box-shadow: 0 8px 26px rgba(180, 83, 9, 0.42);
+  transform: translateY(-2px);
+}
+
+html[data-theme="light"] .btn-ghost {
+  background: rgba(245, 247, 250, 0.95);
+  border-color: rgba(16, 24, 39, 0.14);
+  color: var(--text);
+}
+
+html[data-theme="light"] .btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 4px 18px rgba(180, 83, 9, 0.16);
+}
+
+/* Hero Section */
+html[data-theme="light"] #heroFx {
+  opacity: .55;
+}
+
+html[data-theme="light"] .hero-radar {
+  border-color: rgba(15, 23, 42, .10);
+  background:
+    repeating-radial-gradient(circle at 50% 50%, transparent 0 84px, rgba(15, 23, 42, .07) 84px 85px);
+}
+
+html[data-theme="light"] .hero-radar::before,
+html[data-theme="light"] .hero-radar::after {
+  background: rgba(15, 23, 42, .07);
+}
+
+html[data-theme="light"] .radar-sweep {
+  background: conic-gradient(from 0deg, rgba(217, 119, 6, .10), transparent 20%);
+}
+
+html[data-theme="light"] .radar-blip {
+  box-shadow: 0 0 10px rgba(146, 64, 14, .5);
+}
+
+html[data-theme="light"] .hero-bg-fade {
+  background: linear-gradient(90deg,
+      rgba(232, 236, 242, 0.98) 0%,
+      rgba(232, 236, 242, 0.88) 26%,
+      rgba(232, 236, 242, 0.34) 55%,
+      transparent 78%);
+}
+
+html[data-theme="light"] .hero-stats-card,
+html[data-theme="light"] .hero-status-card {
+  background: rgba(245, 247, 250, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: rgba(16, 24, 39, 0.08);
+  box-shadow: 0 10px 30px rgba(16, 24, 39, 0.07);
+}
+
+html[data-theme="light"] .stats-cell {
+  border-right-color: rgba(16, 24, 39, 0.08);
+  border-bottom-color: rgba(16, 24, 39, 0.08);
+}
+
+html[data-theme="light"] .stats-culture-icon {
+  background: rgba(180, 83, 9, 0.07);
+  border-color: rgba(180, 83, 9, 0.28);
+  color: #b45309;
+}
+
+html[data-theme="light"] .status-ok {
+  color: var(--ok);
+}
+
+html[data-theme="light"] .dot-ok {
+  background: var(--ok);
+  box-shadow: 0 0 10px rgba(22, 163, 74, 0.5);
+}
+
+/* Ambient FX tuned for clean white mode */
+html[data-theme="light"] #bgGrid {
+  background-image:
+    linear-gradient(rgba(16, 24, 39, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 24, 39, 0.05) 1px, transparent 1px);
+}
+
+html[data-theme="light"] #bgGlow {
+  background:
+    radial-gradient(600px 420px at 78% 18%, rgba(37, 99, 235, 0.07), transparent 65%),
+    radial-gradient(700px 520px at 12% 82%, rgba(217, 119, 6, 0.07), transparent 65%);
+}
+
+html[data-theme="light"] #bgMid .hexbit {
+  color: rgba(16, 24, 39, 0.22);
+}
+
+html[data-theme="light"] #scanlines {
+  display: none;
+}
+
+html[data-theme="light"] #noise {
+  opacity: .02;
+}
+
+html[data-theme="light"] .marquee {
+  background: rgba(240, 243, 248, 0.72);
+  border-color: rgba(16, 24, 39, 0.08);
+}
+
+/* Timeline & Events */
+html[data-theme="light"] .tl-track::before {
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(16, 24, 39, 0.18) 3%,
+      rgba(16, 24, 39, 0.18) 97%,
+      transparent 100%);
+}
+
+html[data-theme="light"] .tl-node[data-type="upcoming"] .tl-dot {
+  background: #f59e0b;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25), 0 0 14px rgba(245, 158, 11, 0.6);
+}
+
+html[data-theme="light"] .tl-node[data-type="upcoming"] .ev-card {
+  background: linear-gradient(135deg, #fdf6e7 0%, #f5f7fa 100%);
+  border-color: rgba(217, 119, 6, 0.38);
+  box-shadow: 0 8px 24px rgba(180, 83, 9, 0.08);
+}
+
+html[data-theme="light"] .tl-node[data-type="upcoming"] .ev-tag {
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(217, 119, 6, 0.4);
+}
+
+html[data-theme="light"] .tl-node[data-type="upcoming"] .tl-date .tl-mo {
+  color: #b45309;
+}
+
+html[data-theme="light"] .tl-node[data-type="history"] .tl-dot {
+  background: #2563eb;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16), 0 0 12px rgba(37, 99, 235, 0.4);
+}
+
+html[data-theme="light"] .tl-node[data-type="history"] .ev-card {
+  background: linear-gradient(135deg, #e9f0fb 0%, #f5f7fa 100%);
+  border-color: rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.05);
+}
+
+html[data-theme="light"] .tl-node[data-type="history"] .ev-tag {
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+html[data-theme="light"] .tl-node[data-type="history"] .tl-date .tl-mo {
+  color: #1d4ed8;
+}
+
+html[data-theme="light"] .tl-node[data-type="history"] .btn-ev-gallery {
+  color: #1d4ed8;
+  border-color: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.06);
+}
+
+html[data-theme="light"] .tl-node[data-type="history"] .btn-ev-gallery:hover {
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+html[data-theme="light"] .tag-win {
+  color: #15803d;
+  border-color: rgba(21, 128, 61, 0.3);
+  background: rgba(21, 128, 61, 0.07);
+}
+
+/* Event detail popover — soft slate elevation instead of heavy black */
+html[data-theme="light"] .ev-body > div {
+  background: var(--panel);
+  box-shadow: 0 18px 44px rgba(16, 24, 39, 0.14);
+}
+
+html[data-theme="light"] .tl-nav:hover {
+  box-shadow: 0 0 18px rgba(180, 83, 9, 0.22);
+}
+
+/* Gallery plates + lightbox */
+html[data-theme="light"] .gal-img svg rect[fill="#15181d"],
+html[data-theme="light"] #lbContent svg rect[fill="#15181d"],
+html[data-theme="light"] #lbPeekImg svg rect[fill="#15181d"] {
+  fill: #e2e8f0;
+}
+
+html[data-theme="light"] .gal-item {
+  background: var(--panel);
+  border-color: rgba(16, 24, 39, 0.08);
+  box-shadow: 0 4px 16px rgba(16, 24, 39, 0.05);
+}
+
+html[data-theme="light"] .gal-filter-btn {
+  background: rgba(245, 247, 250, 0.92);
+  border-color: rgba(16, 24, 39, 0.14);
+  color: #475569;
+}
+
+html[data-theme="light"] .gal-filter-btn:hover {
+  border-color: var(--accent);
+  color: #b45309;
+}
+
+html[data-theme="light"] .gal-filter-btn.is-active {
+  background: #b45309;
+  border-color: #b45309;
+  box-shadow: 0 4px 16px rgba(180, 83, 9, 0.32);
+}
+
+/* archive viewer adapts to the cool palette */
+html[data-theme="light"] .arx-index {
+  background: rgba(255, 255, 255, 0.72);
+}
+
+html[data-theme="light"] .arx-screen {
+  background: #e8e4da;
+}
+
+html[data-theme="light"] .arx-scan {
+  background:
+    repeating-linear-gradient(0deg,
+        rgba(24, 27, 34, .05) 0 1px,
+        transparent 1px 4px),
+    radial-gradient(120% 96% at 50% 42%,
+        transparent 58%,
+        rgba(24, 27, 34, .18) 100%);
+}
+
+html[data-theme="light"] .cam-tag {
+  color: #ffd98a;
+}
+
+html[data-theme="light"] .quick-top-btn {
+  background: rgba(245, 247, 250, 0.96);
+  border-color: rgba(180, 83, 9, 0.35);
+  color: #b45309;
+  box-shadow: 0 6px 20px rgba(16, 24, 39, 0.08);
+}
+
+html[data-theme="light"] .quick-top-btn:hover {
+  background: #b45309;
+  border-color: #b45309;
+}
+
+html[data-theme="light"] .lb-event-bar {
+  background: rgba(15, 23, 42, 0.04);
+  border-color: rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .lb-ev-nav-btn {
+  border-color: rgba(180, 83, 9, 0.4);
+  color: #b45309;
+}
+
+html[data-theme="light"] .lb-ev-nav-btn:hover {
+  background: #b45309;
+}
+
+html[data-theme="light"] .lb-ev-tracker {
+  color: #b45309;
+}
+
+html[data-theme="light"] #lightbox {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+html[data-theme="light"] .lb-content {
+  background: var(--panel);
+  border-radius: 20px;
+  border: 1px solid rgba(16, 24, 39, 0.08);
+  box-shadow: 0 24px 60px rgba(16, 24, 39, 0.22);
+}
+
+html[data-theme="light"] .lb-stage {
+  background: #e3e8ef;
+  border-color: rgba(16, 24, 39, 0.07);
+}
+
+html[data-theme="light"] .lb-arrow {
+  background: rgba(245, 247, 250, 0.94);
+  border-color: rgba(16, 24, 39, 0.12);
+  color: var(--text);
+}
+
+html[data-theme="light"] .lb-arrow:hover:not(:disabled) {
+  background: var(--panel);
+  color: #b45309;
+  border-color: #b45309;
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.18);
+}
+
+html[data-theme="light"] .lb-peek {
+  background: #e3e8ef;
+  border-color: rgba(16, 24, 39, 0.07);
+  box-shadow: 0 4px 14px rgba(16, 24, 39, 0.05);
+}
+
+html[data-theme="light"] .lb-peek:hover {
+  background: var(--panel);
+  border-color: #d97706;
+}
+
+html[data-theme="light"] .lb-close {
+  background: rgba(245, 247, 250, 0.94);
+  border-color: rgba(16, 24, 39, 0.12);
+  color: var(--text);
+}
+
+html[data-theme="light"] .lb-close:hover {
+  background: var(--panel);
+  color: #b45309;
+  border-color: #b45309;
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.18);
+}
+
+/* Form fields */
+html[data-theme="light"] .field input,
+html[data-theme="light"] .field select,
+html[data-theme="light"] .field textarea {
+  background: #fafbfd;
+  border-color: rgba(16, 24, 39, 0.14);
+  color: var(--text);
+  box-shadow: 0 1px 2px rgba(16, 24, 39, 0.04);
+}
+
+html[data-theme="light"] .field input:focus,
+html[data-theme="light"] .field select:focus,
+html[data-theme="light"] .field textarea:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+  background: #fafbfd;
+}
+
+html[data-theme="light"] .field input::placeholder,
+html[data-theme="light"] .field textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Socials — drop the neon glow, keep it crisp */
+html[data-theme="light"] .socials a:hover {
+  text-shadow: none;
+}
+
+/* Deep Slate Grounding Footer */
+html[data-theme="light"] footer {
+  background: #0f172a;
+  border-top: 1px solid rgba(217, 119, 6, 0.28);
+  color: #e2e8f0;
+}
+
+html[data-theme="light"] .foot-word {
+  -webkit-text-stroke-color: rgba(217, 119, 6, 0.18);
+}
+
+html[data-theme="light"] .foot-col h4 {
+  color: #f59e0b;
+}
+
+html[data-theme="light"] .foot-col a {
+  color: #94a3b8;
+}
+
+html[data-theme="light"] .foot-col a:hover {
+  color: #fbbf24;
+}
+
+html[data-theme="light"] .foot-brand p,
+html[data-theme="light"] .foot-status,
+html[data-theme="light"] .foot-uptime {
+  color: #94a3b8;
+}
+
+html[data-theme="light"] .foot-fine {
+  color: #64748b;
+}
+
+html[data-theme="light"] .foot-bottom {
+  border-top-color: rgba(255, 255, 255, 0.08);
+  color: #7c8798;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(180, 83, 9, 0.35);
+}
+
+/* Terminal keeps a high-contrast dark console face */
+html[data-theme="light"] .term-card {
+  background: #0f172a;
+  border-color: rgba(15, 23, 42, 0.3);
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.16);
+}
+
+html[data-theme="light"] .term-head {
+  background: #1a2438;
+  color: #94a3b8;
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="light"] .term-body {
+  color: #cbd5e1;
+}
+
+html[data-theme="light"] .term-body .cmd {
+  color: #f8fafc;
+}
+
+html[data-theme="light"] .term-body .out {
+  color: #94a3b8;
+}
+
+html[data-theme="light"] .term-body .ok {
+  color: #4ade80;
 }
 
