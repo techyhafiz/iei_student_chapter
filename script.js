@@ -44,6 +44,254 @@
   }
 
   /* ------------------------------------------------------------
+      HERO GLYPH FIELD — procedural canvas background
+      Dim binary/hex grid that reacts to the cursor and runs
+      autonomous radar pulses, scan beams and glitch sparks.
+      Theme-aware, DPR-aware, pauses off-screen / hidden tab.
+      ------------------------------------------------------------ */
+  (function () {
+    var cv = $("#heroFx");
+    if (!cv || !cv.getContext) { return; }
+    var ctx = cv.getContext("2d");
+    var base = document.createElement("canvas");
+    var bctx = base.getContext("2d");
+    if (!ctx || !bctx) { return; }
+
+    var CELL = 22;
+    var FONT = '10px "JetBrains Mono", monospace';
+    var GLYPHS = "0000000001111111111ABCDEF7X·+".split("");
+    var R_MOUSE = 180;
+    var R_CORE = 70;
+
+    var dpr = 1, W = 0, H = 0, cols = 0, rows = 0;
+    var cells = [];
+    var mouse = { x: -9e3, y: -9e3 };
+    var pulses = [], beams = [], bursts = [];
+    var tPulse = 1600, tBeam = 5200, tBurst = 400;
+    var rafId = 0, running = false, last = 0, lastBase = 0;
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var light = document.documentElement.getAttribute("data-theme") === "light";
+
+    function pal() {
+      return light
+        ? { base: "24,27,34", hi: "148,94,0", glow: "184,125,0" }
+        : { base: "212,160,23", hi: "242,193,78", glow: "242,193,78" };
+    }
+
+    function size() {
+      var host = cv.parentElement.getBoundingClientRect();
+      W = Math.max(1, Math.ceil(host.width));
+      H = Math.max(1, Math.ceil(host.height));
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = W * dpr; cv.height = H * dpr;
+      base.width = W * dpr; base.height = H * dpr;
+      cols = Math.ceil(W / CELL); rows = Math.ceil(H / CELL);
+      cells = new Array(cols * rows);
+      for (var i = 0; i < cells.length; i++) {
+        cells[i] = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      }
+    }
+
+    /* slow spatial wobble so the base field has organic bright patches */
+    function patchNoise(c, r, t) {
+      return (Math.sin(c * .34 + Math.cos(r * .5 + t) * 2.2) +
+              Math.sin(r * .27 + c * .12)) * .25 + .5;
+    }
+
+    function renderBase(now) {
+      var p = pal();
+      bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bctx.clearRect(0, 0, W, H);
+      bctx.font = FONT;
+      bctx.textAlign = "center";
+      bctx.textBaseline = "middle";
+      var t = now * .00006;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var i = r * cols + c;
+          if (Math.random() < .02) { cells[i] = GLYPHS[(Math.random() * GLYPHS.length) | 0]; }
+          var a = .03 + patchNoise(c, r, t) * .11;
+          bctx.fillStyle = "rgba(" + p.base + "," + a.toFixed(3) + ")";
+          bctx.fillText(cells[i], c * CELL + CELL / 2, r * CELL + CELL / 2);
+        }
+      }
+    }
+
+    function lit(ch, x, y, alpha, color) {
+      ctx.fillStyle = "rgba(" + color + "," + (alpha > 1 ? 1 : alpha).toFixed(3) + ")";
+      ctx.fillText(ch, x, y);
+    }
+
+    function drawFrame(now) {
+      var dt = Math.min(100, now - last || 16);
+      last = now;
+      var p = pal();
+
+      if (now - lastBase > 240) { renderBase(now); lastBase = now; }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.drawImage(base, 0, 0, W, H);
+      ctx.font = FONT;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      /* spawn autonomous events */
+      tPulse -= dt; tBeam -= dt; tBurst -= dt;
+      if (tPulse <= 0) {
+        pulses.push({ x: W * rand(.35, .95), y: H * rand(.15, .8), r: 10, v: rand(.09, .14), max: Math.max(W, H) * .5 });
+        tPulse = rand(3800, 6500);
+      }
+      if (tBeam <= 0) {
+        beams.push({ y: -20, v: rand(.03, .05) });
+        tBeam = rand(8000, 13000);
+      }
+      if (tBurst <= 0) {
+        bursts.push({ x: rand(0, cols) | 0, y: rand(0, rows) | 0, life: 1 });
+        tBurst = rand(260, 620);
+      }
+
+      /* radar pulses — ring band lights glyphs as it passes */
+      var i, p2, c, r, dist, band;
+      for (i = pulses.length - 1; i >= 0; i--) {
+        p2 = pulses[i];
+        p2.r += p2.v * dt;
+        if (p2.r > p2.max) { pulses.splice(i, 1); continue; }
+        var fade = 1 - p2.r / p2.max;
+        var cMin = Math.max(0, ((p2.x - p2.r) / CELL) | 0), cMax = Math.min(cols - 1, ((p2.x + p2.r) / CELL) | 0);
+        var rMin = Math.max(0, ((p2.y - p2.r) / CELL) | 0), rMax = Math.min(rows - 1, ((p2.y + p2.r) / CELL) | 0);
+        for (r = rMin; r <= rMax; r++) {
+          for (c = cMin; c <= cMax; c++) {
+            dist = Math.hypot(c * CELL + CELL / 2 - p2.x, r * CELL + CELL / 2 - p2.y);
+            band = Math.abs(dist - p2.r);
+            if (band < CELL) {
+              lit(cells[r * cols + c], c * CELL + CELL / 2, r * CELL + CELL / 2,
+                  (1 - band / CELL) * .55 * fade, p.hi);
+            }
+          }
+        }
+        ctx.strokeStyle = "rgba(" + p.glow + "," + (.07 * fade).toFixed(3) + ")";
+        ctx.beginPath();
+        ctx.arc(p2.x, p2.y, p2.r, 0, 6.2832);
+        ctx.stroke();
+      }
+
+      /* scan beam — horizontal band sweeping down */
+      for (i = beams.length - 1; i >= 0; i--) {
+        var bm = beams[i];
+        bm.y += bm.v * dt;
+        if (bm.y > H + 40) { beams.splice(i, 1); continue; }
+        var rr = Math.max(0, (((bm.y - 30) / CELL) | 0));
+        var rrMax = Math.min(rows - 1, ((bm.y + 30) / CELL) | 0);
+        for (r = rr; r <= rrMax; r++) {
+          var fall = 1 - Math.abs(r * CELL + CELL / 2 - bm.y) / 30;
+          for (c = 0; c < cols; c++) {
+            lit(cells[r * cols + c], c * CELL + CELL / 2, r * CELL + CELL / 2, fall * .28, p.base);
+          }
+        }
+        ctx.fillStyle = "rgba(" + p.glow + ",.05)";
+        ctx.fillRect(0, bm.y - .5, W, 1);
+      }
+
+      /* glitch sparks — single cells flash and decay */
+      for (i = bursts.length - 1; i >= 0; i--) {
+        var bu = bursts[i];
+        bu.life -= dt / 700;
+        if (bu.life <= 0) { bursts.splice(i, 1); continue; }
+        lit(bu.ch || (bu.ch = cells[bu.y * cols + bu.x]),
+            bu.x * CELL + CELL / 2, bu.y * CELL + CELL / 2, bu.life * .9, p.hi);
+      }
+
+      /* cursor spotlight — proximity glow + core scramble */
+      if (mouse.x > -999) {
+        var mc = Math.max(0, (((mouse.x - R_MOUSE) / CELL) | 0)), mcMax = Math.min(cols - 1, ((mouse.x + R_MOUSE) / CELL) | 0);
+        var mr = Math.max(0, (((mouse.y - R_MOUSE) / CELL) | 0)), mrMax = Math.min(rows - 1, ((mouse.y + R_MOUSE) / CELL) | 0);
+        for (r = mr; r <= mrMax; r++) {
+          for (c = mc; c <= mcMax; c++) {
+            dist = Math.hypot(c * CELL + CELL / 2 - mouse.x, r * CELL + CELL / 2 - mouse.y);
+            if (dist < R_MOUSE) {
+              var near = 1 - dist / R_MOUSE;
+              var ch = cells[r * cols + c];
+              if (dist < R_CORE && Math.random() < .3) {
+                ch = GLYPHS[(Math.random() * GLYPHS.length) | 0];
+              }
+              lit(ch, c * CELL + CELL / 2, r * CELL + CELL / 2, near * near * .85, dist < R_CORE ? p.hi : p.glow);
+            }
+          }
+        }
+      }
+    }
+
+    function loop(now) {
+      if (!running) { return; }
+      drawFrame(now);
+      rafId = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (running || reducedMotion) { return; }
+      running = true;
+      last = performance.now();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    function stop() {
+      running = false;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    }
+
+    window.addEventListener("mousemove", function (e) {
+      var box = cv.getBoundingClientRect();
+      mouse.x = e.clientX - box.left;
+      mouse.y = e.clientY - box.top;
+      if (mouse.x < -60 || mouse.y < -60 || mouse.x > W + 60 || mouse.y > H + 60) {
+        mouse.x = -9e3; mouse.y = -9e3;
+      }
+    }, { passive: true });
+
+    document.addEventListener("mouseleave", function () { mouse.x = -9e3; mouse.y = -9e3; });
+
+    document.addEventListener("visibilitychange", function () {
+      document.hidden ? stop() : start();
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries[0].isIntersecting ? start() : stop();
+      }, { threshold: 0 }).observe(cv);
+    } else { start(); }
+
+    if ("MutationObserver" in window) {
+      new MutationObserver(function () {
+        light = document.documentElement.getAttribute("data-theme") === "light";
+        renderBase(performance.now());
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    }
+
+    var rsz;
+    window.addEventListener("resize", function () {
+      clearTimeout(rsz);
+      rsz = setTimeout(function () {
+        size();
+        pulses.length = 0;
+        beams.length = 0;
+        bursts.length = 0;
+        renderBase(performance.now());
+        if (reducedMotion) { drawFrame(performance.now()); }
+      }, 150);
+    });
+
+    window.addEventListener("load", function () {
+      size();
+      renderBase(performance.now());
+      if (reducedMotion) { drawFrame(performance.now()); }
+    });
+
+    size();
+    renderBase(performance.now());
+    if (reducedMotion) { drawFrame(performance.now()); }
+  })();
+  /* ------------------------------------------------------------
      HERO TITLE — split into masked lines
      ------------------------------------------------------------ */
   var heroTitle = $("#heroTitle");
@@ -294,7 +542,7 @@
      HERO — scroll parallax for background image
      ------------------------------------------------------------ */
   if (hasGsap && !reduced) {
-    gsap.to(".hero-bg img", {
+    gsap.to("#heroFx", {
       yPercent: 12, scale: 1.05, ease: "none",
       scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
     });
@@ -581,6 +829,22 @@
     });
   }
 
+  /* staggered entrance for the collage frames */
+  if (hasGsap && !reduced && $(".gal")) {
+    gsap.set(".gal-item", { opacity: 0, y: 34, scale: .97 });
+    ScrollTrigger.batch(".gal-item", {
+      start: "top 92%",
+      once: true,
+      onEnter: function (batch) {
+        gsap.to(batch, {
+          opacity: 1, y: 0, scale: 1,
+          duration: .8, stagger: .07, ease: "power3.out",
+          overwrite: true, clearProps: "transform"
+        });
+      }
+    });
+  }
+
   var GAL_BG = "#15181d", GAL_GOLD = "#d4a017", GAL_HI = "#f2c14e", GAL_OK = "#8a9a5b";
 
   function mulberry32(a) {
@@ -739,7 +1003,10 @@
   var galItems = $all(".gal-item");
   var lbAlbum = [];
   var lbIndex = 0;
+  var lbDir = 1;
   var lastFocus = null;
+  var lbDotsWrap = $("#lbDots");
+  var lbDotCount = -1;
 
   galItems.forEach(function (item, ei) {
     var seed = mulberry32(ei * 1013904223 + 1664525);
@@ -751,6 +1018,18 @@
       album.push(parsePieceInner(GEN[idx](mulberry32(ei * 97 + i * 5321 + 7))));
     }
     item._album = album;
+  });
+
+  /* "+N FRAMES" chip in each caption — hints at the multi-photo album */
+  galItems.forEach(function (item) {
+    var n = item._album ? item._album.length : 1;
+    var fc = $("figcaption", item);
+    if (n > 1 && fc && !$(".gal-frames", fc)) {
+      var chip = document.createElement("span");
+      chip.className = "gal-frames";
+      chip.textContent = "\u25A3 " + pad2(n);
+      fc.insertBefore(chip, $(".gal-action-hint", fc));
+    }
   });
 
   function galEventInfo(item) {
@@ -771,7 +1050,15 @@
     var piece = lbAlbum[lbIndex];
     if (!piece) return;
     lbContent.innerHTML = "";
-    lbContent.appendChild(piece.cloneNode(true));
+    var frame = piece.cloneNode(true);
+    lbContent.appendChild(frame);
+    if (hasGsap && !reduced) {
+      /* slide glides in from the direction you navigated */
+      gsap.fromTo(frame,
+        { autoAlpha: 0, x: 34 * lbDir },
+        { autoAlpha: 1, x: 0, duration: .42, ease: "power2.out", overwrite: true }
+      );
+    }
     lbCount.textContent = pad2(lbIndex + 1) + " / " + pad2(lbAlbum.length);
     var disabled = lbAlbum.length < 2;
     lbPrev.disabled = disabled;
@@ -782,6 +1069,32 @@
       lbPeekImg.innerHTML = "";
       if (lbAlbum[nextIdx]) lbPeekImg.appendChild(lbAlbum[nextIdx].cloneNode(true));
       lbPeek.setAttribute("aria-label", "Next photo: " + pad2(nextIdx + 1) + " of " + pad2(lbAlbum.length));
+    }
+    if (lbDotsWrap) {
+      if (lbDotCount !== lbAlbum.length) {
+        lbDotCount = lbAlbum.length;
+        lbDotsWrap.innerHTML = "";
+        for (var d = 0; d < lbAlbum.length; d++) {
+          (function (idx) {
+            var dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "lb-dot";
+            dot.setAttribute("aria-label", "Go to photo " + pad2(idx + 1));
+            dot.addEventListener("click", function (e) {
+              e.stopPropagation();
+              if (idx === lbIndex) return;
+              lbDir = idx > lbIndex ? 1 : -1;
+              lbIndex = idx;
+              renderLightbox();
+            });
+            lbDotsWrap.appendChild(dot);
+          })(d);
+        }
+      }
+      lbDotsWrap.style.display = lbAlbum.length > 1 ? "" : "none";
+      $all(".lb-dot", lbDotsWrap).forEach(function (dot, i) {
+        dot.classList.toggle("is-active", i === lbIndex);
+      });
     }
   }
 
@@ -798,6 +1111,7 @@
     if (currentGalEventIdx < 0) currentGalEventIdx = 0;
     lbAlbum = item._album;
     lbIndex = 0;
+    lbDir = 1;
     var info = galEventInfo(item);
     lbName.textContent = info.name;
     lbDate.textContent = info.date;
@@ -821,6 +1135,7 @@
 
   function showLightbox(delta) {
     if (!lightbox || !lightbox.classList.contains("open") || lbAlbum.length === 0) return;
+    lbDir = delta >= 0 ? 1 : -1;
     lbIndex = (lbIndex + delta + lbAlbum.length) % lbAlbum.length;
     renderLightbox();
   }
@@ -832,22 +1147,37 @@
   }
 
   /* ------------------------------------------------------------
-     GALLERY CATEGORY FILTERING
-     ------------------------------------------------------------ */
+      GALLERY CATEGORY FILTERING (animated, with plain fallback)
+      ------------------------------------------------------------ */
   var galFilterBtns = $all(".gal-filter-btn");
   galFilterBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
+      if (btn.classList.contains("is-active")) return;
       galFilterBtns.forEach(function (b) { b.classList.remove("is-active"); });
       btn.classList.add("is-active");
       var cat = btn.dataset.cat;
+
       galItems.forEach(function (item) {
-        var itemCat = item.dataset.category || "workshop";
-        if (cat === "all" || itemCat === cat) {
-          item.classList.remove("is-filtered-out");
-        } else {
-          item.classList.add("is-filtered-out");
-        }
+        var match = cat === "all" || (item.dataset.category || "workshop") === cat;
+        if (hasGsap && !reduced) { gsap.killTweensOf(item); }
+        item.classList.toggle("is-filtered-out", !match);
       });
+
+      /* surviving frames cascade back into the reflowed grid */
+      if (hasGsap && !reduced) {
+        var show = galItems.filter(function (item) {
+          return !item.classList.contains("is-filtered-out");
+        });
+        gsap.fromTo(show,
+          { opacity: 0, y: 26, scale: .96 },
+          {
+            opacity: 1, y: 0, scale: 1,
+            duration: .55, stagger: .05, ease: "power3.out",
+            overwrite: true, clearProps: "transform"
+          }
+        );
+      }
+
       if (hasGsap && typeof ScrollTrigger !== "undefined") {
         ScrollTrigger.refresh();
       }

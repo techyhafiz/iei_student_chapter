@@ -90,10 +90,15 @@
 
     <!-- ======= HERO ======= -->
     <section id="hero">
-      <!-- Background image with fade -->
+      <!-- Procedural background: interactive glyph field + CSS radar (zero images) -->
       <div class="hero-bg" aria-hidden="true">
-        <img class="hero-img-dark" src="assets/hero_bg_user.png" alt="" loading="eager" />
-        <img class="hero-img-light" src="assets/triallight.png" alt="" loading="eager" />
+        <canvas id="heroFx"></canvas>
+        <div class="hero-radar">
+          <span class="radar-sweep"></span>
+          <span class="radar-blip" style="--bx:63%;--by:30%;--bd:0s"></span>
+          <span class="radar-blip" style="--bx:37%;--by:58%;--bd:2.6s"></span>
+          <span class="radar-blip" style="--bx:68%;--by:66%;--bd:5.1s"></span>
+        </div>
         <div class="hero-bg-fade"></div>
       </div>
 
@@ -946,6 +951,7 @@
       <div class="lb-stage">
         <button class="lb-arrow lb-prev" aria-label="Previous slide">‹</button>
         <div id="lbContent"></div>
+        <div id="lbDots" class="lb-dots mono" aria-label="Album position"></div>
         <button class="lb-arrow lb-next" aria-label="Next slide">›</button>
       </div>
       <aside class="lb-info">
