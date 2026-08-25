@@ -25,7 +25,7 @@ All tokens live in `:root` (`styles.css`). Every component consumes tokens — n
 
 ### Color — Light
 
-Warm-paper inversion (`--bg #e9e3d4`, `--panel #f1ecdf`, `--accent #b8860b`, `--accent-hi #8f6700`, borders `rgba(148,112,12,.25)`). Plates and generated gallery art swap their `#15181d` fill for sand `#ddd4bf` via attribute selectors (`styles.css` → `svg rect[fill="#15181d"]` rules).
+Warm Titanium & Champagne Slate aesthetic (`--bg #eeeae2`, `--panel #fbf9f4`, `--glass rgba(251,249,244,0.86)`, `--text #181b22`, `--muted #595e6a`, `--accent #b87d00`, `--accent-hi #945e00`, `--ok #15803d`, borders `rgba(24,27,34,0.10)`). A grounded deep obsidian footer (`#11141a`) and dark interactive cybersecurity terminal provide striking grounding contrast so the page never feels washed-out or blinding white. Generated SVG artwork and gallery frames utilize warm champagne `#e5e0d4` backdrops with cyber gold accents.
 
 ### Type
 
@@ -56,9 +56,9 @@ Single column, max content width `~1150–1200px`, section order is numbered in-
 1. **Hero** — photographic background with a 90deg scrim fade, status cards, scroll hint.
 2. **Marquee** — accent-gold ticker strip (decorative, `aria-hidden`).
 3. **About** — copy on the left, fake terminal card on the right (typed telemetry via JS).
-4. **Events** — activity calendar: single central spine, alternating cards/dates, scroll-driven reveal.
-5. **Team** — 3D stacked operators deck (`operators.css/js`), auto-advances every 2s, pauses on hover.
-6. **Gallery** — masonry-style grid of event frames (see §4).
+4. **Events** — activity calendar: central spine with interactive filter tabs (`[ALL LOGS]`, `[UPCOMING]`, `[HISTORICAL ARCHIVE]`), alternating cards/dates.
+5. **Gallery** — masonry-style grid of event frames with persistent dock title bars (see §4).
+6. **Team** — 3D solo operator deck & board (`operators.css/js`).
 7. **Join** — two-column: contact block + glass form.
 8. **Footer** — oversized stroke wordmark, sitemap grid, EOF marker.
 

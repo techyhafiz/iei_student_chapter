@@ -63,8 +63,8 @@
     <nav class="nav-links mono" aria-label="Primary">
       <a href="#about"><em>01</em> ABOUT</a>
       <a href="#events"><em>02</em> EVENTS</a>
-      <a href="#team"><em>03</em> TEAM</a>
-      <a href="#gallery"><em>04</em> GALLERY</a>
+      <a href="#gallery"><em>03</em> GALLERY</a>
+      <a href="#team"><em>04</em> TEAM</a>
     </nav>
     <a class="btn btn-sm" href="#join" data-hover>JOIN US</a>
     <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" aria-pressed="false">
@@ -80,8 +80,8 @@
     <nav class="mono" aria-label="Mobile">
       <a href="#about">01 // ABOUT</a>
       <a href="#events">02 // EVENTS</a>
-      <a href="#team">03 // TEAM</a>
-      <a href="#gallery">04 // GALLERY</a>
+      <a href="#gallery">03 // GALLERY</a>
+      <a href="#team">04 // TEAM</a>
       <a href="#join" class="mm-join">05 // JOIN US</a>
     </nav>
   </div>
@@ -193,17 +193,22 @@
           <span class="stats-system-title mono">SYSTEM STATUS</span>
           <div class="stats-system-status">
             <i class="dot-ok"></i>
-            <span class="mono" style="color:#4ae274">OPERATIONAL</span>
+            <span class="mono status-ok">OPERATIONAL</span>
           </div>
           <span class="stats-system-tagline mono">LEARN • BREAK • DEFEND</span>
           <div class="stats-system-bars" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
+            <span style="--h:7px;--d:0s"></span><span style="--h:11px;--d:.08s"></span>
+            <span style="--h:15px;--d:.16s"></span><span style="--h:9px;--d:.24s"></span>
+            <span style="--h:13px;--d:.32s"></span><span style="--h:7px;--d:.4s"></span>
+            <span style="--h:11px;--d:.48s"></span><span style="--h:15px;--d:.56s"></span>
+            <span style="--h:8px;--d:.64s"></span><span style="--h:12px;--d:.72s"></span>
+            <span style="--h:6px;--d:.8s"></span><span style="--h:10px;--d:.88s"></span>
+            <span style="--h:14px;--d:.96s"></span><span style="--h:8px;--d:1.04s"></span>
+            <span style="--h:12px;--d:1.12s"></span><span style="--h:9px;--d:1.2s"></span>
+            <span style="--h:13px;--d:1.28s"></span><span style="--h:7px;--d:1.36s"></span>
+            <span style="--h:11px;--d:1.44s"></span><span style="--h:15px;--d:1.52s"></span>
           </div>
         </div>
-      </div>
       </div>
 
       <!-- Scroll to explore -->
@@ -267,115 +272,206 @@
           <p class="kicker mono" data-reveal>// 02 — EVENTS</p>
           <h2 class="sec-title" data-reveal>Activity calendar</h2>
         </div>
-        <p class="sec-hint mono" data-reveal>ONE SPINE — EVENTS LEFT, DATES RIGHT. FLIPPED EVERY ENTRY <span
-            class="hint-arrow">↓</span></p>
+        <div class="ev-filter-bar mono" data-reveal>
+          <button type="button" class="filter-btn ev-filter-btn is-active" data-filter="all">ALL LOGS [10]</button>
+          <button type="button" class="filter-btn ev-filter-btn ev-filter-upcoming" data-filter="upcoming">⚡ UPCOMING [2]</button>
+          <button type="button" class="filter-btn ev-filter-btn ev-filter-history" data-filter="history">✓ COMPLETED [8]</button>
+        </div>
       </div>
 
       <div class="tl-track" id="evTrack">
 
-        <div class="tl-node">
+        <!-- Upcoming 1 -->
+        <div class="tl-node" data-type="upcoming">
           <span class="tl-dot"></span>
           <article class="glass ev-card tl-card" tabindex="0">
-            <div class="ev-top mono"><span class="ev-tag tag-ctf">CTF</span><span class="ev-hint">HOVER ⌕</span></div>
+            <div class="ev-top mono"><span class="ev-tag tag-ctf">UPCOMING · CTF</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>MIDNIGHT CTF <span class="accent">0x05</span></h3>
             <div class="ev-body">
               <div>
-                <p>Our flagship overnight capture-the-flag. Web, pwn, crypto and forensics challenges that escalate
-                  from
-                  “freshman-friendly” to “make the organizers sweat.” Bring caffeine.</p>
+                <p>Our flagship overnight capture-the-flag. Web, pwn, crypto and forensics challenges that escalate from “freshman-friendly” to “make the organizers sweat.” Bring caffeine.</p>
                 <div class="ev-meta mono">JEOPARDY · 12HRS · LAB 0x2A</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-midnight-ctf">VIEW PREVIEW FRAME ↗</button>
+                </div>
               </div>
             </div>
           </article>
           <div class="tl-date mono"><time datetime="2025-12-12"><span class="tl-mo">DEC</span><span class="tl-day">12</span><span class="tl-year">2025</span></time></div>
         </div>
 
-        <div class="tl-node">
+        <!-- Upcoming 2 -->
+        <div class="tl-node" data-type="upcoming">
           <span class="tl-dot"></span>
           <article class="glass ev-card tl-card" tabindex="0">
-            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><span class="ev-hint">HOVER ⌕</span>
-            </div>
+            <div class="ev-top mono"><span class="ev-tag tag-ws">UPCOMING · WORKSHOP</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>ZERO-DAY <span class="accent">WEB EXPLOITATION</span></h3>
             <div class="ev-body">
               <div>
-                <p>Hands-on with the OWASP top ten — SSRF, IDOR and insecure deserialization, exploited on a live
-                  firing
-                  range we built ourselves.</p>
+                <p>Hands-on with the OWASP top ten — SSRF, IDOR and insecure deserialization, exploited on a live firing range we built ourselves.</p>
                 <div class="ev-meta mono">HANDS-ON · BEGINNER OK</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-zeroday">VIEW LAB FRAME ↗</button>
+                </div>
               </div>
             </div>
           </article>
           <div class="tl-date mono"><time datetime="2025-11-28"><span class="tl-mo">NOV</span><span class="tl-day">28</span><span class="tl-year">2025</span></time></div>
         </div>
 
-        <div class="tl-node">
+        <!-- Completed 1 -->
+        <div class="tl-node" data-type="history">
           <span class="tl-dot"></span>
           <article class="glass ev-card tl-card" tabindex="0">
-            <div class="ev-top mono"><span class="ev-tag tag-talk">TALK</span><span class="ev-hint">HOVER ⌕</span></div>
+            <div class="ev-top mono"><span class="ev-tag tag-talk">COMPLETED · TALK</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>THREAT INTEL <span class="accent">IN THE AGE OF AI</span></h3>
             <div class="ev-body">
               <div>
-                <p>An industry threat hunter on tracking APTs, and why AI changed the SOC — without replacing the
-                  humans
-                  inside it.</p>
+                <p>An industry threat hunter on tracking APTs, and why AI changed the SOC — without replacing the humans inside it.</p>
                 <div class="ev-meta mono">GUEST SPEAKER · AUDITORIUM</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-threat-intel">VIEW EVENT GALLERY ↗</button>
+                </div>
               </div>
             </div>
           </article>
           <div class="tl-date mono"><time datetime="2025-11-09"><span class="tl-mo">NOV</span><span class="tl-day">09</span><span class="tl-year">2025</span></time></div>
         </div>
 
-        <div class="tl-node">
+        <!-- Completed 2 -->
+        <div class="tl-node" data-type="history">
           <span class="tl-dot"></span>
           <article class="glass ev-card tl-card" tabindex="0">
-            <div class="ev-top mono"><span class="ev-tag tag-boot">BOOTCAMP</span><span class="ev-hint">HOVER ⌕</span>
-            </div>
+            <div class="ev-top mono"><span class="ev-tag tag-boot">COMPLETED · BOOTCAMP</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>RED VS BLUE: <span class="accent">LIVE FIRE</span></h3>
             <div class="ev-body">
               <div>
-                <p>Two teams. One network. Attack and defend in a scored six-hour engagement with a live scoreboard and
-                  post-mortem.</p>
+                <p>Two teams. One network. Attack and defend in a scored six-hour engagement with a live scoreboard and post-mortem.</p>
                 <div class="ev-meta mono">TEAM FORMAT · SCORED</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-red-blue">VIEW EVENT GALLERY ↗</button>
+                </div>
               </div>
             </div>
           </article>
           <div class="tl-date mono"><time datetime="2025-10-20"><span class="tl-mo">OCT</span><span class="tl-day">20</span><span class="tl-year">2025</span></time></div>
         </div>
 
-        <div class="tl-node">
+        <!-- Completed 3 -->
+        <div class="tl-node" data-type="history">
           <span class="tl-dot"></span>
           <article class="glass ev-card ev-win tl-card" tabindex="0">
-            <div class="ev-top mono"><span class="ev-tag tag-win">★ 1ST PLACE</span><span class="ev-hint">HOVER
-                ⌕</span></div>
+            <div class="ev-top mono"><span class="ev-tag tag-win">★ 1ST PLACE NATIONALS</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>INTER-COLLEGE <span class="accent">CTF FINALS</span></h3>
             <div class="ev-body">
               <div>
                 <p>Our squad took first of thirty-two teams. Flags captured: 47. Sleep: none. Pride: immeasurable.</p>
                 <div class="ev-meta mono">ARCHIVE · NATIONAL ROUND</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-ctf-finals">VIEW EVENT GALLERY ↗</button>
+                </div>
               </div>
             </div>
           </article>
           <div class="tl-date mono"><time datetime="2025-10-02"><span class="tl-mo">OCT</span><span class="tl-day">02</span><span class="tl-year">2025</span></time></div>
         </div>
 
-        <div class="tl-node">
+        <!-- Completed 4 -->
+        <div class="tl-node" data-type="history">
           <span class="tl-dot"></span>
           <article class="glass ev-card tl-card" tabindex="0">
-            <div class="ev-top mono"><span class="ev-tag tag-ws">WORKSHOP</span><span class="ev-hint">HOVER ⌕</span>
-            </div>
+            <div class="ev-top mono"><span class="ev-tag tag-ws">COMPLETED · WORKSHOP</span><span class="ev-hint">HOVER ⌕</span></div>
             <h3>OSINT: <span class="accent">FIND ANYTHING</span></h3>
             <div class="ev-body">
               <div>
-                <p>Open-source intelligence techniques — geolocation, username enumeration and recon workflows, on
-                  sanitized
-                  targets.</p>
+                <p>Open-source intelligence techniques — geolocation, username enumeration and recon workflows on sanitized targets.</p>
                 <div class="ev-meta mono">ARCHIVE · RESEARCH TRACK</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-osint">VIEW EVENT GALLERY ↗</button>
+                </div>
               </div>
             </div>
           </article>
           <div class="tl-date mono"><time datetime="2025-09-18"><span class="tl-mo">SEP</span><span class="tl-day">18</span><span class="tl-year">2025</span></time></div>
         </div>
 
+        <!-- Completed 5 -->
+        <div class="tl-node" data-type="history">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-ws">COMPLETED · HARDWARE</span><span class="ev-hint">HOVER ⌕</span></div>
+            <h3>HARDWARE & <span class="accent">BADGE HACKING</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Soldering custom PCB badges, UART exploration, and firmware extraction from IoT test devices in the engineering lab.</p>
+                <div class="ev-meta mono">HARDWARE LAB · SOLDERING KITS</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-hardware">VIEW EVENT GALLERY ↗</button>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-08-10"><span class="tl-mo">AUG</span><span class="tl-day">10</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <!-- Completed 6 -->
+        <div class="tl-node" data-type="history">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-talk">COMPLETED · REVERSE ENG</span><span class="ev-hint">HOVER ⌕</span></div>
+            <h3>MALWARE REVERSE <span class="accent">ENGINEERING 101</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Ghidra, x64dbg, and static analysis of real trojan samples inside isolated air-gapped sandbox environments.</p>
+                <div class="ev-meta mono">ADVANCED TRACK · ISOLATED VM</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-malware">VIEW EVENT GALLERY ↗</button>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-05-22"><span class="tl-mo">MAY</span><span class="tl-day">22</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <!-- Completed 7 -->
+        <div class="tl-node" data-type="history">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-boot">COMPLETED · SIMULATION</span><span class="ev-hint">HOVER ⌕</span></div>
+            <h3>NATIONAL CYBER DRILL <span class="accent">// BLUE CELL</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Live defensive incident response drill against simulated ransomware outbreak across an enterprise AD forest topology.</p>
+                <div class="ev-meta mono">DEFENSE MATRIX · 8HRS DRILL</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-cyber-drill">VIEW EVENT GALLERY ↗</button>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2025-03-14"><span class="tl-mo">MAR</span><span class="tl-day">14</span><span class="tl-year">2025</span></time></div>
+        </div>
+
+        <!-- Completed 8 -->
+        <div class="tl-node" data-type="history">
+          <span class="tl-dot"></span>
+          <article class="glass ev-card tl-card" tabindex="0">
+            <div class="ev-top mono"><span class="ev-tag tag-ctf">COMPLETED · FLAGSHIP</span><span class="ev-hint">HOVER ⌕</span></div>
+            <h3>ANNUAL HACKATHON <span class="accent">GRID CON '24</span></h3>
+            <div class="ev-body">
+              <div>
+                <p>Over 120 participants across the region building privacy tools, network defenders, and novel cryptographic protocols.</p>
+                <div class="ev-meta mono">24HRS HACKATHON · SPONSORED</div>
+                <div class="ev-actions">
+                  <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-gridcon">VIEW EVENT GALLERY ↗</button>
+                </div>
+              </div>
+            </div>
+          </article>
+          <div class="tl-date mono"><time datetime="2024-11-18"><span class="tl-mo">NOV</span><span class="tl-day">18</span><span class="tl-year">2024</span></time></div>
+        </div>
+
+        <!-- EOF -->
         <div class="tl-node tl-eof">
           <span class="tl-dot"></span>
           <article class="glass ev-card ev-end tl-card" tabindex="0">
@@ -393,62 +489,64 @@
       </div>
     </section>
 
-    <!-- ======= TEAM (3D Stacked Deck Operators) ======= -->
-    <section id="team" class="operators-deck-section section">
-      <div class="sec-head">
-        <div>
-          <p class="kicker mono" data-reveal>// 03 — TEAM OPERATORS</p>
-          <h2 class="sec-title" data-reveal>The Operators</h2>
-        </div>
-      </div>
-
-      <div class="operators-solo-board" id="opSoloBoard" data-reveal>
-        <!-- Solo operator cards rendered dynamically by operators.js -->
-      </div>
-    </section>
-
     <!-- ======= GALLERY ======= -->
     <section id="gallery" class="section">
       <div class="sec-head">
         <div>
-          <p class="kicker mono" data-reveal>// 04 — GALLERY</p>
+          <p class="kicker mono" data-reveal>// 03 — GALLERY</p>
           <h2 class="sec-title" data-reveal>Captured packets</h2>
         </div>
-        <div class="gal-sec-pill mono" data-reveal>
-          <span class="pill-dot"></span>
-          <span>HOVER TO FOCUS · CLICK TO EXPAND</span>
-          <span class="pill-lens">⛶</span>
+        <div class="gal-filter-bar mono" data-reveal>
+          <button type="button" class="filter-btn gal-filter-btn is-active" data-cat="all">ALL PACKETS [10]</button>
+          <button type="button" class="filter-btn gal-filter-btn" data-cat="ctf">🏆 CTFS & WINS [3]</button>
+          <button type="button" class="filter-btn gal-filter-btn" data-cat="workshop">⚡ LABS & WORKSHOPS [4]</button>
+          <button type="button" class="filter-btn gal-filter-btn" data-cat="drill">🛡️ DEFENSE & DRILLS [3]</button>
         </div>
       </div>
 
       <div class="gal">
-        <figure class="gal-item glass cs3 rs2" data-speed="1.4" data-caption="CTF FINALS — OCT 2025"
-          data-desc="Thirty-two squads, one network, six hours of web, pwn and crypto. Flags captured: 47." tabindex="0"
-          role="button" aria-label="Open image: CTF finals">
+        <!-- 1. Inter-College CTF Finals (Hero 8x2) -->
+        <figure class="gal-item glass col-8 row-2" id="gal-ctf-finals" data-category="ctf" data-speed="1.4" data-caption="INTER-COLLEGE CTF FINALS — OCT 2025"
+          data-date="OCT 2025" data-desc="National Round victory — our squad captured 47 flags across pwn, reverse engineering, web exploitation, and crypto to win 1st Place overall against 32 universities." tabindex="0"
+          role="button" aria-label="Open image: CTF Finals trophy">
+          <div class="gal-badges mono">
+            <span class="gal-badge gal-badge-win">★ 1ST PLACE NATIONALS</span>
+            <span class="gal-date-badge">OCT 2025</span>
+          </div>
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Abstract radar sweep">
+              aria-label="CTF finals trophy and radar">
               <rect width="400" height="300" fill="#15181d" />
               <g stroke="#d4a017" fill="none" opacity=".32">
-                <circle cx="200" cy="150" r="42" />
-                <circle cx="200" cy="150" r="84" />
-                <circle cx="200" cy="150" r="126" />
+                <circle cx="200" cy="140" r="45" />
+                <circle cx="200" cy="140" r="90" />
+                <circle cx="200" cy="140" r="135" />
               </g>
-              <line x1="200" y1="150" x2="318" y2="66" stroke="#f2c14e" stroke-width="2" opacity=".85" />
+              <line x1="200" y1="140" x2="320" y2="50" stroke="#f2c14e" stroke-width="2" opacity=".85" />
+              <polygon points="200,60 215,95 252,98 223,122 232,158 200,138 168,158 177,122 148,98 185,95" fill="#f2c14e" opacity=".95" />
               <circle cx="258" cy="108" r="4" fill="#f2c14e" />
               <circle cx="150" cy="204" r="3" fill="#d4a017" opacity=".7" />
               <circle cx="230" cy="210" r="2.5" fill="#8a9a5b" opacity=".8" />
             </svg>
           </div>
-          <figcaption class="mono">CTF FINALS — OCT 2025</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 01</span>
+            <span class="gal-title">CTF NATIONALS — 1ST PLACE OVERALL</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3" data-speed="0.8" data-caption="ZERO-DAY WORKSHOP — NOV 2025"
-          data-desc="Hands-on exploitation of the OWASP top ten on a live firing range we built ourselves." tabindex="0"
-          role="button" aria-label="Open image: workshop waveform">
+        <!-- 2. Zero-Day Web Exploitation (4x1) -->
+        <figure class="gal-item glass col-4 row-1" id="gal-zeroday" data-category="workshop" data-speed="0.8" data-caption="ZERO-DAY WEB EXPLOITATION — NOV 2025"
+          data-date="NOV 2025" data-desc="Hands-on exploitation lab targeting OWASP Top 10 vulnerabilities — SSRF, prototype pollution, IDOR, and serialized payloads on live firing ranges." tabindex="0"
+          role="button" aria-label="Open image: zero day web lab">
+          <div class="gal-badges mono">
+            <span class="gal-badge">LAB / EXPLOIT</span>
+            <span class="gal-date-badge">NOV 2025</span>
+          </div>
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Abstract signal waveform">
+              aria-label="Web payload exploitation waveform">
               <rect width="400" height="300" fill="#15181d" />
               <g stroke="rgba(212,160,23,.12)">
                 <line x1="0" y1="75" x2="400" y2="75" />
@@ -458,16 +556,27 @@
               <polyline
                 points="0,150 30,150 45,90 60,210 75,120 90,175 120,150 160,150 175,58 190,232 205,150 260,150 275,100 290,192 305,150 400,150"
                 stroke="#d4a017" fill="none" stroke-width="2" opacity=".85" />
+              <rect x="140" y="45" width="120" height="26" rx="6" fill="rgba(212,160,23,.15)" stroke="#d4a017" />
+              <text x="200" y="62" font-family="monospace" font-size="10" fill="#f2c14e" text-anchor="middle">PAYLOAD // 0xDEADBEEF</text>
             </svg>
           </div>
-          <figcaption class="mono">ZERO-DAY WORKSHOP</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 02</span>
+            <span class="gal-title">ZERO-DAY WEB EXPLOITATION LAB</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3" data-speed="1.1" data-caption="RED VS BLUE BOOTCAMP" data-date="OCT 2025"
-          data-desc="Attack vs defend on a scored six-hour engagement — live scoreboard, full post-mortem." tabindex="0"
-          role="button" aria-label="Open image: score bars">
+        <!-- 3. Red vs Blue Bootcamp (4x1) -->
+        <figure class="gal-item glass col-4 row-1" id="gal-red-blue" data-category="drill" data-speed="1.1" data-caption="RED VS BLUE BOOTCAMP — OCT 2025"
+          data-date="OCT 2025" data-desc="A high-intensity 6-hour live cyber engagement: Red Cell executing active directory pivoting while Blue Cell implemented firewall ACLs and EDR telemetry." tabindex="0"
+          role="button" aria-label="Open image: red vs blue scoreboard">
+          <div class="gal-badges mono">
+            <span class="gal-badge">ENGAGEMENT</span>
+            <span class="gal-date-badge">OCT 2025</span>
+          </div>
           <div class="gal-img">
-            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract bar chart">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Red vs Blue scoreboard telemetry">
               <rect width="400" height="300" fill="#15181d" />
               <g fill="#d4a017">
                 <rect x="42" y="200" width="26" height="60" opacity=".4" />
@@ -482,131 +591,241 @@
               <line x1="20" y1="260" x2="390" y2="260" stroke="rgba(212,160,23,.35)" />
             </svg>
           </div>
-          <figcaption class="mono">RED VS BLUE — SCOREBOARD</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 03</span>
+            <span class="gal-title">RED VS BLUE LIVE ENGAGEMENT</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
 
-        <figure class="gal-item glass cs2" data-speed="1.6" data-caption="LAB NIGHT — 0x2A" data-date="SEP 2025"
-          data-desc="Weekly open-lab sessions in Room 0x2A — build, break, repeat." tabindex="0" role="button"
-          aria-label="Open image: hex tiles">
+        <!-- 4. Threat Intel in AI (4x1) -->
+        <figure class="gal-item glass col-4 row-1" id="gal-threat-intel" data-category="workshop" data-speed="1.6" data-caption="THREAT INTEL & AI IN SOC — NOV 2025"
+          data-date="NOV 2025" data-desc="Auditorium session featuring Senior Threat Intelligence Engineers covering automated APT graph clustering, behavioral heuristic parsing, and LLM attack vectors." tabindex="0" role="button"
+          aria-label="Open image: threat intel network graph">
+          <div class="gal-badges mono">
+            <span class="gal-badge">BRIEFING</span>
+            <span class="gal-date-badge">NOV 2025</span>
+          </div>
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Abstract hex tile wall">
+              aria-label="Threat intel network graph">
               <rect width="400" height="300" fill="#15181d" />
-              <g fill="none" stroke="#d4a017">
-                <polygon points="136,90 118,121 82,121 64,90 82,59 118,59" opacity=".5" />
-                <polygon points="208,90 190,121 154,121 136,90 154,59 190,59" opacity=".25" />
-                <polygon points="172,152 154,183 118,183 100,152 118,121 154,121" fill="rgba(212,160,23,.12)"
-                  opacity=".9" />
-                <polygon points="244,152 226,183 190,183 172,152 190,121 226,121" opacity=".4" />
-                <polygon points="208,214 190,245 154,245 136,214 154,183 190,183" opacity=".3" />
-                <polygon points="280,90 262,121 226,121 208,90 226,59 262,59" opacity=".18" />
+              <g stroke="#d4a017" stroke-width="1.5" opacity=".6">
+                <line x1="80" y1="80" x2="160" y2="140" />
+                <line x1="160" y1="140" x2="240" y2="80" />
+                <line x1="160" y1="140" x2="160" y2="220" />
+                <line x1="160" y1="140" x2="300" y2="170" />
+                <line x1="240" y1="80" x2="320" y2="100" />
               </g>
+              <circle cx="80" cy="80" r="10" fill="#d4a017" />
+              <circle cx="160" cy="140" r="16" fill="#f2c14e" />
+              <circle cx="240" cy="80" r="12" fill="#d4a017" />
+              <circle cx="160" cy="220" r="14" fill="#8a9a5b" />
+              <circle cx="300" cy="170" r="11" fill="#d4a017" />
+              <circle cx="320" cy="100" r="8" fill="#f2c14e" />
             </svg>
           </div>
-          <figcaption class="mono">LAB NIGHT — 0x2A</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 04</span>
+            <span class="gal-title">THREAT INTEL & AI IN SOC</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
 
-        <figure class="gal-item glass cs4" data-speed="0.9" data-caption="GUEST LECTURE SERIES" data-date="NOV 2025"
-          data-desc="Industry operators on threat hunting, malware, and life inside the SOC." tabindex="0" role="button"
-          aria-label="Open image: circuit path">
+        <!-- 5. OSINT: Find Anything (4x1) -->
+        <figure class="gal-item glass col-4 row-1" id="gal-osint" data-category="workshop" data-speed="0.9" data-caption="OSINT: FIND ANYTHING — SEP 2025"
+          data-date="SEP 2025" data-desc="Hands-on recon workshop diving deep into satellite imagery geolocation, EXIF parsing, social graph mapping, and domain infrastructure footprints." tabindex="0" role="button"
+          aria-label="Open image: OSINT satellite geolocation grid">
+          <div class="gal-badges mono">
+            <span class="gal-badge">RECON LAB</span>
+            <span class="gal-date-badge">SEP 2025</span>
+          </div>
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Abstract circuit traces">
+              aria-label="OSINT satellite crosshair and geolocation grid">
               <rect width="400" height="300" fill="#15181d" />
               <path d="M30 70 H150 V150 H250 V230 H370" stroke="#d4a017" fill="none" stroke-width="2" opacity=".7" />
               <path d="M30 230 H110 V110 H210 V190 H370" stroke="#d4a017" fill="none" opacity=".28" />
-              <g fill="#f2c14e">
-                <circle cx="150" cy="70" r="4" />
-                <circle cx="250" cy="150" r="4" />
-                <circle cx="110" cy="230" r="3" opacity=".6" />
-                <circle cx="210" cy="110" r="3" opacity=".6" />
+              <circle cx="200" cy="150" r="60" stroke="#f2c14e" stroke-width="1.5" stroke-dasharray="6,4" fill="none" />
+              <line x1="200" y1="70" x2="200" y2="230" stroke="#f2c14e" stroke-width="1" opacity=".7" />
+              <line x1="120" y1="150" x2="280" y2="150" stroke="#f2c14e" stroke-width="1" opacity=".7" />
+              <circle cx="200" cy="150" r="5" fill="#f2c14e" />
+            </svg>
+          </div>
+          <figcaption class="mono">
+            <span class="gal-idx">// 05</span>
+            <span class="gal-title">OSINT RECONNAISSANCE WORKSHOP</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
+        </figure>
+
+        <!-- 6. Malware Reverse Engineering (Tall Portrait 4x2) -->
+        <figure class="gal-item glass col-4 row-2" id="gal-malware" data-category="workshop" data-speed="0.7"
+          data-caption="MALWARE REVERSE ENGINEERING 101 — MAY 2025" data-date="MAY 2025"
+          data-desc="Deep dive into disassembly: x86/x64 assembly instruction breakdown, stack frame forensics, packing unpacking routines, and C2 payload decryption." tabindex="0" role="button"
+          aria-label="Open image: binary opcode disassembler">
+          <div class="gal-badges mono">
+            <span class="gal-badge">REVERSE ENG</span>
+            <span class="gal-date-badge">MAY 2025</span>
+          </div>
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
+              aria-label="Ghidra disassembler disassembly code">
+              <rect width="400" height="300" fill="#15181d" />
+              <g font-family="monospace" font-size="12" fill="#d4a017">
+                <text x="40" y="50" opacity=".9">0x00401000  push ebp</text>
+                <text x="40" y="75" opacity=".9">0x00401001  mov  ebp, esp</text>
+                <text x="40" y="100" opacity=".7">0x00401003  sub  esp, 0x40</text>
+                <text x="40" y="125" fill="#f2c14e">0x00401006  call &lt;decrypt_payload&gt;</text>
+                <text x="40" y="150" opacity=".8">0x0040100B  test eax, eax</text>
+                <text x="40" y="175" fill="#8a9a5b">0x0040100D  jnz  0x0040102A</text>
+                <text x="40" y="200" opacity=".6">0x0040100F  xor  ecx, ecx</text>
+                <text x="40" y="225" opacity=".5">0x00401011  ret</text>
               </g>
             </svg>
           </div>
-          <figcaption class="mono">GUEST LECTURE SERIES</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 06</span>
+            <span class="gal-title">MALWARE REVERSE ENGINEERING</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3" data-speed="1.2"
-          data-caption="FRESHMAN INDUCTION — 'CAPTURE YOUR FIRST FLAG'" data-date="AUG 2025"
-          data-desc="First-year onboarding — capture your first flag and join the chapter." tabindex="0" role="button"
-          aria-label="Open image: shield emblem">
-          <div class="gal-img">
-            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Abstract shield with keyhole">
-              <rect width="400" height="300" fill="#15181d" />
-              <path d="M200 38 L302 78 V158 C302 220 256 256 200 272 C144 256 98 220 98 158 V78 Z" stroke="#d4a017"
-                fill="rgba(212,160,23,.06)" stroke-width="2" />
-              <circle cx="200" cy="140" r="18" stroke="#f2c14e" fill="none" stroke-width="2" />
-              <rect x="194" y="152" width="12" height="34" rx="5" fill="#f2c14e" opacity=".9" />
-            </svg>
+        <!-- 7. Hardware & Badge Hacking (4x1) -->
+        <figure class="gal-item glass col-4 row-1" id="gal-hardware" data-category="workshop" data-speed="1.2"
+          data-caption="HARDWARE & BADGE HACKING — AUG 2025" data-date="AUG 2025"
+          data-desc="Engineering lab session on custom ESP32 badge fabrication, surface-mount soldering, UART header extraction, and logic analyzer sniffing." tabindex="0" role="button"
+          aria-label="Open image: hardware PCB and microcontroller">
+          <div class="gal-badges mono">
+            <span class="gal-badge">HARDWARE</span>
+            <span class="gal-date-badge">AUG 2025</span>
           </div>
-          <figcaption class="mono">FRESHMAN INDUCTION</figcaption>
-        </figure>
-
-        <figure class="gal-item glass cs3 rs2" data-speed="0.7"
-          data-caption="HACK THE NIGHT — ANNUAL GRID EVENT" data-date="DEC 2025"
-          data-desc="Our annual overnight grid event — challenges run until sunrise." tabindex="0" role="button"
-          aria-label="Open image: binary rain">
           <div class="gal-img">
             <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img"
-              aria-label="Abstract binary columns">
+              aria-label="Custom hardware PCB badge with traces">
               <rect width="400" height="300" fill="#15181d" />
-              <g font-family="monospace" font-size="16" fill="#d4a017">
-                <text x="60" y="40" opacity=".7">1<tspan x="60" dy="22">0</tspan>
-                  <tspan x="60" dy="22">1</tspan>
-                  <tspan x="60" dy="22">1</tspan>
-                  <tspan x="60" dy="22">0</tspan>
-                  <tspan x="60" dy="22">0</tspan>
-                  <tspan x="60" dy="22">1</tspan>
-                  <tspan x="60" dy="22">0</tspan>
-                  <tspan x="60" dy="22">1</tspan>
-                  <tspan x="60" dy="22">1</tspan>
-                </text>
-                <text x="140" y="60" opacity=".35">0<tspan x="140" dy="22">1</tspan>
-                  <tspan x="140" dy="22">0</tspan>
-                  <tspan x="140" dy="22">0</tspan>
-                  <tspan x="140" dy="22">1</tspan>
-                  <tspan x="140" dy="22">1</tspan>
-                  <tspan x="140" dy="22">0</tspan>
-                  <tspan x="140" dy="22">1</tspan>
-                </text>
-                <text x="220" y="30" fill="#f2c14e" opacity=".9">1<tspan x="220" dy="22">1</tspan>
-                  <tspan x="220" dy="22">0</tspan>
-                  <tspan x="220" dy="22">1</tspan>
-                  <tspan x="220" dy="22">0</tspan>
-                  <tspan x="220" dy="22">1</tspan>
-                  <tspan x="220" dy="22">1</tspan>
-                  <tspan x="220" dy="22">0</tspan>
-                  <tspan x="220" dy="22">0</tspan>
-                  <tspan x="220" dy="22">1</tspan>
-                </text>
-                <text x="300" y="70" opacity=".3">0<tspan x="300" dy="22">0</tspan>
-                  <tspan x="300" dy="22">1</tspan>
-                  <tspan x="300" dy="22">0</tspan>
-                  <tspan x="300" dy="22">1</tspan>
-                  <tspan x="300" dy="22">1</tspan>
-                </text>
+              <rect x="130" y="80" width="140" height="140" rx="14" stroke="#d4a017" fill="rgba(212,160,23,.08)" stroke-width="2" />
+              <rect x="160" y="110" width="80" height="80" rx="6" fill="#15181d" stroke="#f2c14e" stroke-width="1.5" />
+              <circle cx="200" cy="150" r="14" fill="#f2c14e" />
+              <g fill="#d4a017">
+                <rect x="110" y="100" width="15" height="4" rx="1" />
+                <rect x="110" y="120" width="15" height="4" rx="1" />
+                <rect x="110" y="140" width="15" height="4" rx="1" />
+                <rect x="110" y="160" width="15" height="4" rx="1" />
+                <rect x="110" y="180" width="15" height="4" rx="1" />
+                <rect x="275" y="100" width="15" height="4" rx="1" />
+                <rect x="275" y="120" width="15" height="4" rx="1" />
+                <rect x="275" y="140" width="15" height="4" rx="1" />
+                <rect x="275" y="160" width="15" height="4" rx="1" />
+                <rect x="275" y="180" width="15" height="4" rx="1" />
               </g>
             </svg>
           </div>
-          <figcaption class="mono">HACK THE NIGHT</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 07</span>
+            <span class="gal-title">HARDWARE & BADGE WORKSHOP</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
 
-        <figure class="gal-item glass cs3" data-speed="1.5" data-caption="AWARDS DAY — 1ST PLACE, NATIONALS"
-          data-date="OCT 2025" data-desc="First place at nationals — 47 flags, zero sleep, one trophy." tabindex="0"
-          role="button" aria-label="Open image: key graphic">
+        <!-- 8. National Cyber Drill (4x1) -->
+        <figure class="gal-item glass col-4 row-1" id="gal-cyber-drill" data-category="drill" data-speed="1.5" data-caption="NATIONAL CYBER DRILL // BLUE CELL — MAR 2025"
+          data-date="MAR 2025" data-desc="Simulated enterprise crisis drill: neutralizing lateral ransomware traversal, rotating Active Directory Kerberos keys, and orchestrating full network recovery." tabindex="0"
+          role="button" aria-label="Open image: firewall shield and defense lock">
+          <div class="gal-badges mono">
+            <span class="gal-badge">SIMULATION</span>
+            <span class="gal-date-badge">MAR 2025</span>
+          </div>
           <div class="gal-img">
-            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Abstract key">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Defense lock and firewall shield">
               <rect width="400" height="300" fill="#15181d" />
-              <circle cx="130" cy="150" r="42" stroke="#f2c14e" fill="none" stroke-width="3" />
-              <circle cx="130" cy="150" r="16" stroke="#d4a017" fill="none" opacity=".5" />
-              <line x1="172" y1="150" x2="348" y2="150" stroke="#f2c14e" stroke-width="3" />
-              <line x1="300" y1="150" x2="300" y2="186" stroke="#f2c14e" stroke-width="3" />
-              <line x1="330" y1="150" x2="330" y2="174" stroke="#f2c14e" stroke-width="3" />
+              <path d="M200 40 L310 85 V165 C310 230 260 270 200 285 C140 270 90 230 90 165 V85 Z" stroke="#d4a017" fill="rgba(212,160,23,.06)" stroke-width="2" />
+              <circle cx="200" cy="145" r="22" stroke="#f2c14e" fill="none" stroke-width="3" />
+              <rect x="180" y="155" width="40" height="45" rx="6" fill="#f2c14e" />
+              <circle cx="200" cy="175" r="4" fill="#15181d" />
+              <line x1="200" y1="179" x2="200" y2="188" stroke="#15181d" stroke-width="2" />
             </svg>
           </div>
-          <figcaption class="mono">AWARDS DAY — NATIONALS</figcaption>
+          <figcaption class="mono">
+            <span class="gal-idx">// 08</span>
+            <span class="gal-title">NATIONAL CYBER DRILL SIMULATION</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
         </figure>
+
+        <!-- 9. Annual Hackathon Grid Con '24 (6x1) -->
+        <figure class="gal-item glass col-6 row-1" id="gal-gridcon" data-category="ctf" data-speed="1.3" data-caption="ANNUAL HACKATHON GRID CON '24 — NOV 2024"
+          data-date="NOV 2024" data-desc="Our signature 24-hour campus hackathon: 30 teams built zero-knowledge voting protocols, decentralized threat mesh nodes, and AI packet inspectors." tabindex="0"
+          role="button" aria-label="Open image: hackathon grid matrix">
+          <div class="gal-badges mono">
+            <span class="gal-badge">HACKATHON</span>
+            <span class="gal-date-badge">NOV 2024</span>
+          </div>
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Hackathon matrix grid and nodes">
+              <rect width="400" height="300" fill="#15181d" />
+              <g fill="#d4a017" opacity=".7">
+                <circle cx="80" cy="80" r="5" fill="#f2c14e" />
+                <circle cx="160" cy="80" r="3" />
+                <circle cx="240" cy="80" r="4" />
+                <circle cx="320" cy="80" r="5" fill="#f2c14e" />
+                <circle cx="80" cy="150" r="3" />
+                <circle cx="160" cy="150" r="7" fill="#f2c14e" />
+                <circle cx="240" cy="150" r="5" />
+                <circle cx="320" cy="150" r="3" />
+                <circle cx="80" cy="220" r="4" />
+                <circle cx="160" cy="220" r="3" />
+                <circle cx="240" cy="220" r="6" fill="#f2c14e" />
+                <circle cx="320" cy="220" r="4" />
+              </g>
+              <line x1="80" y1="80" x2="160" y2="150" stroke="#f2c14e" stroke-width="1.5" opacity=".7" />
+              <line x1="160" y1="150" x2="240" y2="220" stroke="#f2c14e" stroke-width="1.5" opacity=".7" />
+              <line x1="160" y1="150" x2="320" y2="80" stroke="#d4a017" stroke-width="1" opacity=".5" />
+            </svg>
+          </div>
+          <figcaption class="mono">
+            <span class="gal-idx">// 09</span>
+            <span class="gal-title">GRID CON '24 CAMPUS HACKATHON</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
+        </figure>
+
+        <!-- 10. Midnight CTF 0x05 (6x1) -->
+        <figure class="gal-item glass col-6 row-1" id="gal-midnight-ctf" data-category="ctf" data-speed="1.0" data-caption="MIDNIGHT CTF 0x05 — DEC 2025"
+          data-date="DEC 2025" data-desc="The upcoming edition of our flagship overnight jeopardy competition: dynamic flag scoring, custom challenge infrastructure, and open to all years." tabindex="0"
+          role="button" aria-label="Open image: midnight CTF logo">
+          <div class="gal-badges mono">
+            <span class="gal-badge gal-badge-upcoming">⚡ UPCOMING</span>
+            <span class="gal-date-badge">DEC 2025</span>
+          </div>
+          <div class="gal-img">
+            <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Midnight CTF terminal countdown">
+              <rect width="400" height="300" fill="#15181d" />
+              <circle cx="200" cy="150" r="70" stroke="#d4a017" stroke-width="2" fill="none" />
+              <polygon points="200,90 200,150 245,150" stroke="#f2c14e" stroke-width="3" fill="none" stroke-linecap="round" />
+              <text x="200" y="250" font-family="monospace" font-size="14" font-weight="bold" fill="#f2c14e" text-anchor="middle" letter-spacing="2">0x05 // MIDNIGHT</text>
+            </svg>
+          </div>
+          <figcaption class="mono">
+            <span class="gal-idx">// 10</span>
+            <span class="gal-title">MIDNIGHT CTF 0x05 // FLAGSHIP</span>
+            <span class="gal-action-hint">EXPAND ↗</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ======= TEAM (3D Stacked Deck Operators) ======= -->
+    <section id="team" class="operators-deck-section section">
+      <div class="sec-head">
+        <div>
+          <p class="kicker mono" data-reveal>// 04 — TEAM OPERATORS</p>
+          <h2 class="sec-title" data-reveal>The Operators</h2>
+        </div>
+      </div>
+
+      <div class="operators-solo-board" id="opSoloBoard" data-reveal>
+        <!-- Solo operator cards rendered dynamically by operators.js -->
       </div>
     </section>
 
@@ -706,10 +925,18 @@
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
     <div class="lb-content glass">
       <button class="lb-close mono" aria-label="Close viewer">[ESC] CLOSE ✕</button>
+      
+      <!-- Event switcher inside modal -->
+      <div class="lb-event-bar mono">
+        <button type="button" id="lbPrevEvent" class="lb-ev-nav-btn" aria-label="Previous event">‹ PREV EVENT</button>
+        <span id="lbEventTracker" class="lb-ev-tracker">EVENT 01 OF 10</span>
+        <button type="button" id="lbNextEvent" class="lb-ev-nav-btn" aria-label="Next event">NEXT EVENT ›</button>
+      </div>
+
       <div class="lb-stage">
-        <button class="lb-arrow lb-prev" aria-label="Previous image">‹</button>
+        <button class="lb-arrow lb-prev" aria-label="Previous slide">‹</button>
         <div id="lbContent"></div>
-        <button class="lb-arrow lb-next" aria-label="Next image">›</button>
+        <button class="lb-arrow lb-next" aria-label="Next slide">›</button>
       </div>
       <aside class="lb-info">
         <div class="lb-meta mono">
@@ -719,17 +946,25 @@
         <p id="lbDesc"></p>
         <div class="lb-status-row">
           <span id="lbCount" aria-live="polite">01 / 01</span>
-          <p class="lb-hint mono">← → NAV · ESC</p>
+          <p class="lb-hint mono">← → SLIDES · ESC CLOSE</p>
         </div>
-        <button id="lbPeek" class="lb-peek mono" aria-label="View more images">
+        <button id="lbPeek" class="lb-peek mono" aria-label="View next slide">
           <span class="lb-peek-head">
-            <span class="lb-peek-tag">// VIEW MORE IMAGES</span>
+            <span class="lb-peek-tag">// NEXT MULTI-FRAME SLIDE</span>
             <span class="lb-peek-arrow">›</span>
           </span>
           <span id="lbPeekImg" aria-hidden="true"></span>
         </button>
       </aside>
     </div>
+  </div>
+
+  <!-- ======= QUICK NAVIGATION / BACK TO TOP ======= -->
+  <div id="quickNav" class="quick-nav mono" aria-label="Quick navigation">
+    <button type="button" id="btnQuickTop" class="quick-top-btn glass" aria-label="Scroll to top">
+      <span class="quick-arrow">↑</span>
+      <span class="quick-text">TOP</span>
+    </button>
   </div>
 
   <!-- ======= LIBS + APP ======= -->

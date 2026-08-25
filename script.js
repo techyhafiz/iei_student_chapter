@@ -217,14 +217,14 @@
     });
   }
 
-  var navMap = { about: 0, events: 0, team: 0, gallery: 0, join: 0 };
+  var navSectionIds = ["about", "events", "gallery", "team", "join"];
   function setActive(id) {
     $all(".nav-links a").forEach(function (a) {
       a.classList.toggle("active", a.getAttribute("href") === "#" + id);
     });
   }
   if (hasGsap) {
-    Object.keys(navMap).forEach(function (id) {
+    navSectionIds.forEach(function (id) {
       var sec = document.getElementById(id);
       if (!sec) return;
       ScrollTrigger.create({
@@ -236,22 +236,44 @@
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) { if (en.isIntersecting) setActive(en.target.id); });
     }, { rootMargin: "-40% 0px -50% 0px" });
-    Object.keys(navMap).forEach(function (id) {
+    navSectionIds.forEach(function (id) {
       var s = document.getElementById(id); if (s) io.observe(s);
     });
   }
 
   /* ------------------------------------------------------------
-     PROGRESS BAR + PARALLAX LAYERS
+     PROGRESS BAR + QUICK NAV BACK TO TOP + PARALLAX LAYERS
      ------------------------------------------------------------ */
   var progressBar = $("#progressBar");
+  var quickNav = $("#quickNav");
+  var btnQuickTop = $("#btnQuickTop");
+
   function updateProgress() {
-    if (!progressBar) return;
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    progressBar.style.width = (h > 0 ? (window.pageYOffset / h) * 100 : 0) + "%";
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    if (progressBar) {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + "%";
+    }
+    if (quickNav) {
+      if (scrollY > 380) {
+        quickNav.classList.add("is-visible");
+      } else {
+        quickNav.classList.remove("is-visible");
+      }
+    }
   }
   window.addEventListener("scroll", updateProgress, { passive: true });
   updateProgress();
+
+  if (btnQuickTop) {
+    btnQuickTop.addEventListener("click", function () {
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+  }
 
   if (hasGsap && !reduced) {
     gsap.to("#bgGrid", { yPercent: 5, ease: "none", scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: true } });
@@ -402,45 +424,52 @@
   }
 
   /* ------------------------------------------------------------
-     EVENTS — activity calendar timeline (alternating sides)
+     EVENTS — activity calendar timeline (alternating sides & filter)
      ------------------------------------------------------------ */
   var evTrack = $("#evTrack");
   if (evTrack) {
-    $all(".tl-node", evTrack).forEach(function (node, i) {
-      if (node.classList.contains("tl-eof")) return;
-      (i % 2 === 0) ? node.classList.remove("tl-alt") : node.classList.add("tl-alt");
-    });
+    function refreshTimelineAlternation() {
+      var visibleNodes = $all(".tl-node:not(.tl-eof):not(.is-hidden)", evTrack);
+      visibleNodes.forEach(function (node, i) {
+        (i % 2 === 0) ? node.classList.remove("tl-alt") : node.classList.add("tl-alt");
+      });
+    }
+
+    refreshTimelineAlternation();
+
     $all(".ev-card", evTrack).forEach(function (card) {
       card.addEventListener("click", function (e) {
         if (e.target.closest("a")) return;
         card.classList.toggle("is-open");
       });
     });
-  }
 
-  /* ------------------------------------------------------------
-     TEAM — stacked card depth (scale as next covers)
-     ------------------------------------------------------------ */
-  if (hasGsap && !reduced) {
-    var stackCards = $all(".stack-card");
-    stackCards.forEach(function (card, i) {
-      if (i === stackCards.length - 1) return;
-      gsap.to(card, {
-        scale: .93, opacity: .55, filter: "brightness(.8)",
-        ease: "none",
-        scrollTrigger: {
-          trigger: stackCards[i + 1],
-          start: "top bottom",
-          end: "top 130px",
-          scrub: true
+    var filterBtns = $all(".ev-filter-btn");
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        filterBtns.forEach(function (b) { b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
+        var filter = btn.dataset.filter;
+        var nodes = $all(".tl-node:not(.tl-eof)", evTrack);
+        nodes.forEach(function (node) {
+          var type = node.dataset.type || "history";
+          if (filter === "all" || type === filter) {
+            node.classList.remove("is-hidden");
+          } else {
+            node.classList.add("is-hidden");
+          }
+        });
+        refreshTimelineAlternation();
+        if (hasGsap && typeof ScrollTrigger !== "undefined") {
+          ScrollTrigger.refresh();
         }
       });
     });
   }
 
   /* ------------------------------------------------------------
-     GALLERY — per-item parallax drift + lightbox
-     ------------------------------------------------------------ */
+      GALLERY — per-item parallax drift + lightbox
+      ------------------------------------------------------------ */
   if (hasGsap && !reduced) {
     $all(".gal-item").forEach(function (item) {
       var spd = parseFloat(item.dataset.speed || "1");
@@ -665,31 +694,74 @@
     }
   }
 
+  var currentGalEventIdx = 0;
+  var currentGalItem = null;
+  var lbEventTracker = $("#lbEventTracker");
+  var lbPrevEvent = $("#lbPrevEvent");
+  var lbNextEvent = $("#lbNextEvent");
+
   function openLightbox(item) {
     if (!lightbox || !item._album || !item._album.length) return;
+    currentGalItem = item;
+    currentGalEventIdx = galItems.indexOf(item);
+    if (currentGalEventIdx < 0) currentGalEventIdx = 0;
     lbAlbum = item._album;
     lbIndex = 0;
     var info = galEventInfo(item);
     lbName.textContent = info.name;
     lbDate.textContent = info.date;
     if (lbDesc) lbDesc.textContent = item.dataset.desc || "";
+    if (lbEventTracker) {
+      lbEventTracker.textContent = "EVENT " + pad2(currentGalEventIdx + 1) + " OF " + pad2(galItems.length);
+    }
     renderLightbox();
     lastFocus = document.activeElement;
     lightbox.classList.add("open");
     if (lenis) lenis.stop();
     lbClose.focus();
   }
+
   function closeLightbox() {
     if (!lightbox || !lightbox.classList.contains("open")) return;
     lightbox.classList.remove("open");
     if (lenis) lenis.start();
     if (lastFocus) lastFocus.focus();
   }
+
   function showLightbox(delta) {
     if (!lightbox || !lightbox.classList.contains("open") || lbAlbum.length === 0) return;
     lbIndex = (lbIndex + delta + lbAlbum.length) % lbAlbum.length;
     renderLightbox();
   }
+
+  function switchEvent(delta) {
+    if (!galItems.length) return;
+    var nextEventIdx = (currentGalEventIdx + delta + galItems.length) % galItems.length;
+    openLightbox(galItems[nextEventIdx]);
+  }
+
+  /* ------------------------------------------------------------
+     GALLERY CATEGORY FILTERING
+     ------------------------------------------------------------ */
+  var galFilterBtns = $all(".gal-filter-btn");
+  galFilterBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      galFilterBtns.forEach(function (b) { b.classList.remove("is-active"); });
+      btn.classList.add("is-active");
+      var cat = btn.dataset.cat;
+      galItems.forEach(function (item) {
+        var itemCat = item.dataset.category || "workshop";
+        if (cat === "all" || itemCat === cat) {
+          item.classList.remove("is-filtered-out");
+        } else {
+          item.classList.add("is-filtered-out");
+        }
+      });
+      if (hasGsap && typeof ScrollTrigger !== "undefined") {
+        ScrollTrigger.refresh();
+      }
+    });
+  });
 
   var galGrid = $(".gal");
   galItems.forEach(function (item) {
@@ -697,83 +769,75 @@
     item.addEventListener("keydown", function (e) {
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLightbox(item); }
     });
-
-    var hud = document.createElement("div");
-    hud.className = "gal-hud mono";
-    hud.setAttribute("aria-hidden", "true");
-    hud.innerHTML = '<span>VIEW EVENT</span> <span class="hud-arrow">↗</span>';
-    item.appendChild(hud);
-
-    var qX = hasGsap && finePointer ? gsap.quickTo(hud, "x", { duration: 0.28, ease: "power2.out" }) : null;
-    var qY = hasGsap && finePointer ? gsap.quickTo(hud, "y", { duration: 0.28, ease: "power2.out" }) : null;
-
-    function setPos(e) {
-      var rect = item.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      if (qX && qY) {
-        qX(x);
-        qY(y);
-      } else {
-        item.style.setProperty("--mx", x + "px");
-        item.style.setProperty("--my", y + "px");
-      }
-    }
-
-    item.addEventListener("mouseenter", function (e) {
-      if (galGrid) galGrid.classList.add("has-active-item");
-      item.classList.add("is-active");
-      var rect = item.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      if (hasGsap && finePointer) {
-        gsap.set(hud, { x: x, y: y });
-      } else {
-        item.style.setProperty("--mx", x + "px");
-        item.style.setProperty("--my", y + "px");
-      }
-    });
-
-    item.addEventListener("mousemove", setPos);
-
-    item.addEventListener("mouseleave", function () {
-      item.classList.remove("is-active");
-      if (galGrid) {
-        var any = galGrid.querySelector(".gal-item.is-active");
-        if (!any) galGrid.classList.remove("has-active-item");
-      }
-    });
-
-    item.addEventListener("focus", function () {
-      if (galGrid) galGrid.classList.add("has-active-item");
-      item.classList.add("is-active");
-      var rect = item.getBoundingClientRect();
-      if (hasGsap && finePointer) {
-        gsap.set(hud, { x: rect.width / 2, y: rect.height / 2 });
-      }
-    });
-
-    item.addEventListener("blur", function () {
-      item.classList.remove("is-active");
-      if (galGrid) {
-        var any = galGrid.querySelector(".gal-item.is-active");
-        if (!any) galGrid.classList.remove("has-active-item");
-      }
-    });
   });
+
   if (lbClose) lbClose.addEventListener("click", closeLightbox);
   if (lbPrev) lbPrev.addEventListener("click", function (e) { e.stopPropagation(); showLightbox(-1); });
   if (lbNext) lbNext.addEventListener("click", function (e) { e.stopPropagation(); showLightbox(1); });
   if (lbPeek) lbPeek.addEventListener("click", function () { showLightbox(1); });
+  if (lbPrevEvent) lbPrevEvent.addEventListener("click", function (e) { e.stopPropagation(); switchEvent(-1); });
+  if (lbNextEvent) lbNextEvent.addEventListener("click", function (e) { e.stopPropagation(); switchEvent(1); });
   if (lightbox) lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeLightbox();
       closeMobileMenu();
     }
     if (!lightbox || !lightbox.classList.contains("open")) return;
-    if (e.key === "ArrowRight") showLightbox(1);
-    if (e.key === "ArrowLeft") showLightbox(-1);
+    if (e.key === "Tab") {
+      var focusables = $all("button:not(:disabled)", lightbox).filter(function (el) {
+        return el.offsetParent !== null;
+      });
+      if (!focusables.length) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+    if (e.key === "ArrowRight") {
+      if (e.shiftKey) { switchEvent(1); } else { showLightbox(1); }
+    }
+    if (e.key === "ArrowLeft") {
+      if (e.shiftKey) { switchEvent(-1); } else { showLightbox(-1); }
+    }
+    if (e.key === "ArrowUp") switchEvent(-1);
+    if (e.key === "ArrowDown") switchEvent(1);
+  });
+
+  /* ------------------------------------------------------------
+     EVENT -> GALLERY LINKING: Jump & Open Gallery Lightbox
+     ------------------------------------------------------------ */
+  $all(".btn-ev-gallery").forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var targetId = btn.dataset.galTarget;
+      if (!targetId) return;
+      var targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+
+      // If target item is filtered out, reset gallery filter to ALL first
+      if (targetEl.classList.contains("is-filtered-out")) {
+        galFilterBtns.forEach(function (b) {
+          b.classList.toggle("is-active", b.dataset.cat === "all");
+        });
+        galItems.forEach(function (it) { it.classList.remove("is-filtered-out"); });
+      }
+
+      if (lenis) {
+        lenis.scrollTo(targetEl, { offset: -80, duration: 1.2 });
+      } else {
+        targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      targetEl.classList.remove("target-highlight");
+      void targetEl.offsetWidth; // trigger reflow
+      targetEl.classList.add("target-highlight");
+
+      setTimeout(function () {
+        openLightbox(targetEl);
+      }, 650);
+    });
   });
 
   /* ------------------------------------------------------------
