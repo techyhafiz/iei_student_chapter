@@ -1,6 +1,6 @@
-/* ============================================================
-   NULLSEC — Cybersecurity Club
-   Dark console · glassmorphism · 2.5D parallax · scroll-driven
+﻿/* ============================================================
+   NULLSEC â€” Cybersecurity Club
+   Dark console Â· glassmorphism Â· 2.5D parallax Â· scroll-driven
    Palette LOCKED
    ============================================================ */
 
@@ -25,22 +25,25 @@
 }
 
 /* ============================================================
-   THEME TOKENS — LIGHT MODE
-   Toggling data-theme="light" on <html> re-skins every
-   component through these tokens + explicit overrides below.
+   THEME TOKENS â€” LIGHT MODE
+   Clean Tech White: crisp porcelain canvas, pure white
+   surfaces, cool slate ink, sharp amber-gold accents with a
+   steel-blue second voice. Toggling data-theme="light" on
+   <html> re-skins every component through these tokens +
+   explicit overrides below.
    ============================================================ */
 :root[data-theme="light"] {
-  --bg: #eeeae2;
-  --panel: #fbf9f4;
-  --glass: rgba(251, 249, 244, 0.86);
-  --text: #181b22;
-  --muted: #595e6a;
-  --accent: #b87d00;
-  --accent-hi: #945e00;
-  --border: rgba(24, 27, 34, 0.10);
-  --ok: #15803d;
+  --bg: #f4f6f9;
+  --panel: #ffffff;
+  --glass: rgba(255, 255, 255, 0.84);
+  --text: #0f172a;
+  --muted: #5b6577;
+  --accent: #b45309;
+  --accent-hi: #92400e;
+  --border: rgba(15, 23, 42, 0.10);
+  --ok: #16a34a;
   --on-accent: #ffffff;
-  --shadow-strong: rgba(24, 27, 34, 0.08);
+  --shadow-strong: rgba(15, 23, 42, 0.08);
   color-scheme: light;
 }
 
@@ -466,11 +469,11 @@ button {
 
 html[data-theme="light"] .theme-toggle .toggle-thumb {
   transform: translateX(32px);
-  box-shadow: 0 2px 8px rgba(148, 112, 12, .4);
+  box-shadow: 0 2px 8px rgba(146, 64, 14, .4);
 }
 
 html[data-theme="light"] .theme-toggle .icon-sun {
-  color: #fffdf8;
+  color: #ffffff;
 }
 
 html:not([data-theme="light"]) .theme-toggle .icon-moon {
@@ -676,7 +679,7 @@ html:not([data-theme="light"]) .theme-toggle .icon-moon {
   display: block;
 }
 
-/* Radar — concentric rings, rotating sweep, pinging contact blips */
+/* Radar â€” concentric rings, rotating sweep, pinging contact blips */
 .hero-radar {
   position: absolute;
   right: min(-14vmin, -90px);
@@ -875,7 +878,7 @@ html:not([data-theme="light"]) .theme-toggle .icon-moon {
   border-right: none;
 }
 
-/* Culture blurb cell — leftmost */
+/* Culture blurb cell â€” leftmost */
 .stats-culture {
   display: flex;
   align-items: center;
@@ -1268,7 +1271,7 @@ html.no-gsap [data-reveal] {
 }
 
 /* ============================================================
-   EVENTS — activity calendar timeline (HORIZONTAL)
+   EVENTS â€” activity calendar timeline (HORIZONTAL)
    Central horizontal spine, event cards branch above/below,
    date stamp on the opposite side; sides alternate every entry.
    Scrollable viewport, default anchored on upcoming events;
@@ -1315,9 +1318,9 @@ html.no-gsap [data-reveal] {
 }
 
 html[data-theme="light"] .ev-filter-btn.is-active {
-  background: #d49200;
-  border-color: #d49200;
-  box-shadow: 0 4px 14px rgba(184, 125, 0, .3);
+  background: #b45309;
+  border-color: #b45309;
+  box-shadow: 0 4px 14px rgba(180, 83, 9, .3);
 }
 
 .tl-node.is-hidden {
@@ -1397,7 +1400,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   width: 100%
 }
 
-/* branch A — card ABOVE the spine, date BELOW */
+/* branch A â€” card ABOVE the spine, date BELOW */
 .tl-node:not(.tl-alt) .tl-card {
   grid-row: 1;
   align-self: end;
@@ -1410,7 +1413,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   margin-top: 1rem
 }
 
-/* branch B — date ABOVE the spine, card BELOW */
+/* branch B â€” date ABOVE the spine, card BELOW */
 .tl-node.tl-alt .tl-card {
   grid-row: 3;
   align-self: start;
@@ -1489,7 +1492,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   align-items: center
 }
 
-/* ---------- horizontal chrome — edge fades + scroll arrows ---------- */
+/* ---------- horizontal chrome â€” edge fades + scroll arrows ---------- */
 .tl-fade {
   position: absolute;
   top: 0;
@@ -1574,7 +1577,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
 }
 
 /* ============================================================
-   TIMELINE COLOR CODING — UPCOMING (GOLD) vs HAPPENED (SLATE BLUE)
+   TIMELINE COLOR CODING â€” UPCOMING (GOLD) vs HAPPENED (SLATE BLUE)
    ============================================================ */
 
 /* --- 1. UPCOMING EVENTS (Active Golden Cyber Beacon) --- */
@@ -1710,7 +1713,7 @@ html[data-theme="light"] .ev-filter-btn.is-active {
   z-index: 7
 }
 
-/* detail panel — floats over the OPPOSITE branch so the strip's
+/* detail panel â€” floats over the OPPOSITE branch so the strip's
    geometry (spine, dots, node heights) never shifts on expand */
 .ev-body {
   position: absolute;
@@ -1901,15 +1904,15 @@ html[data-theme="light"] .ev-filter-btn.is-active {
 }
 
 html[data-theme="light"] .btn-ev-gallery {
-  background: rgba(184, 125, 0, 0.08);
-  border-color: rgba(184, 125, 0, 0.28);
-  color: #b87d00;
+  background: rgba(180, 83, 9, 0.07);
+  border-color: rgba(180, 83, 9, 0.28);
+  color: #b45309;
 }
 
 html[data-theme="light"] .btn-ev-gallery:hover {
-  background: #d49200;
+  background: #b45309;
   color: var(--on-accent);
-  box-shadow: 0 4px 14px rgba(184, 125, 0, 0.3);
+  box-shadow: 0 4px 14px rgba(180, 83, 9, 0.3);
 }
 
 /* Flash highlight animation when jumping from event to gallery card */
@@ -2004,85 +2007,221 @@ html[data-theme="light"] .btn-ev-gallery:hover {
   display: none !important;
 }
 
-.gal {
-  display: grid;
-  gap: 1.25rem;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: clamp(190px, 16vw, 220px);
-  grid-auto-flow: dense;
-  max-width: 1240px;
-  margin: 0 auto;
+/* ---------- THE REEL â€” pinned cinematic horizontal archive ----------
+   Desktop: the stage pins fullscreen and vertical scroll drives the
+   strip horizontally (GSAP scrub). Mobile / reduced-motion / no-JS:
+   the same markup degrades to a native swipe strip. */
+.reel-stage {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  padding-top: 76px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.gal-item {
+.reel-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.5rem, 3.5vw, 3.5rem);
+  width: max-content;
+  padding: 0 clamp(1.2rem, 5vw, 4rem);
+  will-change: transform;
+}
+
+.reel-panel {
   position: relative;
   overflow: hidden;
   cursor: pointer;
   padding: 0;
   border-radius: var(--r);
-  min-height: 0;
-  max-height: 100%;
-  transition: transform .5s cubic-bezier(.22, .61, .36, 1), 
-              opacity .5s cubic-bezier(.22, .61, .36, 1), 
-              filter .5s cubic-bezier(.22, .61, .36, 1), 
+  flex: none;
+  width: min(58vw, 900px);
+  height: min(62vh, 640px);
+  transition: transform .5s cubic-bezier(.22, .61, .36, 1),
+              opacity .5s cubic-bezier(.22, .61, .36, 1),
+              filter .5s cubic-bezier(.22, .61, .36, 1),
               box-shadow .5s cubic-bezier(.22, .61, .36, 1),
               border-color .4s;
   will-change: transform, opacity;
 }
 
-/* Dim non-hovered image backgrounds ONLY when a specific card is actively hovered */
-.gal:has(.gal-item:hover) .gal-item:not(:hover) .gal-img,
-.gal:has(.gal-item:focus-visible) .gal-item:not(:focus-visible) .gal-img {
-  opacity: .35;
-  filter: grayscale(35%) brightness(.75);
+.reel-panel.is-wide {
+  width: min(72vw, 1100px);
 }
 
-.gal:has(.gal-item:hover) .gal-item:not(:hover) {
-  opacity: .88;
-  transform: scale(.985);
-}
-
-/* Actively hovered item lifts smoothly and draws focus */
-.gal-item:hover,
-.gal-item:focus-visible {
-  opacity: 1;
-  filter: none;
-  transform: translateY(-5px) scale(1.025);
+/* signal lock â€” hovered feed lifts and locks */
+.reel-panel:hover,
+.reel-panel:focus-visible {
   z-index: 10;
+  transform: translateY(-6px);
   border-color: var(--accent);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, .55), 0 0 28px rgba(212, 160, 23, .22);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .55), 0 0 30px rgba(212, 160, 23, .22);
 }
 
-.gal-item:hover .gal-img svg,
-.gal-item:focus-visible .gal-img svg,
-.gal-item:hover .gal-img img,
-.gal-item:focus-visible .gal-img img {
-  transform: scale(1.06);
+/* art fills the frame; GSAP owns its transform (cover scale + drift) */
+.reel-panel .gal-img img,
+.reel-panel .gal-img svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* 12-Column Grid Dimensions */
-.col-4 {
-  grid-column: span 4;
+/* caption scales up for the big frames */
+.reel-panel figcaption {
+  padding: 2.6rem 1.3rem 1rem;
+  font-size: .66rem;
 }
 
-.col-6 {
-  grid-column: span 6;
+.reel-panel .gal-title {
+  font-size: .72rem;
+  letter-spacing: .16em;
 }
 
-.col-8 {
-  grid-column: span 8;
+.reel-panel .cam-tag,
+.reel-panel .rec-pill {
+  font-size: .56rem;
 }
 
-.col-12 {
-  grid-column: span 12;
+.reel-panel .cam-stamp {
+  bottom: 3.2rem;
+  font-size: .56rem;
 }
 
-.row-1 {
-  grid-row: span 1;
+/* EOF panel â€” invite the next recording */
+.reel-cta {
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.1rem;
+  width: min(44vw, 560px);
+  height: min(62vh, 640px);
+  padding: clamp(1.5rem, 3vw, 3rem);
+  border-style: dashed;
 }
 
-.row-2 {
-  grid-row: span 2;
+.reel-cta h3 {
+  font-family: var(--disp);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.reel-cta p {
+  color: var(--muted);
+  font-size: .92rem;
+  max-width: 42ch;
+}
+
+.reel-cta .kicker {
+  margin-bottom: 0;
+}
+
+/* progress rail + feed counter */
+.reel-ui {
+  position: absolute;
+  left: clamp(1.2rem, 5vw, 4rem);
+  right: clamp(1.2rem, 5vw, 4rem);
+  bottom: clamp(1.1rem, 3vh, 2rem);
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  font-size: .62rem;
+  letter-spacing: .22em;
+  color: var(--muted);
+}
+
+#reelCount {
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.reel-rail {
+  flex: 1;
+  height: 2px;
+  background: var(--border);
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+#reelFill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hi));
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.reel-hint {
+  white-space: nowrap;
+  opacity: .7;
+}
+
+/* native swipe fallback â€” small screens and reduced motion */
+@media (max-width: 860px), (prefers-reduced-motion: reduce) {
+  .reel-stage {
+    height: auto;
+    padding: 0;
+  }
+
+  .reel-track {
+    width: auto;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .reel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reel-panel,
+  .reel-cta {
+    width: min(84vw, 540px);
+    height: 58vh;
+    scroll-snap-align: center;
+  }
+
+  .reel-panel.is-wide {
+    width: min(92vw, 580px);
+  }
+
+  .reel-ui {
+    display: none;
+  }
+}
+
+/* no-GSAP safety net */
+html.no-gsap .reel-stage {
+  height: auto;
+  padding: 0;
+}
+
+html.no-gsap .reel-track {
+  width: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+html.no-gsap .reel-track::-webkit-scrollbar {
+  display: none;
+}
+
+html.no-gsap .reel-panel,
+html.no-gsap .reel-cta {
+  width: min(84vw, 720px);
+  height: 60vh;
+}
+
+html.no-gsap .reel-ui {
+  display: none;
 }
 
 .gal-img {
@@ -2175,7 +2314,7 @@ html[data-theme="light"] .btn-ev-gallery:hover {
   animation: none
 }
 
-/* CRT overlay — scanlines + vignette + targeting brackets */
+/* CRT overlay â€” scanlines + vignette + targeting brackets */
 .cam-frame {
   --brk: rgba(242, 193, 78, .65);
   position: absolute;
@@ -2214,7 +2353,7 @@ html[data-theme="light"] .btn-ev-gallery:hover {
   border-right: 2px solid var(--brk)
 }
 
-/* signal lock — brackets flare outward on hover */
+/* signal lock â€” brackets flare outward on hover */
 .gal-item:hover .cam-frame::before,
 .gal-item:focus-visible .cam-frame::before {
   transform: translate(-4px, -4px);
@@ -2297,7 +2436,7 @@ html[data-theme="light"] .btn-ev-gallery:hover {
   animation: rec-blink 1.4s infinite
 }
 
-/* Caption docked on a gradient scrim — art breathes, text stays legible */
+/* Caption docked on a gradient scrim â€” art breathes, text stays legible */
 .gal-item figcaption {
   position: absolute;
   left: 0;
@@ -2363,7 +2502,7 @@ html[data-theme="light"] .btn-ev-gallery:hover {
   box-shadow: inset 0 0 0 1px rgba(212, 160, 23, .65);
 }
 
-/* Radar scan sweep — one gold pass over the frame on hover */
+/* Radar scan sweep â€” one gold pass over the frame on hover */
 .gal-item::before {
   content: "";
   position: absolute;
@@ -3038,39 +3177,6 @@ footer {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width:1024px) {
-  .gal {
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-rows: 190px;
-    gap: 1rem;
-  }
-
-  .col-4 {
-    grid-column: span 3;
-  }
-
-  .col-6 {
-    grid-column: span 3;
-  }
-
-  .col-8, .col-12 {
-    grid-column: span 6;
-  }
-
-  .col-8.row-2 {
-    grid-column: span 6;
-    grid-row: span 2;
-  }
-
-  .row-1 {
-    grid-row: span 1;
-  }
-
-  .row-2 {
-    grid-row: span 2;
-  }
-}
-
 @media (max-width:960px) {
   .about-grid,
   .join-grid {
@@ -3138,49 +3244,11 @@ footer {
   .form-row {
     grid-template-columns: 1fr
   }
-
-  .gal {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: 180px;
-    gap: .85rem;
-  }
-
-  .col-4, .col-6 {
-    grid-column: span 1;
-  }
-
-  .col-8, .col-12 {
-    grid-column: span 2;
-  }
-
-  .row-1 {
-    grid-row: span 1;
-  }
-
-  .row-2 {
-    grid-row: span 2;
-  }
 }
 
 @media (max-width:640px) {
   .foot-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width:540px) {
-  .gal {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 185px;
-    gap: .75rem;
-  }
-
-  .col-4, .col-6, .col-8, .col-12 {
-    grid-column: span 1 !important;
-  }
-
-  .gal-item.row-2 {
-    grid-row: span 1 !important;
   }
 }
 
@@ -3215,464 +3283,3 @@ footer {
   }
 }
 
-/* ============================================================
-   LIGHT THEME — COMPONENT OVERRIDES
-   Warm Titanium & Champagne Slate Aesthetic: Soft eye-friendly
-   warm canvas, ivory elevated panels, radiant cyber gold,
-   and a grounded deep obsidian footer.
-   ============================================================ */
-
-/* Navigation */
-html[data-theme="light"] #nav.scrolled {
-  background: rgba(238, 234, 226, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom-color: rgba(24, 27, 34, 0.08);
-  box-shadow: 0 4px 24px rgba(24, 27, 34, 0.04);
-}
-
-html[data-theme="light"] #mobileMenu {
-  background: rgba(238, 234, 226, 0.98);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-}
-
-html[data-theme="light"] #mobileMenu a {
-  color: #595e6a;
-}
-
-html[data-theme="light"] #mobileMenu a:hover {
-  color: var(--accent);
-}
-
-/* Glass Panels & Surfaces */
-html[data-theme="light"] .glass {
-  background: rgba(251, 249, 244, 0.86);
-  border-color: rgba(24, 27, 34, 0.09);
-  box-shadow: 0 10px 30px rgba(24, 27, 34, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-
-html[data-theme="light"] .glass:hover {
-  border-color: rgba(184, 125, 0, 0.38);
-  box-shadow: 0 14px 40px rgba(24, 27, 34, 0.08), 0 0 24px rgba(184, 125, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-}
-
-/* Buttons */
-html[data-theme="light"] .btn-primary {
-  background: linear-gradient(135deg, #d49200, #b87d00);
-  font-weight: 700;
-  box-shadow: 0 4px 16px rgba(184, 125, 0, 0.32);
-}
-
-html[data-theme="light"] .btn-primary:hover {
-  box-shadow: 0 8px 24px rgba(184, 125, 0, 0.45);
-  transform: translateY(-2px);
-}
-
-html[data-theme="light"] .btn-ghost {
-  background: rgba(251, 249, 244, 0.9);
-  border-color: rgba(24, 27, 34, 0.12);
-  color: #181b22;
-}
-
-html[data-theme="light"] .btn-ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 4px 18px rgba(184, 125, 0, 0.18);
-}
-
-/* Hero Section */
-html[data-theme="light"] #heroFx {
-  opacity: .8;
-}
-
-html[data-theme="light"] .hero-radar {
-  border-color: rgba(24, 27, 34, .10);
-  background:
-    repeating-radial-gradient(circle at 50% 50%, transparent 0 84px, rgba(24, 27, 34, .08) 84px 85px);
-}
-
-html[data-theme="light"] .hero-radar::before,
-html[data-theme="light"] .hero-radar::after {
-  background: rgba(24, 27, 34, .07);
-}
-
-html[data-theme="light"] .radar-sweep {
-  background: conic-gradient(from 0deg, rgba(184, 125, 0, .09), transparent 20%);
-}
-
-html[data-theme="light"] .radar-blip {
-  box-shadow: 0 0 10px rgba(148, 94, 0, .55);
-}
-
-html[data-theme="light"] .hero-bg-fade {
-  background: linear-gradient(90deg,
-      rgba(238, 234, 226, 0.96) 0%,
-      rgba(238, 234, 226, 0.86) 26%,
-      rgba(238, 234, 226, 0.32) 55%,
-      transparent 78%);
-}
-
-html[data-theme="light"] .hero-stats-card,
-html[data-theme="light"] .hero-status-card {
-  background: rgba(251, 249, 244, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-color: rgba(24, 27, 34, 0.09);
-  box-shadow: 0 10px 30px rgba(24, 27, 34, 0.06);
-}
-
-html[data-theme="light"] .stats-cell {
-  border-right-color: rgba(24, 27, 34, 0.08);
-  border-bottom-color: rgba(24, 27, 34, 0.08);
-}
-
-html[data-theme="light"] .stats-culture-icon {
-  background: rgba(184, 125, 0, 0.08);
-  border-color: rgba(184, 125, 0, 0.28);
-  color: #b87d00;
-}
-
-html[data-theme="light"] .status-ok {
-  color: var(--ok);
-}
-
-html[data-theme="light"] .dot-ok {
-  background: var(--ok);
-  box-shadow: 0 0 10px rgba(21, 128, 61, 0.5);
-}
-
-/* Ambient FX tuned for warm titanium light mode */
-html[data-theme="light"] #bgGrid {
-  background-image:
-    linear-gradient(rgba(24, 27, 34, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(24, 27, 34, 0.04) 1px, transparent 1px);
-}
-
-html[data-theme="light"] #bgGlow {
-  background:
-    radial-gradient(600px 420px at 78% 18%, rgba(184, 125, 0, 0.08), transparent 65%),
-    radial-gradient(700px 520px at 12% 82%, rgba(70, 110, 190, 0.06), transparent 65%);
-}
-
-html[data-theme="light"] #bgMid .hexbit {
-  color: rgba(24, 27, 34, 0.24);
-}
-
-html[data-theme="light"] #scanlines {
-  display: none;
-}
-
-html[data-theme="light"] #noise {
-  opacity: .018;
-}
-
-html[data-theme="light"] .marquee {
-  background: rgba(230, 225, 215, 0.7);
-  border-color: rgba(24, 27, 34, 0.08);
-}
-
-/* Timeline & Events */
-html[data-theme="light"] .tl-node[data-type="upcoming"] .tl-dot {
-  background: #d49200;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(212, 146, 0, 0.25), 0 0 14px rgba(212, 146, 0, 0.6);
-}
-
-html[data-theme="light"] .tl-node[data-type="upcoming"] .ev-card {
-  background: linear-gradient(135deg, rgba(255, 248, 230, 0.96) 0%, #fbf9f4 100%);
-  border-color: rgba(212, 146, 0, 0.4);
-  box-shadow: 0 8px 24px rgba(184, 125, 0, 0.08);
-}
-
-html[data-theme="light"] .tl-node[data-type="upcoming"] .ev-tag {
-  color: #a06300;
-  background: rgba(212, 146, 0, 0.12);
-  border-color: rgba(212, 146, 0, 0.4);
-}
-
-html[data-theme="light"] .tl-node[data-type="upcoming"] .tl-date .tl-mo {
-  color: #b87d00;
-}
-
-html[data-theme="light"] .tl-node[data-type="history"] .tl-dot {
-  background: #2563eb;
-  border-color: #ffffff;
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18), 0 0 12px rgba(37, 99, 235, 0.4);
-}
-
-html[data-theme="light"] .tl-node[data-type="history"] .ev-card {
-  background: linear-gradient(135deg, rgba(240, 246, 255, 0.95) 0%, #fbf9f4 100%);
-  border-color: rgba(37, 99, 235, 0.25);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.05);
-}
-
-html[data-theme="light"] .tl-node[data-type="history"] .ev-tag {
-  color: #1d4ed8;
-  background: rgba(37, 99, 235, 0.08);
-  border-color: rgba(37, 99, 235, 0.3);
-}
-
-html[data-theme="light"] .tl-node[data-type="history"] .tl-date .tl-mo {
-  color: #1d4ed8;
-}
-
-html[data-theme="light"] .tl-node[data-type="history"] .btn-ev-gallery {
-  color: #1d4ed8;
-  border-color: rgba(37, 99, 235, 0.3);
-  background: rgba(37, 99, 235, 0.06);
-}
-
-html[data-theme="light"] .tl-node[data-type="history"] .btn-ev-gallery:hover {
-  background: #1d4ed8;
-  color: var(--on-accent);
-  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.35);
-}
-
-html[data-theme="light"] .tag-win {
-  color: #15803d;
-  border-color: rgba(21, 128, 61, 0.3);
-  background: rgba(21, 128, 61, 0.08);
-}
-
-/* Gallery plates + lightbox */
-html[data-theme="light"] .gal-img svg rect[fill="#15181d"],
-html[data-theme="light"] #lbContent svg rect[fill="#15181d"],
-html[data-theme="light"] #lbPeekImg svg rect[fill="#15181d"] {
-  fill: #e5e0d4;
-}
-
-html[data-theme="light"] .gal-item {
-  background: #fbf9f4;
-  border-color: rgba(24, 27, 34, 0.09);
-  box-shadow: 0 4px 16px rgba(24, 27, 34, 0.04);
-}
-
-html[data-theme="light"] .gal-filter-btn {
-  background: rgba(251, 249, 244, 0.92);
-  border-color: rgba(24, 27, 34, 0.14);
-  color: #475569;
-}
-
-html[data-theme="light"] .gal-filter-btn:hover {
-  border-color: var(--accent);
-  color: #b87d00;
-}
-
-html[data-theme="light"] .gal-filter-btn.is-active {
-  background: #b87d00;
-  border-color: #b87d00;
-  box-shadow: 0 4px 16px rgba(184, 125, 0, 0.35);
-}
-
-/* surveillance chrome adapts to the warm palette */
-html[data-theme="light"] .cam-frame {
-  --brk: rgba(184, 125, 0, .85)
-}
-
-html[data-theme="light"] .cam-stamp {
-  color: rgba(122, 82, 0, .85);
-  text-shadow: none
-}
-
-html[data-theme="light"] .cam-sig {
-  color: #b87d00
-}
-
-html[data-theme="light"] .gal-item figcaption {
-  background: linear-gradient(to top,
-      rgba(251, 249, 244, .96) 26%,
-      rgba(251, 249, 244, .58) 68%,
-      transparent 100%);
-  color: #181b22;
-}
-
-html[data-theme="light"] .gal-idx {
-  color: #b87d00;
-}
-
-html[data-theme="light"] .gal-frames {
-  color: #b87d00;
-}
-
-html[data-theme="light"] .gal-action-hint {
-  color: #b87d00;
-}
-
-html[data-theme="light"] .quick-top-btn {
-  background: rgba(251, 249, 244, 0.95);
-  border-color: rgba(184, 125, 0, 0.35);
-  color: #b87d00;
-  box-shadow: 0 6px 20px rgba(24, 27, 34, 0.08);
-}
-
-html[data-theme="light"] .quick-top-btn:hover {
-  background: #b87d00;
-  border-color: #b87d00;
-}
-
-html[data-theme="light"] .lb-event-bar {
-  background: rgba(24, 27, 34, 0.04);
-  border-color: rgba(24, 27, 34, 0.08);
-}
-
-html[data-theme="light"] .lb-ev-nav-btn {
-  border-color: rgba(184, 125, 0, 0.4);
-  color: #b87d00;
-}
-
-html[data-theme="light"] .lb-ev-nav-btn:hover {
-  background: #b87d00;
-}
-
-html[data-theme="light"] .lb-ev-tracker {
-  color: #b87d00;
-}
-
-
-
-html[data-theme="light"] #lightbox {
-  background: rgba(17, 20, 26, 0.72);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-html[data-theme="light"] .lb-content {
-  background: #fbf9f4;
-  border-radius: 20px;
-  border: 1px solid rgba(24, 27, 34, 0.1);
-  box-shadow: 0 24px 60px rgba(17, 20, 26, 0.25);
-}
-
-html[data-theme="light"] .lb-stage {
-  background: #eeeae2;
-  border-color: rgba(24, 27, 34, 0.08);
-}
-
-html[data-theme="light"] .lb-arrow {
-  background: rgba(251, 249, 244, 0.9);
-  border-color: rgba(24, 27, 34, 0.12);
-  color: #181b22;
-}
-
-html[data-theme="light"] .lb-arrow:hover:not(:disabled) {
-  background: #fbf9f4;
-  color: #b87d00;
-  border-color: #b87d00;
-  box-shadow: 0 4px 14px rgba(184, 125, 0, 0.18);
-}
-
-html[data-theme="light"] .lb-peek {
-  background: #eeeae2;
-  border-color: rgba(24, 27, 34, 0.08);
-  box-shadow: 0 4px 14px rgba(24, 27, 34, 0.04);
-}
-
-html[data-theme="light"] .lb-peek:hover {
-  background: #fbf9f4;
-  border-color: #d49200;
-}
-
-html[data-theme="light"] .lb-close {
-  background: rgba(251, 249, 244, 0.9);
-  border-color: rgba(24, 27, 34, 0.12);
-  color: #181b22;
-}
-
-html[data-theme="light"] .lb-close:hover {
-  background: #fbf9f4;
-  color: #b87d00;
-  border-color: #b87d00;
-  box-shadow: 0 4px 14px rgba(184, 125, 0, 0.18);
-}
-
-/* Form fields */
-html[data-theme="light"] .field input,
-html[data-theme="light"] .field select,
-html[data-theme="light"] .field textarea {
-  background: #fbf9f4;
-  border-color: rgba(24, 27, 34, 0.14);
-  color: #181b22;
-  box-shadow: 0 1px 3px rgba(24, 27, 34, 0.03);
-}
-
-html[data-theme="light"] .field input:focus,
-html[data-theme="light"] .field select:focus,
-html[data-theme="light"] .field textarea:focus {
-  border-color: #d49200;
-  box-shadow: 0 0 0 3px rgba(184, 125, 0, 0.15);
-  background: #ffffff;
-}
-
-html[data-theme="light"] .field input::placeholder,
-html[data-theme="light"] .field textarea::placeholder {
-  color: #8b919e;
-}
-
-/* Deep Obsidian Grounded Tech Footer */
-html[data-theme="light"] footer {
-  background: #11141a;
-  border-top: 1px solid rgba(184, 125, 0, 0.22);
-  color: #e8e6e1;
-}
-
-html[data-theme="light"] .foot-word {
-  -webkit-text-stroke-color: rgba(212, 160, 23, 0.14);
-}
-
-html[data-theme="light"] .foot-col h4 {
-  color: #d4a017;
-}
-
-html[data-theme="light"] .foot-col a {
-  color: #9a978f;
-}
-
-html[data-theme="light"] .foot-col a:hover {
-  color: #f2c14e;
-}
-
-html[data-theme="light"] .foot-brand p,
-html[data-theme="light"] .foot-status,
-html[data-theme="light"] .foot-uptime {
-  color: #9a978f;
-}
-
-html[data-theme="light"] .foot-bottom {
-  border-top-color: rgba(255, 255, 255, 0.08);
-  color: #828792;
-}
-
-html[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: rgba(184, 125, 0, 0.35);
-}
-
-/* Terminal keeps a high-contrast dark console face */
-html[data-theme="light"] .term-card {
-  background: #11141a;
-  border-color: rgba(24, 27, 34, 0.25);
-  box-shadow: 0 16px 45px rgba(24, 27, 34, 0.14);
-}
-
-html[data-theme="light"] .term-head {
-  background: #1a1e27;
-  color: #9a978f;
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-html[data-theme="light"] .term-body {
-  color: #cbd5e1;
-}
-
-html[data-theme="light"] .term-body .cmd {
-  color: #f8fafc;
-}
-
-html[data-theme="light"] .term-body .out {
-  color: #94a3b8;
-}
-
-html[data-theme="light"] .term-body .ok {
-  color: #4ade80;
-}
-

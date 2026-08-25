@@ -795,8 +795,6 @@
         }
       });
     });
-
-    refreshTimelineAlternation();
     updateTlChrome();
     tlFocusDefault(false);
 
@@ -807,41 +805,92 @@
   }
 
   /* ------------------------------------------------------------
-      GALLERY — per-item parallax drift + lightbox
+      FOOTER wordmark drift
       ------------------------------------------------------------ */
   if (hasGsap && !reduced) {
-    $all(".gal-item").forEach(function (item) {
-      var spd = parseFloat(item.dataset.speed || "1");
-      var img = $(".gal-img", item);
-      if (!img) return;
-      gsap.set(img, { scale: 1.18 });
-      gsap.fromTo(img,
-        { yPercent: -7 * spd },
-        {
-          yPercent: 7 * spd, ease: "none",
-          scrollTrigger: { trigger: item, start: "top bottom", end: "bottom top", scrub: true }
-        }
-      );
-    });
     gsap.fromTo(".foot-word", { yPercent: 34 }, {
       yPercent: 6, ease: "none",
       scrollTrigger: { trigger: "footer", start: "top bottom", end: "bottom bottom", scrub: true }
     });
   }
 
-  /* staggered entrance for the collage frames */
-  if (hasGsap && !reduced && $(".gal")) {
-    gsap.set(".gal-item", { opacity: 0, y: 34, scale: .97 });
-    ScrollTrigger.batch(".gal-item", {
-      start: "top 92%",
-      once: true,
-      onEnter: function (batch) {
-        gsap.to(batch, {
-          opacity: 1, y: 0, scale: 1,
-          duration: .8, stagger: .07, ease: "power3.out",
-          overwrite: true, clearProps: "transform"
-        });
-      }
+  /* ------------------------------------------------------------
+      THE REEL — pinned horizontal archive (desktop).
+      Vertical scroll drives the strip; falls back to a native
+      swipe strip on small screens / reduced motion / no GSAP.
+      ------------------------------------------------------------ */
+  if (hasGsap && !reduced && $("#reelStage")) {
+    var reelStageEl = $("#reelStage");
+    var reelTrackEl = $("#reelTrack");
+    var reelCountEl = $("#reelCount");
+    var reelFillEl = $("#reelFill");
+
+    function reelVisible() {
+      return $all(".gal-item:not(.is-filtered-out)", reelTrackEl);
+    }
+
+    function updateReelUI(progress) {
+      var n = Math.max(1, reelVisible().length);
+      var idx = Math.min(n, Math.max(1, Math.round(progress * (n - 1)) + 1));
+      if (reelCountEl) { reelCountEl.textContent = pad2(idx) + " / " + pad2(n); }
+      if (reelFillEl) { reelFillEl.style.transform = "scaleX(" + progress.toFixed(4) + ")"; }
+    }
+
+    gsap.matchMedia().add("(min-width: 861px)", function () {
+
+      /* entrance sweep as the stage approaches, before the pin engages */
+      var panels = $all(".reel-panel", reelTrackEl);
+      gsap.set(panels, { autoAlpha: 0, x: 90 });
+      gsap.to(panels, {
+        autoAlpha: 1, x: 0,
+        duration: .9, stagger: .08, ease: "power3.out",
+        scrollTrigger: { trigger: reelStageEl, start: "top 72%", once: true },
+        clearProps: "transform"
+      });
+
+      var amount = function () {
+        return Math.max(0, reelTrackEl.scrollWidth - window.innerWidth);
+      };
+
+      var reelTween = gsap.to(reelTrackEl, {
+        x: function () { return -amount(); },
+        ease: "none",
+        scrollTrigger: {
+          trigger: reelStageEl,
+          start: "top top",
+          end: function () { return "+=" + amount(); },
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: function (self) { updateReelUI(self.progress); }
+        }
+      });
+
+      /* per-panel art drift while travelling through the reel */
+      $all(".gal-img", reelTrackEl).forEach(function (img) {
+        var host = img.closest(".reel-panel");
+        var spd = parseFloat((host && host.dataset.speed) || "1");
+        gsap.set(img, { scale: 1.16 });
+        gsap.fromTo(img,
+          { xPercent: -4.5 * spd },
+          {
+            xPercent: 4.5 * spd, ease: "none",
+            scrollTrigger: {
+              trigger: host,
+              containerAnimation: reelTween,
+              start: "left right",
+              end: "right left",
+              scrub: true
+            }
+          }
+        );
+      });
+
+      window.__updateReelUI = function () {
+        var st = reelTween.scrollTrigger;
+        if (st) { updateReelUI(st.progress); }
+      };
     });
   }
 
@@ -986,11 +1035,11 @@
   }
 
   /* ambient signal glitches — random feeds flicker while the wall is on screen */
-  if (!reduced && $(".gal") && typeof IntersectionObserver !== "undefined") {
+  if (!reduced && $(".reel-track") && typeof IntersectionObserver !== "undefined") {
     var galOnScreen = false;
     new IntersectionObserver(function (entries) {
       galOnScreen = entries[0].isIntersecting;
-    }).observe($(".gal"));
+    }).observe($(".reel-track"));
     setInterval(function () {
       if (!galOnScreen || document.hidden) return;
       var vis = galItems.filter(function (it) {
@@ -1136,7 +1185,7 @@
         item.classList.toggle("is-filtered-out", !match);
       });
 
-      /* surviving frames cascade back into the reflowed grid */
+      /* surviving frames cascade back into the reel */
       if (hasGsap && !reduced) {
         var show = galItems.filter(function (item) {
           return !item.classList.contains("is-filtered-out");
@@ -1154,10 +1203,13 @@
       if (hasGsap && typeof ScrollTrigger !== "undefined") {
         ScrollTrigger.refresh();
       }
+      if (typeof window.__updateReelUI === "function") {
+        window.__updateReelUI();
+      }
     });
   });
 
-  var galGrid = $(".gal");
+  var galGrid = $("#reelTrack");
   galItems.forEach(function (item) {
     item.addEventListener("click", function () { openLightbox(item); });
     item.addEventListener("keydown", function (e) {
@@ -1218,10 +1270,11 @@
         galItems.forEach(function (it) { it.classList.remove("is-filtered-out"); });
       }
 
+      var scrollTarget = targetEl.closest(".reel-stage") || targetEl;
       if (lenis) {
-        lenis.scrollTo(targetEl, { offset: -80, duration: 1.2 });
+        lenis.scrollTo(scrollTarget, { offset: -70, duration: 1.2 });
       } else {
-        targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        scrollTarget.scrollIntoView({ behavior: "smooth", block: scrollTarget === targetEl ? "center" : "start" });
       }
 
       targetEl.classList.remove("target-highlight");
