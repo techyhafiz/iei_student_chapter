@@ -424,10 +424,16 @@
   }
 
   /* ------------------------------------------------------------
-     EVENTS — activity calendar timeline (alternating sides & filter)
+     EVENTS — activity calendar timeline (HORIZONTAL)
+     alternating branches + filter + scroll/drag navigation.
+     Default view anchors on the next upcoming event so past
+     events trail off faded to the left.
      ------------------------------------------------------------ */
   var evTrack = $("#evTrack");
-  if (evTrack) {
+  var evViewport = $("#evViewport");
+  var evShell = $("#evShell");
+  if (evTrack && evViewport && evShell) {
+
     function refreshTimelineAlternation() {
       var visibleNodes = $all(".tl-node:not(.tl-eof):not(.is-hidden)", evTrack);
       visibleNodes.forEach(function (node, i) {
@@ -435,15 +441,90 @@
       });
     }
 
-    refreshTimelineAlternation();
+    function tlMaxScroll() {
+      return Math.max(0, evViewport.scrollWidth - evViewport.clientWidth);
+    }
 
+    /* arrows disabled state + left/right edge fades */
+    function updateTlChrome() {
+      var x = evViewport.scrollLeft;
+      var max = tlMaxScroll();
+      var prev = $(".tl-prev", evShell);
+      var next = $(".tl-next", evShell);
+      if (prev) { prev.disabled = x <= 2; }
+      if (next) { next.disabled = x >= max - 2; }
+      evShell.classList.toggle("at-start", x <= 2);
+      evShell.classList.toggle("at-end", x >= max - 2);
+    }
+
+    function tlGoTo(x, smooth) {
+      evViewport.scrollTo({
+        left: Math.max(0, Math.min(x, tlMaxScroll())),
+        behavior: smooth && !reduced ? "smooth" : "auto"
+      });
+    }
+
+    /* anchor on the first upcoming event (~1/3 from the left) */
+    function tlFocusDefault(smooth) {
+      var target = $(".tl-node[data-type='upcoming']:not(.is-hidden)", evTrack);
+      if (!target) { tlGoTo(0, false); updateTlChrome(); return; }
+      var x = evTrack.offsetLeft + target.offsetLeft - evViewport.clientWidth * .34;
+      tlGoTo(x, smooth);
+      updateTlChrome();
+    }
+
+    /* tap/click expands a card (drag across the strip won't trigger it) */
+    var tlDragged = false;
     $all(".ev-card", evTrack).forEach(function (card) {
       card.addEventListener("click", function (e) {
         if (e.target.closest("a")) return;
+        if (tlDragged) return;
         card.classList.toggle("is-open");
       });
     });
 
+    /* arrow buttons */
+    var tlPrevBtn = $(".tl-prev", evShell);
+    var tlNextBtn = $(".tl-next", evShell);
+    if (tlPrevBtn) {
+      tlPrevBtn.addEventListener("click", function () {
+        tlGoTo(evViewport.scrollLeft - evViewport.clientWidth * .72, true);
+      });
+    }
+    if (tlNextBtn) {
+      tlNextBtn.addEventListener("click", function () {
+        tlGoTo(evViewport.scrollLeft + evViewport.clientWidth * .72, true);
+      });
+    }
+
+    evViewport.addEventListener("scroll", updateTlChrome, { passive: true });
+    window.addEventListener("resize", updateTlChrome);
+
+    /* mouse drag-to-scroll (touch scrolls natively) */
+    var tlDrag = null;
+    evViewport.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      tlDrag = { x: e.clientX, left: evViewport.scrollLeft, moved: 0 };
+      evViewport.classList.add("is-dragging");
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!tlDrag) return;
+      var dx = e.clientX - tlDrag.x;
+      if (Math.abs(dx) > tlDrag.moved) { tlDrag.moved = Math.abs(dx); }
+      evViewport.scrollLeft = tlDrag.left - dx;
+      e.preventDefault();
+    });
+    window.addEventListener("pointerup", function () {
+      if (!tlDrag) return;
+      tlDragged = tlDrag.moved > 8;
+      tlDrag = null;
+      evViewport.classList.remove("is-dragging");
+      if (tlDragged) {
+        setTimeout(function () { tlDragged = false; }, 0);
+      }
+    });
+
+    /* filter tabs: ALL / UPCOMING / COMPLETED */
     var filterBtns = $all(".ev-filter-btn");
     filterBtns.forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -460,10 +541,20 @@
           }
         });
         refreshTimelineAlternation();
+        tlFocusDefault(false);
         if (hasGsap && typeof ScrollTrigger !== "undefined") {
           ScrollTrigger.refresh();
         }
       });
+    });
+
+    refreshTimelineAlternation();
+    updateTlChrome();
+    tlFocusDefault(false);
+
+    /* re-anchor once fonts/layout have fully settled */
+    window.addEventListener("load", function () {
+      tlFocusDefault(false);
     });
   }
 
