@@ -132,7 +132,7 @@
           </div>
 
           <!-- Stat counters -->
-          <div class="stats-cell stat-item">
+          <div class="stats-cell stat-item" data-stat="members">
             <div class="stat-icon">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
                 aria-hidden="true">
@@ -142,11 +142,23 @@
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </div>
-            <span class="stat-num mono" data-count="0" data-suffix="+">0</span>
-            <span class="stat-label mono">ACTIVE<br>MEMBERS</span>
+            <span class="stat-num mono" data-count="250" data-suffix="+">0</span>
+            <span class="stat-label mono">TOTAL<br>MEMBERS</span>
           </div>
 
-          <div class="stats-cell stat-item">
+          <div class="stats-cell stat-item" data-stat="sessions">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
+                aria-hidden="true">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <span class="stat-num mono" data-count="35" data-suffix="+">0</span>
+            <span class="stat-label mono">SESSIONS<br>CONDUCTED</span>
+          </div>
+
+          <div class="stats-cell stat-item" data-stat="events">
             <div class="stat-icon">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
                 aria-hidden="true">
@@ -159,11 +171,11 @@
                 <line x1="3" y1="16" x2="21" y2="16" />
               </svg>
             </div>
-            <span class="stat-num mono" data-count="0" data-suffix="+">0</span>
-            <span class="stat-label mono">EVENTS<br>CONDUCTED</span>
+            <span class="stat-num mono" data-count="18" data-suffix="+">0</span>
+            <span class="stat-label mono">EVENTS<br>ORGANISED</span>
           </div>
 
-          <div class="stats-cell stat-item">
+          <div class="stats-cell stat-item" data-stat="workshops">
             <div class="stat-icon">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
                 aria-hidden="true">
@@ -172,24 +184,8 @@
                 <path d="M8.5 14h7" />
               </svg>
             </div>
-            <span class="stat-num mono" data-count="0" data-suffix="+">0</span>
-            <span class="stat-label mono">HANDS-ON<br>LABS</span>
-          </div>
-
-          <div class="stats-cell stat-item">
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
-                aria-hidden="true">
-                <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2" />
-                <path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2" />
-                <path d="M6 3h12v7a6 6 0 0 1-12 0V3z" />
-                <path d="M12 16v2" />
-                <path d="M8 21h8" />
-                <path d="M8 21v-3h8v3" />
-              </svg>
-            </div>
-            <span class="stat-num mono" data-count="0" data-suffix="+">0</span>
-            <span class="stat-label mono">CTF WINS &<br>RECOGNITIONS</span>
+            <span class="stat-num mono" data-count="12" data-suffix="+">0</span>
+            <span class="stat-label mono">WORKSHOPS<br>ORGANISED</span>
           </div>
         </div>
 
@@ -233,9 +229,9 @@
     <!-- ======= MARQUEE ======= -->
     <div class="marquee" aria-hidden="true">
       <div class="marquee-track mono">
-        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> CAPTURE THE FLAG <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
+        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> HANDS-ON LABS <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
           AN ATTACKER <i>▚</i> </span>
-        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> CAPTURE THE FLAG <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
+        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> HANDS-ON LABS <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
           AN ATTACKER <i>▚</i> </span>
       </div>
     </div>
@@ -257,271 +253,205 @@
           <p data-reveal>We act as a platform where students can learn, collaborate, build projects, participate in technical activities, organize events, and connect classroom concepts with real-world engineering and cybersecurity applications.</p>
           <p data-reveal>Our goal is to promote technical learning, encourage exploration of cybersecurity, provide practical exposure, and build a strong technical culture within the Cybersecurity Department.</p>
           <div class="stats">
-            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="0"
-                data-suffix="+">0</span><span class="stat-label mono">ACTIVE MEMBERS</span></div>
-            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="0"
-                data-suffix="+">0</span><span class="stat-label mono">WORKSHOPS RUN</span></div>
-            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="0">0</span><span
-                class="stat-label mono">CTF VICTORIES</span></div>
-            <div class="glass stat" data-reveal data-tilt><span class="stat-num mono" data-count="0"
-                data-suffix="+">0</span><span class="stat-label mono">FLAGS CAPTURED</span></div>
+            <div class="glass stat" data-reveal data-tilt data-stat="members"><span class="stat-num mono" data-count="250"
+                data-suffix="+">0</span><span class="stat-label mono">TOTAL MEMBERS</span></div>
+            <div class="glass stat" data-reveal data-tilt data-stat="sessions"><span class="stat-num mono" data-count="35"
+                data-suffix="+">0</span><span class="stat-label mono">SESSIONS</span></div>
+            <div class="glass stat" data-reveal data-tilt data-stat="events"><span class="stat-num mono" data-count="18"
+                data-suffix="+">0</span><span class="stat-label mono">EVENTS ORGANISED</span></div>
+            <div class="glass stat" data-reveal data-tilt data-stat="workshops"><span class="stat-num mono" data-count="12"
+                data-suffix="+">0</span><span class="stat-label mono">WORKSHOPS ORGANISED</span></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ======= EVENTS (activity calendar timeline) ======= -->
+    <!-- ======= EVENTS ======= -->
     <section id="events" class="section">
       <div class="sec-head">
         <div>
           <p class="kicker mono" data-reveal>// 02 — EVENTS</p>
-          <h2 class="sec-title" data-reveal>Activity calendar</h2>
-        </div>
-        <div class="ev-filter-bar mono" data-reveal>
-          <button type="button" class="filter-btn ev-filter-btn is-active" data-filter="all">ALL LOGS [10]</button>
-          <button type="button" class="filter-btn ev-filter-btn ev-filter-upcoming" data-filter="upcoming">⚡ UPCOMING [2]</button>
-          <button type="button" class="filter-btn ev-filter-btn ev-filter-history" data-filter="history">✓ COMPLETED [8]</button>
+          <h2 class="sec-title" data-reveal>What is happening</h2>
         </div>
       </div>
 
+      <article class="glass next-event" data-reveal id="nextEventCard">
+        <div class="next-event-date mono" id="nextEventDateBlock">
+          <span class="next-event-label">NEXT EVENT</span>
+          <div class="next-event-tba" id="nextEventDateDisplay"><strong>DATE</strong><span id="nextEventDateText">TO BE ANNOUNCED</span></div>
+        </div>
+        <div class="next-event-content">
+          <div class="ev-top mono"><span class="ev-tag tag-ws" id="nextEventTag">UPCOMING · DETAILS SOON</span></div>
+          <h3 id="nextEventTitle">NEXT CLUB <span class="accent">ACTIVITY</span></h3>
+          <p id="nextEventDesc">Our next workshop, competition, or technical session will be announced here. Contact the club to express interest or suggest an activity.</p>
+          <div class="next-event-meta mono" id="nextEventMeta">DATE TBA · CYBERSECURITY DEPARTMENT</div>
+          <a href="#join" class="btn btn-primary btn-sm" data-hover>CONTACT THE CLUB <span class="btn-arrow">→</span></a>
+        </div>
+      </article>
+
       <div class="tl-shell" id="evShell">
-        <div class="tl-viewport" id="evViewport" tabindex="0" aria-label="Activity calendar timeline">
+        <div class="tl-viewport" id="evViewport" tabindex="0" aria-label="Past events timeline">
           <div class="tl-track" id="evTrack">
 
-            <!-- Completed 8 (oldest) -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-ctf">COMPLETED · FLAGSHIP</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>ANNUAL HACKATHON <span class="accent">GRID CON '24</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&h=320&q=80" alt="Grid Con '24 Hackathon hall with students coding" loading="lazy" />
-                    </div>
-                    <p>Over 120 participants across the region building privacy tools, network defenders, and novel cryptographic protocols.</p>
-                    <div class="ev-meta mono">24HRS HACKATHON · SPONSORED</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-gridcon">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2024-11-18"><span class="tl-mo">NOV</span><span class="tl-day">18</span><span class="tl-year">2024</span></time></div>
-            </div>
+            <!-- Milestone 01 (Latest): Threat Intel -->
+            <button type="button" class="tl-node is-selected" data-gal-target="gal-threat-intel" aria-label="THREAT INTEL IN THE AGE OF AI - NOV 09, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">09</span>
+                  <span class="tl-mo">NOV</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">SESSION</span>
+                <h3 class="tl-name">THREAT INTEL IN THE AGE OF AI</h3>
+              </div>
+            </button>
 
-            <!-- Completed 7 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-boot">COMPLETED · SIMULATION</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>NATIONAL CYBER DRILL <span class="accent">// BLUE CELL</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&h=320&q=80" alt="National Cyber Drill Blue Cell incident response room" loading="lazy" />
-                    </div>
-                    <p>Live defensive incident response drill against simulated ransomware outbreak across an enterprise AD forest topology.</p>
-                    <div class="ev-meta mono">DEFENSE MATRIX · 8HRS DRILL</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-cyber-drill">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-03-14"><span class="tl-mo">MAR</span><span class="tl-day">14</span><span class="tl-year">2025</span></time></div>
-            </div>
+            <!-- Milestone 02: Red vs Blue -->
+            <button type="button" class="tl-node" data-gal-target="gal-red-blue" aria-label="RED VS BLUE: LIVE FIRE - OCT 20, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">20</span>
+                  <span class="tl-mo">OCT</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">DRILL</span>
+                <h3 class="tl-name">RED VS BLUE: LIVE FIRE</h3>
+              </div>
+            </button>
 
-            <!-- Completed 6 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-talk">COMPLETED · REVERSE ENG</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>MALWARE REVERSE <span class="accent">ENGINEERING 101</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&h=320&q=80" alt="Malware disassembly and code analysis on monitor" loading="lazy" />
-                    </div>
-                    <p>Ghidra, x64dbg, and static analysis of real trojan samples inside isolated air-gapped sandbox environments.</p>
-                    <div class="ev-meta mono">ADVANCED TRACK · ISOLATED VM</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-malware">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-05-22"><span class="tl-mo">MAY</span><span class="tl-day">22</span><span class="tl-year">2025</span></time></div>
-            </div>
+            <!-- Milestone 03: Hackathon -->
+            <button type="button" class="tl-node" data-gal-target="gal-ctf-finals" aria-label="CYBER DEFENSE HACKATHON - OCT 02, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">02</span>
+                  <span class="tl-mo">OCT</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">HACKATHON</span>
+                <h3 class="tl-name">CYBER DEFENSE HACKATHON</h3>
+              </div>
+            </button>
 
-            <!-- Completed 5 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-ws">COMPLETED · HARDWARE</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>HARDWARE & <span class="accent">BADGE HACKING</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=600&h=320&q=80" alt="Soldering circuit board components for hardware badge" loading="lazy" />
-                    </div>
-                    <p>Soldering custom PCB badges, UART exploration, and firmware extraction from IoT test devices in the engineering lab.</p>
-                    <div class="ev-meta mono">HARDWARE LAB · SOLDERING KITS</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-hardware">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-08-10"><span class="tl-mo">AUG</span><span class="tl-day">10</span><span class="tl-year">2025</span></time></div>
-            </div>
+            <!-- Milestone 04: OSINT -->
+            <button type="button" class="tl-node" data-gal-target="gal-osint" aria-label="OSINT: FIND ANYTHING - SEP 18, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">18</span>
+                  <span class="tl-mo">SEP</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">OSINT: FIND ANYTHING</h3>
+              </div>
+            </button>
 
-            <!-- Completed 4 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-ws">COMPLETED · WORKSHOP</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>OSINT: <span class="accent">FIND ANYTHING</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=600&h=320&q=80" alt="OSINT reconnaissance map and target intelligence" loading="lazy" />
-                    </div>
-                    <p>Open-source intelligence techniques — geolocation, username enumeration and recon workflows on sanitized targets.</p>
-                    <div class="ev-meta mono">ARCHIVE · RESEARCH TRACK</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-osint">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-09-18"><span class="tl-mo">SEP</span><span class="tl-day">18</span><span class="tl-year">2025</span></time></div>
-            </div>
+            <!-- Milestone 05: Hardware & Badge Hacking -->
+            <button type="button" class="tl-node" data-gal-target="gal-hardware" aria-label="HARDWARE & BADGE HACKING - AUG 10, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">10</span>
+                  <span class="tl-mo">AUG</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">HARDWARE & BADGE HACKING</h3>
+              </div>
+            </button>
 
-            <!-- Completed 3 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card ev-win tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-win">★ 1ST PLACE NATIONALS</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>INTER-COLLEGE <span class="accent">CTF FINALS</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&h=320&q=80" alt="1st Place CTF Nationals championship trophy ceremony" loading="lazy" />
-                    </div>
-                    <p>Our squad took first of thirty-two teams. Flags captured: 47. Sleep: none. Pride: immeasurable.</p>
-                    <div class="ev-meta mono">ARCHIVE · NATIONAL ROUND</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-ctf-finals">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-10-02"><span class="tl-mo">OCT</span><span class="tl-day">02</span><span class="tl-year">2025</span></time></div>
-            </div>
+            <!-- Milestone 06: Malware Analysis -->
+            <button type="button" class="tl-node" data-gal-target="gal-malware" aria-label="MALWARE REVERSE ENGINEERING 101 - MAY 22, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">22</span>
+                  <span class="tl-mo">MAY</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">MALWARE REVERSE ENGINEERING 101</h3>
+              </div>
+            </button>
 
-            <!-- Completed 2 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-boot">COMPLETED · BOOTCAMP</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>RED VS BLUE: <span class="accent">LIVE FIRE</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&h=320&q=80" alt="Red vs Blue security operations center live drill" loading="lazy" />
-                    </div>
-                    <p>Two teams. One network. Attack and defend in a scored six-hour engagement with a live scoreboard and post-mortem.</p>
-                    <div class="ev-meta mono">TEAM FORMAT · SCORED</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-red-blue">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-10-20"><span class="tl-mo">OCT</span><span class="tl-day">20</span><span class="tl-year">2025</span></time></div>
-            </div>
+            <!-- Milestone 07: National Cyber Drill -->
+            <button type="button" class="tl-node" data-gal-target="gal-cyber-drill" aria-label="NATIONAL CYBER DRILL // BLUE CELL - MAR 14, 2025">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">14</span>
+                  <span class="tl-mo">MAR</span>
+                </time>
+                <span class="tl-year mono">2025</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">DRILL</span>
+                <h3 class="tl-name">NATIONAL CYBER DRILL // BLUE CELL</h3>
+              </div>
+            </button>
 
-            <!-- Completed 1 -->
-            <div class="tl-node" data-type="history">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-talk">COMPLETED · TALK</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>THREAT INTEL <span class="accent">IN THE AGE OF AI</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=600&h=320&q=80" alt="Industry threat intel keynote speaker on auditorium stage" loading="lazy" />
-                    </div>
-                    <p>An industry threat hunter on tracking APTs, and why AI changed the SOC — without replacing the humans inside it.</p>
-                    <div class="ev-meta mono">GUEST SPEAKER · AUDITORIUM</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-threat-intel">VIEW EVENT GALLERY ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-11-09"><span class="tl-mo">NOV</span><span class="tl-day">09</span><span class="tl-year">2025</span></time></div>
-            </div>
-
-            <!-- Upcoming 2 -->
-            <div class="tl-node" data-type="upcoming">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-ws">UPCOMING · WORKSHOP</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>ZERO-DAY <span class="accent">WEB EXPLOITATION</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&h=320&q=80" alt="Zero-day web exploitation lab live firing range terminal" loading="lazy" />
-                    </div>
-                    <p>Hands-on with the OWASP top ten — SSRF, IDOR and insecure deserialization, exploited on a live firing range we built ourselves.</p>
-                    <div class="ev-meta mono">HANDS-ON · BEGINNER OK</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-zeroday">VIEW LAB FRAME ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-11-28"><span class="tl-mo">NOV</span><span class="tl-day">28</span><span class="tl-year">2025</span></time></div>
-            </div>
-
-            <!-- Upcoming 1 (next event) -->
-            <div class="tl-node" data-type="upcoming">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-ctf">UPCOMING · CTF</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>MIDNIGHT CTF <span class="accent">0x05</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <div class="ev-thumb">
-                      <img src="https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=600&h=320&q=80" alt="Midnight CTF overnight challenge workstations" loading="lazy" />
-                    </div>
-                    <p>Our flagship overnight capture-the-flag. Web, pwn, crypto and forensics challenges that escalate from “freshman-friendly” to “make the organizers sweat.” Bring caffeine.</p>
-                    <div class="ev-meta mono">JEOPARDY · 12HRS · LAB 0x2A</div>
-                    <div class="ev-actions">
-                      <button type="button" class="btn-ev-gallery mono" data-gal-target="gal-midnight-ctf">VIEW PREVIEW FRAME ↗</button>
-                    </div>
-                  </div>
-                </div>
-              </article>
-              <div class="tl-date mono"><time datetime="2025-12-12"><span class="tl-mo">DEC</span><span class="tl-day">12</span><span class="tl-year">2025</span></time></div>
-            </div>
-
-            <!-- EOF -->
-            <div class="tl-node tl-eof">
-              <span class="tl-dot"></span>
-              <article class="glass ev-card ev-end tl-card" tabindex="0">
-                <div class="ev-top mono"><span class="ev-tag tag-end">EOF</span><span class="ev-hint">HOVER ⌕</span></div>
-                <h3>YOUR EVENT <span class="accent">HERE?</span></h3>
-                <div class="ev-body">
-                  <div>
-                    <p>Pitch a workshop, host a talk, or sponsor a CTF. The calendar is always being written.</p>
-                    <a href="#join" class="btn btn-ghost btn-sm" data-hover>PITCH AN EVENT →</a>
-                  </div>
-                </div>
-              </article>
-            </div>
+            <!-- Milestone 08: Grid Con '24 -->
+            <button type="button" class="tl-node" data-gal-target="gal-gridcon" aria-label="ANNUAL HACKATHON GRID CON '24 - NOV 18, 2024">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">18</span>
+                  <span class="tl-mo">NOV</span>
+                </time>
+                <span class="tl-year mono">2024</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">COMPETITION</span>
+                <h3 class="tl-name">ANNUAL HACKATHON GRID CON '24</h3>
+              </div>
+            </button>
 
           </div>
         </div>
@@ -534,180 +464,195 @@
       </div>
     </section>
 
-    <!-- ======= GALLERY ======= -->
+    <!-- ======= GALLERY (6 Tactical Domain Cards) ======= -->
     <section id="gallery" class="section">
       <div class="sec-head">
         <div>
           <p class="kicker mono" data-reveal>// 03 — GALLERY</p>
-          <h2 class="sec-title" data-reveal>Captured packets</h2>
+          <h2 class="sec-title" data-reveal>Past Events</h2>
         </div>
-        <div class="gal-filter-bar mono" data-reveal>
-          <button type="button" class="filter-btn gal-filter-btn is-active" data-cat="all">ALL PACKETS [10]</button>
-          <button type="button" class="filter-btn gal-filter-btn" data-cat="ctf">🏆 CTFS & WINS [3]</button>
-          <button type="button" class="filter-btn gal-filter-btn" data-cat="workshop">⚡ LABS & WORKSHOPS [4]</button>
-          <button type="button" class="filter-btn gal-filter-btn" data-cat="drill">🛡️ DEFENSE & DRILLS [3]</button>
+        <div class="gal-filter-bar mono" data-reveal id="galFilterBar">
+          <button type="button" class="filter-btn gal-filter-btn is-active" data-cat="all">ALL</button>
+          <button type="button" class="filter-btn gal-filter-btn" data-cat="competition">COMPETITIONS</button>
+          <button type="button" class="filter-btn gal-filter-btn" data-cat="workshop">WORKSHOPS</button>
+          <button type="button" class="filter-btn gal-filter-btn" data-cat="drill">DEFENSE</button>
         </div>
       </div>
 
-      <p class="gal-livebar mono" data-reveal><span class="live-dot" aria-hidden="true"></span>LIVE ARCHIVE — <span id="galClock">--:--:--</span> UTC · 10 CHANNELS ONLINE</p>
-
-      <div class="arx" id="arxSplit">
-
-        <div class="arx-index mono" role="list" aria-label="Event archive index">
-          <div class="arx-head" aria-hidden="true"><span>ID</span><span>EVENT LOG</span><span>REC</span></div>
-
-          <!-- 01 -->
-          <button type="button" class="arx-row gal-item is-active" id="gal-ctf-finals" role="listitem" data-category="ctf"
-            data-img="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80"
-            data-caption="INTER-COLLEGE CTF FINALS — OCT 2025" data-name="CTF NATIONALS — 1ST PLACE OVERALL" data-date="OCT 2025" data-tag="CAM_01 ▸ FINALS ★" data-rec="rec"
-            data-desc="National Round victory — our squad captured 47 flags across pwn, reverse engineering, web exploitation, and crypto to win 1st Place overall against 32 universities."
-            aria-label="Preview: CTF Nationals first place">
-            <span class="arx-num">01</span>
-            <span class="arx-name">CTF NATIONALS — 1ST PLACE OVERALL</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">OCT 2025</span></span>
-          </button>
-
-          <!-- 02 -->
-          <button type="button" class="arx-row gal-item" id="gal-zeroday" role="listitem" data-category="workshop"
-            data-img="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80"
-            data-caption="ZERO-DAY WEB EXPLOITATION — NOV 2025" data-name="ZERO-DAY WEB EXPLOITATION LAB" data-date="NOV 2025" data-tag="CAM_02 ▸ WEB LAB" data-rec="rec"
-            data-desc="Hands-on exploitation lab targeting OWASP Top 10 vulnerabilities — SSRF, prototype pollution, IDOR, and serialized payloads on live firing ranges."
-            aria-label="Preview: Zero-Day Web Exploitation lab">
-            <span class="arx-num">02</span>
-            <span class="arx-name">ZERO-DAY WEB EXPLOITATION LAB</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">NOV 2025</span></span>
-          </button>
-
-          <!-- 03 -->
-          <button type="button" class="arx-row gal-item" id="gal-red-blue" role="listitem" data-category="drill"
-            data-img="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80"
-            data-caption="RED VS BLUE BOOTCAMP — OCT 2025" data-name="RED VS BLUE LIVE ENGAGEMENT" data-date="OCT 2025" data-tag="CAM_03 ▸ RED VS BLUE" data-rec="rec"
-            data-desc="A high-intensity 6-hour live cyber engagement: Red Cell executing active directory pivoting while Blue Cell implemented firewall ACLs and EDR telemetry."
-            aria-label="Preview: Red vs Blue bootcamp">
-            <span class="arx-num">03</span>
-            <span class="arx-name">RED VS BLUE LIVE ENGAGEMENT</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">OCT 2025</span></span>
-          </button>
-
-          <!-- 04 -->
-          <button type="button" class="arx-row gal-item" id="gal-threat-intel" role="listitem" data-category="workshop"
-            data-img="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80"
-            data-caption="THREAT INTEL & AI IN SOC — NOV 2025" data-name="THREAT INTEL & AI IN SOC" data-date="NOV 2025" data-tag="CAM_04 ▸ SOC BRIEF" data-rec="rec"
-            data-desc="Auditorium session featuring Senior Threat Intelligence Engineers covering automated APT graph clustering, behavioral heuristic parsing, and LLM attack vectors."
-            aria-label="Preview: Threat Intel briefing">
-            <span class="arx-num">04</span>
-            <span class="arx-name">THREAT INTEL & AI IN SOC</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">NOV 2025</span></span>
-          </button>
-
-          <!-- 05 -->
-          <button type="button" class="arx-row gal-item" id="gal-osint" role="listitem" data-category="workshop"
-            data-img="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80"
-            data-caption="OSINT: FIND ANYTHING — SEP 2025" data-name="OSINT RECONNAISSANCE WORKSHOP" data-date="SEP 2025" data-tag="CAM_05 ▸ RECON" data-rec="rec"
-            data-desc="Hands-on recon workshop diving deep into satellite imagery geolocation, EXIF parsing, social graph mapping, and domain infrastructure footprints."
-            aria-label="Preview: OSINT workshop">
-            <span class="arx-num">05</span>
-            <span class="arx-name">OSINT RECONNAISSANCE WORKSHOP</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">SEP 2025</span></span>
-          </button>
-
-          <!-- 06 -->
-          <button type="button" class="arx-row gal-item" id="gal-malware" role="listitem" data-category="workshop"
-            data-img="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80"
-            data-caption="MALWARE REVERSE ENGINEERING 101 — MAY 2025" data-name="MALWARE REVERSE ENGINEERING" data-date="MAY 2025" data-tag="CAM_06 ▸ REV ENG" data-rec="rec"
-            data-desc="Deep dive into disassembly: x86/x64 assembly instruction breakdown, stack frame forensics, packing unpacking routines, and C2 payload decryption."
-            aria-label="Preview: Malware Reverse Engineering">
-            <span class="arx-num">06</span>
-            <span class="arx-name">MALWARE REVERSE ENGINEERING</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">MAY 2025</span></span>
-          </button>
-
-          <!-- 07 -->
-          <button type="button" class="arx-row gal-item" id="gal-hardware" role="listitem" data-category="workshop"
-            data-img="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1200&q=80"
-            data-caption="HARDWARE & BADGE HACKING — AUG 2025" data-name="HARDWARE & BADGE WORKSHOP" data-date="AUG 2025" data-tag="CAM_07 ▸ HARDWARE" data-rec="rec"
-            data-desc="Engineering lab session on custom ESP32 badge fabrication, surface-mount soldering, UART header extraction, and logic analyzer sniffing."
-            aria-label="Preview: Hardware badge workshop">
-            <span class="arx-num">07</span>
-            <span class="arx-name">HARDWARE & BADGE WORKSHOP</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">AUG 2025</span></span>
-          </button>
-
-          <!-- 08 -->
-          <button type="button" class="arx-row gal-item" id="gal-cyber-drill" role="listitem" data-category="drill"
-            data-img="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80"
-            data-caption="NATIONAL CYBER DRILL // BLUE CELL — MAR 2025" data-name="NATIONAL CYBER DRILL SIMULATION" data-date="MAR 2025" data-tag="CAM_08 ▸ BLUE CELL" data-rec="rec"
-            data-desc="Simulated enterprise crisis drill: neutralizing lateral ransomware traversal, rotating Active Directory Kerberos keys, and orchestrating full network recovery."
-            aria-label="Preview: National Cyber Drill">
-            <span class="arx-num">08</span>
-            <span class="arx-name">NATIONAL CYBER DRILL SIMULATION</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">MAR 2025</span></span>
-          </button>
-
-          <!-- 09 -->
-          <button type="button" class="arx-row gal-item" id="gal-gridcon" role="listitem" data-category="ctf"
-            data-img="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80"
-            data-caption="ANNUAL HACKATHON GRID CON '24 — NOV 2024" data-name="GRID CON '24 CAMPUS HACKATHON" data-date="NOV 2024" data-tag="CAM_09 ▸ HACKATHON" data-rec="rec"
-            data-desc="Our signature 24-hour campus hackathon: 30 teams built zero-knowledge voting protocols, decentralized threat mesh nodes, and AI packet inspectors."
-            aria-label="Preview: Grid Con hackathon">
-            <span class="arx-num">09</span>
-            <span class="arx-name">GRID CON '24 CAMPUS HACKATHON</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">NOV 2024</span></span>
-          </button>
-
-          <!-- 10 -->
-          <button type="button" class="arx-row gal-item" id="gal-midnight-ctf" role="listitem" data-category="ctf"
-            data-img="https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=1200&q=80"
-            data-caption="MIDNIGHT CTF 0x05 — DEC 2025" data-name="MIDNIGHT CTF 0x05 // FLAGSHIP" data-date="DEC 2025" data-tag="CAM_10 ▸ MIDNIGHT" data-rec="standby"
-            data-desc="The upcoming edition of our flagship overnight jeopardy competition: dynamic flag scoring, custom challenge infrastructure, and open to all years."
-            aria-label="Preview: Midnight CTF upcoming">
-            <span class="arx-num">10</span>
-            <span class="arx-name">MIDNIGHT CTF 0x05 // FLAGSHIP</span>
-            <img class="arx-thumb" src="https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=200&q=60" alt="" loading="lazy" />
-            <span class="arx-meta"><span class="arx-frames">▣ --</span><span class="arx-date">DEC 2025</span></span>
-          </button>
-
-          <a class="arx-more mono" href="#join">+ YOUR EVENT HERE? START TRANSMITTING →</a>
-        </div>
-
-        <aside class="arx-viewer glass">
-          <div class="arx-screen" id="arxScreen">
-            <img id="arxImg" src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80" alt="Students celebrating 1st Place at the National CTF Finals on stage" />
-            <div class="cam-hud mono" aria-hidden="true">
-              <span id="arxTag" class="cam-tag">CAM_01 ▸ FINALS ★</span>
-              <span id="arxRec" class="rec-pill is-rec"><i></i>REC</span>
+      <div class="cl-mosaic" id="clMosaic">
+        
+        <!-- Card 01: Application Security -->
+        <article class="gal-card gal-item" id="gal-ctf-finals" data-category="competition"
+          data-caption="APPLICATION SECURITY" data-date="OCT 2025" tabindex="0" role="button"
+          aria-label="Open album: Application Security">
+          <div class="tactical-matrix">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <div class="matrix-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 8L38 16V32L24 40L10 32V16L24 8Z"/>
+                <line x1="24" y1="8" x2="24" y2="40"/>
+                <line x1="10" y1="16" x2="24" y2="24"/>
+                <line x1="38" y1="16" x2="24" y2="24"/>
+              </svg>
             </div>
-            <div class="arx-scan" aria-hidden="true"></div>
+            <span class="matrix-date-capsule mono">OCT 2025</span>
           </div>
-          <div class="arx-info">
-            <p id="arxName">CTF NATIONALS — 1ST PLACE OVERALL</p>
-            <p id="arxDate" class="mono">OCT 2025 · NATIONAL ROUND</p>
-            <p id="arxDesc">National Round victory — our squad captured 47 flags across pwn, reverse engineering, web exploitation, and crypto to win 1st Place overall against 32 universities.</p>
-            <div class="arx-actions">
-              <span id="arxFrames" class="mono">▣ -- FRAMES</span>
-              <button type="button" id="arxOpen" class="btn-ev-gallery mono">OPEN FULL ALBUM ⧉</button>
+          <div class="gal-card-body">
+            <h3 class="gal-card-title">Application Security</h3>
+          </div>
+        </article>
+
+        <!-- Card 02: Cloud Security -->
+        <article class="gal-card gal-item" id="gal-osint" data-category="workshop"
+          data-caption="CLOUD SECURITY" data-date="SEP 2025" tabindex="0" role="button"
+          aria-label="Open album: Cloud Security">
+          <div class="tactical-matrix">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <div class="matrix-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 34H34C38.42 34 42 30.42 42 26C42 21.85 38.85 18.44 34.8 18.05C33.3 12.25 28.1 8 22 8C14.82 8 9 13.82 9 21C6.15 21.8 4 24.4 4 27.5C4 31.09 6.91 34 10.5 34H16Z"/>
+              </svg>
             </div>
+            <span class="matrix-date-capsule mono">SEP 2025</span>
           </div>
-        </aside>
+          <div class="gal-card-body">
+            <h3 class="gal-card-title">Cloud Security</h3>
+          </div>
+        </article>
+
+        <!-- Card 03: Defensive Engineering -->
+        <article class="gal-card gal-item" id="gal-red-blue" data-category="drill"
+          data-caption="DEFENSIVE ENGINEERING" data-date="OCT 2025" tabindex="0" role="button"
+          aria-label="Open album: Defensive Engineering">
+          <div class="tactical-matrix">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <div class="matrix-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="24" cy="24" r="14" stroke-dasharray="3 3"/>
+                <circle cx="24" cy="24" r="7"/>
+                <line x1="24" y1="4" x2="24" y2="12"/>
+                <line x1="24" y1="36" x2="24" y2="44"/>
+                <line x1="4" y1="24" x2="12" y2="24"/>
+                <line x1="36" y1="24" x2="44" y2="24"/>
+              </svg>
+            </div>
+            <span class="matrix-date-capsule mono">OCT 2025</span>
+          </div>
+          <div class="gal-card-body">
+            <h3 class="gal-card-title">Defensive Engineering</h3>
+          </div>
+        </article>
+
+        <!-- Card 04: Digital Forensics -->
+        <article class="gal-card gal-item" id="gal-hardware" data-category="workshop"
+          data-caption="DIGITAL FORENSICS" data-date="AUG 2025" tabindex="0" role="button"
+          aria-label="Open album: Digital Forensics">
+          <div class="tactical-matrix">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <div class="matrix-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 10C17.37 10 12 15.37 12 22C12 28.63 17.37 34 24 34"/>
+                <path d="M17 22C17 18.13 20.13 15 24 15C27.87 15 31 18.13 31 22C31 29 27 33 24 38"/>
+                <path d="M24 20C22.9 20 22 20.9 22 22C22 26 25 28 25 32"/>
+                <path d="M36 22C36 15.37 30.63 10 24 10"/>
+                <path d="M38 29C37.5 33 34 37 30 40"/>
+                <path d="M10 26C10.5 31 13 36 17 39"/>
+              </svg>
+            </div>
+            <span class="matrix-date-capsule mono">AUG 2025</span>
+          </div>
+          <div class="gal-card-body">
+            <h3 class="gal-card-title">Digital Forensics</h3>
+          </div>
+        </article>
+
+        <!-- Card 05: Malware Analysis -->
+        <article class="gal-card gal-item" id="gal-malware" data-category="workshop"
+          data-caption="MALWARE ANALYSIS" data-date="MAY 2025" tabindex="0" role="button"
+          aria-label="Open album: Malware Analysis">
+          <div class="tactical-matrix">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <div class="matrix-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="16" y="16" width="16" height="20" rx="8"/>
+                <path d="M19 16C19 13.24 21.24 11 24 11C26.76 11 29 13.24 29 16"/>
+                <line x1="8" y1="18" x2="16" y2="21"/>
+                <line x1="32" y1="21" x2="40" y2="18"/>
+                <line x1="6" y1="26" x2="16" y2="26"/>
+                <line x1="32" y1="26" x2="42" y2="26"/>
+                <line x1="8" y1="34" x2="16" y2="31"/>
+                <line x1="32" y1="31" x2="40" y2="34"/>
+                <line x1="20" y1="8" x2="18" y2="5"/>
+                <line x1="28" y1="8" x2="30" y2="5"/>
+              </svg>
+            </div>
+            <span class="matrix-date-capsule mono">MAY 2025</span>
+          </div>
+          <div class="gal-card-body">
+            <h3 class="gal-card-title">Malware Analysis</h3>
+          </div>
+        </article>
+
+        <!-- Card 06: Network Security -->
+        <article class="gal-card gal-item" id="gal-cyber-drill" data-category="drill"
+          data-caption="NETWORK SECURITY" data-date="MAR 2025" tabindex="0" role="button"
+          aria-label="Open album: Network Security">
+          <div class="tactical-matrix">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <div class="matrix-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M24 6L10 12V24C10 33 16 40 24 43C32 40 38 33 38 24V12L24 6Z"/>
+                <polyline points="18 24 22 28 30 19"/>
+              </svg>
+            </div>
+            <span class="matrix-date-capsule mono">MAR 2025</span>
+          </div>
+          <div class="gal-card-body">
+            <h3 class="gal-card-title">Network Security</h3>
+          </div>
+        </article>
 
       </div>
     </section>
 
-    <!-- ======= TEAM (3D Stacked Deck Operators) ======= -->
+    <!-- ======= SECTION DIVIDER ======= -->
+    <div class="sec-divider" aria-hidden="true" data-reveal>
+      <span class="sec-divider-line"></span>
+      <span class="sec-divider-badge mono">◆ FACULTY ADVISORY</span>
+      <span class="sec-divider-line"></span>
+    </div>
+
+    <!-- ======= FACULTY (Before Club Members) ======= -->
+    <div class="faculty-board section" id="facultyBoard" data-reveal>
+      <div class="solo-cards solo-cards--faculty" id="facultyCards">
+        <!-- Faculty cards rendered dynamically by operators.js -->
+      </div>
+    </div>
+
+    <!-- ======= TEAM ======= -->
     <section id="team" class="operators-deck-section section">
       <div class="sec-head">
         <div>
-          <p class="kicker mono" data-reveal>// 04 — TEAM OPERATORS</p>
-          <h2 class="sec-title" data-reveal>The Operators</h2>
+          <p class="kicker mono" data-reveal>// 04 — TEAM</p>
+          <h2 class="sec-title" data-reveal>Club Members</h2>
         </div>
       </div>
 
@@ -731,8 +676,9 @@
             <li><span class="prompt">&gt;</span> hours — FRI 17:00 → LATE</li>
           </ul>
           <div class="socials mono" data-reveal>
-            <a href="#" data-hover>[GITHUB]</a><a href="#" data-hover>[LINKEDIN]</a><a href="#" data-hover>[X]</a><a
-              href="#" data-hover>[INSTA]</a>
+            <a href="#" data-social="github" data-hover>[GITHUB]</a><a href="#" data-social="linkedin" data-hover>[LINKEDIN]</a><a href="#" data-social="twitter" data-hover>[X]</a><a
+              href="#" data-social="instagram" data-hover>[INSTA]</a>
+
           </div>
         </div>
 
@@ -756,7 +702,7 @@
               <label class="mono" for="fTrack">INTEREST</label>
               <select id="fTrack" name="track">
                 <option>Undecided — show me everything</option>
-                <option>CTF / Competitions</option>
+                <option>Hackathons & Competitions</option>
                 <option>Red Team / Offensive</option>
                 <option>Blue Team / Defense</option>
                 <option>Research / Malware</option>
@@ -793,7 +739,7 @@
       </div>
       <div class="foot-col mono">
         <h4>// SIGNALS</h4>
-        <a href="#">GITHUB</a><a href="#">LINKEDIN</a><a href="#">X / TWITTER</a><a href="#">INSTAGRAM</a>
+        <a href="#" data-social="github">GITHUB</a><a href="#" data-social="linkedin">LINKEDIN</a><a href="#" data-social="twitter">X / TWITTER</a><a href="#" data-social="instagram">INSTAGRAM</a>
       </div>
       <div class="foot-col mono">
         <h4>// STATUS</h4>
@@ -811,12 +757,13 @@
   <!-- ======= LIGHTBOX ======= -->
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
     <div class="lb-content glass">
-      <button class="lb-close mono" aria-label="Close viewer">[ESC] CLOSE ✕</button>
-      
+      <!-- Close cross button on top right of the modal box -->
+      <button class="lb-close" aria-label="Close viewer" title="Close">✕</button>
+
       <!-- Event switcher inside modal -->
       <div class="lb-event-bar mono">
         <button type="button" id="lbPrevEvent" class="lb-ev-nav-btn" aria-label="Previous event">‹ PREV EVENT</button>
-        <span id="lbEventTracker" class="lb-ev-tracker">EVENT 01 OF 10</span>
+        <span id="lbEventTracker" class="lb-ev-tracker">EVENT 01 OF 08</span>
         <button type="button" id="lbNextEvent" class="lb-ev-nav-btn" aria-label="Next event">NEXT EVENT ›</button>
       </div>
 
@@ -826,6 +773,7 @@
         <div id="lbDots" class="lb-dots mono" aria-label="Album position"></div>
         <button class="lb-arrow lb-next" aria-label="Next slide">›</button>
       </div>
+
       <aside class="lb-info">
         <div class="lb-meta mono">
           <p id="lbName"></p>

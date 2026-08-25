@@ -1077,6 +1077,30 @@
   }
 
   /* ------------------------------------------------------------
+      GALLERY FILTER COUNTS — computed from actual .gal-item elements
+      Call this whenever items are added / removed from the mosaic.
+      ------------------------------------------------------------ */
+  function updateGalFilterCounts() {
+    var allItems = $all(".gal-item");
+    var counts = { all: allItems.length };
+    allItems.forEach(function (item) {
+      var cat = item.dataset.category || "workshop";
+      counts[cat] = (counts[cat] || 0) + 1;
+    });
+    $all(".gal-filter-btn").forEach(function (btn) {
+      var cat = btn.dataset.cat;
+      var n = counts[cat] !== undefined ? counts[cat] : 0;
+      /* strip any existing bracket then re-append */
+      var label = btn.textContent.replace(/\s*\[\d+\]$/, "").trim();
+      btn.textContent = label + " [" + n + "]";
+    });
+  }
+  /* run once on page load */
+  updateGalFilterCounts();
+  /* expose globally so backend-injected content can call it after adding new cards */
+  window.updateGalFilterCounts = updateGalFilterCounts;
+
+  /* ------------------------------------------------------------
       GALLERY CATEGORY FILTERING (animated, with plain fallback)
       ------------------------------------------------------------ */
   var galFilterBtns = $all(".gal-filter-btn");
