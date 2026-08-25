@@ -94,8 +94,8 @@
 
     /* slow spatial wobble so the base field has organic bright patches */
     function patchNoise(c, r, t) {
-      return (Math.sin(c * .34 + Math.cos(r * .5 + t) * 2.2) +
-              Math.sin(r * .27 + c * .12)) * .25 + .5;
+      return (Math.sin(c * .16 + Math.cos(r * .23 + t) * 2.6) +
+              Math.sin(r * .13 + c * .06)) * .25 + .5;
     }
 
     function renderBase(now) {
@@ -845,149 +845,7 @@
     });
   }
 
-  var GAL_BG = "#15181d", GAL_GOLD = "#d4a017", GAL_HI = "#f2c14e", GAL_OK = "#8a9a5b";
-
-  function mulberry32(a) {
-    return function () {
-      a |= 0; a = (a + 0x6D2B79F5) | 0;
-      var t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
-
-  function svgPlate(inner) {
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="300" fill="' + GAL_BG + '"/>' + inner + '</svg>';
-  }
-
-  function hexpts(cx, cy, rad) {
-    var p = [];
-    for (var k = 0; k < 6; k++) {
-      var a = Math.PI / 3 * k - Math.PI / 6;
-      p.push((cx + rad * Math.cos(a)).toFixed(1) + "," + (cy + rad * Math.sin(a)).toFixed(1));
-    }
-    return p.join(" ");
-  }
-
-  var GEN = [
-    function dots(r) {
-      var s = "";
-      for (var row = 0; row < 8; row++) {
-        for (var col = 0; col < 12; col++) {
-          s += '<circle cx="' + (24 + col * 32) + '" cy="' + (24 + row * 36) + '" r="' + (r() < .9 ? 2 : 3.4) + '" fill="' + (r() < .07 ? GAL_HI : GAL_GOLD) + '" opacity="' + (.15 + .65 * r()).toFixed(2) + '"/>';
-        }
-      }
-      return s;
-    },
-    function bars(r) {
-      var s = "";
-      for (var i = 0; i < 10; i++) {
-        var h = 40 + Math.floor(r() * 215);
-        s += '<rect x="' + (30 + i * 34) + '" y="' + (268 - h) + '" width="26" height="' + h + '" fill="' + (i % 4 === 2 ? GAL_HI : GAL_GOLD) + '" opacity="' + (.35 + .55 * r()).toFixed(2) + '"/>';
-      }
-      return s + '<line x1="20" y1="270" x2="386" y2="270" stroke="' + GAL_GOLD + '" opacity=".3"/>';
-    },
-    function waves(r) {
-      var s = "";
-      for (var li = 0; li < 3; li++) {
-        var base = 70 + 70 * li, amp = 22 + 26 * r(), pts = "";
-        for (var x = 0; x <= 400; x += 20) {
-          var y = base + Math.sin(x / (28 + li * 9) + li * 1.7 + r() * .4) * amp;
-          pts += x + "," + y.toFixed(1) + " ";
-        }
-        s += '<polyline points="' + pts.trim() + '" fill="none" stroke="' + (li === 1 ? GAL_HI : GAL_GOLD) + '" stroke-width="2" opacity="' + (li === 1 ? ".85" : ".35") + '"/>';
-      }
-      return s;
-    },
-    function hexes(r) {
-      var s = "";
-      for (var i = 0; i < 13; i++) {
-        var cx = 20 + r() * 360, cy = 20 + r() * 260, rad = 8 + r() * 16;
-        if (r() < .35) {
-          s += '<polygon points="' + hexpts(cx, cy, rad) + '" fill="' + GAL_GOLD + '" opacity="' + (.12 + .22 * r()).toFixed(2) + '"/>';
-        } else {
-          s += '<polygon points="' + hexpts(cx, cy, rad) + '" fill="none" stroke="' + GAL_GOLD + '" stroke-width="1.2" opacity="' + (.2 + .5 * r()).toFixed(2) + '"/>';
-        }
-      }
-      return s;
-    },
-    function rings(r) {
-      var s = "";
-      for (var c = 0; c < 2; c++) {
-        var cx = 90 + r() * 220, cy = 70 + r() * 160;
-        for (var k = 1; k <= 3; k++) {
-          s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + k * (16 + r() * 9) + '" fill="none" stroke="' + GAL_GOLD + '" stroke-width="1.4" opacity="' + (.75 - .22 * k).toFixed(2) + '"/>';
-        }
-        s += '<line x1="' + cx + '" y1="' + (cy - 6) + '" x2="' + cx + '" y2="' + (cy + 6) + '" stroke="' + GAL_HI + '" stroke-width="1.6"/>';
-        s += '<line x1="' + (cx - 6) + '" y1="' + cy + '" x2="' + (cx + 6) + '" y2="' + cy + '" stroke="' + GAL_HI + '" stroke-width="1.6"/>';
-      }
-      return s;
-    },
-    function diag(r) {
-      var s = "";
-      for (var k = 0; k < 14; k++) {
-        var x = -80 + k * 40;
-        s += '<line x1="' + x + '" y1="0" x2="' + (x + 220) + '" y2="300" stroke="' + (k % 4 === 2 ? GAL_HI : GAL_GOLD) + '" stroke-width="' + (k % 4 === 2 ? 2 : 1) + '" opacity="' + (.1 + .5 * r()).toFixed(2) + '"/>';
-      }
-      return s;
-    },
-    function blocks(r) {
-      var s = "";
-      for (var row = 0; row < 4; row++) {
-        var y = 45 + row * 55, x = 36;
-        while (x < 340) {
-          var w = 8 + r() * 26;
-          s += '<rect x="' + x.toFixed(0) + '" y="' + y + '" width="' + w.toFixed(0) + '" height="14" fill="' + (row === 1 && r() < .2 ? GAL_HI : GAL_GOLD) + '" opacity="' + (.15 + .6 * r()).toFixed(2) + '"/>';
-          x += w + 6;
-        }
-      }
-      return s;
-    },
-    function scatter(r) {
-      var s = "", pts = [];
-      for (var i = 0; i < 14; i++) pts.push([20 + r() * 360, 20 + r() * 260]);
-      for (i = 0; i < pts.length; i++) {
-        var j = (i + 1 + Math.floor(r() * (pts.length - 1))) % pts.length;
-        if (r() < .55) {
-          s += '<line x1="' + pts[i][0].toFixed(1) + '" y1="' + pts[i][1].toFixed(1) + '" x2="' + pts[j][0].toFixed(1) + '" y2="' + pts[j][1].toFixed(1) + '" stroke="' + GAL_GOLD + '" opacity=".22"/>';
-        }
-        s += '<circle cx="' + pts[i][0].toFixed(1) + '" cy="' + pts[i][1].toFixed(1) + '" r="' + (2 + r() * 1.5).toFixed(1) + '" fill="' + (r() < .25 ? GAL_HI : GAL_GOLD) + '" opacity="' + (.4 + .5 * r()).toFixed(2) + '"/>';
-      }
-      return s;
-    },
-    function gauge(r) {
-      var s = "";
-      for (var a = 0; a < 360; a += 15) {
-        var big = a % 45 === 0, rad = Math.PI / 180 * a;
-        var r1 = big ? 106 : 114;
-        s += '<line x1="' + (200 + r1 * Math.cos(rad)).toFixed(1) + '" y1="' + (150 + r1 * Math.sin(rad)).toFixed(1) + '" x2="' + (200 + 120 * Math.cos(rad)).toFixed(1) + '" y2="' + (150 + 120 * Math.sin(rad)).toFixed(1) + '" stroke="' + GAL_GOLD + '" opacity="' + (big ? ".7" : ".4") + '"/>';
-      }
-      var na = r() * 2 * Math.PI;
-      s += '<circle cx="200" cy="150" r="118" fill="none" stroke="' + GAL_GOLD + '" opacity=".16"/>';
-      s += '<line x1="200" y1="150" x2="' + (200 + 92 * Math.cos(na)).toFixed(1) + '" y2="' + (150 + 92 * Math.sin(na)).toFixed(1) + '" stroke="' + GAL_HI + '" stroke-width="2"/>';
-      s += '<circle cx="200" cy="150" r="4" fill="' + GAL_OK + '"/>';
-      return s;
-    },
-    function chevrons(r) {
-      var s = "";
-      for (var row = 0; row < 5; row++) {
-        var y = 60 + row * 46;
-        for (var k = 0; k < 9; k++) {
-          var x = 40 + k * 36;
-          s += '<path d="M' + x + ' ' + (y + 10) + ' l10 -14 l10 14" fill="none" stroke="' + (row === 2 ? GAL_HI : GAL_GOLD) + '" stroke-width="1.6" opacity="' + (.2 + .6 * r()).toFixed(2) + '"/>';
-        }
-      }
-      return s;
-    }
-  ];
-
-  function parsePieceInner(inner) {
-    var holder = document.createElement("div");
-    holder.innerHTML = svgPlate(inner);
-    return holder.firstElementChild;
-  }
 
   var lightbox = $("#lightbox");
   var lbContent = $("#lbContent");
@@ -1008,14 +866,84 @@
   var lbDotsWrap = $("#lbDots");
   var lbDotCount = -1;
 
-  galItems.forEach(function (item, ei) {
-    var seed = mulberry32(ei * 1013904223 + 1664525);
-    var cover = item.querySelector("svg");
-    var extra = 4 + Math.floor(seed() * 3);
-    var album = cover ? [cover.cloneNode(true)] : [];
-    for (var i = 0; i < extra; i++) {
-      var idx = (ei * 3 + i * 7) % GEN.length;
-      album.push(parsePieceInner(GEN[idx](mulberry32(ei * 97 + i * 5321 + 7))));
+  var EVENT_ALBUMS = {
+    "gal-ctf-finals": [
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1567521464027-f127ff144326?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-zeroday": [
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-red-blue": [
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-threat-intel": [
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-osint": [
+      "https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-malware": [
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-hardware": [
+      "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-cyber-drill": [
+      "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-gridcon": [
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "gal-midnight-ctf": [
+      "https://images.unsplash.com/photo-1510511459019-5dee997ddfef?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80"
+    ]
+  };
+
+  galItems.forEach(function (item) {
+    var id = item.id;
+    var album = [];
+    var urls = EVENT_ALBUMS[id];
+    if (urls && urls.length) {
+      urls.forEach(function (src, idx) {
+        var img = document.createElement("img");
+        img.src = src;
+        img.alt = (item.dataset.caption || "Event photo") + " — Frame " + pad2(idx + 1);
+        img.loading = "lazy";
+        album.push(img);
+      });
+    } else {
+      var cover = item.querySelector("img, svg");
+      if (cover) album.push(cover.cloneNode(true));
     }
     item._album = album;
   });
@@ -1032,6 +960,51 @@
     }
   });
 
+  /* frozen capture timestamp per feed (deterministic per channel) */
+  galItems.forEach(function (item, fi) {
+    var st = $(".cam-stamp", item);
+    if (!st) return;
+    var r = mulberry32(fi * 7919 + 41);
+    st.textContent = (item.dataset.date || "ARCHIVE") + " " +
+      pad2(Math.floor(r() * 24)) + ":" +
+      pad2(Math.floor(r() * 60)) + ":" +
+      pad2(Math.floor(r() * 60));
+  });
+
+  /* live UTC clock on the archive bar */
+  var galClock = $("#galClock");
+  if (galClock) {
+    var tickGalClock = function () {
+      var d = new Date();
+      galClock.textContent =
+        pad2(d.getUTCHours()) + ":" +
+        pad2(d.getUTCMinutes()) + ":" +
+        pad2(d.getUTCSeconds());
+    };
+    tickGalClock();
+    setInterval(tickGalClock, 1000);
+  }
+
+  /* ambient signal glitches — random feeds flicker while the wall is on screen */
+  if (!reduced && $(".gal") && typeof IntersectionObserver !== "undefined") {
+    var galOnScreen = false;
+    new IntersectionObserver(function (entries) {
+      galOnScreen = entries[0].isIntersecting;
+    }).observe($(".gal"));
+    setInterval(function () {
+      if (!galOnScreen || document.hidden) return;
+      var vis = galItems.filter(function (it) {
+        return !it.classList.contains("is-filtered-out");
+      });
+      if (!vis.length) return;
+      var target = vis[Math.floor(Math.random() * vis.length)];
+      target.classList.add("is-glitching");
+      setTimeout(function () {
+        target.classList.remove("is-glitching");
+      }, 220 + Math.random() * 200);
+    }, 3400);
+  }
+
   function galEventInfo(item) {
     var fc = item.querySelector("figcaption");
     var caption = (item.dataset.caption || (fc ? fc.textContent : "") || "").trim();
@@ -1044,6 +1017,41 @@
     }
     if (!date) date = "ARCHIVE";
     return { name: name || caption, date: date };
+  }
+
+  var currentGalEventIdx = 0;
+  var currentGalItem = null;
+  var lbEventTracker = $("#lbEventTracker");
+  var lbPrevEvent = $("#lbPrevEvent");
+  var lbNextEvent = $("#lbNextEvent");
+
+  function openLightbox(item) {
+    if (!lightbox || !item._album || !item._album.length) return;
+    currentGalItem = item;
+    currentGalEventIdx = galItems.indexOf(item);
+    if (currentGalEventIdx < 0) currentGalEventIdx = 0;
+    lbAlbum = item._album;
+    lbIndex = 0;
+    lbDir = 1;
+    var info = galEventInfo(item);
+    lbName.textContent = info.name;
+    lbDate.textContent = info.date;
+    if (lbDesc) lbDesc.textContent = item.dataset.desc || "";
+    if (lbEventTracker) {
+      lbEventTracker.textContent = "EVENT " + pad2(currentGalEventIdx + 1) + " OF " + pad2(galItems.length);
+    }
+    renderLightbox();
+    lastFocus = document.activeElement;
+    lightbox.classList.add("open");
+    if (lenis) lenis.stop();
+    lbClose.focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightbox.classList.contains("open")) return;
+    lightbox.classList.remove("open");
+    if (lenis) lenis.start();
+    if (lastFocus) lastFocus.focus();
   }
 
   function renderLightbox() {
@@ -1096,41 +1104,6 @@
         dot.classList.toggle("is-active", i === lbIndex);
       });
     }
-  }
-
-  var currentGalEventIdx = 0;
-  var currentGalItem = null;
-  var lbEventTracker = $("#lbEventTracker");
-  var lbPrevEvent = $("#lbPrevEvent");
-  var lbNextEvent = $("#lbNextEvent");
-
-  function openLightbox(item) {
-    if (!lightbox || !item._album || !item._album.length) return;
-    currentGalItem = item;
-    currentGalEventIdx = galItems.indexOf(item);
-    if (currentGalEventIdx < 0) currentGalEventIdx = 0;
-    lbAlbum = item._album;
-    lbIndex = 0;
-    lbDir = 1;
-    var info = galEventInfo(item);
-    lbName.textContent = info.name;
-    lbDate.textContent = info.date;
-    if (lbDesc) lbDesc.textContent = item.dataset.desc || "";
-    if (lbEventTracker) {
-      lbEventTracker.textContent = "EVENT " + pad2(currentGalEventIdx + 1) + " OF " + pad2(galItems.length);
-    }
-    renderLightbox();
-    lastFocus = document.activeElement;
-    lightbox.classList.add("open");
-    if (lenis) lenis.stop();
-    lbClose.focus();
-  }
-
-  function closeLightbox() {
-    if (!lightbox || !lightbox.classList.contains("open")) return;
-    lightbox.classList.remove("open");
-    if (lenis) lenis.start();
-    if (lastFocus) lastFocus.focus();
   }
 
   function showLightbox(delta) {
