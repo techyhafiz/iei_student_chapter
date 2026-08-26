@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IEI Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"> <!-- Base styles -->
+  <link rel="stylesheet" href="admin.css"> <!-- Admin specific styles -->
+</head>
+<body>
+  <div id="loginSection" class="admin-container">
+    <h2 class="mono">IEI_ADMIN<span>_LOGIN</span></h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+      </div>
+      <div id="loginError" class="error-msg hidden" aria-hidden="true"></div>
+      <button type="submit" class="btn">LOGIN</button>
+    </form>
+  </div>
+
+  <div id="dashboardSection" class="admin-container hidden">
+    <header class="dashboard-header">
+      <h2 class="mono">IEI_ADMIN<span>_DASHBOARD</span></h2>
+      <div class="user-info">
+        <span id="userName" class="mono"></span>
+        <span id="userRole" class="badge"></span>
+        <button id="logoutBtn" class="btn btn-sm">LOGOUT</button>
+      </div>
+    </header>
+
+    <main class="dashboard-main">
+      <div id="superAdminTools" class="hidden">
+        <section class="admin-panel">
+          <h3>Admin Management</h3>
+          <p class="panel-desc">Manage normal admins and reset passwords.</p>
+          
+          <div id="adminListContainer">
+            <p>Loading admins...</p>
+          </div>
+          
+          <!-- Hidden Reset Password Modal/Section -->
+          <div id="resetPasswordSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4>Reset Password for <span id="targetAdminName" class="mono"></span></h4>
+            <p class="panel-desc" id="targetAdminEmail"></p>
+            <form id="resetPasswordForm">
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" required minlength="8">
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" required minlength="8">
+              </div>
+              <div id="resetMsg" class="msg hidden" aria-hidden="true"></div>
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn">Reset Password</button>
+                <button type="button" class="btn" id="cancelResetBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+      <div id="normalAdminView" class="hidden">
+        <p>Welcome to the admin dashboard. Currently there are no actions for normal admins.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

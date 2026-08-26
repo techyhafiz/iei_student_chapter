@@ -11,6 +11,11 @@
   <script>
     (function () {
       try {
+        // Intercept Supabase recovery session redirects
+        if (window.location.hash.indexOf('type=recovery') !== -1) {
+          window.location.replace('reset-password.html' + window.location.hash);
+          return;
+        }
         var t = localStorage.getItem('iei-theme');
         if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
       } catch (e) { }

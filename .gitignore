@@ -12,3 +12,7 @@ ehthumbs.db
 # Temporary & Log files
 *.log
 .temp/
+
+# Node
+node_modules/
+.env
