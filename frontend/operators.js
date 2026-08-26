@@ -10,28 +10,28 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Aarav Sharma",
       title: "President",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-one/300/360",
+      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&h=700&q=80",
       group: "admin"
     },
     {
       name: "Ananya Iyer",
       title: "Vice President",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-two/300/360",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=700&q=80",
       group: "admin"
     },
     {
       name: "Rohan Mehta",
       title: "Treasurer",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-three/300/360",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=700&q=80",
       group: "admin"
     },
     {
       name: "Diya Krishnan",
       title: "General Secretary",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-four/300/360",
+      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&h=700&q=80",
       group: "admin"
     },
     {
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Technical Lead",
       team: "TECHNICAL",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-five/300/360",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&h=700&q=80",
       group: "lead",
       members: [
         { name: "Aditya Verma", linkedin: "https://www.linkedin.com/" },
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Events Lead",
       team: "EVENTS",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-six/300/360",
+      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&h=700&q=80",
       group: "lead",
       members: [
         { name: "Kavya Pillai", linkedin: "https://www.linkedin.com/" },
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "PR Lead",
       team: "PR",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-seven/300/360",
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&h=700&q=80",
       group: "lead",
       members: [
         { name: "Rahul Joshi", linkedin: "https://www.linkedin.com/" },
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Creative Lead",
       team: "CREATIVE",
       linkedin: "https://www.linkedin.com/",
-      image: "https://picsum.photos/seed/lead-eight/300/360",
+      image: "https://images.unsplash.com/photo-1534751516642-a171edd26cb0?auto=format&fit=crop&w=600&h=700&q=80",
       group: "lead",
       members: [
         { name: "Vivaan Chatterjee", linkedin: "https://www.linkedin.com/" },

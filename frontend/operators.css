@@ -434,53 +434,83 @@
 }
 
 html[data-theme="light"] .member-line-link {
-  background: rgba(184, 134, 11, 0.10);
-  border-color: rgba(184, 134, 11, 0.35);
+  background: rgba(184, 125, 0, 0.08);
+  border-color: rgba(184, 125, 0, 0.28);
+  color: #b87d00;
 }
 
 html[data-theme="light"] .member-line-link:hover {
-  background: var(--accent);
-  color: #fffdf8;
+  background: #d49200;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(184, 125, 0, 0.3);
 }
 
 /* ============================================================
    LIGHT THEME — SOLO CARD OVERRIDES
    ============================================================ */
 html[data-theme="light"] .operators-deck-section {
-  background: radial-gradient(circle at 85% 20%, rgba(184, 134, 11, 0.10), transparent 40%),
-              radial-gradient(circle at 15% 80%, rgba(71, 110, 199, 0.07), transparent 35%),
+  background: radial-gradient(circle at 85% 20%, rgba(184, 125, 0, 0.08), transparent 40%),
+              radial-gradient(circle at 15% 80%, rgba(70, 110, 190, 0.06), transparent 35%),
               var(--bg);
 }
 
 html[data-theme="light"] .solo-card {
-  background: rgba(214, 199, 164, 0.35);
-  border-color: rgba(148, 112, 12, 0.22);
+  background: #fbf9f4;
+  border-color: rgba(24, 27, 34, 0.09);
+  box-shadow: 0 4px 18px rgba(24, 27, 34, 0.04);
 }
 
 html[data-theme="light"] .solo-card:hover {
-  border-color: rgba(148, 112, 12, 0.55);
-  box-shadow: 0 12px 28px rgba(70, 58, 26, 0.18), 0 0 14px rgba(184, 134, 11, 0.15);
+  border-color: rgba(184, 125, 0, 0.45);
+  box-shadow: 0 14px 34px rgba(24, 27, 34, 0.09), 0 0 20px rgba(184, 125, 0, 0.14);
 }
 
 html[data-theme="light"] .team-card {
-  background: rgba(214, 199, 164, 0.35);
-  border-color: rgba(148, 112, 12, 0.22);
+  background: #fbf9f4;
+  border-color: rgba(24, 27, 34, 0.09);
+  box-shadow: 0 4px 18px rgba(24, 27, 34, 0.04);
 }
 
 html[data-theme="light"] .team-card:hover {
-  border-color: rgba(148, 112, 12, 0.55);
-  box-shadow: 0 12px 28px rgba(70, 58, 26, 0.18), 0 0 14px rgba(184, 134, 11, 0.15);
+  border-color: rgba(184, 125, 0, 0.45);
+  box-shadow: 0 14px 34px rgba(24, 27, 34, 0.09), 0 0 20px rgba(184, 125, 0, 0.14);
+}
+
+html[data-theme="light"] .team-card-left {
+  border-right-color: rgba(24, 27, 34, 0.08);
+}
+
+html[data-theme="light"] .team-card-name {
+  color: #b87d00;
+  text-shadow: none;
+}
+
+html[data-theme="light"] .team-card-lead-link {
+  background: rgba(184, 125, 0, 0.06);
+  border-color: rgba(184, 125, 0, 0.22);
+}
+
+html[data-theme="light"] .team-card-lead-link:hover {
+  background: rgba(184, 125, 0, 0.12);
+  border-color: #d49200;
+}
+
+html[data-theme="light"] .lead-tag {
+  background: #d49200;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(184, 125, 0, 0.35);
 }
 
 html[data-theme="light"] .solo-card-link {
-  background: rgba(184, 134, 11, 0.10);
-  border-color: rgba(184, 134, 11, 0.35);
+  background: rgba(184, 125, 0, 0.08);
+  border-color: rgba(184, 125, 0, 0.28);
+  color: #b87d00;
 }
 
 html[data-theme="light"] .solo-card-link:hover {
-  background: var(--accent);
-  color: #fffdf8;
-  box-shadow: 0 6px 16px rgba(184, 134, 11, 0.35);
+  background: #d49200;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(184, 125, 0, 0.3);
 }
 
 @media (max-width: 640px) {
