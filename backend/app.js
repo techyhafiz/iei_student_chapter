@@ -21,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 
 const adminRoutes = require('./routes/admin.routes');
+const eventsRoutes = require('./routes/events.routes');
 
 // Connect the health router to the main app under the '/api' prefix
 // This routes all requests starting with '/api' to the appropriate router.
@@ -28,6 +29,7 @@ app.use('/api', healthRouter);
 app.use('/api', supabaseTestRouter);
 app.use('/api/auth', authRoutes);
 app.use('/api/admins', adminRoutes);
+app.use('/api/events', eventsRoutes);
 
 // Export the configured app so it can be used in server.js
 module.exports = app;

@@ -65,10 +65,142 @@
               </div>
             </form>
           </div>
+
+          <!-- Hidden Manage Permissions Modal/Section -->
+          <div id="managePermissionsSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4>Manage Permissions for <span id="targetPermAdminName" class="mono"></span></h4>
+            <p class="panel-desc" id="targetPermAdminEmail"></p>
+            <form id="managePermissionsForm">
+              <div class="form-group" style="display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                  <input type="checkbox" id="perm_team" name="perm_team">
+                  Team
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                  <input type="checkbox" id="perm_events" name="perm_events">
+                  Events
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                  <input type="checkbox" id="perm_gallery" name="perm_gallery">
+                  Gallery
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                  <input type="checkbox" id="perm_calendar" name="perm_calendar">
+                  Calendar
+                </label>
+              </div>
+              <div id="permMsg" class="msg hidden" aria-hidden="true"></div>
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn" id="savePermissionsBtn">Save Permissions</button>
+                <button type="button" class="btn" id="cancelPermBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
         </section>
       </div>
       <div id="normalAdminView" class="hidden">
-        <p>Welcome to the admin dashboard. Currently there are no actions for normal admins.</p>
+        <p id="normalAdminWelcomeMsg">Welcome to the admin dashboard. Currently there are no actions for normal admins.</p>
+      </div>
+
+      <!-- Events Management Section -->
+      <div id="eventsManagementSection" class="hidden">
+        <section class="admin-panel">
+          <h3>Events Management</h3>
+          <p class="panel-desc">Manage public events and their posters.</p>
+          <button type="button" class="btn btn-sm" id="openCreateEventBtn" style="margin-bottom: 1rem;">Create New Event</button>
+
+          <div id="eventsListContainer">
+            <p>Loading events...</p>
+          </div>
+
+          <!-- Hidden Event Form Modal/Section -->
+          <div id="eventFormSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4 id="eventFormTitle">Create Event</h4>
+            <form id="eventForm">
+              <input type="hidden" id="eventId">
+
+              <div class="form-group">
+                <label for="eventTitle">Title</label>
+                <input type="text" id="eventTitle" required>
+              </div>
+
+              <div class="form-group">
+                <label for="eventDesc">Description</label>
+                <textarea id="eventDesc" rows="4" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px; font-family:'Inter',sans-serif;" required></textarea>
+              </div>
+
+              <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                  <label for="eventCategory">Category (Tag)</label>
+                  <input type="text" id="eventCategory" placeholder="e.g. WORKSHOP, DRILL">
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label for="eventDate">Date</label>
+                  <input type="date" id="eventDate" required>
+                </div>
+              </div>
+
+              <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                  <label for="eventStartTime">Start Time</label>
+                  <input type="time" id="eventStartTime">
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label for="eventEndTime">End Time</label>
+                  <input type="time" id="eventEndTime">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="eventLocation">Location</label>
+                <input type="text" id="eventLocation">
+              </div>
+
+              <div class="form-group">
+                <label for="eventRegUrl">Registration URL</label>
+                <input type="url" id="eventRegUrl">
+              </div>
+
+              <div class="form-group">
+                <label for="eventStatus">Status</label>
+                <select id="eventStatus" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px;">
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                  <option value="archived">Archived</option>
+                </select>
+              </div>
+
+              <div id="eventMsg" class="msg hidden" aria-hidden="true"></div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn" id="saveEventBtn">Save Event</button>
+                <button type="button" class="btn" id="cancelEventBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Hidden Poster Management Modal/Section -->
+          <div id="posterFormSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4>Manage Poster for <span id="targetPosterEventName" class="mono"></span></h4>
+            <div id="currentPosterDisplay" style="margin-bottom: 1rem;"></div>
+
+            <form id="posterForm">
+              <input type="hidden" id="posterEventId">
+              <div class="form-group">
+                <label for="posterFile">Upload New Poster (JPEG, PNG, WebP - max 5MB)</label>
+                <input type="file" id="posterFile" accept="image/jpeg, image/png, image/webp" required>
+              </div>
+              <div id="posterMsg" class="msg hidden" aria-hidden="true"></div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn" id="savePosterBtn">Upload/Replace Poster</button>
+                <button type="button" class="btn btn-danger" id="removePosterBtn" style="flex:1;">Remove Poster</button>
+                <button type="button" class="btn" id="cancelPosterBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+        </section>
       </div>
     </main>
   </div>

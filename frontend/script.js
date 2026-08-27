@@ -681,8 +681,79 @@
   var evViewport = $("#evViewport");
   var evShell = $("#evShell");
   if (evTrack && evViewport && evShell) {
+    evTrack.innerHTML = '<div style="padding: 2rem; color: var(--fg-muted); font-family: monospace;">[LOADING_EVENTS...]</div>';
 
-    function refreshTimelineAlternation() {
+    fetch('http://localhost:5000/api/events')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (!data.success) throw new Error("API failed");
+        renderEvents(data.events || []);
+        initTimeline();
+      })
+      .catch(function(err) {
+        evTrack.innerHTML = '<div style="padding: 2rem; color: var(--fg-error); font-family: monospace;">[ERROR: FAILED_TO_LOAD_EVENTS]</div>';
+        console.error(err);
+      });
+
+    function renderEvents(allEvents) {
+      var publishedEvents = allEvents.filter(function(e) { return e.status === 'published'; });
+      publishedEvents.sort(function(a, b) {
+        if (a.display_order !== b.display_order) {
+          return (a.display_order || 0) - (b.display_order || 0);
+        }
+        return new Date(b.event_date) - new Date(a.event_date);
+      });
+      
+      evTrack.innerHTML = '';
+      if (publishedEvents.length === 0) {
+        evTrack.innerHTML = '<div style="padding: 2rem; color: var(--fg-muted); font-family: monospace;">[NO_UPCOMING_EVENTS_FOUND]</div>';
+        return;
+      }
+      
+      var nextEvent = publishedEvents[0];
+      var nextD = new Date(nextEvent.event_date);
+      var dayStr = (nextD.getDate() < 10 ? "0" : "") + nextD.getDate();
+      
+      var cardDisplay = $("#nextEventDateDisplay");
+      var cardTag = $("#nextEventTag");
+      var cardTitle = $("#nextEventTitle");
+      var cardDesc = $("#nextEventDesc");
+      var cardMeta = $("#nextEventMeta");
+      
+      if (cardDisplay) cardDisplay.innerHTML = '<strong>' + dayStr + '</strong><span>' + nextD.toLocaleString('default', { month: 'short' }).toUpperCase() + ' ' + nextD.getFullYear() + '</span>';
+      if (cardTag) cardTag.textContent = (nextEvent.category || 'EVENT').toUpperCase();
+      if (cardTitle) cardTitle.innerHTML = nextEvent.title;
+      if (cardDesc) cardDesc.textContent = nextEvent.description || '';
+      if (cardMeta) cardMeta.textContent = (nextEvent.location || 'TBA') + (nextEvent.start_time ? ' · ' + nextEvent.start_time : '');
+      
+
+      
+      publishedEvents.forEach(function(ev) {
+        var d = new Date(ev.event_date);
+        var dDay = (d.getDate() < 10 ? "0" : "") + d.getDate();
+        var mo = d.toLocaleString('default', { month: 'short' }).toUpperCase();
+        var yr = d.getFullYear();
+        
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tl-node";
+        if (ev.id === nextEvent.id) btn.classList.add("is-selected");
+        // Keep data-gal-target structure for existing safe click behavior
+        btn.dataset.galTarget = "gal-" + ev.id;
+        btn.setAttribute("aria-label", ev.title + " - " + mo + " " + dDay + ", " + yr);
+        
+        btn.innerHTML =
+          '<div class="tl-date"><time><span class="tl-day">' + dDay + '</span><span class="tl-mo">' + mo + '</span></time><span class="tl-year mono">' + yr + '</span></div>' +
+          '<div class="tl-marker"><span class="tl-tick tl-tick-top"></span><span class="tl-dot"></span><span class="tl-tick tl-tick-bottom"></span></div>' +
+          '<div class="tl-card"><span class="ev-tag mono">' + (ev.category || 'EVENT').toUpperCase() + '</span><h3 class="tl-name">' + ev.title + '</h3></div>';
+          
+        evTrack.appendChild(btn);
+      });
+    }
+
+    function initTimeline() {
+      function refreshTimelineAlternation() {
+
       var visibleNodes = $all(".tl-node:not(.tl-eof):not(.is-hidden)", evTrack);
       visibleNodes.forEach(function (node, i) {
         (i % 2 === 0) ? node.classList.remove("tl-alt") : node.classList.add("tl-alt");
@@ -803,6 +874,7 @@
       tlFocusDefault(false);
     });
   }
+  }
 
   /* ------------------------------------------------------------
       FOOTER wordmark drift
@@ -816,7 +888,6 @@
 
   function pad2(n) { return (n < 10 ? "0" : "") + n; }
 
-  var lightbox = $("#lightbox");
   var lbContent = $("#lbContent");
   var lbName = $("#lbName");
   var lbDate = $("#lbDate");
