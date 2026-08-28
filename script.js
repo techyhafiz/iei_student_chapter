@@ -1220,6 +1220,200 @@
   });
 
   /* ------------------------------------------------------------
+     SPECULAR BUTTONS — WebGL border shine (ported from reference)
+     Gaussian light streak travels along the rounded border,
+     tracking the cursor with a 250px proximity fade, over a
+     permanent subtle base ring. Exact shader + easing port.
+     ------------------------------------------------------------ */
+  (function () {
+    var sbButtons = $all(".specular-button");
+    if (!sbButtons.length) { return; }
+
+    var FRAG_COMMON =
+      "uniform vec2 uCenter;uniform vec2 uHalfSize;uniform float uRadius;" +
+      "uniform float uAngle;uniform float uPx;uniform vec3 uLineColor;" +
+      "uniform vec3 uBaseColor;uniform float uIntensity;uniform float uShineSize;" +
+      "uniform float uShineFade;uniform float uThickness;uniform float uBaseWidth;" +
+      "float sdRoundedRect(vec2 p, vec2 b, float r){vec2 q=abs(p)-b+r;" +
+      "return length(max(q,0.0))+min(max(q.x,q.y),0.0)-r;}" +
+      "float shapeSDF(vec2 p){return sdRoundedRect(p,uHalfSize,uRadius);}" +
+      "float gaussianLine(float d, float sigma){float x=d/(sigma+1e-6);" +
+      "float k=mix(1.0,1.6,smoothstep(0.0,1.5,x));return exp(-k*x*x);}" +
+      "void main(){vec2 p=gl_FragCoord.xy-uCenter;float d=shapeSDF(p);" +
+      "vec2 L=vec2(cos(uAngle),sin(uAngle));" +
+      "float base=(1.0-smoothstep(0.0,uBaseWidth,abs(d)))*0.45;" +
+      "vec2 nEll=normalize(p/(uHalfSize*uHalfSize)+1e-6);" +
+      "float phi=acos(clamp(abs(dot(nEll,L)),0.0,1.0));" +
+      "float rim=1.0-smoothstep(uShineSize-uShineFade,uShineSize+uShineFade+1e-4,phi);" +
+      "float line=gaussianLine(d,uThickness);" +
+      "float edgeClamp=1.0-smoothstep(0.5*uPx,3.0*uPx,abs(d));" +
+      "float hi=line*rim*edgeClamp*uIntensity;" +
+      "vec3 col=uBaseColor*base+uLineColor*hi;" +
+      "float a=clamp(base+hi,0.0,1.0);__OUT__}";
+
+    var V2 = "#version 300 es\nin vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}";
+    var F2 = "#version 300 es\nprecision highp float;\nout vec4 fragColor;\n" +
+      FRAG_COMMON.replace("__OUT__", "fragColor=vec4(col,a);");
+    var V1 = "attribute vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}";
+    var F1 = "precision mediump float;\n" + FRAG_COMMON.replace("__OUT__", "gl_FragColor=vec4(col,a);");
+
+    var UNIS = ["uCenter", "uHalfSize", "uRadius", "uAngle", "uPx", "uLineColor",
+      "uBaseColor", "uIntensity", "uShineSize", "uShineFade", "uThickness", "uBaseWidth"];
+
+    var items = [];
+
+    function initButton(btn) {
+      var fx = btn.querySelector(".specular-button__fx");
+      if (!fx) {
+        fx = document.createElement("span");
+        fx.className = "specular-button__fx";
+        fx.setAttribute("aria-hidden", "true");
+        btn.appendChild(fx);
+      }
+      fx.innerHTML = "";
+      var canvas = document.createElement("canvas");
+      fx.appendChild(canvas);
+
+      var attrs = { alpha: true, premultipliedAlpha: true, antialias: true };
+      var gl = canvas.getContext("webgl2", attrs);
+      var isGL2 = !!gl;
+      if (!gl) { gl = canvas.getContext("webgl", attrs) || canvas.getContext("experimental-webgl", attrs); }
+      if (!gl) { return null; }
+
+      function compile(type, src) {
+        var s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return s;
+      }
+      var prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl.VERTEX_SHADER, isGL2 ? V2 : V1));
+      gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, isGL2 ? F2 : F1));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { return null; }
+      gl.useProgram(prog);
+
+      /* fullscreen triangle */
+      var buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      var loc = gl.getAttribLocation(prog, "position");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+      gl.clearColor(0, 0, 0, 0);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+      var u = {};
+      UNIS.forEach(function (n) { u[n] = gl.getUniformLocation(prog, n); });
+
+      var item = {
+        btn: btn, canvas: canvas, gl: gl, u: u,
+        angle: 2.4, idle: 2.4, target: null, prox: 0, g: 0,
+        dpr: 1, radius: 18, visible: true, settled: false
+      };
+
+      function size() {
+        var r = btn.getBoundingClientRect();
+        var w = Math.max(1, r.width), h = Math.max(1, r.height);
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        item.dpr = dpr;
+        canvas.width = Math.ceil((w + 40) * dpr);
+        canvas.height = Math.ceil((h + 40) * dpr);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        var br = parseFloat(getComputedStyle(btn).borderRadius) || 18;
+        item.radius = Math.min(br, Math.min(w, h) / 2) * dpr;
+        gl.uniform2f(u.uCenter, (20 + w / 2) * dpr, (20 + h / 2) * dpr);
+        gl.uniform2f(u.uHalfSize, w / 2 * dpr, h / 2 * dpr);
+        gl.uniform1f(u.uPx, dpr);
+        gl.uniform1f(u.uBaseWidth, dpr);
+        item.settled = false;
+      }
+
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(size).observe(btn);
+      } else {
+        window.addEventListener("resize", size);
+      }
+      size();
+
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (en) {
+          item.visible = en[0].isIntersecting;
+        }, { rootMargin: "80px" }).observe(btn);
+      }
+
+      return item;
+    }
+
+    sbButtons.forEach(function (btn) {
+      var item = (!reduced) ? initButton(btn) : null;
+      if (item) { items.push(item); }
+      else { btn.classList.add("sb-static"); }
+    });
+
+    if (!items.length) { return; }
+
+    window.addEventListener("pointermove", function (e) {
+      items.forEach(function (it) {
+        var r = it.btn.getBoundingClientRect();
+        var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var n = Math.hypot(
+          Math.max(r.left - e.clientX, 0, e.clientX - r.right),
+          Math.max(r.top - e.clientY, 0, e.clientY - r.bottom)
+        );
+        if (n === 0) {
+          var t = (e.clientX - cx) / (r.width / 2);
+          var v = (cy - e.clientY) / (r.height / 2);
+          it.target = Math.atan2(2 / r.height, -2 / r.width) + 0.3 * t + 0.15 * v;
+        } else {
+          it.target = Math.atan2(cy - e.clientY, e.clientX - cx);
+        }
+        var a = Math.max(0, 1 - n / 250);
+        it.prox = a * a * (3 - 2 * a);
+        it.settled = false;
+      });
+    }, { passive: true });
+
+    var last = performance.now();
+
+    function drawItem(it) {
+      var gl = it.gl, u = it.u;
+      gl.uniform1f(u.uAngle, it.angle);
+      gl.uniform1f(u.uRadius, it.radius);
+      gl.uniform3f(u.uLineColor, 1, 1, 1);
+      gl.uniform3f(u.uBaseColor, 82 / 255, 82 / 255, 82 / 255);
+      gl.uniform1f(u.uIntensity, it.g);
+      gl.uniform1f(u.uShineSize, 10 * Math.PI / 180);
+      gl.uniform1f(u.uShineFade, 40 * Math.PI / 180);
+      gl.uniform1f(u.uThickness, it.dpr);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    function tick(now) {
+      requestAnimationFrame(tick);
+      var dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (document.hidden) { return; }
+      items.forEach(function (it) {
+        if (!it.visible) { return; }
+        it.idle += 0.35 * dt;
+        var target = (it.target != null) ? it.target : it.idle;
+        var delta = ((target - it.angle + 3 * Math.PI) % (2 * Math.PI)) - Math.PI;
+        it.angle += delta * (1 - Math.exp(-7 * dt));
+        it.g += (it.prox - it.g) * (1 - Math.exp(-8 * dt));
+        var settled = it.g < 0.004 && (Math.abs(delta) < 0.01 || it.target != null);
+        if (settled && it.settled) { return; }
+        it.settled = settled;
+        drawItem(it);
+      });
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ------------------------------------------------------------
      CARD TILT — subtle 3D on cursor
      ------------------------------------------------------------ */
   if (hasGsap && finePointer && !reduced) {

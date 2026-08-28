@@ -471,11 +471,14 @@ html[data-theme="light"] .icon-moon { display: none; }
 }
 
 /* ============================================================
-   SPECULAR BUTTONS
+   SPECULAR BUTTONS — port of the reference component
+   Border + shine are drawn by a WebGL canvas in
+   .specular-button__fx (see script.js): a permanent subtle
+   ring + a gaussian light streak that follows the cursor.
    ============================================================ */
 .specular-button {
   --sb-radius: 18px;
-  --sb-tint: #fff;
+  --sb-tint: #ffffff;
   --sb-tint-opacity: 0;
   --sb-blur: 0px;
   --sb-text-color: #f5f5f5;
@@ -488,31 +491,46 @@ html[data-theme="light"] .icon-moon { display: none; }
   cursor: pointer;
   letter-spacing: .01em;
   font-family: inherit;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   color: var(--sb-text-color);
   border-radius: var(--sb-radius);
   background: color-mix(in srgb, var(--sb-tint) calc(var(--sb-tint-opacity) * 100%), transparent);
   backdrop-filter: blur(var(--sb-blur));
   -webkit-backdrop-filter: blur(var(--sb-blur));
-  box-shadow: inset 0 1px rgba(255, 255, 255, .06), 0 8px 24px rgba(0, 0, 0, .28);
-  transition: transform .18s, box-shadow .3s, border-color .3s, background .3s;
-  overflow: hidden;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .04), 0 8px 24px rgba(0, 0, 0, .25);
+  transition: transform .15s;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .specular-button:active { transform: scale(.97); }
 
 .specular-button:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, .6);
+  outline: 2px solid color-mix(in srgb, var(--sb-text-color) 60%, transparent);
   outline-offset: 3px;
 }
 
 .specular-button:disabled { opacity: .55; cursor: default; }
+.specular-button:disabled:active { transform: none; }
 
 .specular-button--sm { padding: 10px 22px; font-size: .85rem; }
 .specular-button--md { padding: 14px 30px; font-size: 1rem; }
-.specular-button--lg { padding: 18px 40px; font-size: 1.1rem; }
+.specular-button--lg { padding: 18px 40px; font-size: 1.15rem; }
+
+/* WebGL shine layer — canvas extends 20px past the button */
+.specular-button__fx {
+  position: absolute;
+  inset: -20px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.specular-button__fx canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
 .specular-button__label {
   position: relative;
@@ -520,62 +538,60 @@ html[data-theme="light"] .icon-moon { display: none; }
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   white-space: nowrap;
 }
 
 .specular-button__label svg { flex-shrink: 0; }
 
-.specular-button::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -80%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .28), transparent);
-  transform: skew(-20deg);
-  transition: left .55s var(--ease);
-  pointer-events: none;
+/* static ring fallback when the canvas fx can't run */
+.specular-button.sb-static {
+  box-shadow: inset 0 1px rgba(255, 255, 255, .04), 0 8px 24px rgba(0, 0, 0, .25),
+    inset 0 0 0 1px rgba(255, 255, 255, .16);
 }
 
-.specular-button:hover::after { left: 130%; }
-.specular-button:hover { transform: translateY(-2px); }
-
+/* primary — ref "Join GalxeCode '26": fuchsia tint + blur, no border */
 .specular-button.is-primary {
   --sb-radius: 999px;
   --sb-tint: #e879f9;
-  --sb-tint-opacity: .38;
+  --sb-tint-opacity: .4;
   --sb-blur: 10px;
   --sb-text-color: #ffffff;
-  box-shadow: inset 0 1px rgba(255, 255, 255, .14), 0 6px 26px rgba(168, 85, 247, .38);
-  border: 1px solid rgba(232, 121, 249, .35);
 }
 
-.specular-button.is-primary:hover {
-  box-shadow: inset 0 1px rgba(255, 255, 255, .2), 0 10px 36px rgba(168, 85, 247, .55);
-  border-color: rgba(232, 121, 249, .6);
-}
-
+/* ghost — ref "Join Group": fully transparent, muted text */
 .specular-button.is-ghost {
   --sb-radius: 999px;
+  --sb-tint: #ffffff;
+  --sb-tint-opacity: 0;
+  --sb-blur: 0px;
   --sb-text-color: #d1d5db;
-  background: rgba(255, 255, 255, .02);
-  border: 1px solid rgba(139, 92, 246, .28);
+}
+
+.specular-button.is-ghost:hover { --sb-text-color: #ffffff; }
+
+/* light-theme legibility overrides */
+:root[data-theme="light"] .specular-button {
+  box-shadow: inset 0 1px rgba(255, 255, 255, .5), 0 8px 24px rgba(36, 27, 58, .12);
+}
+
+:root[data-theme="light"] .specular-button.is-primary {
+  --sb-tint: #c026d3;
+  --sb-tint-opacity: .9;
+  --sb-blur: 0px;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .4), 0 8px 24px rgba(124, 58, 237, .3);
 }
 
 :root[data-theme="light"] .specular-button.is-ghost {
   --sb-text-color: #4c4368;
-  background: rgba(255, 255, 255, .5);
 }
 
-.specular-button.is-ghost:hover {
-  border-color: rgba(232, 121, 249, .6);
-  color: #fff;
-  box-shadow: 0 8px 26px rgba(168, 85, 247, .25);
-}
+:root[data-theme="light"] .specular-button.is-ghost:hover { --sb-text-color: #241b3a; }
 
-:root[data-theme="light"] .specular-button.is-ghost:hover { color: #241b3a; }
+:root[data-theme="light"] .specular-button.sb-static {
+  box-shadow: inset 0 1px rgba(255, 255, 255, .5), 0 8px 24px rgba(36, 27, 58, .12),
+    inset 0 0 0 1px rgba(76, 67, 104, .25);
+}
 
 .btn-block { width: 100%; }
 
@@ -2744,7 +2760,7 @@ html:not(.js) .why-row {
   .specular-button--md { padding: 12px 22px; font-size: .85rem; }
   .specular-button--sm { padding: 10px 18px; font-size: .8rem; }
 
-  .cta-group .specular-button--lg { min-width: 0; padding: 12px 18px; font-size: .82rem; }
+  .cta-group .specular-button--lg { min-width: 0; padding: 12px 14px; font-size: .8rem; }
 
   .stats { gap: 6px; }
 
