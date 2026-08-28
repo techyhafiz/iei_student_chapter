@@ -232,6 +232,181 @@
     size();
     if (reducedMotion) { drawFrame(performance.now()); }
   })();
+
+  /* ------------------------------------------------------------
+       HERO AURORA — WebGL flowing energy waves
+       Layered sine bands in violet/fuchsia rising from the
+       hero's lower half. Additive blending over the space
+       canvas. Runs only while the hero is on screen; static
+       frame under reduced motion; graceful skip if WebGL
+       is unavailable.
+       ------------------------------------------------------------ */
+  (function () {
+    var cv = $("#auroraFx");
+    if (!cv) { return; }
+
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var FRAG = [
+      "uniform float uT;",
+      "uniform vec2 uRes;",
+      "uniform float uLight;",
+      "",
+      "float hash(vec2 q){return fract(sin(dot(q,vec2(127.1,311.7)))*43758.5453);}",
+      "float noise(vec2 q){",
+      "  vec2 i=floor(q);vec2 f=fract(q);",
+      "  f=f*f*(3.0-2.0*f);",
+      "  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),",
+      "             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);",
+      "}",
+      "",
+      "void main(){",
+      "  vec2 uv=gl_FragCoord.xy/uRes;",
+      "  float t=uT*0.25;",
+      "",
+      "  /* wave field: fbm-warped x, energy concentrated low */",
+      "  float n=noise(vec2(uv.x*3.0+t*0.7,uv.y*2.0-t*0.4));",
+      "  float x=uv.x+(n-0.5)*0.35;",
+      "  float y=uv.y;",
+      "",
+      "  /* three travelling sine bands with phase offsets */",
+      "  float w1=0.5+0.5*sin(x*6.2831+t*1.6);",
+      "  float w2=0.5+0.5*sin(x*4.7124-t*1.1+2.1);",
+      "  float w3=0.5+0.5*sin(x*7.8540+t*0.7+4.2);",
+      "",
+      "  float e1=exp(-abs(y-(0.42+w1*0.10))*9.0);",
+      "  float e2=exp(-abs(y-(0.30+w2*0.13))*7.0);",
+      "  float e3=exp(-abs(y-(0.18+w3*0.08))*11.0);",
+      "",
+      "  /* vertical falloff + gentle scroll shimmer */",
+      "  float fall=smoothstep(0.0,0.35,y)*(1.0-smoothstep(0.75,1.0,y));",
+      "  float shim=0.85+0.15*sin(t*3.0+x*12.0);",
+      "",
+      "  float glow=e1*0.55+e2*0.75+e3*0.45;",
+      "  glow*=fall*shim;",
+      "",
+      "  /* colour: violet -> fuchsia by height */",
+      "  vec3 violet=vec3(0.486,0.341,0.933);",
+      "  vec3 fuchsia=vec3(0.910,0.475,0.976);",
+      "  vec3 indigo=vec3(0.192,0.180,0.506);",
+      "  vec3 col=mix(violet,fuchsia,clamp(y*1.6,0.0,1.0));",
+      "  col=mix(col,indigo,0.35*e2);",
+      "",
+      "  /* light theme: softer, more transparent */",
+      "  float a=glow*(mix(0.34,0.16,uLight));",
+      "  col=mix(col,vec3(0.42,0.27,0.65),uLight*0.5);",
+      "",
+      "  o=vec4(col*a,a);",
+      "}"
+    ].join("\n");
+
+    /* GL2 gets a real output var; GL1 aliases it to gl_FragColor */
+    var V2R = "#version 300 es\nin vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+    var F2R = "#version 300 es\nprecision highp float;\nout vec4 o;\n" + FRAG;
+    var V1R = "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}";
+    var F1R = "precision mediump float;\n#define o gl_FragColor\n" + FRAG;
+
+    var attrs = { alpha: true, premultipliedAlpha: true, antialias: true, depth: false };
+    var gl = cv.getContext("webgl2", attrs);
+    var isGL2 = !!gl;
+    if (!gl) { gl = cv.getContext("webgl", attrs) || cv.getContext("experimental-webgl", attrs); }
+    if (!gl) { cv.style.display = "none"; return; }
+
+    function compile(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS) && window.console) {
+        console.warn(gl.getShaderInfoLog(s));
+      }
+      return s;
+    }
+
+    var prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, isGL2 ? V2R : V1R));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, isGL2 ? F2R : F1R));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { cv.style.display = "none"; return; }
+    gl.useProgram(prog);
+
+    /* fullscreen triangle */
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, "p");
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    var uT = gl.getUniformLocation(prog, "uT");
+    var uRes = gl.getUniformLocation(prog, "uRes");
+    var uLight = gl.getUniformLocation(prog, "uLight");
+
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+    var dpr = 1, W = 0, H = 0;
+    var t0 = performance.now();
+    var visible = true;
+    var rafId = 0;
+
+    function theme() { return document.documentElement.getAttribute("data-theme") === "light" ? 1 : 0; }
+
+    function size() {
+      var host = cv.parentElement.getBoundingClientRect();
+      W = Math.max(1, Math.ceil(host.width));
+      H = Math.max(1, Math.ceil(host.height));
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      cv.width = W * dpr; cv.height = H * dpr;
+      gl.viewport(0, 0, cv.width, cv.height);
+    }
+
+    function draw() {
+      gl.uniform1f(uT, (performance.now() - t0) / 1000);
+      gl.uniform2f(uRes, cv.width, cv.height);
+      gl.uniform1f(uLight, theme());
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    function loop() {
+      if (!visible) { rafId = 0; return; }
+      draw();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (!rafId) { rafId = requestAnimationFrame(loop); }
+    }
+    function stop() {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      document.hidden ? stop() : (visible && start());
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        visible ? start() : stop();
+      }, { threshold: 0 }).observe(cv);
+    }
+
+    var rsz;
+    window.addEventListener("resize", function () {
+      clearTimeout(rsz);
+      rsz = setTimeout(function () {
+        size();
+        if (reducedMotion) { draw(); }
+      }, 150);
+    });
+
+    size();
+    if (reducedMotion) { draw(); }
+    else { start(); }
+  })();
+
   /* ------------------------------------------------------------
      HERO HEADLINE — lines are authored directly in the markup
      (.headline-line spans) and revealed via CSS keyframes.

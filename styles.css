@@ -611,6 +611,20 @@ html[data-theme="light"] .icon-moon { display: none; }
 
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
 
+/* ---------- AURORA WAVE CANVAS (WebGL, hero only) ---------- */
+#auroraFx {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* band the energy to the lower 65% like the reference, fade the top */
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, black 52%, black 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, black 52%, black 82%, transparent 100%);
+}
+
+:root[data-theme="light"] #auroraFx { opacity: .5; }
+
 /* ---------- SITE-WIDE RAIN CANVAS ---------- */
 #spaceFx {
   position: fixed;
