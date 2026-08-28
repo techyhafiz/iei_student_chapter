@@ -202,6 +202,164 @@
 
         </section>
       </div>
+      <!-- Team Management Section -->
+      <div id="teamManagementSection" class="hidden">
+        <section class="admin-panel">
+          <h3>Team Management</h3>
+          <p class="panel-desc">Manage Faculty, Executive members, and dynamic Teams.</p>
+          
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+            <button type="button" class="btn btn-sm" id="tabBtnFaculty" onclick="switchTeamTab('faculty')">Faculty</button>
+            <button type="button" class="btn btn-sm" id="tabBtnExecutive" style="background: transparent; border: 1px solid var(--border); color: var(--fg);" onclick="switchTeamTab('executive')">Executive</button>
+            <button type="button" class="btn btn-sm" id="tabBtnTeams" style="background: transparent; border: 1px solid var(--border); color: var(--fg);" onclick="switchTeamTab('teams')">Teams</button>
+          </div>
+
+          <!-- Faculty View -->
+          <div id="teamViewFaculty">
+            <button type="button" class="btn btn-sm" onclick="openMemberForm('Faculty')" style="margin-bottom: 1rem;">Add Faculty</button>
+            <div id="facultyListContainer"><p>Loading...</p></div>
+          </div>
+
+          <!-- Executive View -->
+          <div id="teamViewExecutive" class="hidden">
+            <button type="button" class="btn btn-sm" onclick="openMemberForm('Executive')" style="margin-bottom: 1rem;">Add Executive</button>
+            <div id="executiveListContainer"><p>Loading...</p></div>
+          </div>
+
+          <!-- Teams View -->
+          <div id="teamViewTeams" class="hidden">
+            <div id="teamListView">
+              <button type="button" class="btn btn-sm" onclick="openTeamForm()" style="margin-bottom: 1rem;">Create Team</button>
+              <div id="teamsListContainer"><p>Loading...</p></div>
+            </div>
+
+            <div id="teamDetailsView" class="hidden">
+              <button type="button" class="btn btn-sm" onclick="closeTeamDetails()" style="margin-bottom: 1rem; background: transparent; border: 1px solid var(--border); color: var(--fg);">&lt; Back to Teams</button>
+              
+              <div id="teamDetailsHeader" style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+                <h4 id="teamDetailsTitle" style="margin-bottom: 0.5rem;">Team Name</h4>
+                <p id="teamDetailsStatus" class="panel-desc" style="margin-bottom: 0;"></p>
+              </div>
+
+              <div id="teamLeadContainer" style="margin-bottom: 2rem;">
+                <!-- Lead details will be injected here -->
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h4>Team Members</h4>
+                <button type="button" class="btn btn-sm" onclick="openMemberForm('Team')">Add Member</button>
+              </div>
+              
+              <div id="teamMembersListContainer"><p>Loading members...</p></div>
+            </div>
+          </div>
+
+          <!-- Hidden Member Form Modal/Section -->
+          <div id="memberFormSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4 id="memberFormTitle">Add Member</h4>
+            <form id="memberForm">
+              <input type="hidden" id="memberId">
+              <input type="hidden" id="memberSection">
+              <input type="hidden" id="memberTeamId">
+
+              <div class="form-group">
+                <label for="memberName">Name</label>
+                <input type="text" id="memberName" required>
+              </div>
+
+              <div class="form-group">
+                <label for="memberPosition">Position</label>
+                <input type="text" id="memberPosition" placeholder="e.g. HOD, President, Coordinator" required>
+              </div>
+
+              <div class="form-group">
+                <label for="memberLinkedin">LinkedIn URL</label>
+                <input type="url" id="memberLinkedin">
+              </div>
+
+              <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                  <label for="memberDisplayOrder">Display Order</label>
+                  <input type="number" id="memberDisplayOrder" value="0" required>
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label for="memberStatus">Status</label>
+                  <select id="memberStatus" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px;">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="memberMsg" class="msg hidden" aria-hidden="true"></div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn" id="saveMemberBtn">Save Member</button>
+                <button type="button" class="btn" id="cancelMemberBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Hidden Team Form Modal/Section -->
+          <div id="teamFormSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4 id="teamFormTitle">Create Team</h4>
+            <form id="teamForm">
+              <input type="hidden" id="teamEditId">
+
+              <div class="form-group">
+                <label for="teamName">Team Name</label>
+                <input type="text" id="teamName" required>
+              </div>
+
+              <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1;">
+                  <label for="teamDisplayOrder">Display Order</label>
+                  <input type="number" id="teamDisplayOrder" value="0" required>
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label for="teamStatus">Status</label>
+                  <select id="teamStatus" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px;">
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                    <option value="archived">Archived</option>
+                  </select>
+                </div>
+              </div>
+
+              <div id="teamMsg" class="msg hidden" aria-hidden="true"></div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn" id="saveTeamBtn">Save Team</button>
+                <button type="button" class="btn" id="cancelTeamBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Hidden Member Photo Modal/Section -->
+          <div id="memberPhotoFormSection" class="hidden" style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <h4>Manage Photo for <span id="targetMemberPhotoName" class="mono"></span></h4>
+            <div id="currentMemberPhotoDisplay" style="margin-bottom: 1rem;"></div>
+
+            <form id="memberPhotoForm">
+              <input type="hidden" id="photoMemberId">
+              <div class="form-group">
+                <label for="memberPhotoFile">Upload New Photo (JPEG, PNG, WebP - max 5MB)</label>
+                <input type="file" id="memberPhotoFile" accept="image/jpeg, image/png, image/webp" required>
+              </div>
+              <div id="memberPhotoMsg" class="msg hidden" aria-hidden="true"></div>
+
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn" id="saveMemberPhotoBtn">Upload/Replace Photo</button>
+                <button type="button" class="btn btn-danger" id="removeMemberPhotoBtn" style="flex:1;">Remove Photo</button>
+                <button type="button" class="btn" id="cancelMemberPhotoBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+              </div>
+            </form>
+          </div>
+
+        </section>
+      </div>
+
     </main>
   </div>
 

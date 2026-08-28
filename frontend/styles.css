@@ -2158,7 +2158,7 @@ html[data-theme="light"] .tl-node.is-selected .ev-tag {
   background: rgba(255, 208, 67, 0.65);
 }
 
-
+.ev-card {
   display: flex;
   flex-direction: column;
   gap: .55rem;

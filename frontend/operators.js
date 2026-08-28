@@ -4,91 +4,12 @@
    Each card: photo + name + one-line title + LinkedIn link. No navigation.
    ============================================================ */
 
-document.addEventListener("DOMContentLoaded", () => {
-  const OPERATORS_DATA = [
-    {
-      name: "Aarav Sharma",
-      title: "President",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "admin"
-    },
-    {
-      name: "Ananya Iyer",
-      title: "Vice President",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "admin"
-    },
-    {
-      name: "Rohan Mehta",
-      title: "Treasurer",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "admin"
-    },
-    {
-      name: "Diya Krishnan",
-      title: "General Secretary",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "admin"
-    },
-    {
-      name: "Vihaan Reddy",
-      title: "Technical Lead",
-      team: "TECHNICAL",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "lead",
-      members: [
-        { name: "Aditya Verma", linkedin: "https://www.linkedin.com/" },
-        { name: "Neha Gupta", linkedin: "https://www.linkedin.com/" },
-        { name: "Arjun Nair", linkedin: "https://www.linkedin.com/" }
-      ]
-    },
-    {
-      name: "Ishita Desai",
-      title: "Events Lead",
-      team: "EVENTS",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "lead",
-      members: [
-        { name: "Kavya Pillai", linkedin: "https://www.linkedin.com/" },
-        { name: "Dev Patel", linkedin: "https://www.linkedin.com/" },
-        { name: "Sana Sheikh", linkedin: "https://www.linkedin.com/" }
-      ]
-    },
-    {
-      name: "Kabir Malhotra",
-      title: "PR Lead",
-      team: "PR",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "lead",
-      members: [
-        { name: "Rahul Joshi", linkedin: "https://www.linkedin.com/" },
-        { name: "Meera Menon", linkedin: "https://www.linkedin.com/" },
-        { name: "Tanvi Kulkarni", linkedin: "https://www.linkedin.com/" }
-      ]
-    },
-    {
-      name: "Anika Bose",
-      title: "Creative Lead",
-      team: "CREATIVE",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1534751516642-a171edd26cb0?auto=format&fit=crop&w=600&h=700&q=80",
-      group: "lead",
-      members: [
-        { name: "Vivaan Chatterjee", linkedin: "https://www.linkedin.com/" },
-        { name: "Nisha Rathod", linkedin: "https://www.linkedin.com/" },
-        { name: "Aisha Fernandes", linkedin: "https://www.linkedin.com/" }
-      ]
-    }
-  ];
+const API_URL = 'http://localhost:5000/api';
 
+document.addEventListener("DOMContentLoaded", () => {
   const board = document.getElementById("opSoloBoard");
+  const facultyBoard = document.getElementById("facultyCards");
+  
   if (!board) return;
 
   const LINKEDIN_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>`;
@@ -104,9 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
               (m) => `
             <li class="member-line">
               <span class="member-line-name">${m.name}</span>
-              <a class="member-line-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
+              ${m.linkedin ? `<a class="member-line-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
                 ${LINKEDIN_ICON}
-              </a>
+              </a>` : ''}
             </li>
           `
             )
@@ -117,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderRow(label, members, withMemberLists, cardsClass = "") {
+    if (!members || members.length === 0) return "";
     return `
       <div class="solo-row">
         <p class="solo-row-label mono">${label}</p>
@@ -126,14 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
               (op) => `
             <article class="solo-card${withMemberLists && op.members ? " solo-card--lead" : ""}">
               <div class="solo-card-photo">
-                <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                <img src="${op.image || ''}" alt="${op.name} portrait" loading="lazy" draggable="false" />
               </div>
               <h3 class="solo-card-name">${op.name}</h3>
               <p class="solo-card-title">${op.title}</p>
-              <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+              ${op.linkedin ? `<a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                 ${LINKEDIN_ICON}
                 <span>LINKEDIN</span>
-              </a>
+              </a>` : ''}
               ${withMemberLists ? renderMemberList(op.members) : ""}
             </article>
           `
@@ -144,35 +66,63 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function renderTeamRow(label, leads) {
+  function renderTeamRow(label, teams) {
+    if (!teams || teams.length === 0) return "";
     return `
       <div class="solo-row">
         <p class="solo-row-label mono">${label}</p>
         <div class="team-cards">
-          ${leads
-            .map((op) => {
-              const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
-              return `
-            <article class="team-card">
-              <div class="team-card-left">
-                <div class="solo-card-photo">
-                  <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
-                </div>
-                <p class="team-card-name">${op.name}</p>
-              </div>
-              <div class="team-card-right">
-                <h3 class="team-card-team">${teamName}</h3>
-                <div class="team-card-lead-box">
-                  <span class="lead-tag mono">LEAD</span>
-                  <a class="team-card-lead-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
-                    <span class="team-card-lead-name">${op.name}</span>
-                    ${LINKEDIN_ICON}
-                  </a>
-                </div>
-                ${renderMemberList(op.members)}
-              </div>
-            </article>
-          `;
+          ${teams
+            .map((apiTeam) => {
+              const teamName = (apiTeam.name || "TEAM").toUpperCase();
+              const op = apiTeam.lead;
+              
+              if (op) {
+                return `
+                  <article class="team-card">
+                    <div class="team-card-left">
+                      <div class="solo-card-photo">
+                        <img src="${op.image || ''}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                      </div>
+                      <p class="team-card-name">${op.name}</p>
+                    </div>
+                    <div class="team-card-right">
+                      <h3 class="team-card-team">${teamName}</h3>
+                      <div class="team-card-lead-box">
+                        <span class="lead-tag mono">LEAD</span>
+                        ${op.linkedin ? `<a class="team-card-lead-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                          <span class="team-card-lead-name">${op.name}</span>
+                          ${LINKEDIN_ICON}
+                        </a>` : `<div class="team-card-lead-link" style="pointer-events: none;">
+                          <span class="team-card-lead-name">${op.name}</span>
+                        </div>`}
+                      </div>
+                      ${renderMemberList(apiTeam.members)}
+                    </div>
+                  </article>
+                `;
+              } else {
+                return `
+                  <article class="team-card">
+                    <div class="team-card-left" style="justify-content: center;">
+                      <div class="solo-card-photo" style="display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.02); border: 1px dashed var(--border);">
+                        <span style="color: var(--muted); font-size: 0.8rem; text-align: center; padding: 1rem;">No Photo</span>
+                      </div>
+                      <p class="team-card-name" style="color: var(--muted);">VACANT</p>
+                    </div>
+                    <div class="team-card-right">
+                      <h3 class="team-card-team">${teamName}</h3>
+                      <div class="team-card-lead-box">
+                        <span class="lead-tag mono" style="background: var(--border); color: var(--muted);">LEAD</span>
+                        <div class="team-card-lead-link" style="pointer-events: none; opacity: 0.6;">
+                          <span class="team-card-lead-name">LEAD POSITION VACANT</span>
+                        </div>
+                      </div>
+                      ${renderMemberList(apiTeam.members)}
+                    </div>
+                  </article>
+                `;
+              }
             })
             .join("")}
         </div>
@@ -180,9 +130,78 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  const admins = OPERATORS_DATA.filter((op) => op.group === "admin");
-  const leads = OPERATORS_DATA.filter((op) => op.group === "lead");
+  function renderFacultyCards(faculty) {
+    if (!faculty || faculty.length === 0) return "<p style='color:var(--muted); grid-column: 1 / -1; text-align: center;'>No faculty members currently listed.</p>";
+    return faculty.map(op => `
+      <article class="solo-card">
+        <div class="solo-card-photo">
+          <img src="${op.image || ''}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+        </div>
+        <h3 class="solo-card-name">${op.name}</h3>
+        <p class="solo-card-title">${op.title}</p>
+        ${op.linkedin ? `<a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+          ${LINKEDIN_ICON}
+          <span>LINKEDIN</span>
+        </a>` : ''}
+      </article>
+    `).join("");
+  }
 
-  board.innerHTML =
-    renderRow("// 01 — ADMINISTRATIVE", admins, false, "solo-cards--fourth solo-cards--admins") + renderTeamRow("// 02 — LEADS & MEMBER TEAMS", leads);
+  function mapMember(m) {
+    if (!m) return null;
+    return {
+      name: m.name,
+      title: m.position,
+      linkedin: m.linkedin_url,
+      image: m.image_url
+    };
+  }
+
+  async function loadTeams() {
+    board.innerHTML = '<p style="color: var(--muted); text-align: center;">Loading team data...</p>';
+    if (facultyBoard) facultyBoard.innerHTML = '<p style="color: var(--muted); text-align: center; grid-column: 1 / -1;">Loading faculty data...</p>';
+
+    try {
+      const res = await fetch(`${API_URL}/team`);
+      if (!res.ok) throw new Error('Failed to load team data');
+      const data = await res.json();
+      
+      if (!data.success) throw new Error('Invalid data format');
+
+      const faculty = (data.faculty || []).map(mapMember);
+      const executive = (data.executive || []).map(mapMember);
+      const teams = (data.teams || []).map(t => ({
+        name: t.name,
+        lead: mapMember(t.lead),
+        members: (t.members || []).map(mapMember)
+      }));
+
+      if (facultyBoard) {
+        facultyBoard.innerHTML = renderFacultyCards(faculty);
+      }
+
+      let boardHtml = "";
+      if (executive.length > 0) {
+        boardHtml += renderRow("// 01 \u2014 EXECUTIVE", executive, false, "solo-cards--fourth solo-cards--admins");
+      }
+      if (teams.length > 0) {
+        boardHtml += renderTeamRow("// 02 \u2014 TEAMS", teams);
+      }
+      
+      if (!boardHtml) {
+        boardHtml = '<p style="color: var(--muted); text-align: center;">No team members currently listed.</p>';
+      }
+      
+      board.innerHTML = boardHtml;
+
+    } catch (error) {
+      console.error(error);
+      board.innerHTML = '<p style="color: var(--accent); text-align: center;">Unable to load team data at this time. Please check back later.</p>';
+      if (facultyBoard) {
+        facultyBoard.innerHTML = '<p style="color: var(--accent); text-align: center; grid-column: 1 / -1;">Unable to load faculty data at this time.</p>';
+      }
+    }
+  }
+
+  loadTeams();
 });
