@@ -16,10 +16,11 @@
       } catch (e) { }
     })();
   </script>
+  <link rel="icon" type="image/png" href="assets/menu-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="operators.css">
@@ -49,231 +50,301 @@
 
   <!-- ======= GLOBAL FX LAYERS ======= -->
   <div id="progressBar" aria-hidden="true"></div>
-  <div id="bgGrid" class="bg-layer" aria-hidden="true"></div>
-  <div id="bgGlow" class="bg-layer" aria-hidden="true"></div>
-  <div id="bgMid" class="bg-layer" aria-hidden="true"></div>
-  <div id="scanlines" aria-hidden="true"></div>
   <div id="noise" aria-hidden="true"></div>
-  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
-  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
 
-  <!-- ======= NAV ======= -->
-  <header id="nav">
-    <a class="logo mono" href="#hero">IEI<span>_STUDENT CHAPTER</span><i class="blink">_</i></a>
-    <nav class="nav-links mono" aria-label="Primary">
-      <a href="#about"><em>01</em> ABOUT</a>
-      <a href="#events"><em>02</em> EVENTS</a>
-      <a href="#gallery"><em>03</em> GALLERY</a>
-      <a href="#team"><em>04</em> TEAM</a>
-    </nav>
-    <a class="btn btn-sm" href="#join" data-hover>JOIN US</a>
-    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" aria-pressed="false">
-      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
-      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <span class="toggle-thumb" aria-hidden="true"></span>
-    </button>
-    <button id="burger" aria-label="Open menu" aria-expanded="false"
-      aria-controls="mobileMenu"><span></span><span></span><span></span></button>
-  </header>
-
-  <div id="mobileMenu" aria-hidden="true">
-    <nav class="mono" aria-label="Mobile">
-      <a href="#about">01 // ABOUT</a>
-      <a href="#events">02 // EVENTS</a>
-      <a href="#gallery">03 // GALLERY</a>
-      <a href="#team">04 // TEAM</a>
-      <a href="#join" class="mm-join">05 // JOIN US</a>
+  <!-- ======= CARD NAV (floating pill) ======= -->
+  <div class="card-nav-container" id="nav">
+    <nav class="card-nav" aria-label="Primary">
+      <div class="card-nav-top">
+        <button class="hamburger-menu" id="navBurger" type="button" role="button" aria-label="Open menu"
+          aria-expanded="false" aria-controls="navContent" tabindex="0">
+          <div class="hamburger-line"></div>
+          <div class="hamburger-line"></div>
+        </button>
+        <a class="logo-container" href="#hero" aria-label="IEI Student Chapter — home">
+          <img src="assets/menu-logo.png" alt="IEI Student Chapter logo" class="logo">
+          <span class="logo-text">IEI<span class="logo-sub">Student Chapter</span></span>
+        </a>
+        <div class="nav-actions">
+          <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" aria-pressed="false">
+            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <span class="toggle-thumb" aria-hidden="true"></span>
+          </button>
+          <a class="card-nav-cta-button" href="#join">Join Us</a>
+        </div>
+      </div>
+      <div class="card-nav-content" id="navContent" aria-hidden="true">
+        <div class="nav-card">
+          <div class="nav-card-label">Chapter</div>
+          <div class="nav-card-links">
+            <a class="nav-card-link" href="#about"><span class="nav-card-link-icon" aria-hidden="true">↗</span>About</a>
+            <a class="nav-card-link" href="#why"><span class="nav-card-link-icon" aria-hidden="true">↗</span>Why Us</a>
+            <a class="nav-card-link" href="#faq"><span class="nav-card-link-icon" aria-hidden="true">↗</span>FAQs</a>
+          </div>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-label">Activities</div>
+          <div class="nav-card-links">
+            <a class="nav-card-link" href="#events"><span class="nav-card-link-icon" aria-hidden="true">↗</span>Events</a>
+            <a class="nav-card-link" href="#gallery"><span class="nav-card-link-icon" aria-hidden="true">↗</span>Gallery</a>
+            <a class="nav-card-link" href="#team"><span class="nav-card-link-icon" aria-hidden="true">↗</span>Team</a>
+          </div>
+        </div>
+        <div class="nav-card">
+          <div class="nav-card-label">Signal</div>
+          <div class="nav-card-links">
+            <a class="nav-card-link" href="mailto:iei.sc@cybersec.edu"><span class="nav-card-link-icon" aria-hidden="true">↗</span>Email</a>
+            <a class="nav-card-link" href="#" data-social="linkedin"><span class="nav-card-link-icon" aria-hidden="true">↗</span>LinkedIn</a>
+            <a class="nav-card-link" href="#" data-social="instagram"><span class="nav-card-link-icon" aria-hidden="true">↗</span>Instagram</a>
+          </div>
+        </div>
+      </div>
     </nav>
   </div>
 
-  <main>
+  <main class="page">
 
     <!-- ======= HERO ======= -->
     <section id="hero">
-      <!-- Procedural background: interactive glyph field + CSS radar (zero images) -->
+      <!-- Cosmic background: starfield canvas + glow waves + fades (zero external images) -->
       <div class="hero-bg" aria-hidden="true">
         <canvas id="heroFx"></canvas>
-        <div class="hero-radar">
-          <span class="radar-sweep"></span>
-          <span class="radar-blip" style="--bx:63%;--by:30%;--bd:0s"></span>
-          <span class="radar-blip" style="--bx:37%;--by:58%;--bd:2.6s"></span>
-          <span class="radar-blip" style="--bx:68%;--by:66%;--bd:5.1s"></span>
-        </div>
         <div class="hero-bg-fade"></div>
       </div>
 
-      <div class="hero-content">
-        <p class="hero-kicker mono">// IEI STUDENT CHAPTER — CYBERSECURITY DEPARTMENT</p>
-        <h1 id="heroTitle">INNOVATE SYSTEMS.<br>BUILD ENGINEERS.</h1>
-        <p class="hero-sub">A technical community where cybersecurity students learn, build, compete, collaborate, and grow into capable professionals and future engineers.</p>
-        <div class="hero-cta">
-          <a href="#join" class="btn btn-primary" data-hover>JOIN THE CLUB <span class="btn-arrow">→</span></a>
-          <a href="#events" class="btn btn-ghost" data-hover>VIEW EVENTS</a>
+      <div class="hero-core">
+        <div class="trust-row anim" style="--d:.05s">
+          <img src="assets/menu-logo.png" alt="" class="trust-logo">
+          <span class="trust-text">Presents</span>
+        </div>
+
+        <h1 class="headline" id="heroTitle">
+          <span class="headline-line"><span class="bracket">{</span><span class="shimmer-text">Break Systems.</span></span>
+          <span class="headline-line"><span class="shimmer-text">Build Engineers.</span><span class="bracket">}</span></span>
+        </h1>
+
+        <div class="organized-by-banner anim" style="--d:.22s">
+          <a class="organized-by-pill" href="#about" title="About the IEI Student Chapter">
+            <img src="assets/menu-logo.png" alt="" class="organized-by-logo">
+            <span class="organized-by-text">Organised by <strong
+                class="organized-by-highlight">Institution of Engineers (India)</strong></span>
+          </a>
+        </div>
+
+        <p class="subhead anim" style="--d:.28s">A technical community where cybersecurity students learn, build,
+          compete, collaborate, and grow into capable professionals and future engineers.</p>
+
+        <div class="cta-group anim" style="--d:.4s">
+          <a href="#join" class="specular-button specular-button--lg is-primary">
+            <span class="specular-button__label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"></path>
+                <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"></path>
+                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"></path>
+              </svg>
+              Join The Club
+            </span>
+          </a>
+          <a href="#events" class="specular-button specular-button--lg is-ghost">
+            <span class="specular-button__label">
+              View Events
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"></path>
+                <path d="m12 5 7 7-7 7"></path>
+              </svg>
+            </span>
+          </a>
         </div>
       </div>
 
-      <!-- Stats bar -->
-      <div class="hero-stats-bar">
-        <!-- Main Stats Card (Left) -->
-        <div class="hero-stats-card">
-          <!-- Culture blurb -->
-          <div class="stats-cell stats-culture">
-            <div class="stats-culture-icon">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5"
-                aria-hidden="true">
-                <path d="M12 2L3 7v6c0 5.5 3.8 10.3 9 12 5.2-1.7 9-6.5 9-12V7l-9-5z" />
-                <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-            <div class="stats-culture-text">
-              <span class="stats-culture-title mono">NOT JUST A CLUB..<br>A CULTURE.</span>
-              <span class="stats-culture-sub">Built on trust. Driven by<br>curiosity. Bound by impact.</span>
-            </div>
-          </div>
-
-          <!-- Stat counters -->
-          <div class="stats-cell stat-item" data-stat="members">
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
-                aria-hidden="true">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-            </div>
-            <span class="stat-num mono" data-count="250" data-suffix="+">0</span>
-            <span class="stat-label mono">TOTAL<br>MEMBERS</span>
-          </div>
-
-          <div class="stats-cell stat-item" data-stat="sessions">
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
-                aria-hidden="true">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-            </div>
-            <span class="stat-num mono" data-count="35" data-suffix="+">0</span>
-            <span class="stat-label mono">SESSIONS<br>CONDUCTED</span>
-          </div>
-
-          <div class="stats-cell stat-item" data-stat="events">
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
-                aria-hidden="true">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-                <line x1="9" y1="10" x2="9" y2="22" />
-                <line x1="15" y1="10" x2="15" y2="22" />
-                <line x1="3" y1="16" x2="21" y2="16" />
-              </svg>
-            </div>
-            <span class="stat-num mono" data-count="18" data-suffix="+">0</span>
-            <span class="stat-label mono">EVENTS<br>ORGANISED</span>
-          </div>
-
-          <div class="stats-cell stat-item" data-stat="workshops">
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4"
-                aria-hidden="true">
-                <path d="M9 3h6" />
-                <path d="M10 3v6.5L4 19a1.5 1.5 0 0 0 1.3 2.2h13.4A1.5 1.5 0 0 0 20 19l-6-9.5V3" />
-                <path d="M8.5 14h7" />
-              </svg>
-            </div>
-            <span class="stat-num mono" data-count="12" data-suffix="+">0</span>
-            <span class="stat-label mono">WORKSHOPS<br>ORGANISED</span>
-          </div>
+      <!-- Stats footer -->
+      <footer class="stats anim" style="--d:.45s">
+        <div class="stat" style="--sd:.45s">
+          <span class="stat-icon">#</span>
+          <span class="stat-value" data-count="250" data-suffix="+">0</span>
+          <span class="stat-label">Total Members</span>
         </div>
-
-        <!-- Separate Right Card: System Status -->
-        <div class="hero-status-card">
-          <span class="stats-system-title mono">SYSTEM STATUS</span>
-          <div class="stats-system-status">
-            <i class="dot-ok"></i>
-            <span class="mono status-ok">OPERATIONAL</span>
-          </div>
-          <span class="stats-system-tagline mono">LEARN • BREAK • DEFEND</span>
-          <div class="stats-system-bars" aria-hidden="true">
-            <span style="--h:7px;--d:0s"></span><span style="--h:11px;--d:.08s"></span>
-            <span style="--h:15px;--d:.16s"></span><span style="--h:9px;--d:.24s"></span>
-            <span style="--h:13px;--d:.32s"></span><span style="--h:7px;--d:.4s"></span>
-            <span style="--h:11px;--d:.48s"></span><span style="--h:15px;--d:.56s"></span>
-            <span style="--h:8px;--d:.64s"></span><span style="--h:12px;--d:.72s"></span>
-            <span style="--h:6px;--d:.8s"></span><span style="--h:10px;--d:.88s"></span>
-            <span style="--h:14px;--d:.96s"></span><span style="--h:8px;--d:1.04s"></span>
-            <span style="--h:12px;--d:1.12s"></span><span style="--h:9px;--d:1.2s"></span>
-            <span style="--h:13px;--d:1.28s"></span><span style="--h:7px;--d:1.36s"></span>
-            <span style="--h:11px;--d:1.44s"></span><span style="--h:15px;--d:1.52s"></span>
-          </div>
+        <div class="stat" style="--sd:.53s">
+          <span class="stat-icon">%</span>
+          <span class="stat-value" data-count="35" data-suffix="+">0</span>
+          <span class="stat-label">Sessions Conducted</span>
         </div>
-      </div>
+        <div class="stat" style="--sd:.61s">
+          <span class="stat-icon">*</span>
+          <span class="stat-value" data-count="18" data-suffix="+">0</span>
+          <span class="stat-label">Events Organised</span>
+        </div>
+        <div class="stat" style="--sd:.69s">
+          <span class="stat-icon">◈</span>
+          <span class="stat-value" data-count="12" data-suffix="+">0</span>
+          <span class="stat-label">Workshops Organised</span>
+        </div>
+      </footer>
 
       <!-- Scroll to explore -->
       <div class="scroll-hint mono" aria-hidden="true">
-        <div class="scroll-hint-icon">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"
-            aria-hidden="true">
-            <rect x="7" y="2" width="10" height="16" rx="5" />
-            <line x1="12" y1="6" x2="12" y2="10" stroke-linecap="round" />
-          </svg>
-        </div>
         <span>SCROLL TO EXPLORE</span>
         <span class="scroll-line"></span>
       </div>
     </section>
 
-    <!-- ======= MARQUEE ======= -->
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track mono">
-        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> HANDS-ON LABS <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
-          AN ATTACKER <i>▚</i> </span>
-        <span>BREAK SYSTEMS <i>▚</i> BUILD DEFENDERS <i>▚</i> HANDS-ON LABS <i>▚</i> ZERO TRUST <i>▚</i> THINK LIKE
-          AN ATTACKER <i>▚</i> </span>
+    <!-- ======= TICKER BAND ======= -->
+    <div class="ticker-band" aria-hidden="true">
+      <div class="ticker-track">
+        <span><em>BREAK SYSTEMS</em><b>◆</b><em>BUILD DEFENDERS</em><b>◆</b><em>HANDS-ON LABS</em><b>◆</b><em>ZERO
+            TRUST</em><b>◆</b><em>THINK LIKE AN ATTACKER</em><b>◆</b></span>
+        <span><em>BREAK SYSTEMS</em><b>◆</b><em>BUILD DEFENDERS</em><b>◆</b><em>HANDS-ON LABS</em><b>◆</b><em>ZERO
+            TRUST</em><b>◆</b><em>THINK LIKE AN ATTACKER</em><b>◆</b></span>
       </div>
     </div>
 
-    <!-- ======= ABOUT ======= -->
+    <!-- ======= ABOUT / OVERVIEW ======= -->
     <section id="about" class="section">
-      <div class="about-grid">
-        <div class="about-left">
-          <p class="kicker mono" data-reveal>// 01 — ABOUT</p>
-          <h2 class="sec-title" data-reveal>The campus<br>firewall.</h2>
-          <div class="glass term-card" data-reveal data-tilt>
-            <div class="term-head mono"><span class="t-dot"></span><span class="t-dot"></span><span
-                class="t-dot"></span><em>iei@cybersec:~</em></div>
-            <div class="term-body mono" id="termBody" aria-live="polite"></div>
-          </div>
+      <header class="sec-head-center">
+        <p class="section-tag mono" data-reveal>// 01 — OVERVIEW</p>
+        <h2 class="sec-title" data-reveal>The Vision Behind
+          <span class="grad">IEI Student Chapter</span>
+        </h2>
+        <p class="sec-desc" data-reveal>The IEI Student Chapter is a student-led technical community established for
+          the Cybersecurity Department of our college under the Institution of Engineers (India).</p>
+      </header>
+
+      <div class="terminal-window" data-reveal data-tilt>
+        <div class="terminal-header mono">
+          <span class="terminal-dot dot-red"></span>
+          <span class="terminal-dot dot-yellow"></span>
+          <span class="terminal-dot dot-green"></span>
+          <span class="terminal-tab">iei@cybersec:~ — chapter.sh</span>
         </div>
-        <div class="about-right">
-          <p class="lead" data-reveal>The IEI Student Chapter is a student-led technical community established for the Cybersecurity Department of our college under the Institution of Engineers (India).</p>
-          <p data-reveal>We act as a platform where students can learn, collaborate, build projects, participate in technical activities, organize events, and connect classroom concepts with real-world engineering and cybersecurity applications.</p>
-          <p data-reveal>Our goal is to promote technical learning, encourage exploration of cybersecurity, provide practical exposure, and build a strong technical culture within the Cybersecurity Department.</p>
-          <div class="stats">
-            <div class="glass stat" data-reveal data-tilt data-stat="members"><span class="stat-num mono" data-count="250"
-                data-suffix="+">0</span><span class="stat-label mono">TOTAL MEMBERS</span></div>
-            <div class="glass stat" data-reveal data-tilt data-stat="sessions"><span class="stat-num mono" data-count="35"
-                data-suffix="+">0</span><span class="stat-label mono">SESSIONS</span></div>
-            <div class="glass stat" data-reveal data-tilt data-stat="events"><span class="stat-num mono" data-count="18"
-                data-suffix="+">0</span><span class="stat-label mono">EVENTS ORGANISED</span></div>
-            <div class="glass stat" data-reveal data-tilt data-stat="workshops"><span class="stat-num mono" data-count="12"
-                data-suffix="+">0</span><span class="stat-label mono">WORKSHOPS ORGANISED</span></div>
+        <div class="terminal-body mono" id="termBody" aria-live="polite"></div>
+      </div>
+
+      <!-- Mission chips -->
+      <div class="mission-list" data-reveal aria-label="Our mission">
+        <div class="mission-item"><span class="mission-num mono">01</span><span>Promote technical learning</span></div>
+        <div class="mission-item"><span class="mission-num mono">02</span><span>Encourage exploration of cybersecurity</span></div>
+        <div class="mission-item"><span class="mission-num mono">03</span><span>Provide practical, hands-on exposure</span></div>
+        <div class="mission-item"><span class="mission-num mono">04</span><span>Organize events &amp; workshops</span></div>
+        <div class="mission-item"><span class="mission-num mono">05</span><span>Build a strong technical culture</span></div>
+      </div>
+
+      <!-- Culture feature cards -->
+      <div class="about-cards">
+        <article class="feature-card" data-reveal>
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </span>
+          <h3>Hands-On Labs</h3>
+          <p>Web, pwn, crypto, forensics and OSINT labs — every session is practical, not theoretical.</p>
+        </article>
+        <article class="feature-card" data-reveal>
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </span>
+          <h3>Think Like an Attacker</h3>
+          <p>Zero-trust mindset — break systems first, so you know exactly how to defend them.</p>
+        </article>
+        <article class="feature-card" data-reveal>
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          </span>
+          <h3>Career-Ready Skills</h3>
+          <p>Connect classroom concepts with real-world engineering and cybersecurity applications.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======= WHY US ======= -->
+    <section id="why" class="section">
+      <header class="sec-head-center">
+        <p class="section-tag mono" data-reveal>// 02 — WHY US</p>
+        <h2 class="sec-title" data-reveal>Experience More Than <span class="grad">A Club</span></h2>
+        <p class="sec-desc" data-reveal>Designed to help students learn, build, compete and collaborate — growing into
+          capable engineers within one immersive community.</p>
+      </header>
+
+      <div class="why-list">
+        <div class="why-row" style="--i:0">
+          <span class="why-num">01</span>
+          <div class="why-copy">
+            <h3 class="why-row-title">Hands-On Labs</h3>
+            <p class="why-row-desc">Weekly practical sessions across web, network, malware and forensics — run by
+              seniors who actually build.</p>
           </div>
+          <span class="why-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </span>
+        </div>
+        <div class="why-row" style="--i:1">
+          <span class="why-num">02</span>
+          <div class="why-copy">
+            <h3 class="why-row-title">Think Like an Attacker</h3>
+            <p class="why-row-desc">Offensive-first learning — break systems in isolated labs so you know how to defend
+              them in the real world.</p>
+          </div>
+          <span class="why-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </span>
+        </div>
+        <div class="why-row" style="--i:2">
+          <span class="why-num">03</span>
+          <div class="why-copy">
+            <h3 class="why-row-title">Compete &amp; Win</h3>
+            <p class="why-row-desc">CTFs, live-fire red vs blue drills and our annual hackathons — Grid Con and Cyber
+              Defense.</p>
+          </div>
+          <span class="why-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </span>
+        </div>
+        <div class="why-row" style="--i:3">
+          <span class="why-num">04</span>
+          <div class="why-copy">
+            <h3 class="why-row-title">Build Real Projects</h3>
+            <p class="why-row-desc">Turn classroom concepts into working engineering — prototypes, research and
+              portfolio-grade work.</p>
+          </div>
+          <span class="why-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </span>
+        </div>
+        <div class="why-row" style="--i:4">
+          <span class="why-num">05</span>
+          <div class="why-copy">
+            <h3 class="why-row-title">Mentorship &amp; Community</h3>
+            <p class="why-row-desc">A 250+ member culture built on trust and curiosity — learn alongside peers who
+              push you further.</p>
+          </div>
+          <span class="why-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </span>
+        </div>
+        <div class="why-row" style="--i:5">
+          <span class="why-num">06</span>
+          <div class="why-copy">
+            <h3 class="why-row-title">Recognition</h3>
+            <p class="why-row-desc">Certificates, competition wins and demonstrable skills that make your profile
+              stand out to industry.</p>
+          </div>
+          <span class="why-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          </span>
         </div>
       </div>
     </section>
 
     <!-- ======= EVENTS ======= -->
     <section id="events" class="section">
-      <div class="sec-head">
-        <div>
-          <p class="kicker mono" data-reveal>// 02 — EVENTS</p>
-          <h2 class="sec-title" data-reveal>What is happening</h2>
-        </div>
-      </div>
+      <header class="sec-head-center">
+        <p class="section-tag mono" data-reveal>// 03 — EVENTS</p>
+        <h2 class="sec-title" data-reveal>Event <span class="grad">Journey</span></h2>
+        <p class="sec-desc" data-reveal>Every milestone is carefully planned — sessions, workshops, drills and
+          hackathons that build real capability.</p>
+      </header>
 
       <article class="glass next-event" data-reveal id="nextEventCard">
         <div class="next-event-date mono" id="nextEventDateBlock">
@@ -281,20 +352,21 @@
           <div class="next-event-tba" id="nextEventDateDisplay"><strong>DATE</strong><span id="nextEventDateText">TO BE ANNOUNCED</span></div>
         </div>
         <div class="next-event-content">
-          <div class="ev-top mono"><span class="ev-tag tag-ws" id="nextEventTag">UPCOMING · DETAILS SOON</span></div>
-          <h3 id="nextEventTitle">NEXT CLUB <span class="accent">ACTIVITY</span></h3>
+          <div class="ev-top mono"><span class="ev-tag" id="nextEventTag">UPCOMING · DETAILS SOON</span></div>
+          <h3 id="nextEventTitle">NEXT CLUB <span class="grad">ACTIVITY</span></h3>
           <p id="nextEventDesc">Our next workshop, competition, or technical session will be announced here. Contact the club to express interest or suggest an activity.</p>
           <div class="next-event-meta mono" id="nextEventMeta">DATE TBA · CYBERSECURITY DEPARTMENT</div>
-          <a href="#join" class="btn btn-primary btn-sm" data-hover>CONTACT THE CLUB <span class="btn-arrow">→</span></a>
+          <a href="#join" class="specular-button specular-button--sm is-primary"><span class="specular-button__label">Contact The Club
+            →</span></a>
         </div>
       </article>
 
-      <div class="tl-shell" id="evShell">
+      <div class="tl-shell" id="evShell" data-reveal>
         <div class="tl-viewport" id="evViewport" tabindex="0" aria-label="Past events timeline">
           <div class="tl-track" id="evTrack">
 
             <!-- Milestone 01 (Latest): Threat Intel -->
-            <button type="button" class="tl-node is-selected" data-gal-target="gal-threat-intel" aria-label="THREAT INTEL IN THE AGE OF AI - NOV 09, 2025">
+            <button type="button" class="tl-node btn-ev-gallery is-selected" data-gal-target="gal-threat-intel" aria-label="THREAT INTEL IN THE AGE OF AI - NOV 09, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">09</span>
@@ -314,7 +386,7 @@
             </button>
 
             <!-- Milestone 02: Red vs Blue -->
-            <button type="button" class="tl-node" data-gal-target="gal-red-blue" aria-label="RED VS BLUE: LIVE FIRE - OCT 20, 2025">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-red-blue" aria-label="RED VS BLUE: LIVE FIRE - OCT 20, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">20</span>
@@ -334,7 +406,7 @@
             </button>
 
             <!-- Milestone 03: Hackathon -->
-            <button type="button" class="tl-node" data-gal-target="gal-ctf-finals" aria-label="CYBER DEFENSE HACKATHON - OCT 02, 2025">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-ctf-finals" aria-label="CYBER DEFENSE HACKATHON - OCT 02, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">02</span>
@@ -354,7 +426,7 @@
             </button>
 
             <!-- Milestone 04: OSINT -->
-            <button type="button" class="tl-node" data-gal-target="gal-osint" aria-label="OSINT: FIND ANYTHING - SEP 18, 2025">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-osint" aria-label="OSINT: FIND ANYTHING - SEP 18, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">18</span>
@@ -374,7 +446,7 @@
             </button>
 
             <!-- Milestone 05: Hardware & Badge Hacking -->
-            <button type="button" class="tl-node" data-gal-target="gal-hardware" aria-label="HARDWARE & BADGE HACKING - AUG 10, 2025">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-hardware" aria-label="HARDWARE & BADGE HACKING - AUG 10, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">10</span>
@@ -389,12 +461,12 @@
               </div>
               <div class="tl-card">
                 <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">HARDWARE & BADGE HACKING</h3>
+                <h3 class="tl-name">HARDWARE &amp; BADGE HACKING</h3>
               </div>
             </button>
 
             <!-- Milestone 06: Malware Analysis -->
-            <button type="button" class="tl-node" data-gal-target="gal-malware" aria-label="MALWARE REVERSE ENGINEERING 101 - MAY 22, 2025">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-malware" aria-label="MALWARE REVERSE ENGINEERING 101 - MAY 22, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">22</span>
@@ -414,7 +486,7 @@
             </button>
 
             <!-- Milestone 07: National Cyber Drill -->
-            <button type="button" class="tl-node" data-gal-target="gal-cyber-drill" aria-label="NATIONAL CYBER DRILL // BLUE CELL - MAR 14, 2025">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-cyber-drill" aria-label="NATIONAL CYBER DRILL // BLUE CELL - MAR 14, 2025">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">14</span>
@@ -434,7 +506,7 @@
             </button>
 
             <!-- Milestone 08: Grid Con '24 -->
-            <button type="button" class="tl-node" data-gal-target="gal-gridcon" aria-label="ANNUAL HACKATHON GRID CON '24 - NOV 18, 2024">
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-gridcon" aria-label="ANNUAL HACKATHON GRID CON '24 - NOV 18, 2024">
               <div class="tl-date">
                 <time>
                   <span class="tl-day">18</span>
@@ -468,8 +540,8 @@
     <section id="gallery" class="section">
       <div class="sec-head">
         <div>
-          <p class="kicker mono" data-reveal>// 03 — GALLERY</p>
-          <h2 class="sec-title" data-reveal>Past Events</h2>
+          <p class="section-tag mono" data-reveal>// 04 — GALLERY</p>
+          <h2 class="sec-title" data-reveal>Past <span class="grad">Events</span></h2>
         </div>
         <div class="gal-filter-bar mono" data-reveal id="galFilterBar">
           <button type="button" class="filter-btn gal-filter-btn is-active" data-cat="all">ALL</button>
@@ -480,7 +552,7 @@
       </div>
 
       <div class="cl-mosaic" id="clMosaic">
-        
+
         <!-- Card 01: Application Security -->
         <article class="gal-card gal-item" id="gal-ctf-finals" data-category="competition"
           data-caption="APPLICATION SECURITY" data-date="OCT 2025" tabindex="0" role="button"
@@ -641,7 +713,11 @@
     </div>
 
     <!-- ======= FACULTY (Before Club Members) ======= -->
-    <div class="faculty-board section" id="facultyBoard" data-reveal>
+    <div class="faculty-board section" id="faculty" data-reveal>
+      <header class="sec-head-center">
+        <p class="section-tag mono" data-reveal>// 05 — GUIDANCE</p>
+        <h2 class="sec-title" data-reveal>Guided By <span class="grad">Experience</span></h2>
+      </header>
       <div class="solo-cards solo-cards--faculty" id="facultyCards">
         <!-- Faculty cards rendered dynamically by operators.js -->
       </div>
@@ -649,11 +725,11 @@
 
     <!-- ======= TEAM ======= -->
     <section id="team" class="operators-deck-section section">
-      <div class="sec-head">
-        <div>
-          <p class="kicker mono" data-reveal>// 04 — TEAM</p>
-          <h2 class="sec-title" data-reveal>Club Members</h2>
-        </div>
+      <div class="sec-head-center">
+        <p class="section-tag mono" data-reveal>// 06 — TEAM</p>
+        <h2 class="sec-title" data-reveal>Club <span class="grad">Members</span></h2>
+        <p class="sec-desc" data-reveal>The operators behind the chapter — executives, leads and members who keep it
+          running.</p>
       </div>
 
       <div class="operators-solo-board" id="opSoloBoard" data-reveal>
@@ -661,12 +737,133 @@
       </div>
     </section>
 
+    <!-- ======= FAQ ======= -->
+    <section id="faq" class="section">
+      <header class="sec-head-center">
+        <p class="section-tag mono" data-reveal>// 07 — FAQS</p>
+        <h2 class="sec-title" data-reveal>Frequently Asked <span class="grad">Questions</span></h2>
+        <p class="sec-desc" data-reveal>Everything students usually ask before requesting access.</p>
+      </header>
+
+      <div class="faq-list" data-reveal>
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-ghost mono" aria-hidden="true">01</span>
+            <span class="faq-qrow">
+              <span class="faq-prompt mono">&gt;_</span>
+              <span class="faq-question">What is the IEI Student Chapter?</span>
+            </span>
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-ablock">
+              <p class="faq-answer">A student-led technical community established for the Cybersecurity Department
+                under the Institution of Engineers (India) — a platform to learn, collaborate, build projects,
+                organize events and connect classroom concepts with real-world engineering.</p>
+              <span class="faq-status mono">✓ ANSWERED // 01</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-ghost mono" aria-hidden="true">02</span>
+            <span class="faq-qrow">
+              <span class="faq-prompt mono">&gt;_</span>
+              <span class="faq-question">Who can join the club?</span>
+            </span>
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-ablock">
+              <p class="faq-answer">Every student — any branch, any year, zero experience required. Membership is open
+                to all you need is curiosity.</p>
+              <span class="faq-status mono">✓ ANSWERED // 02</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-ghost mono" aria-hidden="true">03</span>
+            <span class="faq-qrow">
+              <span class="faq-prompt mono">&gt;_</span>
+              <span class="faq-question">Do I need prior cybersecurity experience?</span>
+            </span>
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-ablock">
+              <p class="faq-answer">No. Workshops and labs start from the fundamentals — from OSINT basics to malware
+                reverse engineering — and progress to advanced tracks once you're comfortable.</p>
+              <span class="faq-status mono">✓ ANSWERED // 03</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-ghost mono" aria-hidden="true">04</span>
+            <span class="faq-qrow">
+              <span class="faq-prompt mono">&gt;_</span>
+              <span class="faq-question">What does the chapter actually do?</span>
+            </span>
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-ablock">
+              <p class="faq-answer">Hands-on workshops, live-fire red vs blue drills, hackathons like Grid Con and the
+                Cyber Defense Hackathon, threat-intel sessions, forensics and OSINT labs, plus research and project
+                building.</p>
+              <span class="faq-status mono">✓ ANSWERED // 04</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-ghost mono" aria-hidden="true">05</span>
+            <span class="faq-qrow">
+              <span class="faq-prompt mono">&gt;_</span>
+              <span class="faq-question">When and where do you meet?</span>
+            </span>
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-ablock">
+              <p class="faq-answer">Every Friday from 17:00 onwards at the club lab — Block C, Room 0x2A. Sessions run
+                late when the work is good.</p>
+              <span class="faq-status mono">✓ ANSWERED // 05</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-q" aria-expanded="false">
+            <span class="faq-ghost mono" aria-hidden="true">06</span>
+            <span class="faq-qrow">
+              <span class="faq-prompt mono">&gt;_</span>
+              <span class="faq-question">How do I join?</span>
+            </span>
+            <span class="faq-plus" aria-hidden="true"></span>
+          </button>
+          <div class="faq-a">
+            <div class="faq-ablock">
+              <p class="faq-answer">Submit the request form below or mail iei.sc@cybersec.edu — an operator will ping
+                you within 48 hours. Welcome aboard.</p>
+              <span class="faq-status mono">✓ ANSWERED // 06</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ======= JOIN ======= -->
     <section id="join" class="section">
       <div class="join-grid">
         <div class="join-info">
-          <p class="kicker mono" data-reveal>// 05 — JOIN</p>
-          <h2 class="sec-title" data-reveal>Request<br>access</h2>
+          <p class="section-tag mono" data-reveal>// 08 — JOIN</p>
+          <h2 class="sec-title" data-reveal>Request <span class="grad">Access</span></h2>
           <p class="lead" data-reveal>Membership is open to every student — any branch, any year, zero experience
             required. Submit a request and an operator will ping you within 48 hours.</p>
           <ul class="mono-list mono" data-reveal>
@@ -676,9 +873,8 @@
             <li><span class="prompt">&gt;</span> hours — FRI 17:00 → LATE</li>
           </ul>
           <div class="socials mono" data-reveal>
-            <a href="#" data-social="github" data-hover>[GITHUB]</a><a href="#" data-social="linkedin" data-hover>[LINKEDIN]</a><a href="#" data-social="twitter" data-hover>[X]</a><a
-              href="#" data-social="instagram" data-hover>[INSTA]</a>
-
+            <a href="#" data-social="github">[GITHUB]</a><a href="#" data-social="linkedin">[LINKEDIN]</a><a href="#"
+              data-social="twitter">[X]</a><a href="#" data-social="instagram">[INSTA]</a>
           </div>
         </div>
 
@@ -715,8 +911,9 @@
             <textarea id="fMsg" name="message" rows="4"
               placeholder="Why do you want in? (Optional. Curiosity is a valid answer.)"></textarea>
           </div>
-          <button type="submit" class="btn btn-primary btn-block" data-hover>REQUEST ACCESS <span
-              class="btn-arrow">→</span></button>
+          <button type="submit" class="specular-button specular-button--md is-primary btn-block">
+            <span class="specular-button__label">Request Access →</span>
+          </button>
           <p id="formStatus" class="mono form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
@@ -725,32 +922,58 @@
   </main>
 
   <!-- ======= FOOTER ======= -->
-  <footer>
-    <div class="foot-word mono" aria-hidden="true">IEI Student Chapter</div>
-    <div class="foot-grid">
-      <div class="foot-brand">
-        <a class="logo mono" href="#hero">IEI<span>_STUDENT CHAPTER</span></a>
-        <p>IEI Student Chapter at the Cybersecurity Department.</p>
+  <footer id="footer">
+    <div class="ft2-strip mono">
+      <span>IEI STUDENT CHAPTER</span>
+      <span class="ft2-live"><i></i>CHAPTER ACTIVE</span>
+      <span class="ft2-ver">CYBERSECURITY DEPT · GHRCEMP · PUNE</span>
+    </div>
+
+    <div class="ft2-inner">
+      <div class="ft2-cta">
+        <div>
+          <p class="ft2-kicker mono">// END_OF_TRANSMISSION — MEMBERSHIPS OPEN</p>
+          <h2 class="ft2-title">Learn. Break. <span>Defend.</span></h2>
+          <p class="ft2-sub">Join a culture built on trust, driven by curiosity, bound by impact — and become the
+            engineer they'll call when it matters.</p>
+        </div>
+        <a href="#join" class="ft2-register"><span class="ft2-register-dot"></span>Join The Club</a>
       </div>
-      <div class="foot-col mono">
-        <h4>// NAVIGATE</h4>
-        <a href="#about">ABOUT</a><a href="#events">EVENTS</a><a href="#team">TEAM</a><a href="#gallery">GALLERY</a><a
-          href="#join">JOIN</a>
+
+      <div class="ft2-nav">
+        <span class="ft2-nav-label mono">[ navigate ]</span>
+        <div class="ft2-chips mono">
+          <a href="#about">About</a>
+          <a href="#events">Events</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#faculty">Faculty</a>
+          <a href="#team">Team</a>
+          <a href="#faq">FAQs</a>
+          <a href="#join">Join</a>
+        </div>
       </div>
-      <div class="foot-col mono">
-        <h4>// SIGNALS</h4>
-        <a href="#" data-social="github">GITHUB</a><a href="#" data-social="linkedin">LINKEDIN</a><a href="#" data-social="twitter">X / TWITTER</a><a href="#" data-social="instagram">INSTAGRAM</a>
+
+      <div class="ft2-row">
+        <a class="ft2-mail mono" href="mailto:iei.sc@cybersec.edu">iei.sc@cybersec.edu</a>
+        <span class="ft2-sep-v" aria-hidden="true"></span>
+        <span class="ft2-loc mono">Block C, Room 0x2A · Pune, MH — IN</span>
+        <div class="ft2-flex"></div>
+        <div class="ft2-socials">
+          <a class="ft2-soc" href="#" data-social="github" aria-label="GitHub"><span class="mono">GH</span></a>
+          <a class="ft2-soc" href="#" data-social="linkedin" aria-label="LinkedIn"><span class="mono">IN</span></a>
+          <a class="ft2-soc" href="#" data-social="twitter" aria-label="X"><span class="mono">X</span></a>
+          <a class="ft2-soc" href="#" data-social="instagram" aria-label="Instagram"><span class="mono">IG</span></a>
+        </div>
       </div>
-      <div class="foot-col mono">
-        <h4>// STATUS</h4>
-        <p class="foot-status"><i class="dot-ok"></i> CHAPTER ACTIVE</p>
-        <p class="foot-uptime">IEI Student Chapter — Cybersecurity Department</p>
-        <p class="foot-fine">*Institution of Engineers (India)</p>
+
+      <div class="ft2-meta mono">
+        <span>© 2025 IEI STUDENT CHAPTER // CYBERSECURITY · *Institution of Engineers (India)</span>
+        <span class="ft2-made">RUN BY STUDENTS, FOR STUDENTS</span>
       </div>
     </div>
-    <div class="foot-bottom mono">
-      <span>© 2025 IEI STUDENT CHAPTER // CYBERSECURITY</span>
-      <span>EOF</span>
+
+    <div class="footer-wordmark-wrap">
+      <div class="footer-wordmark foot-word" aria-hidden="true">IEI_STUDENT</div>
     </div>
   </footer>
 

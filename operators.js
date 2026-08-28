@@ -7,6 +7,20 @@
 document.addEventListener("DOMContentLoaded", () => {
   const OPERATORS_DATA = [
     {
+      name: "Dr. Rajesh Kumar",
+      title: "Head of Department (HOD)",
+      linkedin: "https://www.linkedin.com/",
+      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&h=700&q=80",
+      group: "faculty"
+    },
+    {
+      name: "Prof. Priya Nair",
+      title: "Faculty Coordinator",
+      linkedin: "https://www.linkedin.com/",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=700&q=80",
+      group: "faculty"
+    },
+    {
       name: "Aarav Sharma",
       title: "President",
       linkedin: "https://www.linkedin.com/",
@@ -17,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Ananya Iyer",
       title: "Vice President",
       linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=700&q=80",
+      image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&h=700&q=80",
       group: "admin"
     },
     {
@@ -119,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderRow(label, members, withMemberLists, cardsClass = "") {
     return `
       <div class="solo-row">
-        <p class="solo-row-label mono">${label}</p>
+        <h3 class="solo-row-label">${label}</h3>
         <div class="solo-cards ${cardsClass}">
           ${members
             .map(
@@ -147,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderTeamRow(label, leads) {
     return `
       <div class="solo-row">
-        <p class="solo-row-label mono">${label}</p>
+        <h3 class="solo-row-label">${label}</h3>
         <div class="team-cards">
           ${leads
             .map((op) => {
@@ -180,9 +194,34 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  const faculty = OPERATORS_DATA.filter((op) => op.group === "faculty");
   const admins = OPERATORS_DATA.filter((op) => op.group === "admin");
   const leads = OPERATORS_DATA.filter((op) => op.group === "lead");
 
-  board.innerHTML =
-    renderRow("// 01 — ADMINISTRATIVE", admins, false, "solo-cards--fourth solo-cards--admins") + renderTeamRow("// 02 — LEADS & MEMBER TEAMS", leads);
+  const facultyCardsWrap = document.getElementById("facultyCards");
+  if (facultyCardsWrap) {
+    facultyCardsWrap.innerHTML = faculty
+      .map(
+        (op) => `
+      <article class="solo-card">
+        <div class="solo-card-photo">
+          <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+        </div>
+        <h3 class="solo-card-name">${op.name}</h3>
+        <p class="solo-card-title">${op.title}</p>
+        <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+          ${LINKEDIN_ICON}
+          <span>LINKEDIN</span>
+        </a>
+      </article>
+    `
+      )
+      .join("");
+  }
+
+  if (board) {
+    board.innerHTML =
+      renderRow("Executive Committee", admins, false, "solo-cards--fourth solo-cards--admins") +
+      renderTeamRow("Teams & Leads", leads);
+  }
 });

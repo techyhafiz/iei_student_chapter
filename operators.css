@@ -1,17 +1,21 @@
 /* ============================================================
    OPERATOR LEADERS — SOLO CARD BOARD
-   Photo cards for admins/leads; compact chips for members.
+   Faculty & team cards in the violet partner-card style.
    ============================================================ */
+
+.faculty-board {
+  position: relative;
+  background: transparent;
+  padding-bottom: 0.5rem;
+}
+
+.faculty-board .sec-head-center {
+  margin-bottom: 34px;
+}
 
 .operators-deck-section {
   position: relative;
-  padding: clamp(3rem, 5vw, 5.5rem) clamp(1.5rem, 4vw, 3.5rem);
-  max-width: 1320px;
-  margin-inline: auto;
-  overflow: hidden;
-  background: radial-gradient(circle at 85% 20%, rgba(212, 160, 23, 0.08), transparent 40%),
-              radial-gradient(circle at 15% 80%, rgba(122, 162, 255, 0.06), transparent 35%),
-              var(--bg);
+  background: transparent;
 }
 
 .operators-solo-board {
@@ -28,11 +32,20 @@
 }
 
 .solo-row-label {
-  font-size: 0.78rem;
+  font-family: var(--sans);
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
   font-weight: 700;
-  letter-spacing: 0.22em;
-  color: var(--accent);
-  opacity: 0.9;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 0.4rem;
+}
+
+.solo-row-label::before {
+  content: "// ";
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 0.8em;
+  color: var(--lav2);
 }
 
 .solo-cards {
@@ -41,33 +54,54 @@
   gap: 16px;
 }
 
+/* ---------- SOLO CARD (partner-card look) ---------- */
 .solo-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
   padding: 1rem;
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid var(--linec);
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: transform 0.35s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
+  overflow: hidden;
+}
+
+.solo-card::before {
+  content: "";
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.14), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .solo-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(212, 160, 23, 0.55);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 18px rgba(212, 160, 23, 0.18);
+  border-color: rgba(192, 132, 252, 0.55);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38), 0 0 24px rgba(168, 85, 247, 0.16);
+}
+
+.solo-card:hover::before {
+  opacity: 1;
 }
 
 .solo-card-photo {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1.08;
-  border-radius: calc(var(--r) - 6px);
+  aspect-ratio: 1 / 1.05;
+  border-radius: calc(16px - 6px);
   overflow: hidden;
-  border: 1px solid var(--border);
+  border: 1px solid var(--linec2);
+  background: rgba(10, 6, 18, 0.5);
   margin-bottom: 4px;
 }
 
@@ -75,8 +109,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
-  filter: saturate(0.9);
+  filter: saturate(0.92);
   transition: transform 0.5s var(--ease), filter 0.5s ease;
 }
 
@@ -84,28 +119,68 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(13, 15, 18, 0.35), transparent 45%);
+  background: linear-gradient(to top, rgba(10, 5, 18, 0.45), rgba(124, 58, 237, 0.08) 55%, transparent 75%);
   pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+:root[data-theme="light"] .solo-card-photo::after {
+  background: linear-gradient(to top, rgba(36, 27, 58, 0.18), transparent 60%);
 }
 
 .solo-card:hover .solo-card-photo img {
-  transform: scale(1.04);
+  transform: scale(1.05);
   filter: saturate(1.05);
 }
 
+.solo-card:hover .solo-card-photo::after {
+  opacity: 0.55;
+}
+
+/* advisory chip */
+.solo-cards--faculty .solo-card::after {
+  content: "ADVISORY ✓";
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: #d8b4fe;
+  background: rgba(15, 8, 28, 0.75);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  border-radius: 999px;
+  padding: 4px 10px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+:root[data-theme="light"] .solo-cards--faculty .solo-card::after {
+  color: #6d28d9;
+  background: rgba(255, 255, 255, 0.85);
+}
+
 .solo-card-name {
-  font-family: var(--disp);
-  font-size: 1.2rem;
+  font-family: var(--sans);
+  font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: var(--text);
+  color: var(--ink);
+}
+
+.solo-card:hover .solo-card-name {
+  background: linear-gradient(90deg, var(--ink), #d8b4fe);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .solo-card-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   line-height: 1.4;
-  color: var(--muted);
+  color: var(--tx2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -113,273 +188,50 @@
 }
 
 .solo-card-link {
+  margin-top: 8px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  margin-top: 10px;
-  padding: 5px 12px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--accent);
-  border: 1px solid rgba(212, 160, 23, 0.35);
-  border-radius: 20px;
-  background: rgba(212, 160, 23, 0.08);
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--lav);
+  padding: 7px 13px;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  background: rgba(139, 92, 246, 0.08);
+  transition: all 0.25s ease;
 }
 
 .solo-card-link svg {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
   fill: currentColor;
 }
 
 .solo-card-link:hover {
-  background: var(--accent);
-  color: var(--bg);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(212, 160, 23, 0.4);
+  color: #fff;
+  border-color: rgba(232, 121, 249, 0.6);
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
 }
 
-/* ---------- Centered lead row: 5 cards, each same size as a 5-column row ---------- */
-.solo-cards--fourth {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+:root[data-theme="light"] .solo-card-link:hover {
+  color: #fff;
 }
 
-.solo-cards--fourth .solo-card {
-  flex: 0 0 calc((100% - 64px) / 5);
-}
-
-/* Admin cards slightly larger than lead cards for hierarchy */
-.solo-cards--fourth.solo-cards--admins .solo-card {
-  flex: 0 0 calc((100% - 48px) / 4);
-}
-
-/* ---------- Horizontal team cards: lead photo left, team right ---------- */
-.team-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.team-card {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  padding: .9rem 1rem;
-  border-radius: var(--r);
-  border: 1px solid var(--border);
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: transform 0.35s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-.team-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(212, 160, 23, 0.55);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 18px rgba(212, 160, 23, 0.18);
-}
-
-.team-card-left {
-  flex: 0 0 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding-right: 1rem;
-  border-right: 1px dashed var(--border);
-}
-
-.team-card-left .solo-card-photo {
-  aspect-ratio: 3 / 3.6;
-  margin-bottom: 0;
-}
-
-.team-card-name {
-  font-family: var(--disp);
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-align: center;
-  color: var(--accent-hi);
-  text-shadow: 0 0 18px rgba(212, 160, 23, 0.35);
-  text-transform: uppercase;
-}
-
-.team-card-right {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  padding-left: 1rem;
-}
-
-.team-card-team {
-  font-family: var(--disp);
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-align: center;
-  color: var(--text);
-  margin-bottom: 10px;
-}
-
-.team-card-lead-box {
-  position: relative;
-  margin-top: 10px;
-  margin-bottom: 12px;
-}
-
-.lead-tag {
-  position: absolute;
-  top: -9px;
-  left: 10px;
-  padding: 2px 9px;
-  font-size: .55rem;
-  font-weight: 700;
-  letter-spacing: .24em;
-  border-radius: 6px;
-  background: var(--accent);
-  color: var(--bg);
-  box-shadow: 0 2px 10px rgba(212, 160, 23, 0.45);
-}
-
-.team-card-lead-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px 10px 7px;
-  border-radius: 10px;
-  border: 1px solid rgba(212, 160, 23, 0.35);
-  background: rgba(212, 160, 23, 0.07);
-  text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.team-card-lead-link:hover {
-  background: rgba(212, 160, 23, 0.16);
-  border-color: var(--accent);
-  transform: translateY(-1px);
-}
-
-.team-card-lead-name {
-  font-family: var(--disp);
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: var(--accent-hi);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-
-.team-card-lead-link svg {
-  width: 15px;
-  height: 15px;
-  fill: var(--accent);
-  flex-shrink: 0;
-}
-
-.team-card .lead-card-members {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-.team-card .lead-card-members ul {
-  gap: 4px;
-}
-
-.team-card .lead-card-members-label {
-  margin-bottom: 6px;
-}
-
-.team-card .member-line-name {
-  font-size: .85rem;
-}
-
-.team-card .member-line-link {
-  width: 24px;
-  height: 24px;
-}
-
-@media (max-width: 900px) {
-  .team-cards {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 560px) {
-  .team-card {
-    flex-direction: column;
-  }
-
-  .team-card-left {
-    flex: none;
-    padding-right: 0;
-    padding-bottom: .9rem;
-    border-right: none;
-    border-bottom: 1px dashed var(--border);
-  }
-
-  .team-card-right {
-    padding-left: 0;
-    padding-top: .9rem;
-  }
-}
-
-/* ---------- Lead card with member list inside ---------- */
-.solo-card--lead {
-  align-items: center;
-  text-align: center;
-}
-
-.solo-card--lead .solo-card-photo {
-  width: 100%;
-  height: auto;
-  margin-inline: 0;
-  aspect-ratio: 1 / 1.08;
-  border-radius: calc(var(--r) - 6px);
-  border: 2px solid rgba(212, 160, 23, 0.45);
-  box-shadow: 0 0 0 5px rgba(212, 160, 23, 0.08), 0 8px 22px rgba(0, 0, 0, 0.4);
-}
-
-.solo-card--lead .solo-card-title {
-  max-width: 100%;
-}
-
+/* ---------- LEAD CARD (with member list) ---------- */
 .solo-card--lead .lead-card-members {
-  text-align: left;
-}
-
-.solo-card--lead .solo-card-name {
-  font-size: 1.35rem;
-}
-
-.solo-card--lead .solo-card-title {
-  font-size: 0.95rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-.lead-card-members {
   width: 100%;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px dashed var(--border);
+  margin-top: 10px;
+  border-top: 1px dashed rgba(139, 92, 246, 0.25);
+  padding-top: 10px;
 }
 
 .lead-card-members-label {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--lav2);
   margin-bottom: 8px;
 }
 
@@ -387,7 +239,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 }
 
 .member-line {
@@ -395,139 +247,170 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  font-size: 0.8rem;
 }
 
 .member-line-name {
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: var(--text);
-  opacity: 0.9;
+  color: var(--tx1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0;
 }
 
 .member-line-link {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  color: var(--accent);
-  border: 1px solid rgba(212, 160, 23, 0.3);
-  background: rgba(212, 160, 23, 0.08);
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: var(--lav2);
+  opacity: 0.65;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
   flex-shrink: 0;
+  display: inline-flex;
 }
 
 .member-line-link svg {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   fill: currentColor;
 }
 
 .member-line-link:hover {
-  background: var(--accent);
-  color: var(--bg);
-  transform: scale(1.08);
+  opacity: 1;
+  color: var(--v4);
+  transform: translate(1px, -1px);
 }
 
-html[data-theme="light"] .member-line-link {
-  background: rgba(184, 125, 0, 0.08);
-  border-color: rgba(184, 125, 0, 0.28);
-  color: #b87d00;
+/* ---------- TEAM CARDS ---------- */
+.team-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
 }
 
-html[data-theme="light"] .member-line-link:hover {
-  background: #d49200;
-  color: #ffffff;
-  box-shadow: 0 4px 12px rgba(184, 125, 0, 0.3);
+.team-card {
+  display: grid;
+  grid-template-columns: 108px 1fr;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--linec);
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.35s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* ============================================================
-   LIGHT THEME — SOLO CARD OVERRIDES
-   ============================================================ */
-html[data-theme="light"] .operators-deck-section {
-  background: radial-gradient(circle at 85% 20%, rgba(184, 125, 0, 0.08), transparent 40%),
-              radial-gradient(circle at 15% 80%, rgba(70, 110, 190, 0.06), transparent 35%),
-              var(--bg);
+.team-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(192, 132, 252, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(168, 85, 247, 0.14);
 }
 
-html[data-theme="light"] .solo-card {
-  background: #fbf9f4;
-  border-color: rgba(24, 27, 34, 0.09);
-  box-shadow: 0 4px 18px rgba(24, 27, 34, 0.04);
+.team-card-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-html[data-theme="light"] .solo-card:hover {
-  border-color: rgba(184, 125, 0, 0.45);
-  box-shadow: 0 14px 34px rgba(24, 27, 34, 0.09), 0 0 20px rgba(184, 125, 0, 0.14);
+.team-card-left .solo-card-photo {
+  aspect-ratio: 1 / 1.05;
+  margin-bottom: 0;
 }
 
-html[data-theme="light"] .team-card {
-  background: #fbf9f4;
-  border-color: rgba(24, 27, 34, 0.09);
-  box-shadow: 0 4px 18px rgba(24, 27, 34, 0.04);
+.team-card-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--tx2);
+  line-height: 1.3;
 }
 
-html[data-theme="light"] .team-card:hover {
-  border-color: rgba(184, 125, 0, 0.45);
-  box-shadow: 0 14px 34px rgba(24, 27, 34, 0.09), 0 0 20px rgba(184, 125, 0, 0.14);
+.team-card-right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
 }
 
-html[data-theme="light"] .team-card-left {
-  border-right-color: rgba(24, 27, 34, 0.08);
+.team-card-team {
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-transform: uppercase;
 }
 
-html[data-theme="light"] .team-card-name {
-  color: #b87d00;
-  text-shadow: none;
+.team-card-team::after {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 6px;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
 }
 
-html[data-theme="light"] .team-card-lead-link {
-  background: rgba(184, 125, 0, 0.06);
-  border-color: rgba(184, 125, 0, 0.22);
+.team-card-lead-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-html[data-theme="light"] .team-card-lead-link:hover {
-  background: rgba(184, 125, 0, 0.12);
-  border-color: #d49200;
+.lead-tag {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.2em;
+  color: #d8b4fe;
+  background: rgba(124, 58, 237, 0.16);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  border-radius: 999px;
+  padding: 3px 10px;
 }
 
-html[data-theme="light"] .lead-tag {
-  background: #d49200;
-  color: #ffffff;
-  box-shadow: 0 2px 8px rgba(184, 125, 0, 0.35);
+:root[data-theme="light"] .lead-tag {
+  color: #6d28d9;
 }
 
-html[data-theme="light"] .solo-card-link {
-  background: rgba(184, 125, 0, 0.08);
-  border-color: rgba(184, 125, 0, 0.28);
-  color: #b87d00;
+.team-card-lead-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--tx1);
+  transition: color 0.2s ease;
 }
 
-html[data-theme="light"] .solo-card-link:hover {
-  background: #d49200;
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(184, 125, 0, 0.3);
+.team-card-lead-link:hover .team-card-lead-name {
+  color: var(--v3);
 }
 
+:root[data-theme="light"] .team-card-lead-link:hover .team-card-lead-name {
+  color: var(--lav2);
+}
+
+.team-card-lead-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  transition: color 0.2s ease;
+}
+
+.team-card-lead-link svg {
+  width: 13px;
+  height: 13px;
+  fill: var(--lav2);
+}
+
+.team-card .lead-card-members {
+  margin-top: 0;
+  border-top: 1px dashed rgba(139, 92, 246, 0.25);
+  padding-top: 10px;
+}
+
+/* responsive */
 @media (max-width: 640px) {
-  .solo-cards {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  .team-card {
+    grid-template-columns: 84px 1fr;
     gap: 12px;
   }
 
-  .solo-cards--fourth .solo-card {
-    flex-basis: calc(50% - 6px);
-  }
-
-  .solo-card {
-    padding: 1.1rem 1.2rem;
-  }
-
-  .solo-card-title {
-    white-space: normal;
+  .solo-cards {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
