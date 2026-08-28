@@ -24,58 +24,98 @@
   function pad3(n) { n = Math.round(n); return (n < 10 ? "00" : n < 100 ? "0" : "") + n; }
 
   /* ------------------------------------------------------------
-       HERO STARFIELD — twinkling cosmic canvas
-      Layered parallax stars with slow drift + occasional
-      shooting stars. Theme-aware, DPR-aware, pauses
-      off-screen / hidden tab.
-      ------------------------------------------------------------ */
+       SITE-WIDE SPACE — living background canvas
+       Fixed full-page layer behind all content: pre-rendered
+       nebula clouds that drift + breathe, three star layers
+       with scroll parallax and twinkle, occasional shooting
+       stars. Theme-aware, DPR-capped, pauses on hidden tab.
+       ------------------------------------------------------------ */
   (function () {
-    var cv = $("#heroFx");
+    var cv = $("#spaceFx");
     if (!cv || !cv.getContext) { return; }
     var ctx = cv.getContext("2d");
     if (!ctx) { return; }
 
-    var LAYERS = [
-      { n: 70, rMin: .4, rMax: 1.0, spd: .006, aMin: .25, aMax: .7 },
-      { n: 45, rMin: .8, rMax: 1.6, spd: .012, aMin: .3, aMax: .85 },
-      { n: 22, rMin: 1.2, rMax: 2.2, spd: .022, aMin: .4, aMax: 1 }
-    ];
-    var stars = [];
-    var meteors = [];
-    var tMeteor = 3200;
-
-    var dpr = 1, W = 0, H = 0;
-    var rafId = 0, running = false, last = 0;
     var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var light = document.documentElement.getAttribute("data-theme") === "light";
 
+    var LAYERS = [
+      { share: .5, rMin: .4, rMax: 1.0, aMin: .22, aMax: .6, par: .045 },
+      { share: .3, rMin: .8, rMax: 1.6, aMin: .3, aMax: .8, par: .11 },
+      { share: .2, rMin: 1.2, rMax: 2.2, aMin: .38, aMax: 1, par: .2 }
+    ];
+
+    var stars = [];
+    var meteors = [];
+    var tMeteor = 3200;
+    var nebulas = [];
+
+    var dpr = 1, W = 0, H = 0;
+    var rafId = 0, running = false, last = 0;
+
     function pal() {
       return light
-        ? { core: "76, 29, 149", hi: "147, 51, 234", trail: "124, 58, 237" }
-        : { core: "248, 248, 255", hi: "232, 121, 249", trail: "196, 132, 252" };
+        ? { core: "76, 29, 149", hi: "147, 51, 234", trail: "124, 58, 237", nebMax: .12 }
+        : { core: "248, 248, 255", hi: "232, 121, 249", trail: "196, 132, 252", nebMax: .34 };
     }
 
+    /* pre-render each nebula blob once — per-frame cost is a single drawImage */
+    function makeNebula(spec) {
+      var sz = Math.max(380, Math.round(Math.min(W, H) * spec.scale));
+      var off = document.createElement("canvas");
+      var octx = off.getContext("2d");
+      off.width = sz; off.height = sz;
+      var g = octx.createRadialGradient(sz / 2, sz / 2, 0, sz / 2, sz / 2, sz / 2);
+      var c = spec.rgb;
+      g.addColorStop(0, "rgba(" + c + "," + spec.a + ")");
+      g.addColorStop(.45, "rgba(" + c + "," + (spec.a * .4).toFixed(3) + ")");
+      g.addColorStop(1, "rgba(" + c + ",0)");
+      octx.fillStyle = g;
+      octx.fillRect(0, 0, sz, sz);
+      return {
+        cv: off,
+        sz: sz,
+        bx: spec.bx, by: spec.by,
+        par: spec.par,
+        w1: rand(.05, .12), p1: rand(0, 6.28),   /* drift freq/phase */
+        w2: rand(.03, .08), p2: rand(0, 6.28),   /* breathe freq/phase */
+        amp: rand(.06, .14),
+        alpha: rand(.85, 1)
+      };
+    }
+
+    var NEBULA_SPECS = [
+      { rgb: "124, 58, 237", a: .30, scale: .95, bx: .16, by: .18, par: .035 },
+      { rgb: "232, 121, 249", a: .20, scale: .80, bx: .84, by: .30, par: .055 },
+      { rgb: "49, 46, 129", a: .30, scale: 1.05, bx: .50, by: .78, par: .028 },
+      { rgb: "192, 132, 252", a: .16, scale: .65, bx: .30, by: .55, par: .045 },
+      { rgb: "124, 58, 237", a: .18, scale: .70, bx: .72, by: .92, par: .06 }
+    ];
+
     function size() {
-      var host = cv.parentElement.getBoundingClientRect();
-      W = Math.max(1, Math.ceil(host.width));
-      H = Math.max(1, Math.ceil(host.height));
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.max(1, window.innerWidth);
+      H = Math.max(1, window.innerHeight);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       cv.width = W * dpr; cv.height = H * dpr;
+
+      var total = Math.min(240, Math.round(W * H / 9000));
       stars = [];
       LAYERS.forEach(function (L, li) {
-        for (var i = 0; i < L.n; i++) {
+        var n = Math.max(4, Math.round(total * L.share));
+        for (var i = 0; i < n; i++) {
           stars.push({
             x: Math.random() * W,
             y: Math.random() * H,
             r: rand(L.rMin, L.rMax),
             base: rand(L.aMin, L.aMax),
-            tw: rand(.4, 1.6),          /* twinkle speed */
-            ph: rand(0, 6.28),          /* phase */
-            vy: L.spd * rand(.6, 1.4),  /* drift down-left */
-            layer: li
+            tw: rand(.4, 1.6),
+            ph: rand(0, 6.28),
+            par: L.par
           });
         }
       });
+
+      nebulas = NEBULA_SPECS.map(makeNebula);
     }
 
     function drawFrame(now) {
@@ -83,26 +123,38 @@
       last = now;
       var p = pal();
       var t = now * .001;
+      var sc = window.pageYOffset || 0;
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
 
-      /* stars */
+      /* nebula clouds — drift, breathe, gentle scroll parallax (seamless wrap) */
+      for (var n = 0; n < nebulas.length; n++) {
+        var nb = nebulas[n];
+        var sz = nb.sz;
+        var range = H + sz * 2;
+        var ny = (((nb.by * range - sc * nb.par) % range) + range) % range - sz;
+        var nx = nb.bx * W + Math.sin(t * nb.w1 + nb.p1) * sz * nb.amp;
+        var breathe = 1 + Math.sin(t * nb.w2 + nb.p2) * .1;
+        ctx.globalAlpha = nb.alpha * (p.nebMax / .34);
+        ctx.drawImage(nb.cv, nx - sz / 2, ny - sz / 2, sz * breathe, sz * breathe);
+      }
+      ctx.globalAlpha = 1;
+
+      /* stars — scroll parallax + twinkle */
       for (var i = 0; i < stars.length; i++) {
         var s = stars[i];
-        s.y += s.vy * dt * .06;
-        if (s.y > H + 4) { s.y = -4; s.x = Math.random() * W; }
+        var sy = ((s.y - sc * s.par) % H + H) % H;
         var tw = .5 + .5 * Math.sin(t * s.tw + s.ph);
         var a = s.base * (.45 + .55 * tw);
         ctx.beginPath();
         ctx.fillStyle = "rgba(" + p.core + "," + a.toFixed(3) + ")";
-        ctx.arc(s.x, s.y, s.r, 0, 6.2832);
+        ctx.arc(s.x, sy, s.r, 0, 6.2832);
         ctx.fill();
-        /* glow halo on the biggest stars */
         if (s.r > 1.4 && tw > .82) {
           ctx.beginPath();
           ctx.fillStyle = "rgba(" + p.hi + "," + (a * .22).toFixed(3) + ")";
-          ctx.arc(s.x, s.y, s.r * 3.2, 0, 6.2832);
+          ctx.arc(s.x, sy, s.r * 3.2, 0, 6.2832);
           ctx.fill();
         }
       }
@@ -155,12 +207,7 @@
     document.addEventListener("visibilitychange", function () {
       document.hidden ? stop() : start();
     });
-
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (entries) {
-        entries[0].isIntersecting ? start() : stop();
-      }, { threshold: 0 }).observe(cv);
-    } else { start(); }
+    start();
 
     if ("MutationObserver" in window) {
       new MutationObserver(function () {
@@ -409,17 +456,9 @@
      HERO — scroll parallax
      ------------------------------------------------------------ */
   if (hasGsap && !reduced) {
-    gsap.to("#heroFx", {
-      yPercent: 12, scale: 1.05, ease: "none",
-      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
-    });
     gsap.to(".hero-core", {
       yPercent: -25, opacity: .1, ease: "none",
       scrollTrigger: { trigger: "#hero", start: "top top", end: "80% top", scrub: true }
-    });
-    gsap.to(".hero-bg", {
-      opacity: .25, ease: "none",
-      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true }
     });
     gsap.to(".stats", {
       yPercent: 30, opacity: 0, ease: "none",
