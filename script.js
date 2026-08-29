@@ -1151,11 +1151,13 @@
   var termScript = [
     { t: "iei --status", c: "cmd" },
     { t: "● IEI Student Chapter (Department of CSDS, GHRCEM)", c: "out info" },
-    { t: "  Active Track   : Offensive Security & Applied Data Science", c: "out" },
-    { t: "  Current Sprint : CTF Prep & Red Teaming Labs", c: "out" },
-    { t: "  Next Meetup    : Friday @ 17:00 IST | Lab 402", c: "out" },
-    { t: "./join --role \"builder\"", c: "cmd" },
-    { t: "[✓] Access granted. Welcome to the cohort.", c: "ok" }
+    { t: "  Affiliation : The Institution of Engineers (India)", c: "out" },
+    { t: "  Status      : Active Operations (2025–2026)", c: "out" },
+    { t: "iei --scope", c: "cmd" },
+    { t: "● Department-wide technical integration across all student years.", c: "out" },
+    { t: "● Driving peer mentorship, industry masterclasses & leadership.", c: "out" },
+    { t: "./join --club", c: "cmd" },
+    { t: "[✓] Access granted. Welcome to the chapter.", c: "ok" }
   ];
   var termStarted = false;
 
