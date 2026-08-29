@@ -1662,25 +1662,6 @@ html:not(.js) .why-row {
 
 .tl-nav:disabled { opacity: .3; cursor: default; }
 
-.tl-fade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 64px;
-  pointer-events: none;
-  z-index: 2;
-  transition: opacity .3s;
-}
-
-.tl-fade-left { left: 0; background: linear-gradient(90deg, rgba(2, 0, 8, .55), transparent); }
-.tl-fade-right { right: 0; background: linear-gradient(-90deg, rgba(2, 0, 8, .55), transparent); }
-
-:root[data-theme="light"] .tl-fade-left { background: linear-gradient(90deg, rgba(244, 241, 251, .85), transparent); }
-:root[data-theme="light"] .tl-fade-right { background: linear-gradient(-90deg, rgba(244, 241, 251, .85), transparent); }
-
-.tl-shell.at-start .tl-fade-left { opacity: 0; }
-.tl-shell.at-end .tl-fade-right { opacity: 0; }
-
 @media (min-width: 900px) {
   .tl-alt { transform: translateY(18px); }
 }

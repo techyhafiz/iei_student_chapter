@@ -40,9 +40,9 @@
     var light = document.documentElement.getAttribute("data-theme") === "light";
 
     var LAYERS = [
-      { share: .5, rMin: .4, rMax: 1.0, aMin: .22, aMax: .6, par: .045 },
-      { share: .3, rMin: .8, rMax: 1.6, aMin: .3, aMax: .8, par: .11 },
-      { share: .2, rMin: 1.2, rMax: 2.2, aMin: .38, aMax: 1, par: .2 }
+      { share: .5, rMin: .47, rMax: .89, aMin: .22, aMax: .6, par: .045 },
+      { share: .3, rMin: .89, rMax: 1.42, aMin: .3, aMax: .8, par: .11 },
+      { share: .2, rMin: 1.37, rMax: 1.94, aMin: .38, aMax: 1, par: .2 }
     ];
 
     var stars = [];
@@ -77,8 +77,8 @@
         sz: sz,
         bx: spec.bx, by: spec.by,
         par: spec.par,
-        w1: rand(.05, .12), p1: rand(0, 6.28),   /* drift freq/phase */
-        w2: rand(.03, .08), p2: rand(0, 6.28),   /* breathe freq/phase */
+        w1: rand(.023, .058), p1: rand(0, 6.28),   /* drift freq/phase */
+        w2: rand(.014, .040), p2: rand(0, 6.28),   /* breathe freq/phase */
         amp: rand(.06, .14),
         alpha: rand(.85, 1)
       };
@@ -108,7 +108,7 @@
             y: Math.random() * H,
             r: rand(L.rMin, L.rMax),
             base: rand(L.aMin, L.aMax),
-            tw: rand(.4, 1.6),
+            tw: rand(.17, .69),
             ph: rand(0, 6.28),
             par: L.par
           });
@@ -151,10 +151,10 @@
         ctx.fillStyle = "rgba(" + p.core + "," + a.toFixed(3) + ")";
         ctx.arc(s.x, sy, s.r, 0, 6.2832);
         ctx.fill();
-        if (s.r > 1.4 && tw > .82) {
+        if (s.r > 0.95 && tw > .82) {
           ctx.beginPath();
           ctx.fillStyle = "rgba(" + p.hi + "," + (a * .22).toFixed(3) + ")";
-          ctx.arc(s.x, sy, s.r * 3.2, 0, 6.2832);
+          ctx.arc(s.x, sy, s.r * 2.2, 0, 6.2832);
           ctx.fill();
         }
       }
@@ -164,14 +164,14 @@
       if (tMeteor <= 0) {
         meteors.push({
           x: rand(W * .25, W * 1.05), y: rand(-20, H * .3),
-          vx: -rand(.22, .38), vy: rand(.12, .2), life: 1
+          vx: -rand(.09, .17), vy: rand(.045, .095), life: 1
         });
-        tMeteor = rand(5200, 11000);
+        tMeteor = rand(6000, 12000);
       }
       for (var m = meteors.length - 1; m >= 0; m--) {
         var mt = meteors[m];
         mt.x += mt.vx * dt; mt.y += mt.vy * dt;
-        mt.life -= dt / 1400;
+        mt.life -= dt / 2100;
         if (mt.life <= 0 || mt.x < -80 || mt.y > H + 80) { meteors.splice(m, 1); continue; }
         var tail = 90 * mt.life;
         var grad = ctx.createLinearGradient(mt.x, mt.y, mt.x + tail, mt.y - tail * .55);
@@ -425,7 +425,7 @@
     var gl = cv.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: false, depth: false });
     if (!gl) { cv.style.display = "none"; return; }
 
-    var COUNT = 9000;
+    var COUNT = 4200;
 
     /* ---- shaders ---- */
     var SIM_V = [
@@ -433,36 +433,56 @@
       "precision highp float;",
       "in vec2 aPos;",
       "in vec2 aVel;",
-      "in vec3 aSeed;",            /* x: size, y: depth, z: twinkle phase */
+      "in vec3 aSeed;",            /* x: size, y: depth, z: portal phase */
       "uniform vec2 uRes;",
       "uniform vec2 uMouse;",
       "uniform float uAmp;",
       "uniform float uDt;",
       "uniform float uT;",
+      "uniform float uSpeed;",
+      "uniform vec2 uShockPos;",
+      "uniform float uShockAmp;",
       "out vec2 vPos;",
       "out vec2 vVel;",
       "out vec3 vSeed;",
       "void main(){",
       "  vec2 p=aPos; vec2 v=aVel;",
-      "  /* base warp drift: toward lower-left, scaled by depth */",
-      "  float sp=55.0+aSeed.y*380.0;",
+      "  /* slow base warp drift: toward lower-left, scaled by depth & smooth start ramp */",
+      "  float sp=(14.5+aSeed.y*60.0)*uSpeed;",
       "  vec2 dir=normalize(vec2(-0.72,-0.42));",
-      "  v+=dir*sp*uDt*(0.35+aSeed.y);",
-      "  v*=exp(-0.8*uDt);",        /* friction */
+      "  v+=dir*sp*uDt*(0.45+aSeed.y*0.55);",
+      "  v*=exp(-1.1*uDt);",        /* friction */
       "  /* cursor attractor with orbital swirl (only while cursor is over hero) */",
       "  vec2 mp=uMouse*uRes;",
       "  vec2 d=mp-p;",
       "  float dist=length(d)+1.0;",
-      "  float pull=exp(-dist/300.0)*uAmp;",
+      "  float pull=exp(-dist/340.0)*uAmp;",
       "  vec2 tang=vec2(-d.y,d.x)/dist;",
-      "  v+=(normalize(d)*pull*480.0+tang*pull*360.0)*uDt;",
+      "  v+=(normalize(d)*pull*145.0+tang*pull*106.0)*uDt;",
+      "  /* click / tap repellent shockwave */",
+      "  vec2 sDiff=p-uShockPos*uRes;",
+      "  float sDist=length(sDiff)+1.0;",
+      "  float sForce=exp(-sDist/280.0)*uShockAmp*920.0;",
+      "  v+=(sDiff/sDist)*sForce*uDt;",
       "  /* gentle wander so streams aren't perfectly straight */",
-      "  v+=vec2(sin(uT*0.8+aSeed.z*6.28),cos(uT*0.6+aSeed.z*9.42))*10.0*uDt;",
+      "  v+=vec2(sin(uT*0.40+aSeed.z*6.28),cos(uT*0.29+aSeed.z*9.42))*2.3*uDt*uSpeed;",
       "  p+=v*uDt;",
-      "  /* wrap around edges with a respawn margin */",
-      "  float m=40.0;",
-      "  if(p.x<-m)p.x=uRes.x+m; if(p.x>uRes.x+m)p.x=-m;",
-      "  if(p.y<-m)p.y=uRes.y+m; if(p.y>uRes.y+m)p.y=-m;",
+      "  /* wrap / respawn to designated non-uniform segments on top and right edges */",
+      "  float m=20.0;",
+      "  if(p.x<-m||p.y<-m){",
+      "    if(aSeed.z<0.54){",
+      "      /* Top segment with natural cluster modulation */",
+      "      float xFrac=0.38+pow(aSeed.z/0.54,1.4)*0.48;",
+      "      p.x=uRes.x*xFrac+(aSeed.y-0.5)*45.0;",
+      "      p.y=uRes.y+4.0;",
+      "    }else{",
+      "      /* Right segment with natural cluster modulation */",
+      "      float yFrac=0.28+pow((aSeed.z-0.54)/0.46,1.3)*0.58;",
+      "      p.x=uRes.x+4.0;",
+      "      p.y=uRes.y*yFrac+(aSeed.y-0.5)*45.0;",
+      "    }",
+      "    v=dir*sp;",
+      "  }",
       "  vPos=p; vVel=v; vSeed=aSeed;",
       "}"
     ].join("\n");
@@ -486,16 +506,13 @@
       "uniform float uDpr;",
       "out float vAlpha;",
       "out float vHue;",
-      "out float vTw;",
       "void main(){",
       "  vec2 clip=(vPos/uRes)*2.0-1.0;",
       "  gl_Position=vec4(clip,0.0,1.0);",
-      "  float sp=length(vVel);",
-      "  gl_PointSize=max(1.0,vSeed.x*(1.0+sp*0.004)*uDpr);",
-      "  vAlpha=clamp(0.30+vSeed.y*0.55+sp*0.0012,0.0,1.0);",
+      "  gl_PointSize=(1.55+vSeed.x*0.80)*uDpr;",
+      "  vAlpha=clamp(0.35+vSeed.y*0.55,0.0,1.0);",
       "  vHue=vSeed.y;",
-      "  vTw=0.5+0.5*sin(uTime*2.0+vSeed.z*6.28);",
-      "}"
+      "}",
     ].join("\n");
 
     var DRAW_F = [
@@ -503,22 +520,21 @@
       "precision highp float;",
       "in float vAlpha;",
       "in float vHue;",
-      "in float vTw;",
       "uniform float uLight;",
       "out vec4 o;",
       "void main(){",
       "  vec2 c=gl_PointCoord*2.0-1.0;",
       "  float r=length(c);",
       "  if(r>1.0)discard;",
-      "  float core=exp(-r*r*5.0);",
-      "  float a=vAlpha*core*(0.55+0.45*vTw);",
-      "  vec3 violet=vec3(0.722,0.51,0.98);",
-      "  vec3 fuchsia=vec3(0.95,0.55,0.99);",
+      "  float core=exp(-r*r*3.5);",
+      "  float a=vAlpha*core;",
+      "  vec3 violet=vec3(0.78,0.58,1.0);",
+      "  vec3 fuchsia=vec3(0.98,0.62,1.0);",
       "  vec3 col=mix(fuchsia,violet,vHue);",
       "  col=mix(col,vec3(0.35,0.22,0.6),uLight*0.55);",
       "  a*=mix(1.0,0.55,uLight);",
       "  o=vec4(col*a,a);",
-      "}"
+      "}",
     ].join("\n");
 
     function compile(type, src) {
@@ -563,17 +579,19 @@
       return b;
     }
 
+    var dirX = -0.72, dirY = -0.42;
+    var dirLen = Math.hypot(dirX, dirY);
+    dirX /= dirLen; dirY /= dirLen;
+
     var pos0 = new Float32Array(COUNT * 2);
     var vel0 = new Float32Array(COUNT * 2);
     var seed0 = new Float32Array(COUNT * 3);
     for (var i = 0; i < COUNT; i++) {
-      pos0[i * 2] = Math.random();      /* filled with real size later */
-      pos0[i * 2 + 1] = Math.random();
-      vel0[i * 2] = rand(-14, 14);
-      vel0[i * 2 + 1] = rand(-10, 10);
-      seed0[i * 3] = rand(1.4, 2.8);    /* size */
+      vel0[i * 2] = 0.0;
+      vel0[i * 2 + 1] = 0.0;
+      seed0[i * 3] = rand(0.8, 1.8);     /* size scale */
       seed0[i * 3 + 1] = Math.random(); /* depth 0..1 */
-      seed0[i * 3 + 2] = Math.random(); /* phase */
+      seed0[i * 3 + 2] = Math.random(); /* portal & phase */
     }
 
     var pairs = [];
@@ -637,7 +655,10 @@
       mouse: gl.getUniformLocation(simProg, "uMouse"),
       amp: gl.getUniformLocation(simProg, "uAmp"),
       dt: gl.getUniformLocation(simProg, "uDt"),
-      t: gl.getUniformLocation(simProg, "uT")
+      t: gl.getUniformLocation(simProg, "uT"),
+      speed: gl.getUniformLocation(simProg, "uSpeed"),
+      shockPos: gl.getUniformLocation(simProg, "uShockPos"),
+      shockAmp: gl.getUniformLocation(simProg, "uShockAmp")
     };
     var uDraw = {
       res: gl.getUniformLocation(drawProg, "uRes"),
@@ -649,9 +670,19 @@
     var dpr = 1, W = 0, H = 0;
     var mouse = { x: .5, y: .5 };
     var amp = 0, ampT = 0;          /* attractor strength: eased 0..1 */
+    var shock = { x: .5, y: .5, amp: 0 };
     var visible = true;
     var running = false;
     var rafId = 0, last = 0;
+    var startTime = performance.now();
+
+    function densityField(nx, ny) {
+      var d1 = Math.sin(nx * 3.4 + 0.9) * Math.cos(ny * 2.7 + 1.1);
+      var d2 = Math.sin(nx * 5.8 - ny * 3.6 + 1.8) * 0.45;
+      var d3 = Math.cos(nx * 2.1 + ny * 4.2 - 0.4) * 0.55;
+      var raw = (d1 + d2 + d3 + 2.0) / 4.0;
+      return Math.pow(Math.max(0.0, Math.min(1.0, raw)), 2.4);
+    }
 
     function size() {
       var host = cv.parentElement.getBoundingClientRect();
@@ -660,11 +691,22 @@
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       cv.width = W * dpr; cv.height = H * dpr;
       gl.viewport(0, 0, cv.width, cv.height);
-      /* reseed positions in pixel space */
+      startTime = performance.now();
+
+      /* scatter particles with organic cosmic density variation (some areas dense, some voids) */
       var src = pairs[cur], dst = pairs[1 - cur];
       for (var i = 0; i < COUNT; i++) {
-        pos0[i * 2] = Math.random() * W;
-        pos0[i * 2 + 1] = Math.random() * H;
+        var px = Math.random() * W, py = Math.random() * H;
+        for (var attempt = 0; attempt < 8; attempt++) {
+          var cx = Math.random() * W, cy = Math.random() * H;
+          var thresh = densityField(cx / Math.max(1, W), cy / Math.max(1, H)) * 0.92 + 0.08;
+          if (Math.random() < thresh) {
+            px = cx; py = cy;
+            break;
+          }
+        }
+        pos0[i * 2] = px;
+        pos0[i * 2 + 1] = py;
       }
       gl.bindBuffer(gl.ARRAY_BUFFER, src.pos);
       gl.bufferData(gl.ARRAY_BUFFER, pos0, gl.DYNAMIC_COPY);
@@ -678,7 +720,19 @@
     function frame(now) {
       var dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
-      amp += (ampT - amp) * Math.min(1, dt * 4);
+      amp += (ampT - amp) * Math.min(1, dt * 4.8);
+
+      /* decay click/tap repellent shockwave impulse */
+      shock.amp *= Math.exp(-4.2 * dt);
+      if (shock.amp < 0.001) { shock.amp = 0; }
+
+      /* initial pause/halt followed by gentle, smooth ramp-up to slow speed */
+      var elapsed = Math.max(0, (now - startTime) / 1000);
+      var speedFactor = 0.0;
+      if (elapsed > 0.4) {
+        var ramp = Math.min(1.0, (elapsed - 0.4) / 2.6);
+        speedFactor = ramp * ramp * (3.0 - 2.0 * ramp);
+      }
 
       var src = pairs[cur], dst = pairs[1 - cur];
       var srcVao = cur === 0 ? vaoA : vaoB;
@@ -691,6 +745,9 @@
       gl.uniform1f(uSim.amp, amp);
       gl.uniform1f(uSim.dt, dt);
       gl.uniform1f(uSim.t, now / 1000);
+      gl.uniform1f(uSim.speed, speedFactor);
+      gl.uniform2f(uSim.shockPos, shock.x, 1 - shock.y);
+      gl.uniform1f(uSim.shockAmp, shock.amp);
       gl.bindVertexArray(srcVao);
       /* TF dest must not be bound to any non-TF target (generic ARRAY_BUFFER
          included) or WebGL2 drops the draw — unbind to keep the sim valid. */
@@ -738,6 +795,17 @@
         ampT = 1;
       } else {
         ampT = 0;   /* cursor left the hero: swirl fades out */
+      }
+    }, { passive: true });
+
+    window.addEventListener("pointerdown", function (e) {
+      var r = cv.getBoundingClientRect();
+      var x = (e.clientX - r.left) / Math.max(1, r.width);
+      var y = (e.clientY - r.top) / Math.max(1, r.height);
+      if (x > -0.08 && x < 1.08 && y > -0.08 && y < 1.08) {
+        shock.x = Math.max(0, Math.min(1, x));
+        shock.y = Math.max(0, Math.min(1, y));
+        shock.amp = 1.0;
       }
     }, { passive: true });
 
