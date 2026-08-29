@@ -271,6 +271,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    function scrollToTeamSection() {
+      const filterWrap = document.getElementById("teamFilterBarWrap") || board;
+      if (!filterWrap) return;
+      const rect = filterWrap.getBoundingClientRect();
+      const targetY = window.pageYOffset + rect.top - 68;
+      
+      if (Math.abs(rect.top - 68) > 15) {
+        if (window.lenis && typeof window.lenis.scrollTo === "function") {
+          window.lenis.scrollTo(targetY, { duration: 0.5 });
+        } else {
+          window.scrollTo({
+            top: Math.max(0, targetY),
+            behavior: "smooth"
+          });
+        }
+      }
+    }
+
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
         filterBtns.forEach((b) => {
@@ -282,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const filter = btn.getAttribute("data-team-filter");
         applyTeamFilter(filter);
+        scrollToTeamSection();
       });
     });
 
