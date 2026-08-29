@@ -3465,9 +3465,27 @@ html:not(.js) .why-row {
 
   .lb-title { font-size: 18px; }
 
-  .lb-header { flex-wrap: wrap; }
+  .lb-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
 
-  .lb-icon-btn, .lb-close { width: 44px; height: 44px; }
+  /* Hide the < and > event switcher buttons in header on mobile */
+  .lb-icon-btn,
+  #lbPrevEvent,
+  #lbNextEvent {
+    display: none !important;
+  }
+
+  .lb-close {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
 
   .lb-arrow { width: 44px; height: 44px; }
   .lb-prev { left: 8px; }
