@@ -240,10 +240,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ------------------------------------------------------------
-     STICKY SEGMENTED TEAM FILTER (MOBILE & DESKTOP)
+     STICKY SEGMENTED TEAM FILTER (OFFICERS, TECHNICAL, EVENTS, PR, CREATIVE)
      ------------------------------------------------------------ */
   const filterBtns = document.querySelectorAll(".team-filter-btn");
   if (filterBtns.length && board) {
+    function applyTeamFilter(filter) {
+      const execRow = board.querySelector(".solo-row:first-child");
+      const teamsRow = board.querySelector(".solo-row:last-child");
+      const teamCards = board.querySelectorAll(".team-card");
+
+      if (filter === "admin") {
+        if (execRow) execRow.style.display = "";
+        if (teamsRow) teamsRow.style.display = "none";
+      } else {
+        if (execRow) execRow.style.display = "none";
+        if (teamsRow) teamsRow.style.display = "";
+        teamCards.forEach((card) => {
+          const teamTitle = (card.querySelector(".team-card-team")?.textContent || "").toLowerCase();
+          if (filter === "technical" && teamTitle.includes("technical")) {
+            card.style.display = "";
+          } else if (filter === "events" && teamTitle.includes("events")) {
+            card.style.display = "";
+          } else if (filter === "pr" && teamTitle.includes("pr")) {
+            card.style.display = "";
+          } else if (filter === "creative" && teamTitle.includes("creative")) {
+            card.style.display = "";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+
+      if (window.ScrollTrigger) {
+        ScrollTrigger.refresh();
+      }
+    }
+
     filterBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
         filterBtns.forEach((b) => {
@@ -254,41 +286,15 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.setAttribute("aria-selected", "true");
 
         const filter = btn.getAttribute("data-team-filter");
-        const execRow = board.querySelector(".solo-row:first-child");
-        const teamsRow = board.querySelector(".solo-row:last-child");
-        const teamCards = board.querySelectorAll(".team-card");
-
-        if (filter === "all") {
-          if (execRow) execRow.style.display = "";
-          if (teamsRow) teamsRow.style.display = "";
-          teamCards.forEach((c) => (c.style.display = ""));
-        } else if (filter === "admin") {
-          if (execRow) execRow.style.display = "";
-          if (teamsRow) teamsRow.style.display = "none";
-        } else {
-          if (execRow) execRow.style.display = "none";
-          if (teamsRow) teamsRow.style.display = "";
-          teamCards.forEach((card) => {
-            const teamTitle = (card.querySelector(".team-card-team")?.textContent || "").toLowerCase();
-            if (filter === "technical" && (teamTitle.includes("technical") || teamTitle.includes("security") || teamTitle.includes("cloud"))) {
-              card.style.display = "";
-            } else if (filter === "management" && (teamTitle.includes("events") || teamTitle.includes("pr") || teamTitle.includes("logistics"))) {
-              card.style.display = "";
-            } else if (filter === "design" && (teamTitle.includes("design") || teamTitle.includes("creative") || teamTitle.includes("media"))) {
-              card.style.display = "";
-            } else if (filter === "documentation" && (teamTitle.includes("doc") || teamTitle.includes("content") || teamTitle.includes("report"))) {
-              card.style.display = "";
-            } else {
-              card.style.display = "none";
-            }
-          });
-        }
-
-        if (window.ScrollTrigger) {
-          ScrollTrigger.refresh();
-        }
+        applyTeamFilter(filter);
       });
     });
+
+    // Default: initialize with the active tab (Officers)
+    const initialActive = document.querySelector(".team-filter-btn.is-active");
+    if (initialActive) {
+      applyTeamFilter(initialActive.getAttribute("data-team-filter") || "admin");
+    }
   }
 
   /* ------------------------------------------------------------
