@@ -220,14 +220,14 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .card-nav {
   position: relative;
   height: 62px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09) 0%, rgba(16, 8, 28, 0.68) 25%, rgba(7, 3, 15, 0.82) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(10, 5, 18, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 0 24px rgba(168, 85, 247, 0.08), 0 0 28px rgba(168, 85, 247, 0.15);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  transition: height .38s cubic-bezier(.4, 0, .2, 1), background .35s, box-shadow .35s, border-color .35s;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: height .38s cubic-bezier(.4, 0, .2, 1), background .4s ease, box-shadow .4s ease, border-color .4s ease, backdrop-filter .4s ease;
 }
 
 .card-nav::before {
@@ -240,24 +240,35 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   background: linear-gradient(90deg, transparent 5%, rgba(255, 255, 255, 0.4) 25%, rgba(216, 180, 254, 0.65) 50%, rgba(255, 255, 255, 0.4) 75%, transparent 95%);
   pointer-events: none;
   z-index: 10;
+  opacity: 0;
+  transition: opacity .4s ease;
 }
 
 :root[data-theme="light"] .card-nav {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(245, 240, 255, 0.72) 100%);
-  border-color: rgba(124, 58, 237, 0.22);
-  box-shadow: 0 14px 34px rgba(124, 58, 237, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(124, 58, 237, 0.18);
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1);
 }
 
+/* Glassmorphic Navbar when scrolling through other sections */
 #nav.scrolled .card-nav {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(14, 7, 26, 0.78) 30%, rgba(6, 2, 12, 0.9) 100%);
-  border-color: rgba(216, 180, 254, 0.35);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.4), inset 0 0 28px rgba(168, 85, 247, 0.12), 0 0 36px rgba(168, 85, 247, 0.25);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(18, 10, 36, 0.45) 30%, rgba(10, 5, 22, 0.6) 100%);
+  border-color: rgba(216, 180, 254, 0.32);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(255, 255, 255, 0.35), inset 0 0 24px rgba(168, 85, 247, 0.08), 0 0 28px rgba(168, 85, 247, 0.18);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+}
+
+#nav.scrolled .card-nav::before {
+  opacity: 1;
 }
 
 :root[data-theme="light"] #nav.scrolled .card-nav {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(245, 240, 255, 0.88) 100%);
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: 0 16px 40px rgba(124, 58, 237, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.84) 0%, rgba(245, 240, 255, 0.68) 100%);
+  border-color: rgba(124, 58, 237, 0.28);
+  box-shadow: 0 16px 40px rgba(124, 58, 237, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .card-nav.open { height: 332px; }
