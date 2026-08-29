@@ -190,24 +190,40 @@
       </header>
 
       <div class="overview-bento-container" data-reveal>
-        <!-- 3 Key Metric Cards -->
+        <!-- 3 Key Metric Cards — Showing Option 1, Option 2, and Option 3 for Comparison -->
         <div class="bento-metrics-grid">
-          <div class="bento-metric-card" data-tilt>
-            <div class="metric-spotlight" aria-hidden="true"></div>
-            <span class="metric-val" data-count="500" data-suffix="+">500+</span>
-            <span class="metric-label">Active Students</span>
+          <!-- Option 1: Cosmic Aurora Glass Capsule Style -->
+          <div class="bento-metric-card metric-card--opt1" data-tilt data-metric-opt="1">
+            <canvas class="metric-opt1-canvas" aria-hidden="true"></canvas>
+            <div class="metric-card-inner">
+              <span class="metric-opt-tag mono">[ 01 // MEMBERS ]</span>
+              <span class="metric-val" data-count="500" data-suffix="+">500+</span>
+              <span class="metric-label">Active Students</span>
+            </div>
           </div>
 
-          <div class="bento-metric-card" data-tilt>
-            <div class="metric-spotlight" aria-hidden="true"></div>
-            <span class="metric-val" data-count="30" data-suffix="+">30+</span>
-            <span class="metric-label">Core Operations Members</span>
+          <!-- Option 2: Specular WebGL Prismatic Rim Refraction Style -->
+          <div class="bento-metric-card metric-card--opt2" data-tilt data-metric-opt="2">
+            <span class="specular-card__fx" aria-hidden="true"></span>
+            <div class="metric-card-inner">
+              <span class="metric-opt-tag mono">[ 02 // OPERATIONS ]</span>
+              <span class="metric-val" data-count="30" data-suffix="+">30+</span>
+              <span class="metric-label">Core Operations Members</span>
+            </div>
           </div>
 
-          <div class="bento-metric-card" data-tilt>
-            <div class="metric-spotlight" aria-hidden="true"></div>
-            <span class="metric-val" data-count="15" data-suffix="+">15+</span>
-            <span class="metric-label">Events Organized</span>
+          <!-- Option 3: Minimal Outlined Cyber-Counter (Zero-Box Architecture) Style -->
+          <div class="bento-metric-card metric-card--opt3" data-tilt data-metric-opt="3">
+            <div class="metric-opt3-spotlight" aria-hidden="true"></div>
+            <span class="metric-crosshair crosshair--tl" aria-hidden="true">+</span>
+            <span class="metric-crosshair crosshair--tr" aria-hidden="true">+</span>
+            <span class="metric-crosshair crosshair--bl" aria-hidden="true">+</span>
+            <span class="metric-crosshair crosshair--br" aria-hidden="true">+</span>
+            <div class="metric-card-inner">
+              <span class="metric-opt-tag mono">[ 03 // ENGAGEMENT ]</span>
+              <span class="metric-val" data-count="15" data-suffix="+">15+</span>
+              <span class="metric-label">Events Organized</span>
+            </div>
           </div>
         </div>
 
