@@ -3169,6 +3169,87 @@ html:not(.js) .why-row {
     white-space: nowrap;
   }
 
+  /* Mobile Header Pill Ergonomics */
+  .card-nav-container {
+    width: min(calc(100% - 20px), 520px);
+    top: max(0.6rem, env(safe-area-inset-top, 8px));
+  }
+
+  .card-nav {
+    height: 56px;
+    border-radius: 999px;
+  }
+
+  .card-nav-top {
+    height: 56px;
+    padding: 0 10px 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .hamburger-menu {
+    min-width: 42px;
+    min-height: 42px;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    touch-action: manipulation;
+    flex-shrink: 0;
+  }
+
+  .logo-container {
+    position: static !important;
+    transform: none !important;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-size: 0.92rem;
+    font-weight: 800;
+    margin-left: 0;
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: unset;
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-right: 0;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle {
+    min-width: 42px;
+    min-height: 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    touch-action: manipulation;
+  }
+
+  .card-nav-cta-button {
+    display: none !important;
+  }
+
   /* lighter blur keeps mobile scroll smooth */
   .card-nav,
   #nav.scrolled .card-nav {
