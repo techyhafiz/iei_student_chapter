@@ -546,7 +546,7 @@
       "void main(){",
       "  vec2 clip=(vPos/uRes)*2.0-1.0;",
       "  gl_Position=vec4(clip,0.0,1.0);",
-      "  gl_PointSize=(1.55+vSeed.x*0.80)*uDpr;",
+      "  gl_PointSize=(1.55+vSeed.x*0.80)*uDpr*(1.0+uLight*0.30);",
       "  vAlpha=clamp(0.35+vSeed.y*0.55,0.0,1.0);",
       "  vHue=vSeed.y;",
       "}",
