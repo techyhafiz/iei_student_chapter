@@ -7,6 +7,8 @@
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+  /* touch phones/tablets: skip cursor-driven FX, run leaner effects */
+  var coarsePointer = !finePointer || window.matchMedia("(hover: none), (pointer: coarse)").matches;
   var hasGsap = typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined";
   var hasLenis = typeof Lenis !== "undefined";
 
@@ -22,6 +24,17 @@
   function $all(s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); }
   function rand(a, b) { return a + Math.random() * (b - a); }
   function pad3(n) { n = Math.round(n); return (n < 10 ? "00" : n < 100 ? "0" : "") + n; }
+
+  /* ------------------------------------------------------------
+     SCROLL LOCK — keeps the page still while the menu / lightbox
+     is open. Lenis cannot block native touch scrolling, so we also
+     clip overflow on <html> via the .is-scroll-locked class.
+     ------------------------------------------------------------ */
+  var scrollLockCount = 0;
+  function lockScroll(lock) {
+    scrollLockCount = Math.max(0, scrollLockCount + (lock ? 1 : -1));
+    document.documentElement.classList.toggle("is-scroll-locked", scrollLockCount > 0);
+  }
 
   /* ------------------------------------------------------------
        SITE-WIDE SPACE — living background canvas
@@ -425,7 +438,8 @@
     var gl = cv.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: false, depth: false });
     if (!gl) { cv.style.display = "none"; return; }
 
-    var COUNT = 4200;
+    /* fewer particles on phones/tablets — same look, much lighter on the GPU */
+    var COUNT = (coarsePointer || Math.min(window.innerWidth, window.innerHeight) < 700) ? 1600 : 4200;
 
     /* ---- shaders ---- */
     var SIM_V = [
@@ -969,12 +983,14 @@
 
   function closeMobileMenu() {
     if (!cardNav) return;
+    var wasOpen = cardNav.classList.contains("open");
     cardNav.classList.remove("open");
     if (burger) {
       burger.classList.remove("open");
       burger.setAttribute("aria-expanded", "false");
     }
     if (navContent) { navContent.setAttribute("aria-hidden", "true"); }
+    if (wasOpen) { lockScroll(false); }
     if (lenis) lenis.start();
   }
   if (burger && cardNav) {
@@ -983,6 +999,7 @@
       burger.classList.toggle("open", open);
       burger.setAttribute("aria-expanded", open ? "true" : "false");
       if (navContent) { navContent.setAttribute("aria-hidden", open ? "false" : "true"); }
+      lockScroll(open);
       if (lenis) { open ? lenis.stop() : lenis.start(); }
     });
   }
@@ -1145,25 +1162,86 @@
   });
 
   /* ------------------------------------------------------------
-     ABOUT TERMINAL — typed sequence
+     ABOUT TERMINAL — typed sequence & quick chips
      ------------------------------------------------------------ */
   var termBody = $("#termBody");
-  var termScript = [
-    { t: "iei --status", c: "cmd" },
-    { t: "● IEI Student Chapter (Department of CSDS, GHRCEM)", c: "out info" },
-    { t: "  Affiliation : The Institution of Engineers (India)", c: "out" },
-    { t: "  Status      : Active Operations (2025–2026)", c: "out" },
-    { t: "iei --scope", c: "cmd" },
-    { t: "● Department-wide technical integration across all student years.", c: "out" },
-    { t: "● Driving peer mentorship, industry masterclasses & leadership.", c: "out" },
-    { t: "./join --club", c: "cmd" },
-    { t: "[✓] Access granted. Welcome to the chapter.", c: "ok" }
-  ];
+  var termChips = $all(".term-chip");
+  var termCommands = {
+    status: [
+      { t: "iei --status", c: "cmd" },
+      { t: "● IEI Student Chapter (Department of CSDS, GHRCEM)", c: "out info" },
+      { t: "  Affiliation : The Institution of Engineers (India)", c: "out" },
+      { t: "  Status      : Active Operations (2025–2026)", c: "out" },
+      { t: "  Health      : All systems nominal (100% uptime)", c: "ok" }
+    ],
+    scope: [
+      { t: "iei --scope", c: "cmd" },
+      { t: "● Cross-disciplinary technical integration across all years.", c: "out" },
+      { t: "● Live drills, CTF hackathons, and security engineering.", c: "out" },
+      { t: "● Peer-driven mentoring and direct industry connections.", c: "ok" }
+    ],
+    events: [
+      { t: "iei --events --latest", c: "cmd" },
+      { t: "● [SESSION] Threat Intel in the Age of AI (NOV 09)", c: "out info" },
+      { t: "● [DRILL]   Red vs Blue: Live Fire (OCT 20)", c: "out" },
+      { t: "● [CTF]     Cyber Defense Hackathon Finals (OCT 02)", c: "ok" }
+    ],
+    team: [
+      { t: "iei --team --roster", c: "cmd" },
+      { t: "● Leadership: 4 Executives, 11 Technical Leads, 4 Teams", c: "out info" },
+      { t: "● Total Active Operator Network: 40+ Student Engineers", c: "out" },
+      { t: "● Faculty Guidance: Dr. Shailesh Kumar & Advisory Board", c: "ok" }
+    ],
+    join: [
+      { t: "./join --club --now", c: "cmd" },
+      { t: "[✓] Application channel open. Scroll down to request access.", c: "ok" }
+    ]
+  };
   var termStarted = false;
+
+  function runTermCommand(cmdKey) {
+    if (!termBody || !termCommands[cmdKey]) return;
+    termChips.forEach(function (c) {
+      c.classList.toggle("is-active", c.getAttribute("data-cmd") === cmdKey);
+    });
+    termBody.innerHTML = "";
+    var script = termCommands[cmdKey];
+    var li = 0;
+    function next() {
+      if (li >= script.length) {
+        termBody.insertAdjacentHTML("beforeend", '<span class="caret"></span>');
+        return;
+      }
+      var line = script[li];
+      var div = document.createElement("div");
+      div.className = line.c;
+      termBody.appendChild(div);
+      var ci = 0;
+      var spd = line.c === "cmd" ? 35 : 10;
+      (function step() {
+        if (ci <= line.t.length) {
+          div.textContent = line.t.slice(0, ci);
+          ci++;
+          setTimeout(step, spd);
+        } else {
+          li++;
+          setTimeout(next, line.c === "cmd" ? 180 : 80);
+        }
+      })();
+    }
+    next();
+  }
+
+  termChips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var cmd = this.getAttribute("data-cmd");
+      runTermCommand(cmd);
+    });
+  });
 
   function renderTermInstant() {
     if (!termBody) return;
-    termBody.innerHTML = termScript.map(function (l) {
+    termBody.innerHTML = termCommands.status.map(function (l) {
       return '<div class="' + l.c + '">' + l.t + '</div>';
     }).join("") + '<span class="caret"></span>';
   }
@@ -1172,30 +1250,7 @@
     if (termStarted || !termBody) return;
     termStarted = true;
     if (!hasGsap || reduced) { renderTermInstant(); return; }
-    var li = 0;
-    function nextLine() {
-      if (li >= termScript.length) {
-        termBody.insertAdjacentHTML("beforeend", '<span class="caret"></span>');
-        return;
-      }
-      var line = termScript[li];
-      var div = document.createElement("div");
-      div.className = line.c;
-      termBody.appendChild(div);
-      var ci = 0;
-      var speed = line.c === "cmd" ? 42 : 12;
-      (function ch() {
-        if (ci <= line.t.length) {
-          div.textContent = line.t.slice(0, ci);
-          ci++;
-          setTimeout(ch, speed);
-        } else {
-          li++;
-          setTimeout(nextLine, line.c === "cmd" ? 260 : 140);
-        }
-      })();
-    }
-    nextLine();
+    runTermCommand("status");
   }
 
   if (termBody) {
@@ -1270,7 +1325,9 @@
      ------------------------------------------------------------ */
   (function () {
     var cards = $all("[data-metric-specular]");
-    if (!cards.length || reduced) { return; }
+    /* skipped on touch: the rim reacts to pointer proximity, and the
+       per-frame WebGL redraw is wasted GPU on phones */
+    if (!cards.length || reduced || coarsePointer) { return; }
 
     var attrs = { alpha: true, premultipliedAlpha: true, antialias: true };
 
@@ -1818,6 +1875,7 @@
     renderLightbox();
     lastFocus = document.activeElement;
     lightbox.classList.add("open");
+    lockScroll(true);
     if (lenis) lenis.stop();
     lbClose.focus();
   }
@@ -1825,6 +1883,7 @@
   function closeLightbox() {
     if (!lightbox || !lightbox.classList.contains("open")) return;
     lightbox.classList.remove("open");
+    lockScroll(false);
     if (lenis) lenis.start();
     if (lastFocus) lastFocus.focus();
   }
@@ -2063,6 +2122,30 @@
   if (lbNextEvent) lbNextEvent.addEventListener("click", function (e) { e.stopPropagation(); switchEvent(1); });
   if (lightbox) lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
 
+  /* touch swipe on the media stage walks the album — mobile-first nav */
+  (function () {
+    var stage = $(".lb-stage");
+    if (!stage) { return; }
+    var sx = 0, sy = 0, tracking = false;
+    stage.addEventListener("touchstart", function (e) {
+      if (e.touches.length !== 1) { tracking = false; return; }
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+      tracking = true;
+    }, { passive: true });
+    stage.addEventListener("touchend", function (e) {
+      if (!tracking) { return; }
+      tracking = false;
+      var t = e.changedTouches[0];
+      var dx = t.clientX - sx;
+      var dy = t.clientY - sy;
+      /* horizontal flick beats small vertical drift */
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+        showLightbox(dx < 0 ? 1 : -1);
+      }
+    }, { passive: true });
+  })();
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeLightbox();
@@ -2282,7 +2365,8 @@
     }
 
     sbButtons.forEach(function (btn) {
-      var item = (!reduced) ? initButton(btn) : null;
+      /* the shine tracks the cursor — pointless (and a battery drain) on touch */
+      var item = (!reduced && !coarsePointer) ? initButton(btn) : null;
       if (item) { items.push(item); }
       else { btn.classList.add("sb-static"); }
     });
@@ -2392,6 +2476,128 @@
         form.reset();
       }, 1400);
     });
+  }
+
+  /* ------------------------------------------------------------
+     NATIVE IOS BOTTOM SHEET (DRAWER) CONTROLLER
+     ------------------------------------------------------------ */
+  var bottomSheet = $("#bottomSheet");
+  var sheetBackdrop = $("#sheetBackdrop");
+  var sheetClose = $("#sheetClose");
+  var sheetBody = $("#sheetBody");
+  var sheetPanel = $("#sheetPanel");
+
+  function openBottomSheet(contentHtml) {
+    if (!bottomSheet || !sheetBody) return;
+    sheetBody.innerHTML = contentHtml;
+    bottomSheet.classList.add("is-open");
+    bottomSheet.setAttribute("aria-hidden", "false");
+    lockScroll(true);
+    if (lenis) lenis.stop();
+  }
+
+  function closeBottomSheet() {
+    if (!bottomSheet) return;
+    bottomSheet.classList.remove("is-open");
+    bottomSheet.setAttribute("aria-hidden", "true");
+    lockScroll(false);
+    if (lenis) lenis.start();
+  }
+
+  if (sheetBackdrop) sheetBackdrop.addEventListener("click", closeBottomSheet);
+  if (sheetClose) sheetClose.addEventListener("click", closeBottomSheet);
+
+  // Keyboard Escape dismissal
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && bottomSheet && bottomSheet.classList.contains("is-open")) {
+      closeBottomSheet();
+    }
+  });
+
+  // Swipe-down to dismiss gesture
+  if (sheetPanel) {
+    var touchStartY = 0;
+    var touchCurrentY = 0;
+    sheetPanel.addEventListener("touchstart", function (e) {
+      if (e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+    sheetPanel.addEventListener("touchmove", function (e) {
+      if (e.touches.length === 1) {
+        touchCurrentY = e.touches[0].clientY;
+        var diff = touchCurrentY - touchStartY;
+        if (diff > 0 && sheetPanel.scrollTop <= 0) {
+          sheetPanel.style.transform = "translateY(" + diff + "px)";
+        }
+      }
+    }, { passive: true });
+    sheetPanel.addEventListener("touchend", function () {
+      var diff = touchCurrentY - touchStartY;
+      sheetPanel.style.transform = "";
+      if (diff > 90 && sheetPanel.scrollTop <= 0) {
+        closeBottomSheet();
+      }
+      touchStartY = 0;
+      touchCurrentY = 0;
+    }, { passive: true });
+  }
+
+  window.openBottomSheet = openBottomSheet;
+  window.closeBottomSheet = closeBottomSheet;
+
+  /* ------------------------------------------------------------
+     FLOATING BOTTOM THUMB DOCK (MOBILE ONLY)
+     ------------------------------------------------------------ */
+  var bottomDock = $("#bottomDock");
+  var dockTabs = bottomDock ? $all(".dock-tab", bottomDock) : [];
+  var lastScrollPos = 0;
+
+  function onScrollDock() {
+    if (!bottomDock) return;
+    var curY = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Smart auto-hide during fast downward scroll, reveal on scroll up
+    if (curY > lastScrollPos + 12 && curY > 160) {
+      bottomDock.classList.add("is-hidden");
+    } else if (curY < lastScrollPos - 8 || curY < 100) {
+      bottomDock.classList.remove("is-hidden");
+    }
+    lastScrollPos = curY;
+
+    // Active tab radar spy
+    var activeId = "about";
+    var sectionsToCheck = ["join", "faq", "team", "events", "about"];
+    for (var i = 0; i < sectionsToCheck.length; i++) {
+      var el = document.getElementById(sectionsToCheck[i]);
+      if (el) {
+        var rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.55) {
+          activeId = sectionsToCheck[i];
+          break;
+        }
+      }
+    }
+    dockTabs.forEach(function (tab) {
+      var target = tab.getAttribute("data-dock");
+      tab.classList.toggle("is-active", target === activeId);
+    });
+  }
+  window.addEventListener("scroll", onScrollDock, { passive: true });
+  onScrollDock();
+
+  /* ------------------------------------------------------------
+     GPU BATTERY OPTIMIZER (MOBILE 60/120FPS PROMOTION)
+     ------------------------------------------------------------ */
+  var warpCanvas = document.getElementById("warpFx");
+  if (warpCanvas && "IntersectionObserver" in window) {
+    var heroObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        warpCanvas.style.display = entry.isIntersecting ? "block" : "none";
+      });
+    }, { threshold: 0.05 });
+    var heroSection = document.getElementById("hero");
+    if (heroSection) heroObserver.observe(heroSection);
   }
 
   /* ------------------------------------------------------------

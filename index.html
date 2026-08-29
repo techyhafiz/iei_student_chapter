@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>IEI Student Chapter — Cybersecurity Department | Break Systems. Build Engineers.</title>
   <meta name="description"
     content="IEI Student Chapter at the Cybersecurity Department. Workshops, technical events, research, and engineering innovation.">
@@ -646,6 +646,17 @@
           running.</p>
       </div>
 
+      <div class="team-filter-bar-wrap" id="teamFilterBarWrap" data-reveal>
+        <div class="team-filter-bar mono" id="teamFilterBar" role="tablist" aria-label="Filter club teams">
+          <button type="button" class="team-filter-btn is-active" data-team-filter="all" role="tab" aria-selected="true">ALL</button>
+          <button type="button" class="team-filter-btn" data-team-filter="admin" role="tab" aria-selected="false">OFFICERS</button>
+          <button type="button" class="team-filter-btn" data-team-filter="technical" role="tab" aria-selected="false">TECHNICAL</button>
+          <button type="button" class="team-filter-btn" data-team-filter="management" role="tab" aria-selected="false">MANAGEMENT</button>
+          <button type="button" class="team-filter-btn" data-team-filter="design" role="tab" aria-selected="false">DESIGN</button>
+          <button type="button" class="team-filter-btn" data-team-filter="documentation" role="tab" aria-selected="false">DOCS</button>
+        </div>
+      </div>
+
       <div class="operators-solo-board" id="opSoloBoard" data-reveal>
         <!-- Solo operator cards rendered dynamically by operators.js -->
       </div>
@@ -836,6 +847,13 @@
           <span class="terminal-dot dot-green"></span>
           <span class="terminal-tab mono">iei@csds:~ — chapter.sh</span>
         </div>
+        <div class="term-chips-bar mono" id="termChipsBar">
+          <button type="button" class="term-chip is-active" data-cmd="status"><span class="term-chip-icon">⚡</span> status</button>
+          <button type="button" class="term-chip" data-cmd="scope"><span class="term-chip-icon">🎯</span> scope</button>
+          <button type="button" class="term-chip" data-cmd="events"><span class="term-chip-icon">🗓️</span> events</button>
+          <button type="button" class="term-chip" data-cmd="team"><span class="term-chip-icon">👥</span> team</button>
+          <button type="button" class="term-chip" data-cmd="join"><span class="term-chip-icon">🚀</span> join</button>
+        </div>
         <div class="terminal-body mono" id="termBody" aria-live="polite"></div>
       </div>
     </section>
@@ -965,6 +983,45 @@
       <span class="quick-text">TOP</span>
     </button>
   </div>
+
+  <!-- ======= NATIVE IOS BOTTOM SHEET (DRAWER) ======= -->
+  <div id="bottomSheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-hidden="true">
+    <div id="sheetBackdrop" class="sheet-backdrop"></div>
+    <div class="sheet-panel glass" id="sheetPanel">
+      <div class="sheet-handle-bar" id="sheetHandle">
+        <span class="sheet-handle"></span>
+      </div>
+      <button type="button" id="sheetClose" class="sheet-close-btn" aria-label="Close drawer">&times;</button>
+      <div id="sheetBody" class="sheet-body">
+        <!-- Dynamic content injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======= FLOATING BOTTOM THUMB DOCK (MOBILE ONLY) ======= -->
+  <nav id="bottomDock" class="bottom-dock mono" aria-label="Mobile quick dock">
+    <div class="dock-inner glass">
+      <a href="#about" class="dock-tab is-active" data-dock="about" aria-label="About section">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <span class="dock-label">About</span>
+      </a>
+      <a href="#events" class="dock-tab" data-dock="events" aria-label="Events timeline">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span class="dock-label">Events</span>
+      </a>
+      <a href="#team" class="dock-tab" data-dock="team" aria-label="Team members">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span class="dock-label">Team</span>
+      </a>
+      <a href="#faq" class="dock-tab" data-dock="faq" aria-label="Frequently asked questions">
+        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span class="dock-label">FAQs</span>
+      </a>
+      <a href="#join" class="dock-tab dock-tab-cta" data-dock="join" aria-label="Apply to join">
+        <span class="dock-cta-pill">Apply</span>
+      </a>
+    </div>
+  </nav>
 
   <!-- ======= LIBS + APP ======= -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

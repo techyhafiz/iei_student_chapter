@@ -235,4 +235,77 @@ document.addEventListener("DOMContentLoaded", () => {
       renderRow("Executive Committee", admins, false, "solo-cards--fourth solo-cards--admins") +
       renderTeamRow("Teams & Leads", leads);
   }
+
+  /* ------------------------------------------------------------
+     STICKY SEGMENTED TEAM FILTER (MOBILE & DESKTOP)
+     ------------------------------------------------------------ */
+  const filterBtns = document.querySelectorAll(".team-filter-btn");
+  if (filterBtns.length && board) {
+    filterBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterBtns.forEach((b) => {
+          b.classList.remove("is-active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("is-active");
+        btn.setAttribute("aria-selected", "true");
+
+        const filter = btn.getAttribute("data-team-filter");
+        const execRow = board.querySelector(".solo-row:first-child");
+        const teamsRow = board.querySelector(".solo-row:last-child");
+        const teamCards = board.querySelectorAll(".team-card");
+
+        if (filter === "all") {
+          if (execRow) execRow.style.display = "";
+          if (teamsRow) teamsRow.style.display = "";
+          teamCards.forEach((c) => (c.style.display = ""));
+        } else if (filter === "admin") {
+          if (execRow) execRow.style.display = "";
+          if (teamsRow) teamsRow.style.display = "none";
+        } else {
+          if (execRow) execRow.style.display = "none";
+          if (teamsRow) teamsRow.style.display = "";
+          teamCards.forEach((card) => {
+            const teamTitle = (card.querySelector(".team-card-team")?.textContent || "").toLowerCase();
+            if (filter === "technical" && (teamTitle.includes("technical") || teamTitle.includes("security") || teamTitle.includes("cloud"))) {
+              card.style.display = "";
+            } else if (filter === "management" && (teamTitle.includes("events") || teamTitle.includes("pr") || teamTitle.includes("logistics"))) {
+              card.style.display = "";
+            } else if (filter === "design" && (teamTitle.includes("design") || teamTitle.includes("creative") || teamTitle.includes("media"))) {
+              card.style.display = "";
+            } else if (filter === "documentation" && (teamTitle.includes("doc") || teamTitle.includes("content") || teamTitle.includes("report"))) {
+              card.style.display = "";
+            } else {
+              card.style.display = "none";
+            }
+          });
+        }
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------
+     MOBILE BOTTOM SHEET PROFILE PREVIEWS
+     ------------------------------------------------------------ */
+  function openMemberSheet(name, title, image, linkedin, badge) {
+    if (typeof window.openBottomSheet !== "function") return;
+    const content = `
+      <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:12px; padding:10px 0 20px;">
+        <div style="position:relative; width:100px; height:100px; border-radius:24px; overflow:hidden; border:2px solid rgba(216, 180, 254, 0.4); box-shadow:0 0 20px rgba(168, 85, 247, 0.3);">
+          <img src="${image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&h=700&q=80'}" alt="${name}" style="width:100%; height:100%; object-fit:cover;" />
+        </div>
+        <span class="lead-pod-tag mono" style="font-size:9px; letter-spacing:0.18em;">${badge || 'IEI OPERATOR'}</span>
+        <h3 style="font-size:1.3rem; font-weight:800; color:var(--ink); margin:0;">${name}</h3>
+        <p style="font-size:0.95rem; color:var(--tx2); margin:0;">${title || 'Core Team Member'}</p>
+        <p class="mono" style="font-size:0.75rem; color:var(--lav2); letter-spacing:0.1em; margin:4px 0 12px;">CYBERSECURITY DEPT · GHRCEMP</p>
+        <a href="${linkedin || 'https://www.linkedin.com/'}" target="_blank" rel="noopener noreferrer" class="specular-button specular-button--md is-primary" style="width:100%; max-width:280px; min-height:48px; border-radius:999px;">
+          <span class="specular-button__label">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/></svg>
+            Connect on LinkedIn →
+          </span>
+        </a>
+      </div>
+    `;
+    window.openBottomSheet(content);
+  }
 });

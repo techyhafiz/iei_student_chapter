@@ -561,7 +561,82 @@
   padding-top: 10px;
 }
 
+.team-filter-bar-wrap {
+  display: none;
+}
+
 /* responsive — Apple-grade Mobile Ergonomics */
+@media (max-width: 768px) {
+  .team-filter-bar-wrap {
+    display: block;
+    position: sticky;
+    top: 68px;
+    z-index: 30;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    padding: 6px 0;
+  }
+
+  .team-filter-bar {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: rgba(12, 6, 22, 0.88);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(216, 180, 254, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .team-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  :root[data-theme="light"] .team-filter-bar {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(124, 58, 237, 0.2);
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  }
+
+  .team-filter-btn {
+    flex: 0 0 auto;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--tx2);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    white-space: nowrap;
+  }
+
+  .team-filter-btn.is-active {
+    color: #ffffff;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.55) 0%, rgba(217, 70, 239, 0.45) 100%);
+    border-color: rgba(232, 121, 249, 0.5);
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.35);
+  }
+
+  :root[data-theme="light"] .team-filter-btn.is-active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
+  }
+
+  .team-filter-btn:active {
+    transform: scale(0.94);
+  }
+}
+
 @media (max-width: 992px) {
   .solo-cards--admins,
   .solo-cards--fourth {
