@@ -1107,23 +1107,25 @@ html.js [data-reveal] {
 
 .overview-bento-container {
   max-width: 1080px;
-  margin: 36px auto 0;
+  margin: 32px auto 0;
 }
 
-/* 3 Impact Metrics Grid */
+/* 3 Impact Metrics Grid — Snug & Compact */
 .bento-metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 14px;
+  max-width: 860px;
+  margin: 0 auto;
   width: 100%;
 }
 
-/* Base Card Shell — Specular WebGL Glass Card */
+/* Base Card Shell — Compact Specular WebGL Glass Card */
 .bento-metric-card {
   position: relative;
   isolation: isolate;
-  border-radius: 20px;
-  padding: 24px 26px;
+  border-radius: 16px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1132,14 +1134,14 @@ html.js [data-reveal] {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   overflow: visible;
   transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
 }
 
 .specular-card__fx {
   position: absolute;
-  inset: -20px;
+  inset: -16px;
   pointer-events: none;
   z-index: 1;
   overflow: visible;
@@ -1156,15 +1158,15 @@ html.js [data-reveal] {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 .metric-opt-tag {
-  font-size: .66rem;
+  font-size: .62rem;
   font-weight: 700;
-  letter-spacing: .12em;
+  letter-spacing: .1em;
   color: rgba(196, 181, 253, .45);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   transition: color .3s;
 }
 
@@ -1173,7 +1175,7 @@ html.js [data-reveal] {
 }
 
 .metric-val {
-  font-size: clamp(2.3rem, 3.2vw, 2.85rem);
+  font-size: clamp(1.85rem, 2.5vw, 2.3rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.05;
@@ -1181,20 +1183,20 @@ html.js [data-reveal] {
   background: linear-gradient(135deg, #ffffff 40%, #e9d5ff 75%, #c084fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 14px rgba(168, 85, 247, 0.22));
+  filter: drop-shadow(0 2px 12px rgba(168, 85, 247, 0.22));
 }
 
 .metric-label {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: rgba(255, 255, 255, 0.68);
-  line-height: 1.35;
-  margin-top: 4px;
+  line-height: 1.3;
+  margin-top: 2px;
 }
 
 .bento-metric-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65), 0 0 24px rgba(168, 85, 247, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.2);
 }
 
 /* Light Theme Adaptations */
