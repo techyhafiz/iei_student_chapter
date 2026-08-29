@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(
               (m) => `
             <li class="member-line">
-              <span class="member-line-name">${m.name}</span>
+              <a class="member-line-name" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">${m.name}</a>
               <a class="member-line-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
                 ${LINKEDIN_ICON}
               </a>
@@ -143,10 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
             .map(
               (op) => `
             <article class="solo-card${withMemberLists && op.members ? " solo-card--lead" : ""}">
-              <div class="solo-card-photo">
+              <a class="solo-card-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                 <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
-              </div>
-              <h3 class="solo-card-name">${op.name}</h3>
+              </a>
+              <a class="solo-card-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                <h3 class="solo-card-name">${op.name}</h3>
+              </a>
               <p class="solo-card-title">${op.title}</p>
               <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                 ${LINKEDIN_ICON}
@@ -177,10 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <article class="team-card">
                   <div class="team-card-lead-pod-box">
                     <span class="lead-pod-tag mono">LEAD</span>
-                    <div class="solo-card-photo">
+                    <a class="solo-card-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
-                    </div>
-                    <p class="team-card-lead-pod-name">${op.name}</p>
+                    </a>
+                    <a class="team-card-lead-pod-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                      <p class="team-card-lead-pod-name">${op.name}</p>
+                    </a>
                     <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       ${LINKEDIN_ICON}
                     </a>
@@ -208,11 +212,13 @@ document.addEventListener("DOMContentLoaded", () => {
       .map(
         (op) => `
       <article class="solo-card solo-card--faculty-item">
-        <div class="solo-card-photo">
+        <a class="solo-card-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
           <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
-        </div>
+        </a>
         <div class="solo-card-content">
-          <h3 class="solo-card-name">${op.name}</h3>
+          <a class="solo-card-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+            <h3 class="solo-card-name">${op.name}</h3>
+          </a>
           <p class="solo-card-title">${op.title}</p>
           <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
             ${LINKEDIN_ICON}

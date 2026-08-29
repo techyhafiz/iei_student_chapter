@@ -135,6 +135,9 @@
   border: 1px solid var(--linec2);
   background: rgba(10, 6, 18, 0.5);
   margin-bottom: 4px;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .solo-card-photo img {
@@ -249,6 +252,14 @@
   }
 }
 
+.solo-card-name-link,
+.team-card-lead-pod-name-link {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+  cursor: pointer;
+}
+
 .solo-card-name {
   font-family: var(--sans);
   font-size: 1.15rem;
@@ -256,6 +267,12 @@
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--ink);
+  transition: color 0.2s ease;
+}
+
+.solo-card-name-link:hover .solo-card-name,
+.team-card-lead-pod-name-link:hover .team-card-lead-pod-name {
+  color: var(--v4);
 }
 
 .solo-card:hover .solo-card-name {
@@ -363,6 +380,15 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.member-line-name:hover {
+  color: var(--v4);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .member-line-link {
