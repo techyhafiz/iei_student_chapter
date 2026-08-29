@@ -2570,7 +2570,7 @@ html:not(.js) .why-row {
 }
 
 .footer-wordmark-wrap {
-  padding: clamp(16px, 4vh, 32px) clamp(16px, 4vw, 40px) clamp(10px, 2vh, 20px);
+  padding: clamp(24px, 5vh, 48px) clamp(16px, 4vw, 40px) clamp(18px, 3vh, 32px);
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -2579,19 +2579,35 @@ html:not(.js) .why-row {
 }
 
 .footer-wordmark {
-  letter-spacing: -.03em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(139, 92, 246, .22);
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: clamp(24px, 5.2vw, 84px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   text-align: center;
   user-select: none;
   white-space: nowrap;
-  font-size: clamp(26px, 5.8vw, 92px);
-  font-weight: 900;
-  line-height: .9;
+  line-height: 1;
+  background: linear-gradient(180deg, rgba(216, 180, 254, 0.28) 0%, rgba(168, 85, 247, 0.08) 60%, transparent 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(192, 132, 252, 0.35);
+  text-shadow: 0 0 40px rgba(168, 85, 247, 0.18);
+  transition: all 0.4s ease;
+}
+
+.footer-wordmark:hover {
+  -webkit-text-stroke: 1px rgba(216, 180, 254, 0.6);
+  text-shadow: 0 0 60px rgba(168, 85, 247, 0.35);
 }
 
 :root[data-theme="light"] .footer-wordmark {
-  -webkit-text-stroke: 1.5px rgba(124, 58, 237, .28);
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.22) 0%, rgba(147, 51, 234, 0.06) 60%, transparent 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 1px rgba(124, 58, 237, 0.35);
+  text-shadow: 0 0 30px rgba(124, 58, 237, 0.12);
 }
 
 /* ============================================================
