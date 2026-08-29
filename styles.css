@@ -1118,7 +1118,7 @@ html.js [data-reveal] {
   width: 100%;
 }
 
-/* Base Card Shell */
+/* Base Card Shell — Specular WebGL Glass Card */
 .bento-metric-card {
   position: relative;
   isolation: isolate;
@@ -1128,7 +1128,27 @@ html.js [data-reveal] {
   flex-direction: column;
   justify-content: center;
   text-align: left;
+  background: rgba(18, 10, 32, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  overflow: visible;
   transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+.specular-card__fx {
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: visible;
+}
+
+.specular-card__fx canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .metric-card-inner {
@@ -1172,138 +1192,34 @@ html.js [data-reveal] {
   margin-top: 4px;
 }
 
-/* ------------------------------------------------------------
-   OPTION 1: Cosmic Aurora Plasma Flow (Glass Capsule Style)
-   ------------------------------------------------------------ */
-.metric-card--opt1 {
-  background: linear-gradient(145deg, rgba(28, 15, 48, 0.75) 0%, rgba(13, 6, 25, 0.88) 100%);
-  border: 1px solid rgba(168, 85, 247, 0.25);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 0 24px rgba(168, 85, 247, 0.08);
-  overflow: hidden;
-}
-
-.metric-opt1-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .65;
-  transition: opacity .4s ease;
-}
-
-.metric-card--opt1:hover {
-  transform: translateY(-4px);
-  border-color: rgba(192, 132, 252, 0.5);
-  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65), 0 0 30px rgba(168, 85, 247, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.metric-card--opt1:hover .metric-opt1-canvas {
-  opacity: 1;
-}
-
-/* ------------------------------------------------------------
-   OPTION 2: Specular WebGL Prismatic Rim Refraction
-   ------------------------------------------------------------ */
-.metric-card--opt2 {
-  background: rgba(18, 10, 32, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  overflow: visible;
-}
-
-.specular-card__fx {
-  position: absolute;
-  inset: -20px;
-  pointer-events: none;
-  z-index: 1;
-  overflow: visible;
-}
-
-.specular-card__fx canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.metric-card--opt2:hover {
+.bento-metric-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.65), 0 0 24px rgba(168, 85, 247, 0.2);
 }
 
-/* ------------------------------------------------------------
-   OPTION 3: Minimal Outlined Cyber-Counter (Zero-Box Architecture)
-   ------------------------------------------------------------ */
-.metric-card--opt3 {
-  background: rgba(255, 255, 255, 0.015);
-  border: 1px solid rgba(139, 92, 246, 0.22);
-  border-radius: 12px;
-  box-shadow: none;
-  overflow: visible;
-}
-
-.metric-opt3-spotlight {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0;
-  border-radius: inherit;
-  background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 50%), rgba(168, 85, 247, 0.16), transparent 70%);
-  transition: opacity .3s ease;
-}
-
-.metric-crosshair {
-  position: absolute;
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1;
-  color: rgba(196, 181, 253, 0.35);
-  z-index: 2;
-  pointer-events: none;
-  transition: color .3s, transform .3s;
-}
-
-.crosshair--tl { top: -6px; left: -5px; }
-.crosshair--tr { top: -6px; right: -5px; }
-.crosshair--bl { bottom: -6px; left: -5px; }
-.crosshair--br { bottom: -6px; right: -5px; }
-
-.metric-card--opt3:hover {
-  transform: translateY(-3px);
-  border-color: rgba(168, 85, 247, 0.5);
-}
-
-.metric-card--opt3:hover .metric-opt3-spotlight {
-  opacity: 1;
-}
-
-.metric-card--opt3:hover .metric-crosshair {
-  color: #e879f9;
-  text-shadow: 0 0 10px rgba(232, 121, 249, 0.8);
-  transform: scale(1.2);
-}
-
 /* Light Theme Adaptations */
-:root[data-theme="light"] .metric-card--opt1 {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 240, 255, 0.95) 100%);
-  border-color: rgba(124, 58, 237, 0.2);
+:root[data-theme="light"] .bento-metric-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.06);
   box-shadow: 0 12px 30px rgba(124, 58, 237, 0.08);
 }
 
-:root[data-theme="light"] .metric-card--opt2 {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(0, 0, 0, 0.06);
+:root[data-theme="light"] .metric-val {
+  background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: none;
 }
 
-:root[data-theme="light"] .metric-card--opt3 {
-  border-color: rgba(124, 58, 237, 0.25);
-  background: rgba(124, 58, 237, 0.02);
+:root[data-theme="light"] .metric-label {
+  color: rgba(30, 27, 75, 0.8);
+}
+
+@media (max-width: 900px) {
+  .bento-metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 :root[data-theme="light"] .metric-val {

@@ -1263,25 +1263,56 @@
   }
 
   /* ------------------------------------------------------------
-     METRIC CARDS — Comparison Engines (Option 1, 2, 3)
-     - Option 1: WebGL Cosmic Aurora Plasma Flow Shader
-     - Option 2: WebGL Specular Prismatic Rim Refraction Shader
-     - Option 3: Minimal Outlined Cyber-Counter Spot Tracking
+     METRIC CARDS — WebGL Specular Prismatic Rim Refraction
+     Renders an Apple-grade prismatic specular highlight along the
+     rounded rim of each metric card, dynamically reacting to pointer
+     proximity and angle.
      ------------------------------------------------------------ */
   (function () {
-    var cards = $all(".bento-metric-card");
-    if (!cards.length) { return; }
-
-    // General mouse tracking for all cards
-    cards.forEach(function (card) {
-      card.addEventListener("pointermove", function (e) {
-        var rect = card.getBoundingClientRect();
-        card.style.setProperty("--mx", (e.clientX - rect.left) + "px");
-        card.style.setProperty("--my", (e.clientY - rect.top) + "px");
-      });
-    });
+    var cards = $all("[data-metric-specular]");
+    if (!cards.length || reduced) { return; }
 
     var attrs = { alpha: true, premultipliedAlpha: true, antialias: true };
+
+    var FRAG = [
+      "precision mediump float;",
+      "uniform vec2 uCenter;",
+      "uniform vec2 uHalfSize;",
+      "uniform float uRadius;",
+      "uniform float uAngle;",
+      "uniform float uPx;",
+      "uniform vec3 uLineColor;",
+      "uniform vec3 uBaseColor;",
+      "uniform float uIntensity;",
+      "uniform float uShineSize;",
+      "uniform float uShineFade;",
+      "uniform float uThickness;",
+      "uniform float uBaseWidth;",
+      "float sdRoundedRect(vec2 p, vec2 b, float r){",
+      "  vec2 q=abs(p)-b+r;",
+      "  return length(max(q,0.0))+min(max(q.x,q.y),0.0)-r;",
+      "}",
+      "float gaussianLine(float d, float sigma){",
+      "  float x=d/(sigma+1e-6);",
+      "  float k=mix(1.0,1.6,smoothstep(0.0,1.5,x));",
+      "  return exp(-k*x*x);",
+      "}",
+      "void main(){",
+      "  vec2 p=gl_FragCoord.xy-uCenter;",
+      "  float d=sdRoundedRect(p,uHalfSize,uRadius);",
+      "  vec2 L=vec2(cos(uAngle),sin(uAngle));",
+      "  float base=(1.0-smoothstep(0.0,uBaseWidth,abs(d)))*0.35;",
+      "  vec2 nEll=normalize(p/(uHalfSize*uHalfSize)+1e-6);",
+      "  float phi=acos(clamp(abs(dot(nEll,L)),0.0,1.0));",
+      "  float rim=1.0-smoothstep(uShineSize-uShineFade,uShineSize+uShineFade+1e-4,phi);",
+      "  float line=gaussianLine(d,uThickness);",
+      "  float edgeClamp=1.0-smoothstep(0.5*uPx,3.0*uPx,abs(d));",
+      "  float hi=line*rim*edgeClamp*uIntensity;",
+      "  vec3 col=uBaseColor*base+uLineColor*hi;",
+      "  float a=clamp(base+hi,0.0,1.0);",
+      "  gl_FragColor=vec4(col,a);",
+      "}"
+    ].join("\n");
 
     function compile(gl, type, src) {
       var s = gl.createShader(type);
@@ -1290,265 +1321,151 @@
       return s;
     }
 
-    // ============================================================
-    // OPTION 1: WebGL Cosmic Aurora Plasma Shader
-    // ============================================================
-    var card1 = $(".metric-card--opt1");
-    var cv1 = card1 ? card1.querySelector(".metric-opt1-canvas") : null;
-    var it1 = null;
+    var UNIS = ["uCenter", "uHalfSize", "uRadius", "uAngle", "uPx", "uLineColor",
+      "uBaseColor", "uIntensity", "uShineSize", "uShineFade", "uThickness", "uBaseWidth"];
 
-    if (card1 && cv1 && !reduced) {
-      var gl1 = cv1.getContext("webgl2", attrs) || cv1.getContext("webgl", attrs);
-      if (gl1) {
-        var FRAG1 = [
-          "precision highp float;",
-          "uniform float uT;",
-          "uniform vec2 uRes;",
-          "uniform float uBoost;",
-          "vec3 hue2rgb(float h){",
-          "  vec3 k=mod(vec3(5.0,3.0,1.0)+h*6.0,6.0);",
-          "  return clamp(min(k,4.0-k),0.0,1.0);",
-          "}",
-          "float hash(vec2 q){return fract(sin(dot(q,vec2(127.1,311.7)))*43758.5453);}",
-          "float noise(vec2 q){",
-          "  vec2 i=floor(q);vec2 f=fract(q);",
-          "  f=f*f*(3.0-2.0*f);",
-          "  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),",
-          "             mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);",
-          "}",
-          "void main(){",
-          "  vec2 uv=gl_FragCoord.xy/uRes;",
-          "  float t=uT*0.28;",
-          "  float n=noise(vec2(uv.x*2.8+t*0.5,uv.y*2.0-t*0.3));",
-          "  vec2 warp=vec2(uv.x+(n-0.5)*0.5,uv.y);",
-          "  float w1=0.5+0.5*sin(warp.x*6.28+t*1.2);",
-          "  float w2=0.5+0.5*sin(warp.x*4.5-t*0.9+2.0);",
-          "  float e1=exp(-abs(warp.y-(0.38+w1*0.14))*7.0);",
-          "  float e2=exp(-abs(warp.y-(0.22+w2*0.18))*5.0);",
-          "  float fall=smoothstep(0.0,0.4,warp.y)*(1.0-smoothstep(0.65,1.0,warp.y));",
-          "  float glow=(e1*0.65+e2*0.55)*fall*(0.65+uBoost*0.75);",
-          "  vec3 col=mix(vec3(0.55,0.22,0.95),vec3(0.92,0.45,0.98),uv.x+sin(t)*0.2);",
-          "  gl_FragColor=vec4(col*glow,glow*0.85);",
-          "}"
-        ].join("\n");
+    var items = [];
 
-        var p1 = gl1.createProgram();
-        gl1.attachShader(p1, compile(gl1, gl1.VERTEX_SHADER, "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}"));
-        gl1.attachShader(p1, compile(gl1, gl1.FRAGMENT_SHADER, FRAG1));
-        gl1.linkProgram(p1);
+    cards.forEach(function (card, idx) {
+      var fx = card.querySelector(".specular-card__fx");
+      if (!fx) { return; }
+      fx.innerHTML = "";
+      var cv = document.createElement("canvas");
+      fx.appendChild(cv);
 
-        if (gl1.getProgramParameter(p1, gl1.LINK_STATUS)) {
-          gl1.useProgram(p1);
-          var b1 = gl1.createBuffer();
-          gl1.bindBuffer(gl1.ARRAY_BUFFER, b1);
-          gl1.bufferData(gl1.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl1.STATIC_DRAW);
-          var l1 = gl1.getAttribLocation(p1, "p");
-          gl1.enableVertexAttribArray(l1);
-          gl1.vertexAttribPointer(l1, 2, gl1.FLOAT, false, 0, 0);
+      var gl = cv.getContext("webgl2", attrs) || cv.getContext("webgl", attrs);
+      if (!gl) { return; }
 
-          gl1.clearColor(0, 0, 0, 0);
-          gl1.enable(gl1.BLEND);
-          gl1.blendFunc(gl1.ONE, gl1.ONE_MINUS_SRC_ALPHA);
+      var prog = gl.createProgram();
+      gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, "attribute vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}"));
+      gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG));
+      gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { return; }
+      gl.useProgram(prog);
 
-          it1 = {
-            gl: gl1, cv: cv1,
-            uT: gl1.getUniformLocation(p1, "uT"),
-            uRes: gl1.getUniformLocation(p1, "uRes"),
-            uBoost: gl1.getUniformLocation(p1, "uBoost"),
-            boost: 0, boostTarget: 0, visible: true
-          };
+      var buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+      var loc = gl.getAttribLocation(prog, "position");
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
-          function resize1() {
-            var r = card1.getBoundingClientRect();
-            var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-            cv1.width = Math.ceil(r.width * dpr);
-            cv1.height = Math.ceil(r.height * dpr);
-            gl1.viewport(0, 0, cv1.width, cv1.height);
-          }
-          window.addEventListener("resize", resize1);
-          resize1();
+      gl.clearColor(0, 0, 0, 0);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
-          card1.addEventListener("pointerenter", function () { it1.boostTarget = 1; });
-          card1.addEventListener("pointerleave", function () { it1.boostTarget = 0; });
-        }
+      var u = {};
+      UNIS.forEach(function (n) { u[n] = gl.getUniformLocation(prog, n); });
+
+      var item = {
+        card: card, canvas: cv, gl: gl, u: u,
+        angle: 1.8 + idx * 1.5, target: null, prox: 0,
+        dpr: 1, radius: 20, visible: true
+      };
+
+      function size() {
+        var r = card.getBoundingClientRect();
+        var w = Math.max(1, r.width), h = Math.max(1, r.height);
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        item.dpr = dpr;
+        cv.width = Math.ceil((w + 40) * dpr);
+        cv.height = Math.ceil((h + 40) * dpr);
+        gl.viewport(0, 0, cv.width, cv.height);
+        var br = parseFloat(getComputedStyle(card).borderRadius) || 20;
+        item.radius = Math.min(br, Math.min(w, h) / 2) * dpr;
       }
-    }
 
-    // ============================================================
-    // OPTION 2: WebGL Specular Prismatic Rim Shader
-    // ============================================================
-    var card2 = $(".metric-card--opt2");
-    var it2 = null;
-
-    if (card2 && !reduced) {
-      var fx2 = card2.querySelector(".specular-card__fx");
-      if (fx2) {
-        var cv2 = document.createElement("canvas");
-        fx2.appendChild(cv2);
-        var gl2 = cv2.getContext("webgl2", attrs) || cv2.getContext("webgl", attrs);
-        if (gl2) {
-          var FRAG2 = [
-            "precision mediump float;",
-            "uniform vec2 uCenter;",
-            "uniform vec2 uHalfSize;",
-            "uniform float uRadius;",
-            "uniform float uAngle;",
-            "uniform float uPx;",
-            "uniform vec3 uLineColor;",
-            "uniform vec3 uBaseColor;",
-            "uniform float uIntensity;",
-            "uniform float uShineSize;",
-            "uniform float uShineFade;",
-            "uniform float uThickness;",
-            "uniform float uBaseWidth;",
-            "float sdRoundedRect(vec2 p, vec2 b, float r){",
-            "  vec2 q=abs(p)-b+r;",
-            "  return length(max(q,0.0))+min(max(q.x,q.y),0.0)-r;",
-            "}",
-            "float gaussianLine(float d, float sigma){",
-            "  float x=d/(sigma+1e-6);",
-            "  float k=mix(1.0,1.6,smoothstep(0.0,1.5,x));",
-            "  return exp(-k*x*x);",
-            "}",
-            "void main(){",
-            "  vec2 p=gl_FragCoord.xy-uCenter;",
-            "  float d=sdRoundedRect(p,uHalfSize,uRadius);",
-            "  vec2 L=vec2(cos(uAngle),sin(uAngle));",
-            "  float base=(1.0-smoothstep(0.0,uBaseWidth,abs(d)))*0.35;",
-            "  vec2 nEll=normalize(p/(uHalfSize*uHalfSize)+1e-6);",
-            "  float phi=acos(clamp(abs(dot(nEll,L)),0.0,1.0));",
-            "  float rim=1.0-smoothstep(uShineSize-uShineFade,uShineSize+uShineFade+1e-4,phi);",
-            "  float line=gaussianLine(d,uThickness);",
-            "  float edgeClamp=1.0-smoothstep(0.5*uPx,3.0*uPx,abs(d));",
-            "  float hi=line*rim*edgeClamp*uIntensity;",
-            "  vec3 col=uBaseColor*base+uLineColor*hi;",
-            "  float a=clamp(base+hi,0.0,1.0);",
-            "  gl_FragColor=vec4(col,a);",
-            "}"
-          ].join("\n");
-
-          var p2 = gl2.createProgram();
-          gl2.attachShader(p2, compile(gl2, gl2.VERTEX_SHADER, "attribute vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}"));
-          gl2.attachShader(p2, compile(gl2, gl2.FRAGMENT_SHADER, FRAG2));
-          gl2.linkProgram(p2);
-
-          if (gl2.getProgramParameter(p2, gl2.LINK_STATUS)) {
-            gl2.useProgram(p2);
-            var b2 = gl2.createBuffer();
-            gl2.bindBuffer(gl2.ARRAY_BUFFER, b2);
-            gl2.bufferData(gl2.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl2.STATIC_DRAW);
-            var l2 = gl2.getAttribLocation(p2, "position");
-            gl2.enableVertexAttribArray(l2);
-            gl2.vertexAttribPointer(l2, 2, gl2.FLOAT, false, 0, 0);
-
-            gl2.clearColor(0, 0, 0, 0);
-            gl2.enable(gl2.BLEND);
-            gl2.blendFunc(gl2.ONE, gl2.ONE_MINUS_SRC_ALPHA);
-
-            var UNIS2 = ["uCenter", "uHalfSize", "uRadius", "uAngle", "uPx", "uLineColor",
-              "uBaseColor", "uIntensity", "uShineSize", "uShineFade", "uThickness", "uBaseWidth"];
-            var u2 = {};
-            UNIS2.forEach(function (n) { u2[n] = gl2.getUniformLocation(p2, n); });
-
-            it2 = {
-              card: card2, canvas: cv2, gl: gl2, u: u2,
-              angle: 2.4, target: null, prox: 0, dpr: 1, radius: 20, visible: true
-            };
-
-            function resize2() {
-              var r = card2.getBoundingClientRect();
-              var w = Math.max(1, r.width), h = Math.max(1, r.height);
-              var dpr = Math.min(window.devicePixelRatio || 1, 2);
-              it2.dpr = dpr;
-              cv2.width = Math.ceil((w + 40) * dpr);
-              cv2.height = Math.ceil((h + 40) * dpr);
-              gl2.viewport(0, 0, cv2.width, cv2.height);
-              var br = parseFloat(getComputedStyle(card2).borderRadius) || 20;
-              it2.radius = Math.min(br, Math.min(w, h) / 2) * dpr;
-            }
-            window.addEventListener("resize", resize2);
-            resize2();
-
-            window.addEventListener("pointermove", function (e) {
-              var r = card2.getBoundingClientRect();
-              var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-              var dx = e.clientX - cx, dy = e.clientY - cy;
-              var dist = Math.hypot(dx, dy);
-              var reach = Math.max(r.width, r.height) * 1.5;
-              if (dist < reach) {
-                it2.prox = Math.max(0, 1 - dist / reach);
-                it2.target = Math.atan2(e.clientY - cy, e.clientX - cx);
-              } else {
-                it2.prox = Math.max(0, it2.prox - 0.05);
-                it2.target = null;
-              }
-            });
-          }
-        }
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(size).observe(card);
+      } else {
+        window.addEventListener("resize", size);
       }
-    }
+      size();
 
-    // ============================================================
-    // Unified Render Loop
-    // ============================================================
-    var t0 = performance.now();
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          item.visible = entries[0].isIntersecting;
+        }, { threshold: 0 }).observe(card);
+      }
+
+      window.addEventListener("pointermove", function (e) {
+        var r = card.getBoundingClientRect();
+        var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var dx = e.clientX - cx, dy = e.clientY - cy;
+        var dist = Math.hypot(dx, dy);
+        var reach = Math.max(r.width, r.height) * 1.4;
+        if (dist < reach) {
+          item.prox = Math.max(0, 1 - dist / reach);
+          item.target = Math.atan2(e.clientY - cy, e.clientX - cx);
+        } else {
+          item.prox = Math.max(0, item.prox - 0.05);
+          item.target = null;
+        }
+      });
+
+      items.push(item);
+    });
+
+    if (!items.length) { return; }
+
     var rafId = 0;
 
-    function renderLoop(now) {
+    function renderLoop() {
       rafId = 0;
       if (document.hidden) { return; }
+      var any = false;
 
-      // Render Option 1
-      if (it1 && it1.visible) {
-        it1.boost += (it1.boostTarget - it1.boost) * 0.08;
-        it1.gl.uniform1f(it1.uT, (now - t0) / 1000);
-        it1.gl.uniform2f(it1.uRes, it1.cv.width, it1.cv.height);
-        it1.gl.uniform1f(it1.uBoost, it1.boost);
-        it1.gl.clear(it1.gl.COLOR_BUFFER_BIT);
-        it1.gl.drawArrays(it1.gl.TRIANGLES, 0, 3);
-      }
+      items.forEach(function (it) {
+        if (!it.visible) { return; }
+        any = true;
+        var r = it.card.getBoundingClientRect();
+        var dpr = it.dpr;
+        var gl = it.gl;
+        var u = it.u;
 
-      // Render Option 2
-      if (it2 && it2.visible) {
-        var r = card2.getBoundingClientRect();
-        var dpr = it2.dpr;
-        var gl = it2.gl;
-        var u = it2.u;
-
-        if (it2.target !== null) {
-          var diff = it2.target - it2.angle;
+        if (it.target !== null) {
+          var diff = it.target - it.angle;
           while (diff < -Math.PI) diff += Math.PI * 2;
           while (diff > Math.PI) diff -= Math.PI * 2;
-          it2.angle += diff * 0.1;
+          it.angle += diff * 0.1;
         } else {
-          it2.angle += 0.015;
+          it.angle += 0.015;
         }
 
         gl.uniform2f(u.uCenter, (r.width / 2 + 20) * dpr, (r.height / 2 + 20) * dpr);
         gl.uniform2f(u.uHalfSize, (r.width / 2) * dpr, (r.height / 2) * dpr);
-        gl.uniform1f(u.uRadius, it2.radius);
-        gl.uniform1f(u.uAngle, it2.angle);
+        gl.uniform1f(u.uRadius, it.radius);
+        gl.uniform1f(u.uAngle, it.angle);
         gl.uniform1f(u.uPx, dpr);
 
-        // Galxe violet line + base
         gl.uniform3f(u.uLineColor, 0.78, 0.52, 0.98);
         gl.uniform3f(u.uBaseColor, 0.45, 0.22, 0.78);
-        gl.uniform1f(u.uIntensity, 0.65 + it2.prox * 0.65);
-        gl.uniform1f(u.uShineSize, 0.55 + it2.prox * 0.25);
+        gl.uniform1f(u.uIntensity, 0.65 + it.prox * 0.65);
+        gl.uniform1f(u.uShineSize, 0.55 + it.prox * 0.25);
         gl.uniform1f(u.uShineFade, 0.35);
-        gl.uniform1f(u.uThickness, (1.8 + it2.prox * 0.8) * dpr);
+        gl.uniform1f(u.uThickness, (1.8 + it.prox * 0.8) * dpr);
         gl.uniform1f(u.uBaseWidth, 2.0 * dpr);
 
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
+      });
+
+      if (any) {
+        rafId = requestAnimationFrame(renderLoop);
       }
-
-      rafId = requestAnimationFrame(renderLoop);
     }
 
-    if (!reduced && (it1 || it2)) {
-      rafId = requestAnimationFrame(renderLoop);
+    function start() {
+      if (!rafId) {
+        rafId = requestAnimationFrame(renderLoop);
+      }
     }
+
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) start();
+    });
+
+    start();
   })();
 
   /* ------------------------------------------------------------
