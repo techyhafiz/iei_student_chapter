@@ -580,8 +580,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   stroke-linecap: round;
 }
 
-html:not([data-theme="light"]) .icon-sun { display: none; }
-html[data-theme="light"] .icon-moon { display: none; }
+html:not([data-theme="light"]) .icon-sun { display: block; }
+html:not([data-theme="light"]) .icon-moon { display: none; }
+html[data-theme="light"] .icon-moon { display: block; }
+html[data-theme="light"] .icon-sun { display: none; }
 .toggle-thumb { display: none; }
 
 :root[data-theme="light"] .theme-toggle {
@@ -982,22 +984,22 @@ html[data-theme="light"] .icon-moon { display: none; }
 
 :root[data-theme="light"] #spaceFx {
   display: block !important;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 :root[data-theme="light"] #warpFx {
   display: block !important;
-  opacity: 0.90;
+  opacity: 0.98;
 }
 
 :root[data-theme="light"] #auroraFx {
   display: block !important;
-  opacity: 0.80;
+  opacity: 0.88;
 }
 
 .hero-core {
   position: relative;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;

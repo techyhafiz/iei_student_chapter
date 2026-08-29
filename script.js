@@ -45,7 +45,7 @@
        ------------------------------------------------------------ */
   (function () {
     var cv = $("#spaceFx");
-    if (!cv || !cv.getContext || window.innerWidth <= 768) { return; }
+    if (!cv || !cv.getContext) { return; }
     var ctx = cv.getContext("2d");
     if (!ctx) { return; }
 
@@ -69,7 +69,7 @@
     function pal() {
       var isLight = document.documentElement.getAttribute("data-theme") === "light";
       return isLight
-        ? { core: "15, 12, 25", hi: "39, 39, 45", trail: "20, 16, 32", nebMax: .14 }
+        ? { core: "38, 12, 68", hi: "68, 18, 118", trail: "48, 14, 86", nebMax: .22 }
         : { core: "248, 248, 255", hi: "232, 121, 249", trail: "196, 132, 252", nebMax: .34 };
     }
 
@@ -164,14 +164,19 @@
         var a = s.base * (.45 + .55 * tw);
         ctx.beginPath();
         if (isLight) {
-          ctx.fillStyle = "rgba(18, 16, 28, " + (a * 0.9).toFixed(3) + ")";
-          ctx.arc(s.x, sy, s.r * 1.25, 0, 6.2832);
+          ctx.fillStyle = "rgba(38, 12, 68, " + (a * 0.95).toFixed(3) + ")";
+          ctx.arc(s.x, sy, s.r * 1.35, 0, 6.2832);
         } else {
           ctx.fillStyle = "rgba(" + p.core + "," + a.toFixed(3) + ")";
           ctx.arc(s.x, sy, s.r, 0, 6.2832);
         }
         ctx.fill();
-        if (!isLight && s.r > 0.95 && tw > .82) {
+        if (isLight && s.r > 0.95 && tw > .8) {
+          ctx.beginPath();
+          ctx.fillStyle = "rgba(76, 22, 130, " + (a * 0.38).toFixed(3) + ")";
+          ctx.arc(s.x, sy, s.r * 2.2, 0, 6.2832);
+          ctx.fill();
+        } else if (!isLight && s.r > 0.95 && tw > .82) {
           ctx.beginPath();
           ctx.fillStyle = "rgba(" + p.hi + "," + (a * .22).toFixed(3) + ")";
           ctx.arc(s.x, sy, s.r * 2.2, 0, 6.2832);
@@ -196,14 +201,14 @@
         var tail = 90 * mt.life;
         var grad = ctx.createLinearGradient(mt.x, mt.y, mt.x + tail, mt.y - tail * .55);
         if (isLight) {
-          grad.addColorStop(0, "rgba(9, 9, 11," + (.95 * mt.life).toFixed(3) + ")");
-          grad.addColorStop(1, "rgba(24, 24, 27, 0)");
+          grad.addColorStop(0, "rgba(42, 12, 75," + (.98 * mt.life).toFixed(3) + ")");
+          grad.addColorStop(1, "rgba(68, 18, 118, 0)");
         } else {
           grad.addColorStop(0, "rgba(" + p.trail + "," + (.8 * mt.life).toFixed(3) + ")");
           grad.addColorStop(1, "rgba(" + p.trail + ",0)");
         }
         ctx.strokeStyle = grad;
-        ctx.lineWidth = isLight ? 2.0 : 1.4;
+        ctx.lineWidth = isLight ? 2.2 : 1.4;
         ctx.beginPath();
         ctx.moveTo(mt.x, mt.y);
         ctx.lineTo(mt.x + tail, mt.y - tail * .55);
@@ -317,10 +322,10 @@
       "  vec3 col=mix(violet,fuchsia,clamp(y*1.6,0.0,1.0));",
       "  col=mix(col,indigo,0.35*e2);",
       "",
-      "  /* light theme: sleek deep titanium and obsidian ribbon */",
-      "  vec3 darkViolet=mix(vec3(0.08,0.06,0.14),vec3(0.18,0.12,0.28),clamp(y*1.5,0.0,1.0));",
+      "  /* light theme: rich, very dark royal purple and deep violet ribbon */",
+      "  vec3 darkViolet=mix(vec3(0.14,0.03,0.26),vec3(0.30,0.08,0.52),clamp(y*1.5,0.0,1.0));",
       "  col=mix(col,darkViolet,uLight);",
-      "  float a=glow*(mix(0.34,0.25,uLight));",
+      "  float a=glow*(mix(0.34,0.32,uLight));",
       "",
       "  o=vec4(col*a,a);",
       "}"
@@ -559,14 +564,14 @@
       "  float r=length(c);",
       "  if(r>1.0)discard;",
       "  float core=exp(-r*r*3.5);",
-      "  float a=vAlpha*core*mix(1.0,0.85,uLight);",
+      "  float a=vAlpha*core*mix(1.0,0.95,uLight);",
       "  vec3 violet=vec3(0.78,0.58,1.0);",
       "  vec3 fuchsia=vec3(0.98,0.62,1.0);",
       "  vec3 lightCol=mix(fuchsia,violet,vHue);",
-      "  /* Light mode: crisp dark charcoal & deep obsidian particles */",
-      "  vec3 darkCharcoal=vec3(0.06,0.06,0.09);",
-      "  vec3 darkViolet=vec3(0.18,0.12,0.28);",
-      "  vec3 darkCol=mix(darkCharcoal,darkViolet,vHue);",
+      "  /* Light mode: rich, very dark deep royal purple & obsidian plum */",
+      "  vec3 darkPlum=vec3(0.12,0.03,0.22);",
+      "  vec3 darkViolet=vec3(0.26,0.06,0.45);",
+      "  vec3 darkCol=mix(darkPlum,darkViolet,vHue);",
       "  vec3 col=mix(lightCol,darkCol,uLight);",
       "  o=vec4(col*a,a);",
       "}",
@@ -1031,42 +1036,12 @@
   }
 
   /* ------------------------------------------------------------
-     THEME TOGGLE — Smooth switch between Obsidian Dark & Titanium Light
+     THEME STATE SYNC
      ------------------------------------------------------------ */
   var themeToggle = $("#themeToggle");
-
-  function applyTheme(theme) {
-    var isLight = theme === "light";
-    document.documentElement.setAttribute("data-theme", isLight ? "light" : "dark");
-    if (isLight) {
-      document.documentElement.setAttribute("data-palette", "titanium-mono");
-    } else {
-      document.documentElement.removeAttribute("data-palette");
-    }
-    if (themeToggle) {
-      themeToggle.setAttribute("aria-pressed", isLight ? "true" : "false");
-      themeToggle.setAttribute("title", isLight ? "Switch to Dark Mode" : "Switch to Light Mode");
-    }
-  }
-
-  // Restore stored theme (defaults to dark or saved preference)
-  var storedTheme = "dark";
-  try {
-    storedTheme = localStorage.getItem("iei-theme") || "dark";
-  } catch (e) { }
-
-  applyTheme(storedTheme);
-
-  if (themeToggle) {
+  if (themeToggle && !themeToggle.getAttribute("onclick")) {
     themeToggle.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var current = document.documentElement.getAttribute("data-theme") || "dark";
-      var next = (current === "light") ? "dark" : "light";
-      applyTheme(next);
-      try {
-        localStorage.setItem("iei-theme", next);
-      } catch (err) { }
+      if (window.toggleAppTheme) { window.toggleAppTheme(e); }
     });
   }
 
