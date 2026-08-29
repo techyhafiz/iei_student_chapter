@@ -1190,7 +1190,7 @@
       { t: "iei --team --roster", c: "cmd" },
       { t: "● Leadership: 4 Executives, 11 Technical Leads, 4 Teams", c: "out info" },
       { t: "● Total Active Operator Network: 40+ Student Engineers", c: "out" },
-      { t: "● Faculty Guidance: Dr. Shailesh Kumar & Advisory Board", c: "ok" }
+      { t: "● Faculty Guidance: Dr. Rajesh Kumar & Advisory Board", c: "ok" }
     ],
     join: [
       { t: "./join --club --now", c: "cmd" },
@@ -1198,9 +1198,17 @@
     ]
   };
   var termStarted = false;
+  var termTypingTimers = [];
+
+  function clearTermTyping() {
+    while (termTypingTimers.length) {
+      clearTimeout(termTypingTimers.pop());
+    }
+  }
 
   function runTermCommand(cmdKey) {
     if (!termBody || !termCommands[cmdKey]) return;
+    clearTermTyping();
     termChips.forEach(function (c) {
       c.classList.toggle("is-active", c.getAttribute("data-cmd") === cmdKey);
     });
@@ -1222,10 +1230,10 @@
         if (ci <= line.t.length) {
           div.textContent = line.t.slice(0, ci);
           ci++;
-          setTimeout(step, spd);
+          termTypingTimers.push(setTimeout(step, spd));
         } else {
           li++;
-          setTimeout(next, line.c === "cmd" ? 180 : 80);
+          termTypingTimers.push(setTimeout(next, line.c === "cmd" ? 180 : 80));
         }
       })();
     }
@@ -1241,6 +1249,7 @@
 
   function renderTermInstant() {
     if (!termBody) return;
+    clearTermTyping();
     termBody.innerHTML = termCommands.status.map(function (l) {
       return '<div class="' + l.c + '">' + l.t + '</div>';
     }).join("") + '<span class="caret"></span>';
@@ -1382,6 +1391,7 @@
       "uBaseColor", "uIntensity", "uShineSize", "uShineFade", "uThickness", "uBaseWidth"];
 
     var items = [];
+    var rafId = 0;
 
     cards.forEach(function (card, idx) {
       var fx = card.querySelector(".specular-card__fx");
@@ -1442,6 +1452,9 @@
       if ("IntersectionObserver" in window) {
         new IntersectionObserver(function (entries) {
           item.visible = entries[0].isIntersecting;
+          if (item.visible && rafId === 0) {
+            start();
+          }
         }, { threshold: 0 }).observe(card);
       }
 
@@ -1464,8 +1477,6 @@
     });
 
     if (!items.length) { return; }
-
-    var rafId = 0;
 
     function renderLoop() {
       rafId = 0;
@@ -2122,28 +2133,44 @@
   if (lbNextEvent) lbNextEvent.addEventListener("click", function (e) { e.stopPropagation(); switchEvent(1); });
   if (lightbox) lightbox.addEventListener("click", function (e) { if (e.target === lightbox) closeLightbox(); });
 
-  /* touch swipe on the media stage walks the album — mobile-first nav */
+  /* touch swipe on the media stage & lightbox walks the album / dismisses — mobile-first nav */
   (function () {
     var stage = $(".lb-stage");
-    if (!stage) { return; }
+    var lbEl = $("#lightbox");
+    if (!stage && !lbEl) { return; }
+    var targets = [stage, lbEl].filter(Boolean);
     var sx = 0, sy = 0, tracking = false;
-    stage.addEventListener("touchstart", function (e) {
+
+    function onTouchStart(e) {
       if (e.touches.length !== 1) { tracking = false; return; }
       sx = e.touches[0].clientX;
       sy = e.touches[0].clientY;
       tracking = true;
-    }, { passive: true });
-    stage.addEventListener("touchend", function (e) {
+    }
+
+    function onTouchEnd(e) {
       if (!tracking) { return; }
       tracking = false;
       var t = e.changedTouches[0];
       var dx = t.clientX - sx;
       var dy = t.clientY - sy;
+
+      /* vertical swipe-down dismissal */
+      if (dy > 80 && Math.abs(dy) > Math.abs(dx) * 1.2) {
+        closeLightbox();
+        return;
+      }
+
       /* horizontal flick beats small vertical drift */
       if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.4) {
         showLightbox(dx < 0 ? 1 : -1);
       }
-    }, { passive: true });
+    }
+
+    targets.forEach(function (el) {
+      el.addEventListener("touchstart", onTouchStart, { passive: true });
+      el.addEventListener("touchend", onTouchEnd, { passive: true });
+    });
   })();
 
   document.addEventListener("keydown", function (e) {
@@ -2552,6 +2579,35 @@
   var bottomDock = $("#bottomDock");
   var dockTabs = bottomDock ? $all(".dock-tab", bottomDock) : [];
   var lastScrollPos = 0;
+  var dockScrollTicking = false;
+
+  function updateDockActive(activeId) {
+    if (!activeId) return;
+    dockTabs.forEach(function (tab) {
+      var target = tab.getAttribute("data-dock");
+      tab.classList.toggle("is-active", target === activeId);
+    });
+  }
+
+  // Zero-reflow section spy using IntersectionObserver
+  if ("IntersectionObserver" in window) {
+    var dockSections = ["about", "events", "team", "faq", "join"];
+    var dockSpyObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          updateDockActive(entry.target.id);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: "-20% 0px -45% 0px"
+    });
+
+    dockSections.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) dockSpyObserver.observe(el);
+    });
+  }
 
   function onScrollDock() {
     if (!bottomDock) return;
@@ -2564,26 +2620,15 @@
       bottomDock.classList.remove("is-hidden");
     }
     lastScrollPos = curY;
-
-    // Active tab radar spy
-    var activeId = "about";
-    var sectionsToCheck = ["join", "faq", "team", "events", "about"];
-    for (var i = 0; i < sectionsToCheck.length; i++) {
-      var el = document.getElementById(sectionsToCheck[i]);
-      if (el) {
-        var rect = el.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.55) {
-          activeId = sectionsToCheck[i];
-          break;
-        }
-      }
-    }
-    dockTabs.forEach(function (tab) {
-      var target = tab.getAttribute("data-dock");
-      tab.classList.toggle("is-active", target === activeId);
-    });
+    dockScrollTicking = false;
   }
-  window.addEventListener("scroll", onScrollDock, { passive: true });
+
+  window.addEventListener("scroll", function () {
+    if (!dockScrollTicking) {
+      dockScrollTicking = true;
+      requestAnimationFrame(onScrollDock);
+    }
+  }, { passive: true });
   onScrollDock();
 
   /* ------------------------------------------------------------

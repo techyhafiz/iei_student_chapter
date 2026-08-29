@@ -234,6 +234,9 @@ document.addEventListener("DOMContentLoaded", () => {
     board.innerHTML =
       renderRow("Executive Committee", admins, false, "solo-cards--fourth solo-cards--admins") +
       renderTeamRow("Teams & Leads", leads);
+    if (window.ScrollTrigger) {
+      ScrollTrigger.refresh();
+    }
   }
 
   /* ------------------------------------------------------------
@@ -279,6 +282,10 @@ document.addEventListener("DOMContentLoaded", () => {
               card.style.display = "none";
             }
           });
+        }
+
+        if (window.ScrollTrigger) {
+          ScrollTrigger.refresh();
         }
       });
     });
