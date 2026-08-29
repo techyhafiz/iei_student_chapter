@@ -59,7 +59,14 @@ html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  /* keep anchor targets clear of the floating nav pill (native fallback
+     when Lenis is unavailable — Lenis applies its own -90px offset) */
+  scroll-padding-top: 90px;
 }
+
+section[id],
+div[id].section,
+div[id].faculty-board { scroll-margin-top: 90px; }
 
 /* lock background scrolling while the menu / lightbox is open (touch-safe) */
 html.is-scroll-locked,
@@ -3150,25 +3157,150 @@ html:not(.js) .why-row {
     -webkit-backdrop-filter: blur(16px);
   }
 
-  /* Apple App Store style horizontal card shelf */
+  /* ============================================================
+     VERTICAL APPLE-GRADE TIMELINE STREAM ON MOBILE
+     ============================================================ */
   .tl-viewport {
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scroll-padding: 0 20px;
-    padding: 24px 16px 36px;
+    overflow-x: visible;
+    overflow-y: visible;
+    cursor: default;
+    padding: 14px 4px 24px;
+    scroll-snap-type: none;
+  }
+
+  .tl-track {
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+    padding: 0 0 0 38px;
+    position: relative;
+  }
+
+  /* Continuous Glowing Vertical Spine */
+  .tl-track::before {
+    top: 8px;
+    bottom: 8px;
+    left: 14px;
+    width: 2px;
+    height: auto;
+    background: linear-gradient(180deg, rgba(232, 121, 249, 0.9) 0%, rgba(168, 85, 247, 0.7) 50%, rgba(124, 58, 237, 0.2) 100%);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
   }
 
   .tl-node {
-    width: clamp(240px, 78vw, 290px);
-    scroll-snap-align: center;
+    width: 100%;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    position: relative;
+    text-align: left;
+    touch-action: manipulation;
+  }
+
+  .tl-marker {
+    position: absolute;
+    left: -31px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .tl-tick { display: none; }
+
+  .tl-dot {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    border-radius: 50%;
+    transform: none;
+    background: var(--bg-deep, #0b0614);
+    border: 2px solid #c084fc;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.6);
+  }
+
+  .tl-node.is-selected .tl-dot {
+    background: #e879f9;
+    border-color: #ffffff;
+    box-shadow: 0 0 14px rgba(232, 121, 249, 0.9);
+  }
+
+  .tl-date {
+    height: auto;
+    min-width: 58px;
+    max-width: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 4px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    flex-shrink: 0;
+  }
+
+  :root[data-theme="light"] .tl-date {
+    background: rgba(124, 58, 237, 0.04);
+    border-color: rgba(124, 58, 237, 0.12);
+  }
+
+  .tl-day {
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .tl-mo {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--v3);
+    margin-top: 2px;
+  }
+
+  .tl-year {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--tx3);
+    margin-top: 2px;
   }
 
   .tl-card {
-    border-radius: 20px;
-    padding: 22px 18px;
+    margin-top: 0;
+    flex: 1;
+    min-height: 0;
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.15s, background 0.15s;
   }
 
-  .tl-nav { width: 44px; height: 44px; }
+  .tl-node:active .tl-card {
+    transform: scale(0.98);
+    background: rgba(168, 85, 247, 0.08);
+  }
+
+  .tl-name {
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2px;
+    min-height: 0;
+    display: block;
+  }
+
+  /* Hide desktop arrow buttons on mobile */
+  .tl-nav {
+    display: none;
+  }
 
   .next-event {
     grid-template-columns: 1fr;
