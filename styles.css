@@ -1094,12 +1094,82 @@ html.js [data-reveal] {
   filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.35));
 }
 
-.overview-bento-grid {
+.overview-bento-container {
+  max-width: 1200px;
+  margin: 36px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 3 Impact Metrics Grid (Full width across top) */
+.bento-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.bento-metric-card {
+  background: rgba(24, 14, 38, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  text-align: left;
+}
+
+.bento-metric-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px rgba(168, 85, 247, 0.16);
+}
+
+:root[data-theme="light"] .bento-metric-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.08);
+}
+
+.metric-val {
+  font-size: clamp(1.75rem, 2.5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #fff;
+  background: linear-gradient(135deg, #ffffff 40%, #e9d5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:root[data-theme="light"] .metric-val {
+  background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.metric-label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.35;
+}
+
+:root[data-theme="light"] .metric-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+/* Below Metrics: Side-by-Side Split (Terminal on Left, Cards on Right) */
+.overview-bento-split {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
-  gap: 24px;
-  max-width: 1200px;
-  margin: 32px auto 0;
+  gap: 20px;
   align-items: stretch;
 }
 
@@ -1161,7 +1231,7 @@ html.js [data-reveal] {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  min-height: 380px;
+  min-height: 360px;
   font-family: var(--mono, "JetBrains Mono", monospace);
 }
 
@@ -1218,79 +1288,13 @@ html.js [data-reveal] {
   50% { opacity: 0; }
 }
 
-/* Right Bento Column */
-.bento-right-col {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-/* 4 Metrics Grid (2x2) */
-.bento-metrics-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.bento-metric-card {
-  background: rgba(24, 14, 38, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 18px;
-  padding: 18px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-}
-
-.bento-metric-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(168, 85, 247, 0.4);
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45), 0 0 20px rgba(168, 85, 247, 0.15);
-}
-
-:root[data-theme="light"] .bento-metric-card {
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(0, 0, 0, 0.06);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.08);
-}
-
-.metric-val {
-  font-size: clamp(1.6rem, 2.4vw, 2rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: #fff;
-  background: linear-gradient(135deg, #ffffff 40%, #e9d5ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-:root[data-theme="light"] .metric-val {
-  background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.metric-label {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.65);
-  line-height: 1.35;
-}
-
-:root[data-theme="light"] .metric-label {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-/* 4 Focus Domain Track Cards */
+/* 4 Focus Domain Track Cards (Right Column) */
 .bento-tracks-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .bento-track-card {
@@ -1304,6 +1308,8 @@ html.js [data-reveal] {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition: transform .25s ease, border-color .25s ease, background .25s ease;
+  flex: 1;
+  justify-content: center;
 }
 
 .bento-track-card:hover {
@@ -1365,9 +1371,15 @@ html.js [data-reveal] {
 }
 
 @media (max-width: 960px) {
-  .overview-bento-grid {
+  .overview-bento-split {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .bento-metrics-grid {
+    grid-template-columns: 1fr;
   }
 }
 
