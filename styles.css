@@ -3123,6 +3123,16 @@ html:not(.js) .why-row {
     background-attachment: fixed !important;
   }
 
+  /* Ensure all section content is 100% visible on mobile without scroll dropouts */
+  html.js [data-reveal],
+  [data-reveal],
+  .hero-core,
+  .stats,
+  .why-row {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   /* fit the open menu inside small viewports (inner content scrolls) */
   .card-nav.open {
     height: min(520px, calc(100svh - 80px));

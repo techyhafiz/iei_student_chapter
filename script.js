@@ -1084,9 +1084,9 @@
   }
 
   /* ------------------------------------------------------------
-     HERO — scroll parallax
+     HERO — scroll parallax (Desktop only)
      ------------------------------------------------------------ */
-  if (hasGsap && !reduced) {
+  if (hasGsap && !reduced && window.innerWidth > 768) {
     gsap.to(".hero-core", {
       yPercent: -25, opacity: .1, ease: "none",
       scrollTrigger: { trigger: "#hero", start: "top top", end: "80% top", scrub: true }
