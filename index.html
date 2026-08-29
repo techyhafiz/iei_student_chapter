@@ -1010,9 +1010,12 @@
         <button class="lb-arrow lb-next" aria-label="Next slide" title="Next slide (→)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </button>
+      </div>
 
-        <!-- Apple-Style Segmented Indicators along bottom edge of image -->
+      <!-- Segmented Bar & Slide Counter positioned cleanly below the image -->
+      <div class="lb-progress-bar-wrap">
         <div id="lbSegments" class="lb-segments" aria-label="Slide progress"></div>
+        <span id="lbCount" class="lb-counter" aria-live="polite">01 / 01</span>
       </div>
 
       <!-- Unified Footer Bar -->
@@ -1022,15 +1025,6 @@
           <div class="lb-key-hint">
             <kbd>←</kbd> <kbd>→</kbd> <span>Navigate</span> &nbsp;•&nbsp; <kbd>ESC</kbd> <span>Dismiss</span>
           </div>
-
-          <!-- Seamless Up Next mini-card -->
-          <button id="lbPeek" class="lb-upnext-card" aria-label="View next item">
-            <span id="lbPeekImg" class="lb-upnext-thumb" aria-hidden="true"></span>
-            <span class="lb-upnext-text">
-              <span class="lb-upnext-label">Up Next</span>
-              <span id="lbNextTitle" class="lb-upnext-title">Defensive Engineering</span>
-            </span>
-          </button>
         </div>
       </div>
     </div>
