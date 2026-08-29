@@ -208,7 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
         </div>
         <div class="solo-card-content">
-          <span class="faculty-chip mono">ADVISORY // FACULTY</span>
           <h3 class="solo-card-name">${op.name}</h3>
           <p class="solo-card-title">${op.title}</p>
           <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
