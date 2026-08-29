@@ -203,16 +203,19 @@ document.addEventListener("DOMContentLoaded", () => {
     facultyCardsWrap.innerHTML = faculty
       .map(
         (op) => `
-      <article class="solo-card">
+      <article class="solo-card solo-card--faculty-item">
         <div class="solo-card-photo">
           <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
         </div>
-        <h3 class="solo-card-name">${op.name}</h3>
-        <p class="solo-card-title">${op.title}</p>
-        <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
-          ${LINKEDIN_ICON}
-          <span>LINKEDIN</span>
-        </a>
+        <div class="solo-card-content">
+          <span class="faculty-chip mono">ADVISORY // FACULTY</span>
+          <h3 class="solo-card-name">${op.name}</h3>
+          <p class="solo-card-title">${op.title}</p>
+          <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+            ${LINKEDIN_ICON}
+            <span>LINKEDIN</span>
+          </a>
+        </div>
       </article>
     `
       )
