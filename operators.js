@@ -170,9 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="team-cards">
           ${leads
             .map((op) => {
-              const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
+              const teamKey = (op.team || "").toLowerCase();
               return `
-                <article class="team-card team-card--compact">
+                <article class="team-card team-card--compact" data-team="${teamKey}">
                   <div class="team-card-lead-row">
                     <a class="team-lead-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
@@ -252,14 +252,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (execRow) execRow.style.display = "none";
         if (teamsRow) teamsRow.style.display = "";
         teamCards.forEach((card) => {
-          const teamTitle = (card.querySelector(".team-card-team")?.textContent || "").toLowerCase();
-          if (filter === "technical" && teamTitle.includes("technical")) {
-            card.style.display = "";
-          } else if (filter === "events" && teamTitle.includes("events")) {
-            card.style.display = "";
-          } else if (filter === "pr" && teamTitle.includes("pr")) {
-            card.style.display = "";
-          } else if (filter === "creative" && teamTitle.includes("creative")) {
+          const cardTeam = (card.getAttribute("data-team") || "").toLowerCase();
+          if (cardTeam === filter.toLowerCase()) {
             card.style.display = "";
           } else {
             card.style.display = "none";
