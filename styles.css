@@ -1114,7 +1114,7 @@ html.js [data-reveal] {
 .bento-metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  gap: 18px;
   max-width: 860px;
   margin: 0 auto;
   width: 100%;
@@ -1125,7 +1125,7 @@ html.js [data-reveal] {
   position: relative;
   isolation: isolate;
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 18px 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1134,17 +1134,18 @@ html.js [data-reveal] {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   overflow: visible;
   transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
 }
 
 .specular-card__fx {
   position: absolute;
-  inset: -16px;
+  inset: -4px;
   pointer-events: none;
   z-index: 1;
-  overflow: visible;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .specular-card__fx canvas {

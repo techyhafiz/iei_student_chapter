@@ -1301,7 +1301,7 @@
       "  vec2 p=gl_FragCoord.xy-uCenter;",
       "  float d=sdRoundedRect(p,uHalfSize,uRadius);",
       "  vec2 L=vec2(cos(uAngle),sin(uAngle));",
-      "  float base=(1.0-smoothstep(0.0,uBaseWidth,abs(d)))*0.35;",
+      "  float base=(1.0-smoothstep(0.0,uBaseWidth,abs(d)))*0.14;",
       "  vec2 nEll=normalize(p/(uHalfSize*uHalfSize)+1e-6);",
       "  float phi=acos(clamp(abs(dot(nEll,L)),0.0,1.0));",
       "  float rim=1.0-smoothstep(uShineSize-uShineFade,uShineSize+uShineFade+1e-4,phi);",
@@ -1360,7 +1360,7 @@
       var item = {
         card: card, canvas: cv, gl: gl, u: u,
         angle: 1.8 + idx * 1.5, target: null, prox: 0,
-        dpr: 1, radius: 20, visible: true
+        dpr: 1, radius: 16, visible: true
       };
 
       function size() {
@@ -1368,10 +1368,10 @@
         var w = Math.max(1, r.width), h = Math.max(1, r.height);
         var dpr = Math.min(window.devicePixelRatio || 1, 2);
         item.dpr = dpr;
-        cv.width = Math.ceil((w + 40) * dpr);
-        cv.height = Math.ceil((h + 40) * dpr);
+        cv.width = Math.ceil((w + 8) * dpr);
+        cv.height = Math.ceil((h + 8) * dpr);
         gl.viewport(0, 0, cv.width, cv.height);
-        var br = parseFloat(getComputedStyle(card).borderRadius) || 20;
+        var br = parseFloat(getComputedStyle(card).borderRadius) || 16;
         item.radius = Math.min(br, Math.min(w, h) / 2) * dpr;
       }
 
@@ -1393,7 +1393,7 @@
         var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
         var dx = e.clientX - cx, dy = e.clientY - cy;
         var dist = Math.hypot(dx, dy);
-        var reach = Math.max(r.width, r.height) * 1.4;
+        var reach = Math.max(r.width, r.height) * 1.2;
         if (dist < reach) {
           item.prox = Math.max(0, 1 - dist / reach);
           item.target = Math.atan2(e.clientY - cy, e.clientX - cx);
@@ -1429,22 +1429,22 @@
           while (diff > Math.PI) diff -= Math.PI * 2;
           it.angle += diff * 0.1;
         } else {
-          it.angle += 0.015;
+          it.angle += 0.012;
         }
 
-        gl.uniform2f(u.uCenter, (r.width / 2 + 20) * dpr, (r.height / 2 + 20) * dpr);
+        gl.uniform2f(u.uCenter, (r.width / 2 + 4) * dpr, (r.height / 2 + 4) * dpr);
         gl.uniform2f(u.uHalfSize, (r.width / 2) * dpr, (r.height / 2) * dpr);
         gl.uniform1f(u.uRadius, it.radius);
         gl.uniform1f(u.uAngle, it.angle);
         gl.uniform1f(u.uPx, dpr);
 
-        gl.uniform3f(u.uLineColor, 0.78, 0.52, 0.98);
-        gl.uniform3f(u.uBaseColor, 0.45, 0.22, 0.78);
-        gl.uniform1f(u.uIntensity, 0.65 + it.prox * 0.65);
-        gl.uniform1f(u.uShineSize, 0.55 + it.prox * 0.25);
+        gl.uniform3f(u.uLineColor, 0.72, 0.48, 0.94);
+        gl.uniform3f(u.uBaseColor, 0.38, 0.16, 0.65);
+        gl.uniform1f(u.uIntensity, 0.32 + it.prox * 0.42);
+        gl.uniform1f(u.uShineSize, 0.45 + it.prox * 0.2);
         gl.uniform1f(u.uShineFade, 0.35);
-        gl.uniform1f(u.uThickness, (1.8 + it.prox * 0.8) * dpr);
-        gl.uniform1f(u.uBaseWidth, 2.0 * dpr);
+        gl.uniform1f(u.uThickness, (1.1 + it.prox * 0.35) * dpr);
+        gl.uniform1f(u.uBaseWidth, 1.1 * dpr);
 
         gl.clear(gl.COLOR_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
