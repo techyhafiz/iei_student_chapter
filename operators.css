@@ -91,9 +91,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 6px;
-  padding: 1rem;
+  padding: 1.1rem 1rem;
   border-radius: 16px;
   border: 1px solid var(--linec);
   background: var(--card);
@@ -222,8 +223,15 @@
 .solo-cards--faculty .solo-card-content {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
   gap: 3px;
   min-width: 0;
+}
+
+.solo-cards--faculty .solo-card-name-link {
+  text-align: left;
+  width: auto;
 }
 
 .solo-cards--faculty .solo-card-name {
@@ -231,12 +239,14 @@
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
+  text-align: left;
 }
 
 .solo-cards--faculty .solo-card-title {
   font-size: 0.88rem;
   color: var(--tx2);
   margin: 0 0 4px;
+  text-align: left;
 }
 
 :root[data-theme="light"] .solo-cards--faculty .solo-card--faculty-item {
@@ -258,6 +268,8 @@
   color: inherit;
   display: inline-block;
   cursor: pointer;
+  text-align: center;
+  width: 100%;
 }
 
 .solo-card-name {
@@ -268,6 +280,7 @@
   letter-spacing: -0.01em;
   color: var(--ink);
   transition: color 0.2s ease;
+  text-align: center;
 }
 
 .solo-card-name-link:hover .solo-card-name,
@@ -290,6 +303,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  text-align: center;
+  width: 100%;
 }
 
 /* ---------- GLASS CAPSULE BUTTON (LinkedIn Logo Capsule) ---------- */
