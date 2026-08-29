@@ -236,15 +236,6 @@
   margin: 0 0 4px;
 }
 
-.solo-cards--faculty .solo-card-link {
-  font-size: 0.78rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--lav2);
-  align-self: flex-start;
-}
-
 :root[data-theme="light"] .solo-cards--faculty .solo-card--faculty-item {
   background: rgba(255, 255, 255, 0.85);
   border-color: rgba(124, 58, 237, 0.15);
@@ -284,37 +275,57 @@
   max-width: 100%;
 }
 
-.solo-card-link {
-  margin-top: 8px;
+/* ---------- GLASS ICON BUTTON (LinkedIn Logo Button) ---------- */
+.profile-btn-icon {
+  margin-top: 6px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: var(--lav);
-  padding: 7px 13px;
-  border-radius: 8px;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-  background: rgba(139, 92, 246, 0.08);
-  transition: all 0.25s ease;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
+  color: #d8b4fe;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.solo-card-link svg {
+.profile-btn-icon svg {
   width: 14px;
   height: 14px;
   fill: currentColor;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
 }
 
-.solo-card-link:hover {
-  color: #fff;
-  border-color: rgba(232, 121, 249, 0.6);
-  background: linear-gradient(135deg, #7c3aed, #a855f7);
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+.profile-btn-icon:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(124, 58, 237, 0.95));
+  border-color: rgba(216, 180, 254, 0.8);
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.45), 0 0 14px rgba(192, 132, 252, 0.4);
+  transform: translateY(-2px) scale(1.08);
 }
 
-:root[data-theme="light"] .solo-card-link:hover {
-  color: #fff;
+.profile-btn-icon:hover svg {
+  transform: scale(1.12);
+}
+
+:root[data-theme="light"] .profile-btn-icon {
+  color: #6d28d9;
+  background: rgba(124, 58, 237, 0.08);
+  border-color: rgba(124, 58, 237, 0.25);
+}
+
+:root[data-theme="light"] .profile-btn-icon:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
 }
 
 /* ---------- LEAD CARD (with member list) ---------- */
@@ -439,24 +450,7 @@
 }
 
 .team-card-lead-pod-box .team-card-lead-link {
-  font-size: 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--lav2);
-  margin-top: 2px;
-  transition: color 0.2s ease, transform 0.2s ease;
-}
-
-.team-card-lead-pod-box .team-card-lead-link:hover {
-  color: var(--v4);
-  transform: translateY(-1px);
-}
-
-.team-card-lead-pod-box .team-card-lead-link svg {
-  width: 12px;
-  height: 12px;
-  fill: currentColor;
+  margin-top: 4px;
 }
 
 .team-card-right {

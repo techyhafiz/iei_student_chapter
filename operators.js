@@ -148,9 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
               <h3 class="solo-card-name">${op.name}</h3>
               <p class="solo-card-title">${op.title}</p>
-              <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+              <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                 ${LINKEDIN_ICON}
-                <span>LINKEDIN</span>
               </a>
               ${withMemberLists ? renderMemberList(op.members) : ""}
             </article>
@@ -182,9 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <p class="team-card-lead-pod-name">${op.name}</p>
                     <span class="lead-tag mono">LEAD</span>
-                    <a class="team-card-lead-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                    <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       ${LINKEDIN_ICON}
-                      <span>LINKEDIN</span>
                     </a>
                   </div>
                   <div class="team-card-right">
@@ -216,9 +214,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="solo-card-content">
           <h3 class="solo-card-name">${op.name}</h3>
           <p class="solo-card-title">${op.title}</p>
-          <a class="solo-card-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+          <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
             ${LINKEDIN_ICON}
-            <span>LINKEDIN</span>
           </a>
         </div>
       </article>
