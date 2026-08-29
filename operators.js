@@ -242,6 +242,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ------------------------------------------------------------
      STICKY SEGMENTED TEAM FILTER (OFFICERS, TECHNICAL, EVENTS, PR, CREATIVE)
+     On Desktop (> 768px): All rows & cards remain 100% visible in full board layout.
+     On Mobile (<= 768px): Filter to selected department for clean zero-scroll view.
      ------------------------------------------------------------ */
   const filterBtns = document.querySelectorAll(".team-filter-btn");
   if (filterBtns.length && board) {
@@ -250,6 +252,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const teamsRow = board.querySelector(".solo-row:last-child");
       const teamCards = board.querySelectorAll(".team-card");
 
+      // Desktop: always show full leadership board (Admins + all Teams)
+      if (window.innerWidth > 768) {
+        if (execRow) execRow.style.display = "";
+        if (teamsRow) teamsRow.style.display = "";
+        teamCards.forEach((card) => (card.style.display = ""));
+        return;
+      }
+
+      // Mobile: show selected department
       if (filter === "admin") {
         if (execRow) execRow.style.display = "";
         if (teamsRow) teamsRow.style.display = "none";
@@ -272,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function scrollToTeamSection() {
+      if (window.innerWidth > 768) return;
       const filterWrap = document.getElementById("teamFilterBarWrap") || board;
       if (!filterWrap) return;
       const rect = filterWrap.getBoundingClientRect();
@@ -304,11 +316,24 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Default: initialize with the active tab (Officers)
-    const initialActive = document.querySelector(".team-filter-btn.is-active");
-    if (initialActive) {
-      applyTeamFilter(initialActive.getAttribute("data-team-filter") || "admin");
+    function syncViewportTeamLayout() {
+      if (window.innerWidth > 768) {
+        const execRow = board.querySelector(".solo-row:first-child");
+        const teamsRow = board.querySelector(".solo-row:last-child");
+        const teamCards = board.querySelectorAll(".team-card");
+        if (execRow) execRow.style.display = "";
+        if (teamsRow) teamsRow.style.display = "";
+        teamCards.forEach((card) => (card.style.display = ""));
+      } else {
+        const initialActive = document.querySelector(".team-filter-btn.is-active");
+        if (initialActive) {
+          applyTeamFilter(initialActive.getAttribute("data-team-filter") || "admin");
+        }
+      }
     }
+
+    syncViewportTeamLayout();
+    window.addEventListener("resize", syncViewportTeamLayout);
   }
 
   /* ------------------------------------------------------------
