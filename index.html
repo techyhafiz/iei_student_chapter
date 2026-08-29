@@ -190,19 +190,72 @@
       </header>
 
       <div class="overview-bento-container" data-reveal>
-        <!-- 3 Impact Metric Cards -->
+        <!-- 3 Impact Metric Cards with Dedicated Canvas/WebGL Micro-Visuals -->
         <div class="bento-metrics-grid">
-          <div class="bento-metric-card">
-            <span class="metric-val" data-count="500">500+</span>
-            <span class="metric-label">Active Students</span>
+          <!-- Card 1: 500+ Active Students (Constellation Network) -->
+          <div class="bento-metric-card" data-tilt data-metric-card data-fx="nodes">
+            <canvas class="metric-canvas" aria-hidden="true"></canvas>
+            <div class="metric-spotlight" aria-hidden="true"></div>
+            <div class="metric-card-top">
+              <span class="metric-badge mono"><span class="badge-pulse dot-purple"></span>NETWORK // 01</span>
+              <span class="metric-tag mono">500+ PEERS</span>
+            </div>
+            <div class="metric-card-body">
+              <div class="metric-val-wrap">
+                <span class="metric-val" data-count="500" data-suffix="+">500+</span>
+              </div>
+              <span class="metric-label">Active Student Members</span>
+            </div>
+            <div class="metric-card-footer mono">
+              <span class="metric-subtext">Department-wide technical community</span>
+              <span class="metric-status-pill">LIVE</span>
+            </div>
+            <span class="metric-corner metric-corner--tl" aria-hidden="true"></span>
+            <span class="metric-corner metric-corner--br" aria-hidden="true"></span>
           </div>
-          <div class="bento-metric-card">
-            <span class="metric-val" data-count="30">30+</span>
-            <span class="metric-label">Core Operations Members</span>
+
+          <!-- Card 2: 30+ Core Operations (Radar Tactical Gyro) -->
+          <div class="bento-metric-card" data-tilt data-metric-card data-fx="radar">
+            <canvas class="metric-canvas" aria-hidden="true"></canvas>
+            <div class="metric-spotlight" aria-hidden="true"></div>
+            <div class="metric-card-top">
+              <span class="metric-badge mono"><span class="badge-pulse dot-blue"></span>OPS_CORE // 02</span>
+              <span class="metric-tag mono">30+ LEADS</span>
+            </div>
+            <div class="metric-card-body">
+              <div class="metric-val-wrap">
+                <span class="metric-val" data-count="30" data-suffix="+">30+</span>
+              </div>
+              <span class="metric-label">Core Operations Members</span>
+            </div>
+            <div class="metric-card-footer mono">
+              <span class="metric-subtext">Executives, leads &amp; mentors</span>
+              <span class="metric-status-pill">ACTIVE</span>
+            </div>
+            <span class="metric-corner metric-corner--tl" aria-hidden="true"></span>
+            <span class="metric-corner metric-corner--br" aria-hidden="true"></span>
           </div>
-          <div class="bento-metric-card">
-            <span class="metric-val" data-count="15">15+</span>
-            <span class="metric-label">Events Organized</span>
+
+          <!-- Card 3: 15+ Events Organized (Pulse Frequency Spectrum) -->
+          <div class="bento-metric-card" data-tilt data-metric-card data-fx="spectrum">
+            <canvas class="metric-canvas" aria-hidden="true"></canvas>
+            <div class="metric-spotlight" aria-hidden="true"></div>
+            <div class="metric-card-top">
+              <span class="metric-badge mono"><span class="badge-pulse dot-green"></span>MILESTONES // 03</span>
+              <span class="metric-tag mono">15+ EVENTS</span>
+            </div>
+            <div class="metric-card-body">
+              <div class="metric-val-wrap">
+                <span class="metric-val" data-count="15" data-suffix="+">15+</span>
+              </div>
+              <span class="metric-label">Events &amp; Hackathons</span>
+            </div>
+            <div class="metric-card-footer mono">
+              <span class="metric-subtext">Workshops, bootcamps &amp; CTFs</span>
+              <span class="metric-status-pill">ANNUAL</span>
+            </div>
+            <span class="metric-corner metric-corner--tl" aria-hidden="true"></span>
+            <span class="metric-corner metric-corner--br" aria-hidden="true"></span>
           </div>
         </div>
 

@@ -1210,17 +1210,48 @@
   }
 
   /* ------------------------------------------------------------
-     STAT COUNTERS
+     STAT COUNTERS — metric cards
+     Number climbs, a conic progress ring sweeps around the card
+     border in sync, a holographic sheen passes once, and the
+     value glows while counting. Reduced motion: final values only.
      ------------------------------------------------------------ */
+  function metricCard(el) { return el.closest ? el.closest(".bento-metric-card") : null; }
+
+  function setRing(card, p) {
+    if (!card) { return; }
+    card.style.setProperty("--p", p.toFixed(1));
+  }
+
+  function activateMetricFx(el) {
+    var card = metricCard(el);
+    if (!card) { return; }
+    if (card.querySelector(".metric-ring")) { return; }
+    var ring = document.createElement("span");
+    ring.className = "metric-ring";
+    ring.setAttribute("aria-hidden", "true");
+    card.appendChild(ring);
+    setRing(card, 0);
+    card.classList.add("is-live");
+    if (!reduced) { el.classList.add("is-counting"); }
+  }
+
+  function settleMetricFx(el) {
+    el.classList.remove("is-counting");
+    setRing(metricCard(el), 100);
+  }
+
   function animateCount(el) {
     var target = parseInt(el.dataset.count, 10) || 0;
     var suffix = el.dataset.suffix || "";
-    if (!hasGsap || reduced) { el.textContent = target + suffix; return; }
+    activateMetricFx(el);
+    if (!hasGsap || reduced) { el.textContent = target + suffix; setRing(metricCard(el), 100); return; }
     var obj = { v: 0 };
     gsap.to(obj, {
       v: target, duration: 1.8, ease: "power2.out", onUpdate: function () {
         el.textContent = Math.round(obj.v) + suffix;
-      }
+        setRing(metricCard(el), (obj.v / target) * 100);
+      },
+      onComplete: function () { settleMetricFx(el); }
     });
   }
   if (hasGsap && !reduced) {
@@ -1230,6 +1261,354 @@
   } else {
     $all("[data-count]").forEach(animateCount);
   }
+
+  /* ------------------------------------------------------------
+     METRIC CARDS FX — High-End Canvas Micro-Visuals & Interactive Glow
+     - Card 1: 'nodes' (Constellation Network & Connected Data Grid)
+     - Card 2: 'radar' (Tactical Cyber Core & Rotating Radar Beam)
+     - Card 3: 'spectrum' (Dynamic Signal Frequency Waveform & Equalizer)
+     - Mouse cursor tracking for interactive specular spotlight
+     ------------------------------------------------------------ */
+  (function () {
+    var cards = $all("[data-metric-card]");
+    if (!cards.length) { return; }
+
+    var items = [];
+    var isDark = true;
+
+    function checkTheme() {
+      isDark = document.documentElement.getAttribute("data-theme") !== "light";
+    }
+    checkTheme();
+    var themeObserver = new MutationObserver(checkTheme);
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    cards.forEach(function (card) {
+      var cv = card.querySelector(".metric-canvas");
+      if (!cv) { return; }
+      var ctx = cv.getContext("2d");
+      if (!ctx) { return; }
+
+      var fxType = card.dataset.fx || "nodes";
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var width = 0;
+      var height = 0;
+
+      // Mouse tracking for spotlight
+      card.addEventListener("pointermove", function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        card.style.setProperty("--mx", x + "px");
+        card.style.setProperty("--my", y + "px");
+        if (item) {
+          item.mouseX = x;
+          item.mouseY = y;
+          item.hover = true;
+        }
+      });
+
+      card.addEventListener("pointerleave", function () {
+        if (item) {
+          item.hover = false;
+          item.mouseX = -1000;
+          item.mouseY = -1000;
+        }
+      });
+
+      var item = {
+        card: card,
+        cv: cv,
+        ctx: ctx,
+        fxType: fxType,
+        visible: true,
+        hover: false,
+        mouseX: -1000,
+        mouseY: -1000,
+        particles: [],
+        angle: 0,
+        blips: [],
+        bars: []
+      };
+
+      function resize() {
+        var rect = card.getBoundingClientRect();
+        width = Math.max(1, rect.width);
+        height = Math.max(1, rect.height);
+        cv.width = Math.ceil(width * dpr);
+        cv.height = Math.ceil(height * dpr);
+        ctx.scale(dpr, dpr);
+      }
+
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(resize).observe(card);
+      } else {
+        window.addEventListener("resize", resize);
+      }
+      resize();
+
+      // Initialize FX data
+      if (fxType === "nodes") {
+        var count = 24;
+        for (var i = 0; i < count; i++) {
+          item.particles.push({
+            x: Math.random() * 320,
+            y: Math.random() * 200,
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+            r: Math.random() * 1.8 + 1.2,
+            pulse: Math.random() * Math.PI * 2
+          });
+        }
+      } else if (fxType === "radar") {
+        item.angle = 0;
+        item.blips = [
+          { dist: 0.35, ang: 0.8, r: 2.5, alpha: 0 },
+          { dist: 0.62, ang: 2.3, r: 3.0, alpha: 0 },
+          { dist: 0.78, ang: 4.1, r: 2.2, alpha: 0 },
+          { dist: 0.48, ang: 5.2, r: 2.8, alpha: 0 }
+        ];
+      } else if (fxType === "spectrum") {
+        var barCount = 18;
+        for (var b = 0; b < barCount; b++) {
+          item.bars.push({
+            h: Math.random() * 20 + 8,
+            speed: Math.random() * 0.04 + 0.02,
+            phase: Math.random() * Math.PI * 2
+          });
+        }
+        for (var s = 0; s < 12; s++) {
+          item.particles.push({
+            x: Math.random() * 300,
+            y: Math.random() * 180,
+            vy: -(Math.random() * 0.5 + 0.2),
+            vx: (Math.random() - 0.5) * 0.3,
+            r: Math.random() * 1.5 + 0.8,
+            alpha: Math.random() * 0.6 + 0.2
+          });
+        }
+      }
+
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          item.visible = entries[0].isIntersecting;
+        }, { threshold: 0 }).observe(card);
+      }
+
+      items.push(item);
+    });
+
+    if (!items.length) { return; }
+
+    var rafId = 0;
+    var lastT = performance.now();
+
+    function render(now) {
+      rafId = 0;
+      if (document.hidden) { return; }
+      var dt = Math.min((now - lastT) / 1000, 0.1);
+      lastT = now;
+      var any = false;
+
+      items.forEach(function (it) {
+        if (!it.visible) { return; }
+        any = true;
+        var ctx = it.ctx;
+        var w = it.cv.width / (Math.min(window.devicePixelRatio || 1, 2));
+        var h = it.cv.height / (Math.min(window.devicePixelRatio || 1, 2));
+        ctx.clearRect(0, 0, w, h);
+
+        if (it.fxType === "nodes") {
+          // Constellation Network FX
+          var pts = it.particles;
+          var maxDist = 72;
+
+          for (var i = 0; i < pts.length; i++) {
+            var p = pts[i];
+            p.x += p.vx * (it.hover ? 1.4 : 1.0);
+            p.y += p.vy * (it.hover ? 1.4 : 1.0);
+            p.pulse += 0.03;
+
+            if (p.x < 0) p.x = w;
+            if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h;
+            if (p.y > h) p.y = 0;
+
+            // Interactive mouse attraction
+            if (it.hover) {
+              var dx = it.mouseX - p.x;
+              var dy = it.mouseY - p.y;
+              var distM = Math.sqrt(dx * dx + dy * dy);
+              if (distM < 90 && distM > 5) {
+                p.x += (dx / distM) * 0.6;
+                p.y += (dy / distM) * 0.6;
+              }
+            }
+
+            // Draw connections
+            for (var j = i + 1; j < pts.length; j++) {
+              var p2 = pts[j];
+              var d = Math.hypot(p.x - p2.x, p.y - p2.y);
+              if (d < maxDist) {
+                var alpha = (1 - d / maxDist) * (it.hover ? 0.35 : 0.18);
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = isDark ? "rgba(192, 132, 252, " + alpha + ")" : "rgba(124, 58, 237, " + alpha + ")";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+              }
+            }
+
+            // Draw particle dot
+            var pAlpha = (Math.sin(p.pulse) * 0.3 + 0.7) * (it.hover ? 0.9 : 0.6);
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? "rgba(233, 213, 255, " + pAlpha + ")" : "rgba(147, 51, 234, " + pAlpha + ")";
+            ctx.fill();
+
+            if (it.hover && p.r > 2) {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.r * 2.2, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(192, 132, 252, 0.15)";
+              ctx.fill();
+            }
+          }
+        } else if (it.fxType === "radar") {
+          // Tactical Radar & Cyber Gyroscope
+          var cx = w * 0.82;
+          var cy = h * 0.52;
+          var maxR = Math.min(w, h) * 0.62;
+
+          var speed = it.hover ? 2.2 : 1.2;
+          it.angle = (it.angle + speed * dt) % (Math.PI * 2);
+
+          // Concentric circles
+          var rings = [0.28, 0.55, 0.85];
+          rings.forEach(function (frac) {
+            ctx.beginPath();
+            ctx.arc(cx, cy, maxR * frac, 0, Math.PI * 2);
+            ctx.strokeStyle = isDark ? "rgba(56, 189, 248, 0.12)" : "rgba(37, 99, 235, 0.14)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          });
+
+          // Crosshair lines
+          ctx.beginPath();
+          ctx.moveTo(cx - maxR * 0.85, cy);
+          ctx.lineTo(cx + maxR * 0.85, cy);
+          ctx.moveTo(cx, cy - maxR * 0.85);
+          ctx.lineTo(cx, cy + maxR * 0.85);
+          ctx.strokeStyle = isDark ? "rgba(96, 165, 250, 0.08)" : "rgba(37, 99, 235, 0.1)";
+          ctx.lineWidth = 1;
+          ctx.stroke();
+
+          // Radar sweep gradient pie/cone
+          var sweepSpan = 0.85;
+          var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, maxR * 0.85);
+          grad.addColorStop(0, "rgba(56, 189, 248, 0.35)");
+          grad.addColorStop(1, "rgba(56, 189, 248, 0)");
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, maxR * 0.85, it.angle - sweepSpan, it.angle);
+          ctx.closePath();
+          ctx.fillStyle = grad;
+          ctx.fill();
+
+          // Leading sweep line
+          var lx = cx + Math.cos(it.angle) * (maxR * 0.85);
+          var ly = cy + Math.sin(it.angle) * (maxR * 0.85);
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.lineTo(lx, ly);
+          ctx.strokeStyle = isDark ? "rgba(147, 197, 253, 0.8)" : "rgba(37, 99, 235, 0.85)";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          ctx.restore();
+
+          // Blips
+          it.blips.forEach(function (blip) {
+            var bx = cx + Math.cos(blip.ang) * (maxR * blip.dist);
+            var by = cy + Math.sin(blip.ang) * (maxR * blip.dist);
+            var diff = (it.angle - blip.ang + Math.PI * 2) % (Math.PI * 2);
+            if (diff < 0.25) {
+              blip.alpha = 1.0;
+            } else {
+              blip.alpha = Math.max(0, blip.alpha - 0.015);
+            }
+            if (blip.alpha > 0.05) {
+              ctx.beginPath();
+              ctx.arc(bx, by, blip.r, 0, Math.PI * 2);
+              ctx.fillStyle = "rgba(56, 189, 248, " + (blip.alpha * (it.hover ? 1 : 0.8)) + ")";
+              ctx.fill();
+            }
+          });
+        } else if (it.fxType === "spectrum") {
+          // Dynamic Pulse Spectrum & Sine Waves
+          var t = now * 0.002;
+          var baseY = h * 0.78;
+
+          // Wave 1 (Soft Sine)
+          ctx.beginPath();
+          for (var x = 0; x <= w; x += 6) {
+            var y1 = baseY + Math.sin(x * 0.03 + t * 2.5) * 8 + Math.cos(x * 0.015 - t) * 5;
+            if (x === 0) ctx.moveTo(x, y1);
+            else ctx.lineTo(x, y1);
+          }
+          ctx.strokeStyle = isDark ? "rgba(74, 222, 128, 0.25)" : "rgba(16, 185, 129, 0.3)";
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+
+          // Mini Equalizer Bars in bottom right corner
+          var barW = 3;
+          var barGap = 4;
+          var startX = w - (it.bars.length * (barW + barGap)) - 18;
+          for (var b = 0; b < it.bars.length; b++) {
+            var bar = it.bars[b];
+            bar.phase += bar.speed * (it.hover ? 1.8 : 1.0);
+            var barH = 5 + Math.abs(Math.sin(bar.phase) * (it.hover ? 26 : 16));
+            var bx = startX + b * (barW + barGap);
+            var by = h - 22 - barH;
+
+            var barGrad = ctx.createLinearGradient(0, by, 0, by + barH);
+            barGrad.addColorStop(0, isDark ? "rgba(74, 222, 128, 0.85)" : "rgba(16, 185, 129, 0.9)");
+            barGrad.addColorStop(1, isDark ? "rgba(56, 189, 248, 0.2)" : "rgba(37, 99, 235, 0.2)");
+
+            ctx.fillStyle = barGrad;
+            ctx.fillRect(bx, by, barW, barH);
+          }
+
+          // Ambient sparks floating upward
+          it.particles.forEach(function (sp) {
+            sp.y += sp.vy * (it.hover ? 1.5 : 1.0);
+            sp.x += sp.vx;
+            if (sp.y < 0) { sp.y = h; sp.x = Math.random() * w; }
+            ctx.beginPath();
+            ctx.arc(sp.x, sp.y, sp.r, 0, Math.PI * 2);
+            ctx.fillStyle = isDark ? "rgba(74, 222, 128, " + (sp.alpha * 0.6) + ")" : "rgba(16, 185, 129, " + (sp.alpha * 0.6) + ")";
+            ctx.fill();
+          });
+        }
+      });
+
+      if (any) { rafId = requestAnimationFrame(render); }
+    }
+
+    function startLoop() {
+      if (!rafId && !reduced) {
+        lastT = performance.now();
+        rafId = requestAnimationFrame(render);
+      }
+    }
+
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) startLoop();
+    });
+
+    startLoop();
+  })();
 
   /* ------------------------------------------------------------
      EVENTS — activity calendar timeline (HORIZONTAL)
