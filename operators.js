@@ -110,22 +110,28 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderMemberList(members) {
     if (!members || !members.length) return "";
     return `
-      <div class="lead-card-members">
-        <p class="lead-card-members-label mono">MEMBERS</p>
-        <ul>
+      <div class="team-members-box">
+        <div class="members-box-head mono">
+          <span>CORE OPERATORS</span>
+          <span class="members-count">${members.length} MEMBERS</span>
+        </div>
+        <div class="compact-members-list">
           ${members
             .map(
               (m) => `
-            <li class="member-line">
-              <a class="member-line-name" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">${m.name}</a>
-              <a class="member-line-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
+            <div class="compact-member-item">
+              <a class="compact-member-info" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
+                <span class="member-dot">◆</span>
+                <span class="compact-member-name">${m.name}</span>
+              </a>
+              <a class="compact-member-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
                 ${LINKEDIN_ICON}
               </a>
-            </li>
+            </div>
           `
             )
             .join("")}
-        </ul>
+        </div>
       </div>
     `;
   }
@@ -133,11 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderRow(label, members, withMemberLists, cardsClass = "") {
     return `
       <div class="solo-row">
-        <div class="sec-divider" aria-hidden="true">
-          <span class="sec-divider-line"></span>
-          <span class="sec-divider-badge mono">◆ ${label.toUpperCase()} ◆</span>
-          <span class="sec-divider-line"></span>
-        </div>
         <div class="solo-cards ${cardsClass}">
           ${members
             .map(
@@ -165,34 +166,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderTeamRow(label, leads) {
     return `
-      <div class="solo-row">
-        <div class="sec-divider" aria-hidden="true">
-          <span class="sec-divider-line"></span>
-          <span class="sec-divider-badge mono">◆ ${label.toUpperCase()} ◆</span>
-          <span class="sec-divider-line"></span>
-        </div>
+      <div class="solo-row solo-row--teams">
         <div class="team-cards">
           ${leads
             .map((op) => {
               const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
               return `
-                <article class="team-card">
-                  <div class="team-card-lead-pod-box">
-                    <span class="lead-pod-tag mono">LEAD</span>
-                    <a class="solo-card-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                <article class="team-card team-card--compact">
+                  <div class="team-card-lead-row">
+                    <a class="team-lead-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
                     </a>
-                    <a class="team-card-lead-pod-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
-                      <p class="team-card-lead-pod-name">${op.name}</p>
-                    </a>
-                    <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                    <div class="team-lead-details">
+                      <span class="lead-pod-tag mono">TEAM LEAD</span>
+                      <a class="team-lead-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer">
+                        <h4 class="team-lead-name">${op.name}</h4>
+                      </a>
+                      <p class="team-lead-title">${op.title}</p>
+                    </div>
+                    <a class="profile-btn-icon team-lead-li" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       ${LINKEDIN_ICON}
                     </a>
                   </div>
-                  <div class="team-card-right">
-                    <h3 class="team-card-team">${teamName}</h3>
-                    ${renderMemberList(op.members)}
-                  </div>
+                  ${renderMemberList(op.members)}
                 </article>
               `;
             })
