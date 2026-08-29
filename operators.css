@@ -275,17 +275,17 @@
   max-width: 100%;
 }
 
-/* ---------- GLASS ICON BUTTON (LinkedIn Logo Button) ---------- */
+/* ---------- GLASS CAPSULE BUTTON (LinkedIn Logo Capsule) ---------- */
 .profile-btn-icon {
   margin-top: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  min-height: 32px;
-  border-radius: 50%;
+  width: 46px;
+  height: 26px;
+  min-width: 46px;
+  min-height: 26px;
+  border-radius: 999px;
   color: #d8b4fe;
   background: rgba(168, 85, 247, 0.12);
   border: 1px solid rgba(168, 85, 247, 0.32);
@@ -298,8 +298,8 @@
 }
 
 .profile-btn-icon svg {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
   fill: currentColor;
   flex-shrink: 0;
   transition: transform 0.25s ease;
@@ -310,7 +310,7 @@
   background: linear-gradient(135deg, rgba(168, 85, 247, 0.7), rgba(124, 58, 237, 0.95));
   border-color: rgba(216, 180, 254, 0.8);
   box-shadow: 0 4px 16px rgba(168, 85, 247, 0.45), 0 0 14px rgba(192, 132, 252, 0.4);
-  transform: translateY(-2px) scale(1.08);
+  transform: translateY(-2px) scale(1.06);
 }
 
 .profile-btn-icon:hover svg {
