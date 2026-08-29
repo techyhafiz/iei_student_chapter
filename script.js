@@ -559,6 +559,7 @@
       "  float r=length(c);",
       "  if(r>1.0)discard;",
       "  float core=exp(-r*r*3.5);",
+      "  float a=vAlpha*core*mix(1.0,0.85,uLight);",
       "  vec3 violet=vec3(0.78,0.58,1.0);",
       "  vec3 fuchsia=vec3(0.98,0.62,1.0);",
       "  vec3 lightCol=mix(fuchsia,violet,vHue);",
@@ -567,7 +568,6 @@
       "  vec3 darkViolet=vec3(0.18,0.12,0.28);",
       "  vec3 darkCol=mix(darkCharcoal,darkViolet,vHue);",
       "  vec3 col=mix(lightCol,darkCol,uLight);",
-      "  a*=mix(1.0,0.85,uLight);",
       "  o=vec4(col*a,a);",
       "}",
     ].join("\n");
