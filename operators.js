@@ -133,9 +133,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderRow(label, members, withMemberLists, cardsClass = "") {
     return `
       <div class="solo-row">
-        <div class="sec-divider" aria-hidden="true" data-reveal>
+        <div class="sec-divider" aria-hidden="true">
           <span class="sec-divider-line"></span>
-          <span class="sec-divider-badge mono">◆ ${label.toUpperCase()}</span>
+          <span class="sec-divider-badge mono">◆ ${label.toUpperCase()} ◆</span>
           <span class="sec-divider-line"></span>
         </div>
         <div class="solo-cards ${cardsClass}">
@@ -165,9 +165,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderTeamRow(label, leads) {
     return `
       <div class="solo-row">
-        <div class="sec-divider" aria-hidden="true" data-reveal>
+        <div class="sec-divider" aria-hidden="true">
           <span class="sec-divider-line"></span>
-          <span class="sec-divider-badge mono">◆ ${label.toUpperCase()}</span>
+          <span class="sec-divider-badge mono">◆ ${label.toUpperCase()} ◆</span>
           <span class="sec-divider-line"></span>
         </div>
         <div class="team-cards">
