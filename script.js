@@ -67,8 +67,9 @@
     var rafId = 0, running = false, last = 0;
 
     function pal() {
-      return light
-        ? { core: "76, 29, 149", hi: "147, 51, 234", trail: "124, 58, 237", nebMax: .12 }
+      var isLight = document.documentElement.getAttribute("data-theme") === "light";
+      return isLight
+        ? { core: "15, 12, 25", hi: "39, 39, 45", trail: "20, 16, 32", nebMax: .14 }
         : { core: "248, 248, 255", hi: "232, 121, 249", trail: "196, 132, 252", nebMax: .34 };
     }
 
@@ -305,9 +306,10 @@
       "  vec3 col=mix(violet,fuchsia,clamp(y*1.6,0.0,1.0));",
       "  col=mix(col,indigo,0.35*e2);",
       "",
-      "  /* light theme: softer, more transparent */",
-      "  float a=glow*(mix(0.34,0.16,uLight));",
-      "  col=mix(col,vec3(0.42,0.27,0.65),uLight*0.5);",
+      "  /* light theme: sleek deep titanium and obsidian ribbon */",
+      "  vec3 darkViolet=mix(vec3(0.08,0.06,0.14),vec3(0.18,0.12,0.28),clamp(y*1.5,0.0,1.0));",
+      "  col=mix(col,darkViolet,uLight);",
+      "  float a=glow*(mix(0.34,0.25,uLight));",
       "",
       "  o=vec4(col*a,a);",
       "}"
@@ -356,7 +358,6 @@
 
     gl.clearColor(0, 0, 0, 0);
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 
     var dpr = 1, W = 0, H = 0;
     var t0 = performance.now();
@@ -375,9 +376,15 @@
     }
 
     function draw() {
+      var isLight = theme() > 0.5;
+      if (isLight) {
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      } else {
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+      }
       gl.uniform1f(uT, (performance.now() - t0) / 1000);
       gl.uniform2f(uRes, cv.width, cv.height);
-      gl.uniform1f(uLight, theme());
+      gl.uniform1f(uLight, isLight ? 1.0 : 0.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
@@ -541,12 +548,15 @@
       "  float r=length(c);",
       "  if(r>1.0)discard;",
       "  float core=exp(-r*r*3.5);",
-      "  float a=vAlpha*core;",
       "  vec3 violet=vec3(0.78,0.58,1.0);",
       "  vec3 fuchsia=vec3(0.98,0.62,1.0);",
-      "  vec3 col=mix(fuchsia,violet,vHue);",
-      "  col=mix(col,vec3(0.35,0.22,0.6),uLight*0.55);",
-      "  a*=mix(1.0,0.55,uLight);",
+      "  vec3 lightCol=mix(fuchsia,violet,vHue);",
+      "  /* Light mode: crisp dark charcoal & deep obsidian particles */",
+      "  vec3 darkCharcoal=vec3(0.06,0.06,0.09);",
+      "  vec3 darkViolet=vec3(0.18,0.12,0.28);",
+      "  vec3 darkCol=mix(darkCharcoal,darkViolet,vHue);",
+      "  vec3 col=mix(lightCol,darkCol,uLight);",
+      "  a*=mix(1.0,0.85,uLight);",
       "  o=vec4(col*a,a);",
       "}",
     ].join("\n");
@@ -789,7 +799,11 @@
       gl.uniform1f(uDraw.time, now / 1000);
       gl.uniform1f(uDraw.dpr, dpr);
       gl.enable(gl.BLEND);
-      gl.blendFunc(gl.ONE, gl.ONE); /* additive: sparks brighten each other + aurora */
+      if (lightTheme() > 0.5) {
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      } else {
+        gl.blendFunc(gl.ONE, gl.ONE); /* additive: sparks brighten each other + aurora */
+      }
       gl.bindVertexArray(srcDrawVao);
       gl.drawArrays(gl.POINTS, 0, COUNT);
 
