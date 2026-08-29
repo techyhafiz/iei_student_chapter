@@ -1045,7 +1045,7 @@
     });
   }
 
-  var navSectionIds = ["about", "why", "events", "gallery", "team", "faq", "join"];
+  var navSectionIds = ["about", "events", "gallery", "team", "faq", "join", "terminal"];
   function setActive(id) {
     $all(".nav-card-link[href^='#']").forEach(function (a) {
       a.classList.toggle("active", a.getAttribute("href") === "#" + id);
