@@ -176,8 +176,8 @@ document.addEventListener("DOMContentLoaded", () => {
               return `
                 <article class="team-card">
                   <div class="team-card-lead-pod-box">
+                    <span class="lead-pod-tag mono">LEAD</span>
                     <div class="solo-card-photo">
-                      <span class="lead-floating-badge mono">LEAD</span>
                       <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
                     </div>
                     <p class="team-card-lead-pod-name">${op.name}</p>

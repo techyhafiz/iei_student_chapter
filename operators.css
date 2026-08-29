@@ -443,30 +443,24 @@
   position: relative;
 }
 
-.lead-floating-badge {
-  position: absolute;
-  top: 7px;
-  left: 7px;
-  z-index: 2;
+.lead-pod-tag {
   font-family: var(--mono);
-  font-size: 7.5px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.16em;
-  color: #e9d5ff;
-  background: rgba(15, 8, 28, 0.75);
-  border: 1px solid rgba(168, 85, 247, 0.45);
-  border-radius: 6px;
-  padding: 2px 6px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-  pointer-events: none;
+  letter-spacing: 0.18em;
+  color: #d8b4fe;
+  background: rgba(124, 58, 237, 0.16);
+  border: 1px solid rgba(168, 85, 247, 0.38);
+  border-radius: 999px;
+  padding: 2.5px 9px;
+  margin-bottom: 3px;
+  display: inline-block;
 }
 
-:root[data-theme="light"] .lead-floating-badge {
+:root[data-theme="light"] .lead-pod-tag {
   color: #6d28d9;
-  background: rgba(255, 255, 255, 0.85);
-  border-color: rgba(124, 58, 237, 0.3);
+  background: rgba(124, 58, 237, 0.08);
+  border-color: rgba(124, 58, 237, 0.25);
 }
 
 .team-card-lead-pod-name {
