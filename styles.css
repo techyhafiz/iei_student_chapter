@@ -3298,8 +3298,10 @@ html:not(.js) .why-row {
   }
 
   /* Hide desktop arrow buttons on mobile */
-  .tl-nav {
-    display: none;
+  .tl-nav,
+  .tl-prev,
+  .tl-next {
+    display: none !important;
   }
 
   .next-event {
@@ -3340,9 +3342,6 @@ html:not(.js) .why-row {
   .ft2-meta { flex-direction: column; align-items: flex-start; gap: 10px; }
 
   .sec-head { align-items: flex-start; flex-direction: column; }
-
-  .tl-prev { left: -6px; }
-  .tl-next { right: -6px; }
 
   /* stop iOS auto-zoom on focus: inputs must be >= 16px */
   .field input,
