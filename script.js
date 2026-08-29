@@ -408,6 +408,377 @@
   })();
 
   /* ------------------------------------------------------------
+       HERO WARP PARTICLES — GPU transform-feedback system
+       ~9k particles computed entirely on the GPU: each has a
+       base drift (warp travel) plus a swirl force steered by
+       the cursor (attractor). Additive violet sparks with
+       depth-varying size/speed/brightness. Runs only while
+       the hero is on screen; hides if WebGL2 is unavailable
+       (transform feedback is GL2-only; the hero keeps the
+       aurora + stars either way).
+       ------------------------------------------------------------ */
+  (function () {
+    var cv = $("#warpFx");
+    if (!cv) { return; }
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var gl = cv.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: false, depth: false });
+    if (!gl) { cv.style.display = "none"; return; }
+
+    var COUNT = 9000;
+
+    /* ---- shaders ---- */
+    var SIM_V = [
+      "#version 300 es",
+      "precision highp float;",
+      "in vec2 aPos;",
+      "in vec2 aVel;",
+      "in vec3 aSeed;",            /* x: size, y: depth, z: twinkle phase */
+      "uniform vec2 uRes;",
+      "uniform vec2 uMouse;",
+      "uniform float uAmp;",
+      "uniform float uDt;",
+      "uniform float uT;",
+      "out vec2 vPos;",
+      "out vec2 vVel;",
+      "out vec3 vSeed;",
+      "void main(){",
+      "  vec2 p=aPos; vec2 v=aVel;",
+      "  /* base warp drift: toward lower-left, scaled by depth */",
+      "  float sp=55.0+aSeed.y*380.0;",
+      "  vec2 dir=normalize(vec2(-0.72,-0.42));",
+      "  v+=dir*sp*uDt*(0.35+aSeed.y);",
+      "  v*=exp(-0.8*uDt);",        /* friction */
+      "  /* cursor attractor with orbital swirl (only while cursor is over hero) */",
+      "  vec2 mp=uMouse*uRes;",
+      "  vec2 d=mp-p;",
+      "  float dist=length(d)+1.0;",
+      "  float pull=exp(-dist/300.0)*uAmp;",
+      "  vec2 tang=vec2(-d.y,d.x)/dist;",
+      "  v+=(normalize(d)*pull*480.0+tang*pull*360.0)*uDt;",
+      "  /* gentle wander so streams aren't perfectly straight */",
+      "  v+=vec2(sin(uT*0.8+aSeed.z*6.28),cos(uT*0.6+aSeed.z*9.42))*10.0*uDt;",
+      "  p+=v*uDt;",
+      "  /* wrap around edges with a respawn margin */",
+      "  float m=40.0;",
+      "  if(p.x<-m)p.x=uRes.x+m; if(p.x>uRes.x+m)p.x=-m;",
+      "  if(p.y<-m)p.y=uRes.y+m; if(p.y>uRes.y+m)p.y=-m;",
+      "  vPos=p; vVel=v; vSeed=aSeed;",
+      "}"
+    ].join("\n");
+
+    var SIM_F = [
+      "#version 300 es",
+      "precision highp float;",
+      "out vec4 o;",
+      "void main(){o=vec4(0.0);}"
+    ].join("\n");
+
+    var DRAW_V = [
+      "#version 300 es",
+      "precision highp float;",
+      "in vec2 vPos;",
+      "in vec2 vVel;",
+      "in vec3 vSeed;",
+      "uniform vec2 uRes;",
+      "uniform float uLight;",
+      "uniform float uTime;",
+      "uniform float uDpr;",
+      "out float vAlpha;",
+      "out float vHue;",
+      "out float vTw;",
+      "void main(){",
+      "  vec2 clip=(vPos/uRes)*2.0-1.0;",
+      "  gl_Position=vec4(clip,0.0,1.0);",
+      "  float sp=length(vVel);",
+      "  gl_PointSize=max(1.0,vSeed.x*(1.0+sp*0.004)*uDpr);",
+      "  vAlpha=clamp(0.30+vSeed.y*0.55+sp*0.0012,0.0,1.0);",
+      "  vHue=vSeed.y;",
+      "  vTw=0.5+0.5*sin(uTime*2.0+vSeed.z*6.28);",
+      "}"
+    ].join("\n");
+
+    var DRAW_F = [
+      "#version 300 es",
+      "precision highp float;",
+      "in float vAlpha;",
+      "in float vHue;",
+      "in float vTw;",
+      "uniform float uLight;",
+      "out vec4 o;",
+      "void main(){",
+      "  vec2 c=gl_PointCoord*2.0-1.0;",
+      "  float r=length(c);",
+      "  if(r>1.0)discard;",
+      "  float core=exp(-r*r*5.0);",
+      "  float a=vAlpha*core*(0.55+0.45*vTw);",
+      "  vec3 violet=vec3(0.722,0.51,0.98);",
+      "  vec3 fuchsia=vec3(0.95,0.55,0.99);",
+      "  vec3 col=mix(fuchsia,violet,vHue);",
+      "  col=mix(col,vec3(0.35,0.22,0.6),uLight*0.55);",
+      "  a*=mix(1.0,0.55,uLight);",
+      "  o=vec4(col*a,a);",
+      "}"
+    ].join("\n");
+
+    function compile(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+        if (window.console) { console.warn("warp shader:", gl.getShaderInfoLog(s)); }
+        return null;
+      }
+      return s;
+    }
+
+    function program(vs, fs) {
+      var p = gl.createProgram();
+      gl.attachShader(p, compile(gl.VERTEX_SHADER, vs));
+      gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
+      return p;
+    }
+
+    var simProg = program(SIM_V, SIM_F);
+    var drawProg = program(DRAW_V, DRAW_F);
+
+    /* transform-feedback varyings for the sim program */
+    gl.transformFeedbackVaryings(simProg, ["vPos", "vVel", "vSeed"], gl.SEPARATE_ATTRIBS);
+    gl.linkProgram(simProg);
+    if (!gl.getProgramParameter(simProg, gl.LINK_STATUS)) {
+      if (window.console) { console.warn("warp sim link:", gl.getProgramInfoLog(simProg)); }
+      cv.style.display = "none"; return;
+    }
+    gl.linkProgram(drawProg);
+    if (!gl.getProgramParameter(drawProg, gl.LINK_STATUS)) {
+      if (window.console) { console.warn("warp draw link:", gl.getProgramInfoLog(drawProg)); }
+      cv.style.display = "none"; return;
+    }
+
+    /* ---- buffers: two ping-pong pairs of (pos, vel, seed) ---- */
+    function makeBuf(data) {
+      var b = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, b);
+      gl.bufferData(gl.ARRAY_BUFFER, data, gl.DYNAMIC_COPY);
+      return b;
+    }
+
+    var pos0 = new Float32Array(COUNT * 2);
+    var vel0 = new Float32Array(COUNT * 2);
+    var seed0 = new Float32Array(COUNT * 3);
+    for (var i = 0; i < COUNT; i++) {
+      pos0[i * 2] = Math.random();      /* filled with real size later */
+      pos0[i * 2 + 1] = Math.random();
+      vel0[i * 2] = rand(-14, 14);
+      vel0[i * 2 + 1] = rand(-10, 10);
+      seed0[i * 3] = rand(1.4, 2.8);    /* size */
+      seed0[i * 3 + 1] = Math.random(); /* depth 0..1 */
+      seed0[i * 3 + 2] = Math.random(); /* phase */
+    }
+
+    var pairs = [];
+    for (var k = 0; k < 2; k++) {
+      pairs.push({
+        pos: makeBuf(new Float32Array(COUNT * 2)),
+        vel: makeBuf(vel0),
+        seed: makeBuf(seed0)
+      });
+    }
+
+    var vaoA = gl.createVertexArray();
+    var vaoB = gl.createVertexArray();
+    var cur = 0;
+
+    function attrib(vao, pair, prog) {
+      gl.bindVertexArray(vao);
+      var aPos = gl.getAttribLocation(prog, "aPos");
+      var aVel = gl.getAttribLocation(prog, "aVel");
+      var aSeed = gl.getAttribLocation(prog, "aSeed");
+      gl.bindBuffer(gl.ARRAY_BUFFER, pair.pos);
+      gl.enableVertexAttribArray(aPos);
+      gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, pair.vel);
+      gl.enableVertexAttribArray(aVel);
+      gl.vertexAttribPointer(aVel, 2, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, pair.seed);
+      gl.enableVertexAttribArray(aSeed);
+      gl.vertexAttribPointer(aSeed, 3, gl.FLOAT, false, 0, 0);
+    }
+
+    /* draw VAOs read sim outputs (vPos/vVel/vSeed as inputs) */
+    function drawAttrib(vao, pair) {
+      gl.bindVertexArray(vao);
+      var vPos = gl.getAttribLocation(drawProg, "vPos");
+      var vVel = gl.getAttribLocation(drawProg, "vVel");
+      var vSeed = gl.getAttribLocation(drawProg, "vSeed");
+      gl.bindBuffer(gl.ARRAY_BUFFER, pair.pos);
+      gl.enableVertexAttribArray(vPos);
+      gl.vertexAttribPointer(vPos, 2, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, pair.vel);
+      gl.enableVertexAttribArray(vVel);
+      gl.vertexAttribPointer(vVel, 2, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, pair.seed);
+      gl.enableVertexAttribArray(vSeed);
+      gl.vertexAttribPointer(vSeed, 3, gl.FLOAT, false, 0, 0);
+    }
+
+    attrib(vaoA, pairs[0], simProg);
+    attrib(vaoB, pairs[1], simProg);
+
+    var drawVaoA = gl.createVertexArray();
+    var drawVaoB = gl.createVertexArray();
+    drawAttrib(drawVaoA, pairs[0]);
+    drawAttrib(drawVaoB, pairs[1]);
+
+    var tf = gl.createTransformFeedback();
+
+    var uSim = {
+      res: gl.getUniformLocation(simProg, "uRes"),
+      mouse: gl.getUniformLocation(simProg, "uMouse"),
+      amp: gl.getUniformLocation(simProg, "uAmp"),
+      dt: gl.getUniformLocation(simProg, "uDt"),
+      t: gl.getUniformLocation(simProg, "uT")
+    };
+    var uDraw = {
+      res: gl.getUniformLocation(drawProg, "uRes"),
+      light: gl.getUniformLocation(drawProg, "uLight"),
+      time: gl.getUniformLocation(drawProg, "uTime"),
+      dpr: gl.getUniformLocation(drawProg, "uDpr")
+    };
+
+    var dpr = 1, W = 0, H = 0;
+    var mouse = { x: .5, y: .5 };
+    var amp = 0, ampT = 0;          /* attractor strength: eased 0..1 */
+    var visible = true;
+    var running = false;
+    var rafId = 0, last = 0;
+
+    function size() {
+      var host = cv.parentElement.getBoundingClientRect();
+      W = Math.max(1, Math.ceil(host.width));
+      H = Math.max(1, Math.ceil(host.height));
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      cv.width = W * dpr; cv.height = H * dpr;
+      gl.viewport(0, 0, cv.width, cv.height);
+      /* reseed positions in pixel space */
+      var src = pairs[cur], dst = pairs[1 - cur];
+      for (var i = 0; i < COUNT; i++) {
+        pos0[i * 2] = Math.random() * W;
+        pos0[i * 2 + 1] = Math.random() * H;
+      }
+      gl.bindBuffer(gl.ARRAY_BUFFER, src.pos);
+      gl.bufferData(gl.ARRAY_BUFFER, pos0, gl.DYNAMIC_COPY);
+      gl.bindBuffer(gl.ARRAY_BUFFER, dst.pos);
+      gl.bufferData(gl.ARRAY_BUFFER, pos0, gl.DYNAMIC_COPY);
+      gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    }
+
+    function lightTheme() { return document.documentElement.getAttribute("data-theme") === "light" ? 1 : 0; }
+
+    function frame(now) {
+      var dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+      last = now;
+      amp += (ampT - amp) * Math.min(1, dt * 4);
+
+      var src = pairs[cur], dst = pairs[1 - cur];
+      var srcVao = cur === 0 ? vaoA : vaoB;
+      var srcDrawVao = cur === 0 ? drawVaoA : drawVaoB;
+
+      /* 1. simulate */
+      gl.useProgram(simProg);
+      gl.uniform2f(uSim.res, W, H);
+      gl.uniform2f(uSim.mouse, mouse.x, 1 - mouse.y);
+      gl.uniform1f(uSim.amp, amp);
+      gl.uniform1f(uSim.dt, dt);
+      gl.uniform1f(uSim.t, now / 1000);
+      gl.bindVertexArray(srcVao);
+      /* TF dest must not be bound to any non-TF target (generic ARRAY_BUFFER
+         included) or WebGL2 drops the draw — unbind to keep the sim valid. */
+      gl.bindBuffer(gl.ARRAY_BUFFER, null);
+      gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, tf);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, dst.pos);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 1, dst.vel);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 2, dst.seed);
+      gl.enable(gl.RASTERIZER_DISCARD);
+      gl.beginTransformFeedback(gl.POINTS);
+      gl.drawArrays(gl.POINTS, 0, COUNT);
+      gl.endTransformFeedback();
+      gl.disable(gl.RASTERIZER_DISCARD);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, null);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 1, null);
+      gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 2, null);
+      gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
+
+      /* 2. draw */
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(drawProg);
+      gl.uniform2f(uDraw.res, W, H);
+      gl.uniform1f(uDraw.light, lightTheme());
+      gl.uniform1f(uDraw.time, now / 1000);
+      gl.uniform1f(uDraw.dpr, dpr);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE); /* additive: sparks brighten each other + aurora */
+      gl.bindVertexArray(srcDrawVao);
+      gl.drawArrays(gl.POINTS, 0, COUNT);
+
+      /* dst becomes src next frame (VAO bindings persist — buffers never swap identity) */
+      cur = 1 - cur;
+
+      rafId = (running && visible) ? requestAnimationFrame(frame) : 0;
+    }
+
+    window.addEventListener("pointermove", function (e) {
+      var r = cv.getBoundingClientRect();
+      var x = (e.clientX - r.left) / Math.max(1, r.width);
+      var y = (e.clientY - r.top) / Math.max(1, r.height);
+      if (x > -0.08 && x < 1.08 && y > -0.08 && y < 1.08) {
+        mouse.x = Math.max(0, Math.min(1, x));
+        mouse.y = Math.max(0, Math.min(1, y));
+        ampT = 1;
+      } else {
+        ampT = 0;   /* cursor left the hero: swirl fades out */
+      }
+    }, { passive: true });
+
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden && visible && !rafId && !reducedMotion) {
+        last = performance.now();
+        rafId = requestAnimationFrame(frame);
+      }
+    });
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        visible = entries[0].isIntersecting;
+        if (visible && !rafId && !reducedMotion) {
+          last = performance.now();
+          rafId = requestAnimationFrame(frame);
+        }
+      }, { threshold: 0 }).observe(cv);
+    }
+
+    var rsz;
+    window.addEventListener("resize", function () {
+      clearTimeout(rsz);
+      rsz = setTimeout(function () {
+        size();
+        if (reducedMotion) { frame(performance.now()); } /* redraw static sprinkle */
+      }, 150);
+    });
+
+    size();
+    if (!reducedMotion) {
+      running = true;
+      last = performance.now();
+      rafId = requestAnimationFrame(frame);
+    } else {
+      /* single static sprinkle (running stays false so frame() never re-schedules) */
+      frame(performance.now());
+    }
+  })();
+
+  /* ------------------------------------------------------------
      HERO HEADLINE — lines are authored directly in the markup
      (.headline-line spans) and revealed via CSS keyframes.
      ------------------------------------------------------------ */

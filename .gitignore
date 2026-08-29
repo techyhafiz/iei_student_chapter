@@ -12,3 +12,5 @@ ehthumbs.db
 # Temporary & Log files
 *.log
 .temp/
+new-session-*.json
+new-session---*.json
