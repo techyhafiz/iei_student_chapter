@@ -73,6 +73,15 @@
   gap: 16px;
 }
 
+/* ---------- EXECUTIVE COMMITTEE (Fixed 4 in 1 Line on PC/Laptop) ---------- */
+.solo-cards--admins,
+.solo-cards--fourth {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
 /* ---------- SOLO CARD (partner-card look) ---------- */
 .solo-card {
   position: relative;
@@ -361,11 +370,12 @@
   transform: translate(1px, -1px);
 }
 
-/* ---------- TEAM CARDS ---------- */
+/* ---------- TEAM CARDS (Fixed 2×2 Grid on PC/Laptop) ---------- */
 .team-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
 }
 
 .team-card {
@@ -488,13 +498,25 @@
 }
 
 /* responsive */
-@media (max-width: 640px) {
-  .team-card {
-    grid-template-columns: 84px 1fr;
-    gap: 12px;
+@media (max-width: 992px) {
+  .solo-cards--admins,
+  .solo-cards--fourth {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .solo-cards {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  .team-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .solo-cards--admins,
+  .solo-cards--fourth {
+    grid-template-columns: 1fr;
+  }
+
+  .team-card {
+    grid-template-columns: 88px 1fr;
+    gap: 12px;
   }
 }
