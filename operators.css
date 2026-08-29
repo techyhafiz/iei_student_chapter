@@ -20,6 +20,10 @@
 
 .operators-solo-board {
   margin-top: 2rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: clamp(1.8rem, 3.5vw, 2.8rem);
@@ -34,7 +38,7 @@
 .solo-row .sec-divider,
 .faculty-cards-wrap .sec-divider {
   padding: 0;
-  margin: 10px auto 24px;
+  margin: 10px auto 20px;
   width: 100%;
   max-width: 1000px;
   display: flex;
@@ -169,8 +173,8 @@
 .solo-cards--faculty {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  max-width: 1000px;
+  gap: 20px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
 }
@@ -179,21 +183,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 22px;
-  padding: 22px 26px;
-  border-radius: 20px;
+  gap: 18px;
+  padding: 18px 22px;
+  border-radius: 18px;
   background: rgba(18, 10, 32, 0.65);
   border: 1px solid rgba(139, 92, 246, 0.2);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 14px 32px -8px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.48), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: transform 0.35s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .solo-cards--faculty .solo-card--faculty-item:hover {
   transform: translateY(-4px);
   border-color: rgba(192, 132, 252, 0.55);
-  box-shadow: 0 18px 40px -8px rgba(0, 0, 0, 0.65), 0 0 26px rgba(168, 85, 247, 0.2);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.65), 0 0 24px rgba(168, 85, 247, 0.2);
 }
 
 .solo-cards--faculty .solo-card--faculty-item::after {
@@ -201,39 +205,39 @@
 }
 
 .solo-cards--faculty .solo-card-photo {
-  width: 140px;
-  height: 140px;
-  min-width: 140px;
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
   aspect-ratio: 1 / 1;
-  border-radius: 16px;
+  border-radius: 14px;
   margin-bottom: 0;
   border: 1px solid rgba(168, 85, 247, 0.35);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
 }
 
 .solo-cards--faculty .solo-card-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
 }
 
 .solo-cards--faculty .solo-card-name {
-  font-size: 1.28rem;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
 }
 
 .solo-cards--faculty .solo-card-title {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: var(--tx2);
-  margin: 0 0 6px;
+  margin: 0 0 4px;
 }
 
 .solo-cards--faculty .solo-card-link {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -250,7 +254,7 @@
 @media (max-width: 860px) {
   .solo-cards--faculty {
     grid-template-columns: 1fr;
-    max-width: 480px;
+    max-width: 440px;
   }
 }
 
@@ -374,17 +378,17 @@
 .team-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 18px;
   width: 100%;
 }
 
 .team-card {
   display: grid;
-  grid-template-columns: 135px 1fr;
-  gap: 18px;
+  grid-template-columns: 125px 1fr;
+  gap: 16px;
   align-items: center;
-  padding: 18px 20px;
-  border-radius: 18px;
+  padding: 16px 18px;
+  border-radius: 16px;
   border: 1px solid var(--linec);
   background: var(--card);
   backdrop-filter: blur(12px);
@@ -403,11 +407,11 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 5px;
-  padding: 12px 8px;
+  gap: 4px;
+  padding: 10px 8px;
   background: rgba(15, 8, 28, 0.5);
   border: 1px solid rgba(139, 92, 246, 0.22);
-  border-radius: 14px;
+  border-radius: 12px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
@@ -417,8 +421,9 @@
 }
 
 .team-card-lead-pod-box .solo-card-photo {
-  width: 94px;
-  height: 94px;
+  width: 95px;
+  height: 95px;
+  min-width: 95px;
   aspect-ratio: 1 / 1;
   border-radius: 12px;
   margin-bottom: 2px;
