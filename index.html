@@ -200,59 +200,86 @@
       </div>
     </div>
 
-    <!-- ======= ABOUT / OVERVIEW ======= -->
+    <!-- ======= ABOUT / OVERVIEW (Apple Bento Style) ======= -->
     <section id="about" class="section">
       <header class="sec-head-center">
         <p class="section-tag mono" data-reveal>// 01 — OVERVIEW</p>
-        <h2 class="sec-title" data-reveal>The Vision Behind
-          <span class="grad">IEI Student Chapter</span>
+        <h2 class="sec-title bento-sec-title" data-reveal>The Vision Behind
+          <span class="grad iei-drop-glow">IEI Student Chapter</span>
         </h2>
         <p class="sec-desc" data-reveal>The IEI Student Chapter is a student-led technical community established for
           the Department of Cyber Security &amp; Data Science at G H Raisoni College under the Institution of Engineers (India).</p>
       </header>
 
-      <div class="terminal-window" data-reveal data-tilt>
-        <div class="terminal-header mono">
-          <span class="terminal-dot dot-red"></span>
-          <span class="terminal-dot dot-yellow"></span>
-          <span class="terminal-dot dot-green"></span>
-          <span class="terminal-tab">iei@cybersec:~ — chapter.sh</span>
+      <div class="overview-bento-grid" data-reveal>
+        <!-- Left Column: The Narrative & Interactive Terminal -->
+        <div class="bento-terminal-wrap" data-tilt>
+          <div class="terminal-header">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+            <span class="terminal-tab mono">iei@csds:~ — chapter.sh</span>
+          </div>
+          <div class="terminal-body mono" id="termBody" aria-live="polite"></div>
         </div>
-        <div class="terminal-body mono" id="termBody" aria-live="polite"></div>
-      </div>
 
-      <!-- Mission chips -->
-      <div class="mission-list" data-reveal aria-label="Our mission">
-        <div class="mission-item"><span class="mission-num mono">01</span><span>Promote technical learning</span></div>
-        <div class="mission-item"><span class="mission-num mono">02</span><span>Encourage exploration of cybersecurity</span></div>
-        <div class="mission-item"><span class="mission-num mono">03</span><span>Provide practical, hands-on exposure</span></div>
-        <div class="mission-item"><span class="mission-num mono">04</span><span>Organize events &amp; workshops</span></div>
-        <div class="mission-item"><span class="mission-num mono">05</span><span>Build a strong technical culture</span></div>
-      </div>
+        <!-- Right Column: Key Metrics & Focus Areas -->
+        <div class="bento-right-col">
+          <!-- 4 Impact Metric Cards -->
+          <div class="bento-metrics-grid">
+            <div class="bento-metric-card">
+              <span class="metric-val" data-count="500">500+</span>
+              <span class="metric-label">Active Student Members</span>
+            </div>
+            <div class="bento-metric-card">
+              <span class="metric-val" data-count="15">15+</span>
+              <span class="metric-label">CTF Competitions &amp; Hackathons</span>
+            </div>
+            <div class="bento-metric-card">
+              <span class="metric-val">4</span>
+              <span class="metric-label">Specialized Engineering Tracks</span>
+            </div>
+            <div class="bento-metric-card">
+              <span class="metric-val">Weekly</span>
+              <span class="metric-label">Deep-Dive Labs &amp; Workshops</span>
+            </div>
+          </div>
 
-      <!-- Culture feature cards -->
-      <div class="about-cards">
-        <article class="feature-card" data-reveal>
-          <span class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-          </span>
-          <h3>Hands-On Labs</h3>
-          <p>Web, pwn, crypto, forensics and OSINT labs — every session is practical, not theoretical.</p>
-        </article>
-        <article class="feature-card" data-reveal>
-          <span class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </span>
-          <h3>Think Like an Attacker</h3>
-          <p>Zero-trust mindset — break systems first, so you know exactly how to defend them.</p>
-        </article>
-        <article class="feature-card" data-reveal>
-          <span class="feature-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          </span>
-          <h3>Career-Ready Skills</h3>
-          <p>Connect classroom concepts with real-world engineering and cybersecurity applications.</p>
-        </article>
+          <!-- 4 Focus Domain Track Cards -->
+          <div class="bento-tracks-list">
+            <div class="bento-track-card">
+              <div class="track-header">
+                <span class="track-dot dot-purple"></span>
+                <h4 class="track-title">Offensive Security &amp; Red Teaming</h4>
+              </div>
+              <p class="track-desc">Web exploitation, binary analysis, reverse engineering &amp; penetration testing.</p>
+            </div>
+
+            <div class="bento-track-card">
+              <div class="track-header">
+                <span class="track-dot dot-blue"></span>
+                <h4 class="track-title">Defensive Engineering &amp; Blue Teaming</h4>
+              </div>
+              <p class="track-desc">Threat monitoring, incident response, network hardening &amp; defense architecture.</p>
+            </div>
+
+            <div class="bento-track-card">
+              <div class="track-header">
+                <span class="track-dot dot-green"></span>
+                <h4 class="track-title">Applied Cryptography &amp; Forensics</h4>
+              </div>
+              <p class="track-desc">Memory analysis, OSINT investigations, cipher protocols &amp; artifact recovery.</p>
+            </div>
+
+            <div class="bento-track-card">
+              <div class="track-header">
+                <span class="track-dot dot-orange"></span>
+                <h4 class="track-title">Data-Driven Intelligence</h4>
+              </div>
+              <p class="track-desc">AI security, anomaly detection, threat modeling &amp; automated triage systems.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

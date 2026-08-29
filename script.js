@@ -1149,14 +1149,13 @@
      ------------------------------------------------------------ */
   var termBody = $("#termBody");
   var termScript = [
-    { t: "whoami", c: "cmd" },
-    { t: "iei student chapter // ghrcemp", c: "out" },
-    { t: "cat mission.txt", c: "cmd" },
-    { t: "turn curiosity into engineering capability.", c: "out" },
-    { t: "ls labs/", c: "cmd" },
-    { t: "web/  pwn/  crypto/  forensics/  osint/", c: "out" },
-    { t: "./join --now", c: "cmd" },
-    { t: "[ok] access_granted — see you friday 17:00", c: "ok" }
+    { t: "iei --status", c: "cmd" },
+    { t: "● IEI Student Chapter (Department of CSDS, GHRCEM)", c: "out info" },
+    { t: "  Active Track   : Offensive Security & Applied Data Science", c: "out" },
+    { t: "  Current Sprint : CTF Prep & Red Teaming Labs", c: "out" },
+    { t: "  Next Meetup    : Friday @ 17:00 IST | Lab 402", c: "out" },
+    { t: "./join --role \"builder\"", c: "cmd" },
+    { t: "[✓] Access granted. Welcome to the cohort.", c: "ok" }
   ];
   var termStarted = false;
 
