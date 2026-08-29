@@ -1006,23 +1006,97 @@
   }
 
   /* ------------------------------------------------------------
-     THEME TOGGLE — light/dark with persistence
+     THEME TOGGLE & PALETTE PICKER — light/dark + 5 Light Theme Variations
      ------------------------------------------------------------ */
   var themeToggle = $("#themeToggle");
+  var palettePickerBtn = $("#palettePickerBtn");
+  var paletteDropdown = $("#paletteDropdown");
+  var paletteOptions = $all(".palette-opt", paletteDropdown);
 
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
     if (themeToggle) themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
   }
 
+  function applyPalette(paletteName) {
+    document.documentElement.setAttribute("data-palette", paletteName);
+    paletteOptions.forEach(function (opt) {
+      var isMatch = opt.getAttribute("data-palette") === paletteName;
+      opt.classList.toggle("is-active", isMatch);
+      opt.setAttribute("aria-selected", isMatch ? "true" : "false");
+    });
+    try { localStorage.setItem("iei-light-palette", paletteName); } catch (e) { }
+  }
+
+  // Restore stored theme & palette
+  var storedTheme = null;
+  var storedPalette = "frost-violet";
+  try {
+    storedTheme = localStorage.getItem("iei-theme");
+    storedPalette = localStorage.getItem("iei-light-palette") || "frost-violet";
+  } catch (e) { }
+
+  applyTheme(storedTheme === "light" ? "light" : "dark");
+  applyPalette(storedPalette);
+
   if (themeToggle) {
-    var stored = null;
-    try { stored = localStorage.getItem("iei-theme"); } catch (e) { }
-    applyTheme(stored === "light" ? "light" : "dark");
     themeToggle.addEventListener("click", function () {
       var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
       applyTheme(next);
       try { localStorage.setItem("iei-theme", next); } catch (e) { }
+    });
+  }
+
+  if (palettePickerBtn && paletteDropdown) {
+    palettePickerBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var isOpen = paletteDropdown.classList.contains("is-open");
+      paletteDropdown.classList.toggle("is-open", !isOpen);
+      palettePickerBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+    });
+
+    paletteOptions.forEach(function (opt) {
+      opt.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var selectedPalette = opt.getAttribute("data-palette");
+        applyPalette(selectedPalette);
+        // If currently in dark mode, switch to light so user can immediately evaluate the palette
+        applyTheme("light");
+        try { localStorage.setItem("iei-theme", "light"); } catch (err) { }
+        paletteDropdown.classList.remove("is-open");
+        palettePickerBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!paletteDropdown.contains(e.target) && !palettePickerBtn.contains(e.target) && (!floatingThemeBtn || !floatingThemeBtn.contains(e.target))) {
+        paletteDropdown.classList.remove("is-open");
+        palettePickerBtn.setAttribute("aria-expanded", "false");
+        if (floatingThemeBtn) floatingThemeBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  var floatingThemeBtn = $("#floatingThemeBtn");
+  if (floatingThemeBtn && paletteDropdown) {
+    floatingThemeBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var isOpen = paletteDropdown.classList.contains("is-open");
+      paletteDropdown.classList.toggle("is-open", !isOpen);
+      floatingThemeBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
+      if (!isOpen && window.scrollY > 150) {
+        paletteDropdown.style.position = "fixed";
+        paletteDropdown.style.bottom = (window.innerWidth <= 768) ? "130px" : "75px";
+        paletteDropdown.style.top = "auto";
+        paletteDropdown.style.left = (window.innerWidth <= 768) ? "14px" : "20px";
+        paletteDropdown.style.right = "auto";
+      } else {
+        paletteDropdown.style.position = "";
+        paletteDropdown.style.bottom = "";
+        paletteDropdown.style.top = "";
+        paletteDropdown.style.left = "";
+        paletteDropdown.style.right = "";
+      }
     });
   }
 
