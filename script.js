@@ -156,16 +156,22 @@
       ctx.globalAlpha = 1;
 
       /* stars — scroll parallax + twinkle */
+      var isLight = document.documentElement.getAttribute("data-theme") === "light";
       for (var i = 0; i < stars.length; i++) {
         var s = stars[i];
         var sy = ((s.y - sc * s.par) % H + H) % H;
         var tw = .5 + .5 * Math.sin(t * s.tw + s.ph);
         var a = s.base * (.45 + .55 * tw);
         ctx.beginPath();
-        ctx.fillStyle = "rgba(" + p.core + "," + a.toFixed(3) + ")";
-        ctx.arc(s.x, sy, s.r, 0, 6.2832);
+        if (isLight) {
+          ctx.fillStyle = "rgba(18, 16, 28, " + (a * 0.9).toFixed(3) + ")";
+          ctx.arc(s.x, sy, s.r * 1.25, 0, 6.2832);
+        } else {
+          ctx.fillStyle = "rgba(" + p.core + "," + a.toFixed(3) + ")";
+          ctx.arc(s.x, sy, s.r, 0, 6.2832);
+        }
         ctx.fill();
-        if (s.r > 0.95 && tw > .82) {
+        if (!isLight && s.r > 0.95 && tw > .82) {
           ctx.beginPath();
           ctx.fillStyle = "rgba(" + p.hi + "," + (a * .22).toFixed(3) + ")";
           ctx.arc(s.x, sy, s.r * 2.2, 0, 6.2832);
@@ -189,10 +195,15 @@
         if (mt.life <= 0 || mt.x < -80 || mt.y > H + 80) { meteors.splice(m, 1); continue; }
         var tail = 90 * mt.life;
         var grad = ctx.createLinearGradient(mt.x, mt.y, mt.x + tail, mt.y - tail * .55);
-        grad.addColorStop(0, "rgba(" + p.trail + "," + (.8 * mt.life).toFixed(3) + ")");
-        grad.addColorStop(1, "rgba(" + p.trail + ",0)");
+        if (isLight) {
+          grad.addColorStop(0, "rgba(9, 9, 11," + (.95 * mt.life).toFixed(3) + ")");
+          grad.addColorStop(1, "rgba(24, 24, 27, 0)");
+        } else {
+          grad.addColorStop(0, "rgba(" + p.trail + "," + (.8 * mt.life).toFixed(3) + ")");
+          grad.addColorStop(1, "rgba(" + p.trail + ",0)");
+        }
         ctx.strokeStyle = grad;
-        ctx.lineWidth = 1.4;
+        ctx.lineWidth = isLight ? 2.0 : 1.4;
         ctx.beginPath();
         ctx.moveTo(mt.x, mt.y);
         ctx.lineTo(mt.x + tail, mt.y - tail * .55);
@@ -1025,26 +1036,37 @@
   var themeToggle = $("#themeToggle");
 
   function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    document.documentElement.setAttribute("data-palette", "titanium-mono");
-    if (themeToggle) themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+    var isLight = theme === "light";
+    document.documentElement.setAttribute("data-theme", isLight ? "light" : "dark");
+    if (isLight) {
+      document.documentElement.setAttribute("data-palette", "titanium-mono");
+    } else {
+      document.documentElement.removeAttribute("data-palette");
+    }
+    if (themeToggle) {
+      themeToggle.setAttribute("aria-pressed", isLight ? "true" : "false");
+      themeToggle.setAttribute("title", isLight ? "Switch to Dark Mode" : "Switch to Light Mode");
+    }
   }
 
-  // Restore stored theme or default to light Titanium Minimalist
-  var storedTheme = "light";
+  // Restore stored theme (defaults to dark or saved preference)
+  var storedTheme = "dark";
   try {
-    storedTheme = localStorage.getItem("iei-theme") || "light";
+    storedTheme = localStorage.getItem("iei-theme") || "dark";
   } catch (e) { }
 
   applyTheme(storedTheme);
 
   if (themeToggle) {
     themeToggle.addEventListener("click", function (e) {
+      e.preventDefault();
       e.stopPropagation();
-      var current = document.documentElement.getAttribute("data-theme");
-      var next = current === "light" ? "dark" : "light";
+      var current = document.documentElement.getAttribute("data-theme") || "dark";
+      var next = (current === "light") ? "dark" : "light";
       applyTheme(next);
-      try { localStorage.setItem("iei-theme", next); } catch (err) { }
+      try {
+        localStorage.setItem("iei-theme", next);
+      } catch (err) { }
     });
   }
 

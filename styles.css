@@ -861,7 +861,13 @@ html[data-theme="light"] .icon-moon { display: none; }
   overflow: hidden;
 }
 
-.hero-bg { position: absolute; inset: 0; z-index: 0; }
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 
 /* ---------- AURORA WAVE CANVAS (WebGL, hero only) ---------- */
 #auroraFx {
@@ -869,6 +875,7 @@ html[data-theme="light"] .icon-moon { display: none; }
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
   pointer-events: none;
   /* band the energy to the lower 65% like the reference, fade the top */
   mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, black 52%, black 82%, transparent 100%);
@@ -881,6 +888,7 @@ html[data-theme="light"] .icon-moon { display: none; }
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -888,7 +896,7 @@ html[data-theme="light"] .icon-moon { display: none; }
 #spaceFx {
   position: fixed;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -908,6 +916,7 @@ html[data-theme="light"] .icon-moon { display: none; }
     radial-gradient(40% 55% at 72% 100%, rgba(232, 121, 249, .14), transparent 70%);
   filter: blur(10px);
   pointer-events: none;
+  z-index: 0;
 }
 
 .hero-bg-fade {
