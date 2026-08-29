@@ -3159,7 +3159,15 @@ html:not(.js) .why-row {
     transform: scale(.98);
   }
 
-  .logo-sub { display: none; }
+  .logo-sub {
+    display: inline !important;
+    font-size: 0.72em;
+    font-weight: 600;
+    margin-left: 5px;
+    letter-spacing: 0.03em;
+    opacity: 0.88;
+    white-space: nowrap;
+  }
 
   /* lighter blur keeps mobile scroll smooth */
   .card-nav,
@@ -3567,7 +3575,7 @@ html:not(.js) .why-row {
     position: static;
     transform: none;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-start;
     min-width: 0;
   }
 
@@ -3575,14 +3583,17 @@ html:not(.js) .why-row {
     width: 26px;
     height: 26px;
     border-radius: 8px;
+    flex-shrink: 0;
   }
 
   .logo-text {
-    font-size: .84rem;
+    font-size: .88rem;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
+    text-overflow: unset;
     margin-left: 7px;
+    display: inline-flex;
+    align-items: baseline;
   }
 
   .hamburger-menu {
@@ -3592,11 +3603,13 @@ html:not(.js) .why-row {
     height: 44px;
     padding: 0;
     touch-action: manipulation;
+    flex-shrink: 0;
   }
 
   .nav-actions {
     gap: 6px;
     padding-right: 0;
+    flex-shrink: 0;
   }
 
   .theme-toggle {
@@ -3609,13 +3622,7 @@ html:not(.js) .why-row {
   }
 
   .card-nav-cta-button {
-    min-height: 44px;
-    height: 44px;
-    padding: 0 .85rem;
-    font-size: 11.5px;
-    font-weight: 700;
-    border-radius: 999px;
-    touch-action: manipulation;
+    display: none;
   }
 
   .headline {
