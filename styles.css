@@ -613,10 +613,10 @@ html[data-theme="light"] .icon-moon { display: none; }
 }
 
 .palette-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
+  position: fixed;
+  z-index: 99999;
   width: 290px;
+  max-width: calc(100vw - 24px);
   background: rgba(15, 8, 28, 0.96);
   border: 1px solid rgba(168, 85, 247, 0.35);
   border-radius: 18px;
@@ -624,7 +624,6 @@ html[data-theme="light"] .icon-moon { display: none; }
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), 0 0 24px rgba(168, 85, 247, 0.2);
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
-  z-index: 100;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1125,7 +1124,7 @@ html[data-theme="light"] .icon-moon { display: none; }
   color: var(--v5);
 }
 
-:root[data-theme="light"] .trust-text { color: #6d28d9; }
+:root[data-theme="light"] .trust-text { color: var(--lav); }
 
 .headline {
   color: #fff;
@@ -1137,7 +1136,7 @@ html[data-theme="light"] .icon-moon { display: none; }
   animation: .9s var(--ease) .12s both reveal;
 }
 
-:root[data-theme="light"] .headline { color: #241b3a; }
+:root[data-theme="light"] .headline { color: var(--ink); }
 
 .headline-line {
   display: block;
@@ -1607,14 +1606,14 @@ html.js [data-reveal] {
 }
 
 :root[data-theme="light"] .metric-val {
-  background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
+  background: var(--grad-accent);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   filter: none;
 }
 
 :root[data-theme="light"] .metric-label {
-  color: rgba(30, 27, 75, 0.8);
+  color: var(--tx2);
 }
 
 /* Counter stays legible over the fx layers */
@@ -1742,10 +1741,10 @@ html.js [data-reveal] {
   margin-top: 4px;
 }
 
-:root[data-theme="light"] .terminal-body .cmd { color: #111827; }
-:root[data-theme="light"] .terminal-body .cmd::before { color: #7c3aed; }
-:root[data-theme="light"] .terminal-body .out { color: #374151; }
-:root[data-theme="light"] .terminal-body .out.info { color: #6d28d9; }
+:root[data-theme="light"] .terminal-body .cmd { color: var(--ink); }
+:root[data-theme="light"] .terminal-body .cmd::before { color: var(--lav2); }
+:root[data-theme="light"] .terminal-body .out { color: var(--tx2); }
+:root[data-theme="light"] .terminal-body .out.info { color: var(--lav); }
 :root[data-theme="light"] .terminal-body .ok { color: #16a34a; }
 
 .caret {

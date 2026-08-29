@@ -1006,96 +1006,141 @@
   }
 
   /* ------------------------------------------------------------
-     THEME TOGGLE & PALETTE PICKER — light/dark + 5 Light Theme Variations
+     THEME TOGGLE & PALETTE PICKER — 1 Click Live Theme Switcher
      ------------------------------------------------------------ */
   var themeToggle = $("#themeToggle");
   var palettePickerBtn = $("#palettePickerBtn");
   var paletteDropdown = $("#paletteDropdown");
-  var paletteOptions = $all(".palette-opt", paletteDropdown);
+  var floatingThemeBtn = $("#floatingThemeBtn");
+
+  function updateActiveOption(theme, palette) {
+    if (!paletteDropdown) return;
+    var opts = paletteDropdown.querySelectorAll(".palette-opt");
+    opts.forEach(function (opt) {
+      var optChoice = opt.getAttribute("data-theme-choice");
+      var optPalette = opt.getAttribute("data-palette");
+      var isActive = false;
+      if (theme === "dark") {
+        isActive = optChoice === "dark";
+      } else {
+        isActive = optChoice === "light" && optPalette === palette;
+      }
+      opt.classList.toggle("is-active", isActive);
+      opt.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+  }
 
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
     if (themeToggle) themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+    var currentPalette = document.documentElement.getAttribute("data-palette") || "frost-violet";
+    updateActiveOption(theme, currentPalette);
   }
 
   function applyPalette(paletteName) {
     document.documentElement.setAttribute("data-palette", paletteName);
-    paletteOptions.forEach(function (opt) {
-      var isMatch = opt.getAttribute("data-palette") === paletteName;
-      opt.classList.toggle("is-active", isMatch);
-      opt.setAttribute("aria-selected", isMatch ? "true" : "false");
-    });
     try { localStorage.setItem("iei-light-palette", paletteName); } catch (e) { }
+    var currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+    updateActiveOption(currentTheme, paletteName);
   }
 
   // Restore stored theme & palette
-  var storedTheme = null;
+  var storedTheme = "dark";
   var storedPalette = "frost-violet";
   try {
-    storedTheme = localStorage.getItem("iei-theme");
+    storedTheme = localStorage.getItem("iei-theme") || "dark";
     storedPalette = localStorage.getItem("iei-light-palette") || "frost-violet";
   } catch (e) { }
 
-  applyTheme(storedTheme === "light" ? "light" : "dark");
   applyPalette(storedPalette);
+  applyTheme(storedTheme);
 
   if (themeToggle) {
-    themeToggle.addEventListener("click", function () {
-      var next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+    themeToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var current = document.documentElement.getAttribute("data-theme");
+      var next = current === "light" ? "dark" : "light";
       applyTheme(next);
-      try { localStorage.setItem("iei-theme", next); } catch (e) { }
+      try { localStorage.setItem("iei-theme", next); } catch (err) { }
     });
+  }
+
+  function openDropdownAt(anchorEl, isBottomAnchor) {
+    if (!paletteDropdown || !anchorEl) return;
+    var rect = anchorEl.getBoundingClientRect();
+    paletteDropdown.classList.add("is-open");
+
+    if (isBottomAnchor) {
+      paletteDropdown.style.top = "auto";
+      paletteDropdown.style.bottom = Math.max(70, window.innerHeight - rect.top + 8) + "px";
+      paletteDropdown.style.left = Math.max(12, rect.left) + "px";
+      paletteDropdown.style.right = "auto";
+    } else {
+      paletteDropdown.style.top = (rect.bottom + 8) + "px";
+      paletteDropdown.style.bottom = "auto";
+      paletteDropdown.style.left = Math.min(window.innerWidth - 305, Math.max(10, rect.right - 285)) + "px";
+      paletteDropdown.style.right = "auto";
+    }
+  }
+
+  function closeDropdown() {
+    if (!paletteDropdown) return;
+    paletteDropdown.classList.remove("is-open");
+    if (palettePickerBtn) palettePickerBtn.setAttribute("aria-expanded", "false");
+    if (floatingThemeBtn) floatingThemeBtn.setAttribute("aria-expanded", "false");
   }
 
   if (palettePickerBtn && paletteDropdown) {
     palettePickerBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      var isOpen = paletteDropdown.classList.contains("is-open");
-      paletteDropdown.classList.toggle("is-open", !isOpen);
-      palettePickerBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
-    });
-
-    paletteOptions.forEach(function (opt) {
-      opt.addEventListener("click", function (e) {
-        e.stopPropagation();
-        var selectedPalette = opt.getAttribute("data-palette");
-        applyPalette(selectedPalette);
-        // If currently in dark mode, switch to light so user can immediately evaluate the palette
-        applyTheme("light");
-        try { localStorage.setItem("iei-theme", "light"); } catch (err) { }
-        paletteDropdown.classList.remove("is-open");
-        palettePickerBtn.setAttribute("aria-expanded", "false");
-      });
-    });
-
-    document.addEventListener("click", function (e) {
-      if (!paletteDropdown.contains(e.target) && !palettePickerBtn.contains(e.target) && (!floatingThemeBtn || !floatingThemeBtn.contains(e.target))) {
-        paletteDropdown.classList.remove("is-open");
-        palettePickerBtn.setAttribute("aria-expanded", "false");
-        if (floatingThemeBtn) floatingThemeBtn.setAttribute("aria-expanded", "false");
+      if (paletteDropdown.classList.contains("is-open")) {
+        closeDropdown();
+      } else {
+        openDropdownAt(palettePickerBtn, false);
+        palettePickerBtn.setAttribute("aria-expanded", "true");
       }
     });
   }
 
-  var floatingThemeBtn = $("#floatingThemeBtn");
   if (floatingThemeBtn && paletteDropdown) {
     floatingThemeBtn.addEventListener("click", function (e) {
       e.stopPropagation();
-      var isOpen = paletteDropdown.classList.contains("is-open");
-      paletteDropdown.classList.toggle("is-open", !isOpen);
-      floatingThemeBtn.setAttribute("aria-expanded", !isOpen ? "true" : "false");
-      if (!isOpen && window.scrollY > 150) {
-        paletteDropdown.style.position = "fixed";
-        paletteDropdown.style.bottom = (window.innerWidth <= 768) ? "130px" : "75px";
-        paletteDropdown.style.top = "auto";
-        paletteDropdown.style.left = (window.innerWidth <= 768) ? "14px" : "20px";
-        paletteDropdown.style.right = "auto";
+      if (paletteDropdown.classList.contains("is-open")) {
+        closeDropdown();
       } else {
-        paletteDropdown.style.position = "";
-        paletteDropdown.style.bottom = "";
-        paletteDropdown.style.top = "";
-        paletteDropdown.style.left = "";
-        paletteDropdown.style.right = "";
+        openDropdownAt(floatingThemeBtn, true);
+        floatingThemeBtn.setAttribute("aria-expanded", "true");
+      }
+    });
+  }
+
+  if (paletteDropdown) {
+    paletteDropdown.querySelectorAll(".palette-opt").forEach(function (opt) {
+      opt.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var choice = opt.getAttribute("data-theme-choice");
+        var palette = opt.getAttribute("data-palette");
+
+        if (choice === "dark") {
+          applyTheme("dark");
+          try { localStorage.setItem("iei-theme", "dark"); } catch (err) { }
+        } else {
+          if (palette) applyPalette(palette);
+          applyTheme("light");
+          try { localStorage.setItem("iei-theme", "light"); } catch (err) { }
+        }
+
+        closeDropdown();
+      });
+    });
+
+    document.addEventListener("click", function (e) {
+      if (paletteDropdown.classList.contains("is-open")) {
+        if (!paletteDropdown.contains(e.target) &&
+            (!palettePickerBtn || !palettePickerBtn.contains(e.target)) &&
+            (!floatingThemeBtn || !floatingThemeBtn.contains(e.target))) {
+          closeDropdown();
+        }
       }
     });
   }
