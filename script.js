@@ -1840,57 +1840,66 @@
   });
 
   /* ------------------------------------------------------------
-     EVENT -> GALLERY LINKING: Jump & Open Gallery Lightbox
+     EVENT -> GALLERY LINKING: Directly Open Gallery Lightbox
      ------------------------------------------------------------ */
-  $all(".btn-ev-gallery").forEach(function (btn) {
+  $all(".btn-ev-gallery, .tl-node").forEach(function (btn) {
     btn.addEventListener("click", function (e) {
       e.stopPropagation();
       var targetId = btn.dataset.galTarget;
-      if (!targetId) return;
-      var targetEl = document.getElementById(targetId);
+      var targetEl = targetId ? document.getElementById(targetId) : null;
 
-      /* Timeline-only events (no gallery card): open the album directly */
-      if (!targetEl) {
-        var urls = EVENT_ALBUMS[targetId];
-        if (!urls) return;
-        var label = (btn.getAttribute("aria-label") || targetId).replace(/\s+-\s+.*$/, "");
-        var pseudo = { id: targetId, dataset: { caption: label, date: "" } };
-        pseudo._album = urls.map(function (src, idx) {
-          var im = document.createElement("img");
-          im.src = src;
-          im.alt = label + " — Frame " + pad2(idx + 1);
-          im.loading = "lazy";
-          return im;
-        });
-        var galSection = document.getElementById("gallery");
-        if (lenis && galSection) { lenis.scrollTo(galSection, { offset: -60, duration: 1.1 }); }
-        setTimeout(function () { openLightbox(pseudo); }, 450);
+      // Update selected state in timeline
+      var allNodes = $all(".tl-node", document);
+      allNodes.forEach(function (n) { n.classList.remove("is-selected"); });
+      btn.classList.add("is-selected");
+
+      if (targetEl && targetEl._album && targetEl._album.length) {
+        // Reset gallery filter if target is currently filtered out
+        if (targetEl.classList.contains("is-filtered-out")) {
+          galFilterBtns.forEach(function (b) {
+            b.classList.toggle("is-active", b.dataset.cat === "all");
+          });
+          galItems.forEach(function (it) { it.classList.remove("is-filtered-out"); });
+        }
+        arxSelect(targetEl, false);
+        openLightbox(targetEl);
         return;
       }
 
-      // If target item is filtered out, reset gallery filter to ALL first
-      if (targetEl.classList.contains("is-filtered-out")) {
-        galFilterBtns.forEach(function (b) {
-          b.classList.toggle("is-active", b.dataset.cat === "all");
-        });
-        galItems.forEach(function (it) { it.classList.remove("is-filtered-out"); });
+      /* Fallback for timeline-only events: load album directly from EVENT_ALBUMS */
+      var urls = (targetId && EVENT_ALBUMS[targetId]) || EVENT_ALBUMS["gal-threat-intel"] || [];
+      if (!urls.length) {
+        urls = [
+          "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
+          "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80"
+        ];
       }
 
-      arxSelect(targetEl, false);
+      var day = btn.querySelector(".tl-day") ? btn.querySelector(".tl-day").textContent.trim() : "";
+      var mo = btn.querySelector(".tl-mo") ? btn.querySelector(".tl-mo").textContent.trim() : "";
+      var yr = btn.querySelector(".tl-year") ? btn.querySelector(".tl-year").textContent.trim() : "";
+      var dateStr = (day && mo && yr) ? (mo + " " + yr) : (btn.dataset.date || "OCT 2025");
+      var nameEl = btn.querySelector(".tl-name");
+      var nameStr = (nameEl ? nameEl.textContent.trim() : (btn.getAttribute("aria-label") || "Event")).replace(/\s+-\s+.*$/, "");
 
-      if (lenis) {
-        lenis.scrollTo(targetEl, { offset: -90, duration: 1.2 });
-      } else {
-        targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
+      var pseudo = {
+        id: targetId || "tl-event",
+        dataset: {
+          caption: nameStr,
+          date: dateStr,
+          desc: "Cybersecurity technical session and workshop organised under the IEI Student Chapter."
+        },
+        _album: urls.map(function (src, idx) {
+          var im = document.createElement("img");
+          im.src = src;
+          im.alt = nameStr + " — Photo " + pad2(idx + 1);
+          im.loading = "lazy";
+          return im;
+        })
+      };
 
-      targetEl.classList.remove("target-highlight");
-      void targetEl.offsetWidth; // trigger reflow
-      targetEl.classList.add("target-highlight");
-
-      setTimeout(function () {
-        openLightbox(targetEl);
-      }, 650);
+      openLightbox(pseudo);
     });
   });
 
