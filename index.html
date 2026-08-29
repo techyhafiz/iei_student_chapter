@@ -972,44 +972,68 @@
     </div>
   </footer>
 
-  <!-- ======= LIGHTBOX ======= -->
+  <!-- ======= LIGHTBOX (Apple-grade Gallery Viewer) ======= -->
   <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <div class="lb-content glass">
-      <!-- Close cross button on top right of the modal box -->
-      <button class="lb-close" aria-label="Close viewer" title="Close">✕</button>
+    <div class="lb-content">
+      <!-- Top header: Event info & Action buttons -->
+      <div class="lb-header">
+        <div class="lb-header-info">
+          <div class="lb-header-badge">
+            <span id="lbEventTracker" class="lb-ev-tracker">EVENT 01 OF 08</span>
+            <span class="lb-badge-dot">•</span>
+            <span id="lbDate" class="lb-date-text">OCT 2025</span>
+          </div>
+          <h2 id="lbName" class="lb-title">Defensive Engineering</h2>
+        </div>
 
-      <!-- Event switcher inside modal -->
-      <div class="lb-event-bar mono">
-        <button type="button" id="lbPrevEvent" class="lb-ev-nav-btn" aria-label="Previous event">‹ PREV EVENT</button>
-        <span id="lbEventTracker" class="lb-ev-tracker">EVENT 01 OF 08</span>
-        <button type="button" id="lbNextEvent" class="lb-ev-nav-btn" aria-label="Next event">NEXT EVENT ›</button>
+        <div class="lb-header-actions">
+          <button type="button" id="lbPrevEvent" class="lb-icon-btn" aria-label="Previous event" title="Previous event">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button type="button" id="lbNextEvent" class="lb-icon-btn" aria-label="Next event" title="Next event">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <button class="lb-close" aria-label="Close viewer" title="Close (Esc)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
       </div>
 
+      <!-- Main Stage with Image & Floating Frosted Navigation -->
       <div class="lb-stage">
-        <button class="lb-arrow lb-prev" aria-label="Previous slide">‹</button>
-        <div id="lbContent"></div>
-        <div id="lbDots" class="lb-dots mono" aria-label="Album position"></div>
-        <button class="lb-arrow lb-next" aria-label="Next slide">›</button>
+        <button class="lb-arrow lb-prev" aria-label="Previous slide" title="Previous slide (←)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <div id="lbContent" class="lb-frame"></div>
+
+        <button class="lb-arrow lb-next" aria-label="Next slide" title="Next slide (→)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+        <!-- Floating frosted overlay at bottom of stage -->
+        <div class="lb-stage-overlay">
+          <div id="lbDots" class="lb-dots" aria-label="Album position"></div>
+          <span id="lbCount" class="lb-counter" aria-live="polite">01 / 01</span>
+        </div>
       </div>
 
-      <aside class="lb-info">
-        <div class="lb-meta mono">
-          <p id="lbName"></p>
-          <p id="lbDate"></p>
+      <!-- Footer Info -->
+      <div class="lb-footer">
+        <p id="lbDesc" class="lb-desc"></p>
+        <div class="lb-footer-meta">
+          <div class="lb-key-hint">
+            <kbd>←</kbd><kbd>→</kbd> Slides &nbsp;•&nbsp; <kbd>ESC</kbd> Close
+          </div>
+          <button id="lbPeek" class="lb-peek" aria-label="View next slide">
+            <span class="lb-peek-head">
+              <span class="lb-peek-tag">Next Frame</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            </span>
+            <span id="lbPeekImg" aria-hidden="true"></span>
+          </button>
         </div>
-        <p id="lbDesc"></p>
-        <div class="lb-status-row">
-          <span id="lbCount" aria-live="polite">01 / 01</span>
-          <p class="lb-hint mono">← → SLIDES · ESC CLOSE</p>
-        </div>
-        <button id="lbPeek" class="lb-peek mono" aria-label="View next slide">
-          <span class="lb-peek-head">
-            <span class="lb-peek-tag">// NEXT MULTI-FRAME SLIDE</span>
-            <span class="lb-peek-arrow">›</span>
-          </span>
-          <span id="lbPeekImg" aria-hidden="true"></span>
-        </button>
-      </aside>
+      </div>
     </div>
   </div>
 
