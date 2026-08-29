@@ -1103,266 +1103,95 @@ html.js [data-reveal] {
 .bento-metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 18px;
   width: 100%;
 }
 
-/* Card shell — luxury dark glassmorphic card */
+/* Minimal Apple-grade Glass Card */
 .bento-metric-card {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(145deg, rgba(22, 13, 36, 0.85) 0%, rgba(12, 7, 20, 0.92) 100%);
-  border: 1px solid rgba(168, 85, 247, 0.18);
-  border-radius: 22px;
-  padding: 22px 24px 20px;
+  background: rgba(24, 14, 38, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 20px;
+  padding: 28px 26px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 195px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12), inset 0 0 20px rgba(168, 85, 247, 0.05);
-  transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
+  justify-content: center;
+  gap: 6px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
   text-align: left;
 }
 
-/* Interactive spotlight tracking cursor */
+/* Subtle interactive spotlight tracking cursor */
 .metric-spotlight {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle 240px at var(--mx, 50%) var(--my, 50%), rgba(216, 180, 254, 0.18), transparent 70%);
-  transition: opacity .35s ease;
+  background: radial-gradient(circle 200px at var(--mx, 50%) var(--my, 50%), rgba(168, 85, 247, 0.14), transparent 70%);
+  transition: opacity .3s ease;
 }
 
 .bento-metric-card:hover .metric-spotlight {
   opacity: 1;
 }
 
-/* Micro-visual canvas layer */
-.metric-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  opacity: .75;
-  transition: opacity .4s ease;
-}
-
-.bento-metric-card:hover .metric-canvas {
-  opacity: 1;
-}
-
-/* Card Header */
-.metric-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  z-index: 2;
-  margin-bottom: 12px;
-}
-
-.metric-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: .68rem;
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: rgba(233, 213, 255, .9);
-  background: rgba(168, 85, 247, .14);
-  border: 1px solid rgba(168, 85, 247, .3);
-  padding: 3.5px 9px;
-  border-radius: 999px;
-  box-shadow: 0 0 12px rgba(168, 85, 247, .12);
-}
-
-.badge-pulse {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-purple { background: #c084fc; box-shadow: 0 0 8px #c084fc; }
-.dot-blue { background: #60a5fa; box-shadow: 0 0 8px #60a5fa; }
-.dot-green { background: #4ade80; box-shadow: 0 0 8px #4ade80; }
-
-.metric-tag {
-  font-size: .66rem;
-  letter-spacing: .1em;
-  color: rgba(196, 181, 253, .45);
-  font-weight: 600;
-}
-
-/* Card Body */
-.metric-card-body {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.metric-val-wrap {
-  display: flex;
-  align-items: baseline;
+.bento-metric-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(168, 85, 247, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 24px rgba(168, 85, 247, 0.16);
 }
 
 .metric-val {
-  font-size: clamp(2.3rem, 3.2vw, 2.9rem);
+  font-size: clamp(2.2rem, 3.2vw, 2.75rem);
   font-weight: 800;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   line-height: 1.05;
   color: #fff;
-  background: linear-gradient(135deg, #ffffff 35%, #f3e8ff 70%, #d8b4fe 100%);
+  background: linear-gradient(135deg, #ffffff 40%, #e9d5ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 4px 16px rgba(168, 85, 247, 0.22));
-}
-
-.metric-label {
-  font-size: .95rem;
-  font-weight: 600;
-  color: #f8fafc;
-  letter-spacing: -.01em;
-  line-height: 1.3;
-}
-
-/* Card Footer */
-.metric-card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  margin-top: 14px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
   position: relative;
   z-index: 2;
 }
 
-.metric-subtext {
-  color: rgba(226, 232, 240, 0.55);
-  font-size: .72rem;
-  letter-spacing: .01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.metric-status-pill {
-  font-size: .62rem;
-  font-weight: 700;
-  letter-spacing: .08em;
-  padding: 2px 6px;
-  border-radius: 5px;
-  background: rgba(34, 197, 94, .12);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, .28);
-  flex-shrink: 0;
-}
-
-/* Tactical corner brackets */
-.metric-corner {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: rgba(233, 213, 255, .2);
-  border-style: solid;
-  border-width: 0;
+.metric-label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.35;
+  margin-top: 4px;
+  position: relative;
   z-index: 2;
-  pointer-events: none;
-  transition: border-color .35s var(--ease), width .35s var(--ease), height .35s var(--ease);
-}
-
-.metric-corner--tl {
-  top: 8px;
-  left: 8px;
-  border-top-width: 1.5px;
-  border-left-width: 1.5px;
-  border-top-left-radius: 4px;
-}
-
-.metric-corner--br {
-  bottom: 8px;
-  right: 8px;
-  border-bottom-width: 1.5px;
-  border-right-width: 1.5px;
-  border-bottom-right-radius: 4px;
-}
-
-.bento-metric-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(192, 132, 252, 0.45);
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.65), 0 0 30px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.bento-metric-card:hover .metric-corner {
-  border-color: rgba(232, 121, 249, .75);
-  width: 18px;
-  height: 18px;
-}
-
-.bento-metric-card:hover .metric-badge {
-  border-color: rgba(232, 121, 249, .5);
-  box-shadow: 0 0 16px rgba(168, 85, 247, .25);
-}
-
-.bento-metric-card:hover .metric-val {
-  filter: drop-shadow(0 4px 22px rgba(192, 132, 252, 0.45));
 }
 
 /* Light Theme Adaptations */
 :root[data-theme="light"] .bento-metric-card {
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.92) 0%, rgba(248, 245, 255, 0.95) 100%);
-  border-color: rgba(124, 58, 237, 0.16);
-  box-shadow: 0 12px 32px rgba(124, 58, 237, 0.09), inset 0 1px 0 rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.08);
 }
 
 :root[data-theme="light"] .metric-val {
-  background: linear-gradient(135deg, #6d28d9 0%, #9333ea 70%, #c026d3 100%);
+  background: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: none;
 }
 
 :root[data-theme="light"] .metric-label {
-  color: #1e1b4b;
+  color: rgba(0, 0, 0, 0.6);
 }
 
-:root[data-theme="light"] .metric-subtext {
-  color: #6b7280;
-}
-
-:root[data-theme="light"] .metric-card-footer {
-  border-top-color: rgba(0, 0, 0, 0.06);
-}
-
-:root[data-theme="light"] .metric-badge {
-  color: #6d28d9;
-  background: rgba(124, 58, 237, 0.08);
-  border-color: rgba(124, 58, 237, 0.2);
-}
-
-:root[data-theme="light"] .metric-tag {
-  color: rgba(109, 40, 217, 0.6);
-}
-
-:root[data-theme="light"] .metric-corner {
-  border-color: rgba(109, 40, 217, 0.25);
-}
-
-@media (max-width: 900px) {
+@media (max-width: 640px) {
   .bento-metrics-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
   }
 }
 
