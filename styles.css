@@ -1607,6 +1607,10 @@ html:not(.js) .why-row {
 .tl-card {
   margin-top: 6px;
   width: 100%;
+  min-height: 106px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   background: var(--card);
   border: 1px solid var(--linec);
   border-radius: 14px;
@@ -1625,11 +1629,14 @@ html:not(.js) .why-row {
 
 .tl-name {
   color: var(--ink);
-  font-size: .92rem;
+  font-size: .90rem;
   font-weight: 700;
   letter-spacing: .01em;
   line-height: 1.35;
   margin-top: 8px;
+  min-height: 2.7em;
+  display: flex;
+  align-items: flex-start;
 }
 
 .tl-nav {
