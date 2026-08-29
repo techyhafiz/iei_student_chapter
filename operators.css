@@ -397,6 +397,159 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), 0 0 20px rgba(168, 85, 247, 0.14);
 }
 
+.team-card-opt-tag {
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.14);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  display: inline-block;
+  margin-bottom: 4px;
+  width: fit-content;
+}
+
+/* ---------- OPTION 1: BALANCED LEAD POD ---------- */
+.team-card--opt1 {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.team-card-lead-pod {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 5px;
+  padding: 12px 8px;
+  background: rgba(15, 8, 28, 0.45);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 14px;
+}
+
+.team-card-lead-pod .solo-card-photo {
+  width: 92px;
+  height: 92px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  margin-bottom: 2px;
+}
+
+.team-card-lead-pod-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.team-card-lead-pod .team-card-lead-link {
+  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--lav2);
+  margin-top: 2px;
+}
+
+/* ---------- OPTION 2: TOP HEADER FLOW ---------- */
+.team-card--opt2 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.team-card-top-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(139, 92, 246, 0.25);
+}
+
+.team-card-avatar {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.team-card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-card-top-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.team-card-lead-inline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.team-card-members-grid {
+  width: 100%;
+}
+
+.members-grid-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 12px;
+}
+
+.member-grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.8rem;
+  background: rgba(15, 8, 28, 0.35);
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+}
+
+/* ---------- OPTION 3: CENTERED + RAIL ---------- */
+.team-card--opt3 {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.team-card-left--centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 100%;
+  border-right: 1px solid rgba(139, 92, 246, 0.2);
+  padding-right: 14px;
+  gap: 6px;
+}
+
+.team-card-left--centered .solo-card-photo {
+  width: 90px;
+  height: 90px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+}
+
 .team-card-left {
   display: flex;
   flex-direction: column;

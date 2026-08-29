@@ -172,29 +172,121 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="team-cards">
           ${leads
-            .map((op) => {
+            .map((op, idx) => {
               const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
-              return `
-            <article class="team-card">
-              <div class="team-card-left">
-                <div class="solo-card-photo">
-                  <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
-                </div>
-                <p class="team-card-name">${op.name}</p>
-              </div>
-              <div class="team-card-right">
-                <h3 class="team-card-team">${teamName}</h3>
-                <div class="team-card-lead-box">
-                  <span class="lead-tag mono">LEAD</span>
-                  <a class="team-card-lead-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
-                    <span class="team-card-lead-name">${op.name}</span>
-                    ${LINKEDIN_ICON}
-                  </a>
-                </div>
-                ${renderMemberList(op.members)}
-              </div>
-            </article>
-          `;
+
+              if (idx === 0) {
+                // OPTION 1: Dedicated Balanced Lead Pod (Left Column Centered & Complete)
+                return `
+                  <article class="team-card team-card--opt1">
+                    <div class="team-card-lead-pod">
+                      <div class="solo-card-photo">
+                        <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                      </div>
+                      <p class="team-card-lead-pod-name">${op.name}</p>
+                      <span class="lead-tag mono">LEAD</span>
+                      <a class="team-card-lead-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                        ${LINKEDIN_ICON}
+                        <span>LINKEDIN</span>
+                      </a>
+                    </div>
+                    <div class="team-card-right">
+                      <div class="team-card-header-block">
+                        <span class="team-card-opt-tag mono">[ OPTION 1 // LEAD POD ]</span>
+                        <h3 class="team-card-team">${teamName}</h3>
+                      </div>
+                      ${renderMemberList(op.members)}
+                    </div>
+                  </article>
+                `;
+              } else if (idx === 1) {
+                // OPTION 2: Top-to-Bottom Flow (Header with Avatar + 2-Column Members)
+                return `
+                  <article class="team-card team-card--opt2">
+                    <div class="team-card-top-header">
+                      <div class="team-card-avatar">
+                        <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                      </div>
+                      <div class="team-card-top-info">
+                        <span class="team-card-opt-tag mono">[ OPTION 2 // TOP HEADER ]</span>
+                        <h3 class="team-card-team">${teamName}</h3>
+                        <div class="team-card-lead-inline">
+                          <span class="lead-tag mono">LEAD</span>
+                          <a class="team-card-lead-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                            <span class="team-card-lead-name">${op.name}</span>
+                            ${LINKEDIN_ICON}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="team-card-members-grid">
+                      <p class="lead-card-members-label mono">TEAM MEMBERS (${op.members ? op.members.length : 0})</p>
+                      <ul class="members-grid-list">
+                        ${(op.members || [])
+                          .map(
+                            (m) => `
+                          <li class="member-grid-item">
+                            <span class="member-line-name">${m.name}</span>
+                            <a class="member-line-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
+                              ${LINKEDIN_ICON}
+                            </a>
+                          </li>
+                        `
+                          )
+                          .join("")}
+                      </ul>
+                    </div>
+                  </article>
+                `;
+              } else if (idx === 2) {
+                // OPTION 3: Vertically Centered with Vertical Glass Separator
+                return `
+                  <article class="team-card team-card--opt3">
+                    <div class="team-card-left team-card-left--centered">
+                      <div class="solo-card-photo">
+                        <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                      </div>
+                      <p class="team-card-name">${op.name}</p>
+                      <span class="lead-tag mono">LEAD</span>
+                    </div>
+                    <div class="team-card-right">
+                      <div class="team-card-header-block">
+                        <span class="team-card-opt-tag mono">[ OPTION 3 // CENTERED + RAIL ]</span>
+                        <h3 class="team-card-team">${teamName}</h3>
+                        <a class="team-card-lead-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                          ${LINKEDIN_ICON}
+                          <span>${op.name} (LinkedIn)</span>
+                        </a>
+                      </div>
+                      ${renderMemberList(op.members)}
+                    </div>
+                  </article>
+                `;
+              } else {
+                // OPTION 1 Repeat on 4th card for visual balance
+                return `
+                  <article class="team-card team-card--opt1">
+                    <div class="team-card-lead-pod">
+                      <div class="solo-card-photo">
+                        <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                      </div>
+                      <p class="team-card-lead-pod-name">${op.name}</p>
+                      <span class="lead-tag mono">LEAD</span>
+                      <a class="team-card-lead-link mono" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                        ${LINKEDIN_ICON}
+                        <span>LINKEDIN</span>
+                      </a>
+                    </div>
+                    <div class="team-card-right">
+                      <div class="team-card-header-block">
+                        <span class="team-card-opt-tag mono">[ OPTION 1 // LEAD POD ]</span>
+                        <h3 class="team-card-team">${teamName}</h3>
+                      </div>
+                      ${renderMemberList(op.members)}
+                    </div>
+                  </article>
+                `;
+              }
             })
             .join("")}
         </div>
