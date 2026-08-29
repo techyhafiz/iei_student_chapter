@@ -137,12 +137,12 @@
   opacity: 0.55;
 }
 
-/* ---------- FACULTY / GUIDANCE CARDS (Compact Horizontal Badges) ---------- */
+/* ---------- FACULTY / GUIDANCE CARDS (Balanced Horizontal Badges) ---------- */
 .solo-cards--faculty {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
-  max-width: 820px;
+  gap: 20px;
+  max-width: 940px;
   margin: 0 auto;
   width: 100%;
 }
@@ -151,15 +151,21 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 16px;
-  padding: 16px 18px;
-  border-radius: 16px;
+  gap: 20px;
+  padding: 20px 22px;
+  border-radius: 18px;
   background: rgba(18, 10, 32, 0.65);
   border: 1px solid rgba(139, 92, 246, 0.2);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: transform 0.35s var(--ease), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.solo-cards--faculty .solo-card--faculty-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(192, 132, 252, 0.5);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 0 24px rgba(168, 85, 247, 0.18);
 }
 
 .solo-cards--faculty .solo-card--faculty-item::after {
@@ -167,56 +173,56 @@
 }
 
 .solo-cards--faculty .solo-card-photo {
-  width: 80px;
-  height: 80px;
-  min-width: 80px;
+  width: 110px;
+  height: 110px;
+  min-width: 110px;
   aspect-ratio: 1 / 1;
-  border-radius: 12px;
+  border-radius: 14px;
   margin-bottom: 0;
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
 }
 
 .solo-cards--faculty .solo-card-content {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
 }
 
 .solo-cards--faculty .faculty-chip {
-  font-size: 8px;
+  font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #c084fc;
   background: rgba(168, 85, 247, 0.12);
   border: 1px solid rgba(168, 85, 247, 0.3);
   border-radius: 999px;
-  padding: 2px 8px;
+  padding: 3px 9px;
   display: inline-block;
   align-self: flex-start;
   margin-bottom: 2px;
 }
 
 .solo-cards--faculty .solo-card-name {
-  font-size: 1.05rem;
+  font-size: 1.18rem;
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
 }
 
 .solo-cards--faculty .solo-card-title {
-  font-size: 0.8rem;
+  font-size: 0.86rem;
   color: var(--tx2);
   margin: 0 0 4px;
 }
 
 .solo-cards--faculty .solo-card-link {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   color: var(--lav2);
   align-self: flex-start;
 }
@@ -233,10 +239,10 @@
   border-color: rgba(124, 58, 237, 0.25);
 }
 
-@media (max-width: 720px) {
+@media (max-width: 780px) {
   .solo-cards--faculty {
     grid-template-columns: 1fr;
-    max-width: 400px;
+    max-width: 440px;
   }
 }
 
