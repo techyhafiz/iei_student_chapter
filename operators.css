@@ -561,7 +561,7 @@
   padding-top: 10px;
 }
 
-/* responsive */
+/* responsive — Apple-grade Mobile Ergonomics */
 @media (max-width: 992px) {
   .solo-cards--admins,
   .solo-cards--fourth {
@@ -573,31 +573,19 @@
   }
 }
 
-@media (max-width: 600px) {
-  .solo-cards--admins,
-  .solo-cards--fourth {
+@media (max-width: 640px) {
+  .solo-cards--faculty {
     grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
   }
 
-  .solo-cards--admins .solo-card-photo,
-  .solo-cards--fourth .solo-card-photo {
-    max-width: 170px;
-    margin: 0 auto 8px;
-  }
-
-  .team-card {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 16px;
-  }
-}
-
-@media (max-width: 540px) {
   .solo-cards--faculty .solo-card--faculty-item {
     flex-direction: column;
     text-align: center;
-    padding: 20px 16px;
+    padding: 22px 18px;
     gap: 14px;
+    border-radius: 22px;
   }
 
   .solo-cards--faculty .solo-card-content {
@@ -612,9 +600,83 @@
   }
 
   .solo-cards--faculty .solo-card-photo {
-    width: 100px;
-    height: 100px;
-    min-width: 100px;
+    width: 96px;
+    height: 96px;
+    min-width: 96px;
+    border-radius: 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .solo-cards--admins,
+  .solo-cards--fourth {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .solo-card {
+    padding: 16px 10px;
+    border-radius: 18px;
+  }
+
+  .solo-cards--admins .solo-card-photo,
+  .solo-cards--fourth .solo-card-photo {
+    width: 88px;
+    height: 88px;
+    max-width: 88px;
+    border-radius: 20px;
+    margin: 0 auto 8px;
+  }
+
+  .solo-card-name {
+    font-size: 0.86rem;
+  }
+
+  .solo-card-title {
+    font-size: 0.72rem;
+    line-height: 1.25;
+  }
+
+  .team-card {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 18px 16px;
+    border-radius: 22px;
+  }
+
+  .team-card-lead-pod-box {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed rgba(139, 92, 246, 0.2);
+  }
+
+  .team-card-lead-photo {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 8px;
+  }
+
+  .member-line {
+    min-height: 42px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    transition: background 0.15s;
+  }
+
+  .member-line:active {
+    background: rgba(168, 85, 247, 0.12);
+  }
+
+  .member-line-link {
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
   }
 }
 

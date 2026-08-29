@@ -3084,8 +3084,7 @@ html:not(.js) .why-row {
 @media (max-width: 768px) {
   /* fit the open menu inside small viewports (inner content scrolls) */
   .card-nav.open {
-    height: 560px;
-    height: min(560px, calc(100svh - 100px));
+    height: min(520px, calc(100svh - 80px));
   }
 
   .card-nav-content {
@@ -3093,19 +3092,53 @@ html:not(.js) .why-row {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+    padding: 72px 14px 18px;
+    gap: 12px;
   }
 
   .nav-card {
     flex: none;
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 16px;
+    padding: 12px 14px;
   }
 
-  .nav-card-label { font-size: 16px; }
+  :root[data-theme="light"] .nav-card {
+    background: rgba(124, 58, 237, .04);
+    border-color: rgba(124, 58, 237, .12);
+  }
+
+  .nav-card-label {
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--lav2);
+    margin-bottom: 6px;
+  }
+
+  .nav-card-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
 
   .nav-card-link {
-    font-size: 14.5px;
-    /* comfortable 44px touch targets */
+    font-size: 15px;
+    font-weight: 600;
     min-height: 44px;
+    display: flex;
     align-items: center;
+    padding: 0 10px;
+    border-radius: 10px;
+    color: var(--ink);
+    transition: background .15s, transform .15s;
+    touch-action: manipulation;
+  }
+
+  .nav-card-link:active {
+    background: rgba(255, 255, 255, .08);
+    transform: scale(.98);
   }
 
   .logo-sub { display: none; }
@@ -3113,23 +3146,35 @@ html:not(.js) .why-row {
   /* lighter blur keeps mobile scroll smooth */
   .card-nav,
   #nav.scrolled .card-nav {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
-  /* horizontal event timeline: flick + snap */
+  /* Apple App Store style horizontal card shelf */
   .tl-viewport {
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
+    scroll-padding: 0 20px;
+    padding: 24px 16px 36px;
   }
 
-  .tl-node { scroll-snap-align: center; }
+  .tl-node {
+    width: clamp(240px, 78vw, 290px);
+    scroll-snap-align: center;
+  }
 
-  .tl-nav { width: 38px; height: 38px; }
+  .tl-card {
+    border-radius: 20px;
+    padding: 22px 18px;
+  }
+
+  .tl-nav { width: 44px; height: 44px; }
 
   .next-event {
     grid-template-columns: 1fr;
     gap: 20px;
+    border-radius: 24px;
+    padding: 24px 18px;
   }
 
   .next-event-date {
@@ -3144,6 +3189,8 @@ html:not(.js) .why-row {
 
   .why-row {
     grid-template-columns: 56px 1fr;
+    padding: 20px 16px;
+    border-radius: 18px;
   }
 
   .why-arrow { display: none; }
@@ -3170,6 +3217,9 @@ html:not(.js) .why-row {
   .field select,
   .field textarea {
     font-size: 16px;
+    min-height: 48px;
+    padding: 14px 16px;
+    border-radius: 14px;
   }
 }
 
@@ -3178,52 +3228,94 @@ html:not(.js) .why-row {
   .specular-button--md { padding: 12px 22px; font-size: .85rem; }
   .specular-button--sm { padding: 10px 18px; font-size: .8rem; }
 
-  .cta-group .specular-button--lg { min-width: 0; padding: 12px 14px; font-size: .8rem; }
-
-  .stats { gap: 10px; }
-
-  .stat-icon { margin-bottom: 2px; font-size: 16px; }
-  .stat-value { font-size: 16px; line-height: 1.1; }
-  .stat-label { font-size: 10px; }
-
-  .headline { letter-spacing: -.06em; line-height: 1.08; }
-
-  .card-nav-cta-button { padding: 0 .6rem; font-size: 12px; }
+  .headline {
+    letter-spacing: -.05em;
+    line-height: 1.1;
+    font-size: clamp(2.1rem, 8vw, 3.2rem);
+    text-wrap: balance;
+  }
 }
 
 @media (max-width: 560px) {
   .form-row { grid-template-columns: 1fr; }
 
+  .glass.form {
+    padding: 24px 18px;
+    border-radius: 24px;
+  }
+
+  .cta-group {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+  }
+
+  .cta-group .specular-button {
+    width: 100%;
+    max-width: 320px;
+    min-height: 48px;
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Apple Health style metric cards */
   .stats {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px 12px;
+    gap: 12px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
     padding-top: 24px;
   }
-  .stat-icon { font-size: 18px; margin-bottom: 4px; }
-  .stat-value { font-size: 18px; }
-  .stat-label { font-size: 10px; white-space: normal; line-height: 1.3; }
 
-  .about-cards { grid-template-columns: 1fr; }
+  .stat {
+    background: rgba(255, 255, 255, .04);
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 18px;
+    padding: 14px 10px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  :root[data-theme="light"] .stat {
+    background: rgba(124, 58, 237, .04);
+    border-color: rgba(124, 58, 237, .12);
+  }
+
+  .stat-icon { font-size: 18px; margin-bottom: 4px; }
+  .stat-value { font-size: 20px; font-weight: 800; line-height: 1.1; }
+  .stat-label { font-size: 10.5px; font-weight: 600; letter-spacing: .04em; white-space: normal; line-height: 1.3; }
+
+  .about-cards { grid-template-columns: 1fr; gap: 14px; }
   .about-cards .feature-card:last-child { grid-column: auto; }
 
   .headline-line { white-space: normal; }
 
-  .trust-text { font-size: 15px; }
-  .trust-logo { width: 24px; height: 24px; }
+  .trust-text { font-size: 14px; }
+  .trust-logo { width: 22px; height: 22px; }
 
   .organized-by-pill {
-    padding: .5rem 1rem .5rem .5rem;
-    gap: .55rem;
-    border-radius: 18px;
+    padding: .45rem .9rem .45rem .45rem;
+    gap: .5rem;
+    border-radius: 999px;
   }
 
   .organized-by-text {
-    font-size: .74rem;
-    line-height: 1.5;
+    font-size: .75rem;
+    line-height: 1.4;
     text-align: left;
   }
 
-  .faq-q { gap: 12px; padding: 15px 16px; }
+  .faq-q {
+    gap: 12px;
+    padding: 16px 18px;
+    min-height: 54px;
+    border-radius: 16px;
+    touch-action: manipulation;
+  }
   .faq-ghost { font-size: 1.2rem; min-width: 34px; }
   .faq-ablock { padding-left: 16px; padding-right: 16px; }
 
@@ -3244,9 +3336,9 @@ html:not(.js) .why-row {
 
   .lb-header { flex-wrap: wrap; }
 
-  .lb-icon-btn, .lb-close { width: 40px; height: 40px; }
+  .lb-icon-btn, .lb-close { width: 44px; height: 44px; }
 
-  .lb-arrow { width: 38px; height: 38px; }
+  .lb-arrow { width: 44px; height: 44px; }
   .lb-prev { left: 8px; }
   .lb-next { right: 8px; }
 
@@ -3265,13 +3357,19 @@ html:not(.js) .why-row {
 
 @media (max-width: 480px) {
   .card-nav-container {
-    width: 95%;
-    top: 0.8rem;
+    width: 94%;
+    top: max(.8rem, env(safe-area-inset-top, 8px));
+  }
+
+  .card-nav {
+    height: 56px;
+    border-radius: 999px;
   }
 
   .card-nav-top {
-    padding: .35rem .5rem;
-    gap: 6px;
+    height: 56px;
+    padding: .3rem .5rem .3rem .7rem;
+    gap: 8px;
   }
 
   .logo-container {
@@ -3283,8 +3381,9 @@ html:not(.js) .why-row {
   }
 
   .logo {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
   }
 
   .logo-text {
@@ -3292,10 +3391,13 @@ html:not(.js) .why-row {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-left: 7px;
   }
 
   .hamburger-menu {
-    padding: 0 4px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
   }
 
   .nav-actions {
@@ -3304,15 +3406,17 @@ html:not(.js) .why-row {
   }
 
   .theme-toggle {
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
   }
 
   .card-nav-cta-button {
-    height: 32px;
-    padding: 0 .65rem;
-    font-size: 11px;
-    border-radius: 10px;
+    height: 34px;
+    padding: 0 .75rem;
+    font-size: 11.5px;
+    font-weight: 700;
+    border-radius: 999px;
   }
 }
 
