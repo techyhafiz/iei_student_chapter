@@ -1471,16 +1471,28 @@
       });
     } else {
       var cover = null;
-    if (item.dataset.img) {
-      cover = document.createElement("img");
-      cover.src = item.dataset.img;
-      cover.alt = "";
-    } else {
-      cover = item.querySelector("img, svg");
-    }
+      if (item.dataset.img) {
+        cover = document.createElement("img");
+        cover.src = item.dataset.img;
+        cover.alt = "";
+      } else {
+        cover = item.querySelector("img, svg");
+      }
       if (cover) album.push(cover.cloneNode(true));
     }
     item._album = album;
+
+    /* Click or press Enter/Space to open Apple-grade Lightbox */
+    item.addEventListener("click", function (e) {
+      e.stopPropagation();
+      openLightbox(item);
+    });
+    item.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLightbox(item);
+      }
+    });
   });
 
   /* "+N FRAMES" chip in each caption — hints at the multi-photo album */
