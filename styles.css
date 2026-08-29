@@ -920,12 +920,76 @@ html[data-theme="light"] .icon-moon { display: none; }
   pointer-events: none;
 }
 
-:root[data-theme="light"] #spaceFx,
-:root[data-theme="light"] #warpFx,
-:root[data-theme="light"] #auroraFx,
-:root[data-theme="light"] .hero-bg::after,
+/* ---------- LIGHT THEME HERO BACKGROUND — Architectural Precision Grid & Radiant Auras ---------- */
+:root[data-theme="light"] .hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+:root[data-theme="light"] .hero-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(rgba(9, 9, 11, 0.13) 1.2px, transparent 1.2px),
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px, 84px 84px, 84px 84px;
+  background-position: center center;
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, black 25%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, black 25%, transparent 80%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+:root[data-theme="light"] .hero-bg::after {
+  display: block !important;
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  width: min(1000px, 95vw);
+  height: min(620px, 75vh);
+  transform: translateX(-50%);
+  background: 
+    radial-gradient(ellipse 65% 55% at 50% 40%, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 248, 0.65) 45%, transparent 75%),
+    radial-gradient(circle at 18% 45%, rgba(220, 225, 242, 0.5) 0%, transparent 55%),
+    radial-gradient(circle at 82% 45%, rgba(232, 226, 248, 0.5) 0%, transparent 55%),
+    radial-gradient(circle at 50% 90%, rgba(215, 220, 238, 0.4) 0%, transparent 60%);
+  filter: blur(28px);
+  pointer-events: none;
+  z-index: 0;
+}
+
 :root[data-theme="light"] .hero-bg-fade {
-  display: none !important;
+  display: block !important;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background: linear-gradient(180deg, transparent 0%, rgba(244, 244, 247, 0.95) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+:root[data-theme="light"] #spaceFx {
+  display: block !important;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] #warpFx {
+  display: block !important;
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] #auroraFx {
+  display: block !important;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
 }
 
 .hero-core {
