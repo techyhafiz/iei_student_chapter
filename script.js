@@ -1521,18 +1521,25 @@
     }, 3600);
   }
 
+  function toTitleCase(str) {
+    if (!str) return "";
+    return str.toLowerCase().replace(/(?:^|\s|\/|-|\()\w/g, function (match) {
+      return match.toUpperCase();
+    });
+  }
+
   function galEventInfo(item) {
     var fc = item.querySelector("figcaption");
     var caption = (item.dataset.caption || (fc ? fc.textContent : "") || "").trim();
     var date = (item.dataset.date || "").trim();
     var name = caption;
-    var m = caption.match(/\b(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|SEPT|OCT|NOV|DEC)\s+\d{4}\b/);
+    var m = caption.match(/\b(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|SEPT|OCT|NOV|DEC)\s+\d{4}\b/i);
     if (m) {
       if (!date) date = m[0];
       name = caption.slice(0, m.index).replace(/[\s—–-]+$/, "").trim();
     }
-    if (!date) date = "ARCHIVE";
-    return { name: name || caption, date: date };
+    if (!date) date = "OCT 2025";
+    return { name: toTitleCase(name || caption), date: date.toUpperCase() };
   }
 
   var currentGalEventIdx = 0;
@@ -1540,6 +1547,8 @@
   var lbEventTracker = $("#lbEventTracker");
   var lbPrevEvent = $("#lbPrevEvent");
   var lbNextEvent = $("#lbNextEvent");
+  var lbSegmentsWrap = $("#lbSegments");
+  var lbNextTitle = $("#lbNextTitle");
 
   function openLightbox(item) {
     if (!lightbox || !item._album || !item._album.length) return;
@@ -1583,41 +1592,54 @@
         { autoAlpha: 1, x: 0, duration: .42, ease: "power2.out", overwrite: true }
       );
     }
-    lbCount.textContent = pad2(lbIndex + 1) + " / " + pad2(lbAlbum.length);
+    if (lbCount) lbCount.textContent = pad2(lbIndex + 1) + " / " + pad2(lbAlbum.length);
     var disabled = lbAlbum.length < 2;
     lbPrev.disabled = disabled;
     lbNext.disabled = disabled;
+
+    /* Next item mini-card in footer */
     if (lbPeek && lbPeekImg) {
-      var nextIdx = (lbIndex + 1) % lbAlbum.length;
-      lbPeek.style.display = lbAlbum.length > 1 ? "" : "none";
+      var nextEventIdx = (currentGalEventIdx + 1) % galItems.length;
+      var nextEventItem = galItems[nextEventIdx];
+      var nextInfo = nextEventItem ? galEventInfo(nextEventItem) : null;
+      if (lbNextTitle && nextInfo) {
+        lbNextTitle.textContent = nextInfo.name;
+      }
+      var nextSlideIdx = (lbIndex + 1) % lbAlbum.length;
       lbPeekImg.innerHTML = "";
-      if (lbAlbum[nextIdx]) lbPeekImg.appendChild(lbAlbum[nextIdx].cloneNode(true));
-      lbPeek.setAttribute("aria-label", "Next photo: " + pad2(nextIdx + 1) + " of " + pad2(lbAlbum.length));
+      if (lbAlbum[nextSlideIdx]) {
+        var thumb = lbAlbum[nextSlideIdx].cloneNode(true);
+        lbPeekImg.appendChild(thumb);
+      }
+      lbPeek.setAttribute("aria-label", "Next: " + (nextInfo ? nextInfo.name : "Slide " + pad2(nextSlideIdx + 1)));
     }
-    if (lbDotsWrap) {
+
+    /* iOS-Style Segmented Progress Bar */
+    if (lbSegmentsWrap) {
       if (lbDotCount !== lbAlbum.length) {
         lbDotCount = lbAlbum.length;
-        lbDotsWrap.innerHTML = "";
+        lbSegmentsWrap.innerHTML = "";
         for (var d = 0; d < lbAlbum.length; d++) {
           (function (idx) {
-            var dot = document.createElement("button");
-            dot.type = "button";
-            dot.className = "lb-dot";
-            dot.setAttribute("aria-label", "Go to photo " + pad2(idx + 1));
-            dot.addEventListener("click", function (e) {
+            var seg = document.createElement("button");
+            seg.type = "button";
+            seg.className = "lb-segment";
+            seg.setAttribute("aria-label", "Go to slide " + (idx + 1) + " of " + lbAlbum.length);
+            seg.addEventListener("click", function (e) {
               e.stopPropagation();
               if (idx === lbIndex) return;
               lbDir = idx > lbIndex ? 1 : -1;
               lbIndex = idx;
               renderLightbox();
             });
-            lbDotsWrap.appendChild(dot);
+            lbSegmentsWrap.appendChild(seg);
           })(d);
         }
       }
-      lbDotsWrap.style.display = lbAlbum.length > 1 ? "" : "none";
-      $all(".lb-dot", lbDotsWrap).forEach(function (dot, i) {
-        dot.classList.toggle("is-active", i === lbIndex);
+      lbSegmentsWrap.style.display = lbAlbum.length > 1 ? "flex" : "none";
+      $all(".lb-segment", lbSegmentsWrap).forEach(function (seg, i) {
+        seg.classList.toggle("is-active", i === lbIndex);
+        seg.classList.toggle("is-passed", i < lbIndex);
       });
     }
   }
