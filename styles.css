@@ -3100,6 +3100,29 @@ html:not(.js) .why-row {
 }
 
 @media (max-width: 768px) {
+  /* Clean, lightweight dark ambient background for mobile (no heavy noisy stars) */
+  #spaceFx,
+  #warpFx {
+    display: none !important;
+  }
+
+  body {
+    background-color: #070310 !important;
+    background-image: 
+      radial-gradient(circle at 50% 8%, rgba(139, 92, 246, 0.16) 0%, transparent 65%),
+      radial-gradient(circle at 85% 40%, rgba(217, 70, 239, 0.07) 0%, transparent 55%),
+      radial-gradient(circle at 15% 75%, rgba(124, 58, 237, 0.07) 0%, transparent 55%) !important;
+    background-attachment: fixed !important;
+  }
+
+  :root[data-theme="light"] body {
+    background-color: #faf8ff !important;
+    background-image: 
+      radial-gradient(circle at 50% 6%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
+      radial-gradient(circle at 85% 35%, rgba(192, 38, 211, 0.04) 0%, transparent 50%) !important;
+    background-attachment: fixed !important;
+  }
+
   /* fit the open menu inside small viewports (inner content scrolls) */
   .card-nav.open {
     height: min(520px, calc(100svh - 80px));

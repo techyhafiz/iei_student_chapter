@@ -45,7 +45,7 @@
        ------------------------------------------------------------ */
   (function () {
     var cv = $("#spaceFx");
-    if (!cv || !cv.getContext) { return; }
+    if (!cv || !cv.getContext || window.innerWidth <= 768) { return; }
     var ctx = cv.getContext("2d");
     if (!ctx) { return; }
 
