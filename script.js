@@ -1637,6 +1637,22 @@
       }
     });
 
+    /* Mobile Timeline Expand / Collapse Toggle */
+    var tlExpandBtn = $("#tlExpandBtn");
+    var tlExpandText = $("#tlExpandText");
+    if (tlExpandBtn && evShell) {
+      tlExpandBtn.addEventListener("click", function () {
+        var isExpanded = evShell.classList.toggle("is-expanded");
+        tlExpandBtn.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+        if (tlExpandText) {
+          tlExpandText.textContent = isExpanded ? "Show Less" : "View All Past Events (8)";
+        }
+        if (hasGsap && typeof ScrollTrigger !== "undefined") {
+          setTimeout(function () { ScrollTrigger.refresh(); }, 150);
+        }
+      });
+    }
+
     /* filter tabs: ALL / UPCOMING / COMPLETED */
     var filterBtns = $all(".ev-filter-btn");
     filterBtns.forEach(function (btn) {

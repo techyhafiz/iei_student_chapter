@@ -3420,6 +3420,55 @@ html:not(.js) .why-row {
     display: block;
   }
 
+  /* Collapsible timeline items on mobile (show top 3 by default) */
+  .tl-node--collapsible {
+    display: none !important;
+  }
+
+  .tl-shell.is-expanded .tl-node--collapsible {
+    display: flex !important;
+    animation: tlFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes tlFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .tl-expand-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+    position: relative;
+    z-index: 2;
+  }
+
+  #tlExpandBtn {
+    min-height: 44px;
+    padding: 0 1.4rem;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    touch-action: manipulation;
+  }
+
+  #tlExpandArrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    margin-left: 6px;
+  }
+
+  .tl-shell.is-expanded #tlExpandArrow {
+    transform: rotate(180deg);
+  }
+
   /* Hide desktop arrow buttons on mobile */
   .tl-nav,
   .tl-prev,
