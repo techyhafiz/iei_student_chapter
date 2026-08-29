@@ -34,22 +34,22 @@
 }
 
 :root[data-theme="light"] {
-  --bg-deep: #f4f1fb;
-  --fade-color: #f4f1fb;
-  --ink: #241b3a;
-  --tx1: #3d3554;
-  --tx2: #5f5878;
-  --tx3: #8b84a3;
+  --bg-deep: #fafafd;
+  --fade-color: #fafafd;
+  --ink: #0f0c1d;
+  --tx1: #28213e;
+  --tx2: #4a4266;
+  --tx3: #71688e;
   --lav: #6d28d9;
   --lav2: #7c3aed;
-  --strip: #6b5a8e;
-  --card: rgba(255, 255, 255, .74);
-  --card-hi: rgba(255, 255, 255, .92);
-  --nav-bg: rgba(255, 255, 255, .85);
-  --linec: rgba(124, 58, 237, .16);
-  --linec2: rgba(124, 58, 237, .32);
+  --strip: #5b4a80;
+  --card: rgba(255, 255, 255, 0.84);
+  --card-hi: rgba(255, 255, 255, 0.96);
+  --nav-bg: rgba(255, 255, 255, 0.88);
+  --linec: rgba(124, 58, 237, 0.12);
+  --linec2: rgba(124, 58, 237, 0.22);
   --grad-accent: linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #c026d3 100%);
-  --grad-rail: linear-gradient(90deg, transparent, rgba(124, 58, 237, .22) 8%, rgba(124, 58, 237, .22) 92%, transparent);
+  --grad-rail: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.18) 8%, rgba(124, 58, 237, 0.18) 92%, transparent);
   color-scheme: light;
 }
 
@@ -88,9 +88,11 @@ body::before {
 }
 
 :root[data-theme="light"] body::before {
-  background: linear-gradient(180deg,
-      #faf8ff 0%, #f0eafc 26%, #e9e1f8 50%,
-      #efe9fb 72%, #f6f4fc 100%);
+  background: 
+    radial-gradient(circle at 50% 0%, rgba(124, 58, 237, 0.08) 0%, transparent 55%),
+    radial-gradient(circle at 85% 30%, rgba(192, 38, 211, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 15% 65%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+    linear-gradient(180deg, #fafafd 0%, #f4f2fb 40%, #f1ecfa 70%, #fafafd 100%);
 }
 
 body {
@@ -2269,6 +2271,7 @@ html:not(.js) .why-row {
 }
 
 .field select option { background: #0f081c; color: #e4e4e7; }
+:root[data-theme="light"] .field select option { background: #ffffff; color: #0f0c1d; }
 
 .field textarea {
   resize: vertical;
@@ -3116,10 +3119,11 @@ html:not(.js) .why-row {
   }
 
   :root[data-theme="light"] body {
-    background-color: #faf8ff !important;
+    background-color: #fafafd !important;
     background-image: 
-      radial-gradient(circle at 50% 6%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
-      radial-gradient(circle at 85% 35%, rgba(192, 38, 211, 0.04) 0%, transparent 50%) !important;
+      radial-gradient(circle at 50% 6%, rgba(124, 58, 237, 0.09) 0%, transparent 60%),
+      radial-gradient(circle at 85% 35%, rgba(192, 38, 211, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 15% 75%, rgba(99, 102, 241, 0.05) 0%, transparent 50%) !important;
     background-attachment: fixed !important;
   }
 
