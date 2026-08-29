@@ -1045,11 +1045,11 @@
   }
 
   // Restore stored theme & palette
-  var storedTheme = "dark";
-  var storedPalette = "frost-violet";
+  var storedTheme = "light";
+  var storedPalette = "titanium-mono";
   try {
-    storedTheme = localStorage.getItem("iei-theme") || "dark";
-    storedPalette = localStorage.getItem("iei-light-palette") || "frost-violet";
+    storedTheme = localStorage.getItem("iei-theme") || "light";
+    storedPalette = localStorage.getItem("iei-light-palette") || "titanium-mono";
   } catch (e) { }
 
   applyPalette(storedPalette);
