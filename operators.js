@@ -177,10 +177,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 <article class="team-card">
                   <div class="team-card-lead-pod-box">
                     <div class="solo-card-photo">
+                      <span class="lead-floating-badge mono">LEAD</span>
                       <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
                     </div>
                     <p class="team-card-lead-pod-name">${op.name}</p>
-                    <span class="lead-tag mono">LEAD</span>
                     <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
                       ${LINKEDIN_ICON}
                     </a>
