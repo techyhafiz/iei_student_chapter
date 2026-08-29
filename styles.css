@@ -55,7 +55,15 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* lock background scrolling while the menu / lightbox is open (touch-safe) */
+html.is-scroll-locked,
+html.is-scroll-locked body { overflow: hidden; }
 
 html.lenis, html.lenis body { height: auto; }
 
@@ -94,6 +102,10 @@ body {
 img, svg { display: block; max-width: 100%; }
 
 a { color: inherit; text-decoration: none; }
+
+a, button, [role="button"], input, select, textarea, label {
+  -webkit-tap-highlight-color: transparent;
+}
 
 button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 
@@ -210,6 +222,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .card-nav-container {
   position: fixed;
   top: 1.3em;
+  top: max(1.3em, env(safe-area-inset-top, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 99;
@@ -642,6 +655,8 @@ html[data-theme="light"] .icon-moon { display: none; }
 #hero {
   position: relative;
   min-height: 100vh;
+  /* svh: hero never hides behind the mobile URL bar */
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2616,7 +2631,9 @@ html:not(.js) .why-row {
 .quick-nav {
   position: fixed;
   right: 18px;
+  right: max(18px, env(safe-area-inset-right, 0px));
   bottom: 18px;
+  bottom: max(18px, env(safe-area-inset-bottom, 0px));
   z-index: 90;
   opacity: 0;
   transform: translateY(12px);
@@ -2686,6 +2703,8 @@ html:not(.js) .why-row {
 .lb-content {
   width: min(940px, 100%);
   max-height: 92vh;
+  /* dvh: tracks the real mobile viewport (URL bar included) */
+  max-height: 92dvh;
   overflow-y: auto;
   overflow-x: hidden;
   background: rgba(18, 10, 30, .85);
@@ -2848,6 +2867,7 @@ html:not(.js) .why-row {
 .lb-frame img {
   max-width: 100%;
   max-height: 60vh;
+  max-height: 60dvh;
   object-fit: contain;
   display: block;
   border-radius: 16px;
@@ -2911,6 +2931,14 @@ html:not(.js) .why-row {
   background: #fff;
   border-color: rgba(124, 58, 237, .4);
   color: #7c3aed;
+}
+
+/* touch devices: no hover to reveal arrows — keep them visible */
+@media (hover: none) {
+  .lb-arrow:not(:disabled) {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 /* Progress Bar & Slide Counter (Minimal, Centered & Refined) */
@@ -3054,11 +3082,17 @@ html:not(.js) .why-row {
 }
 
 @media (max-width: 768px) {
-  .card-nav.open { height: 560px; }
+  /* fit the open menu inside small viewports (inner content scrolls) */
+  .card-nav.open {
+    height: 560px;
+    height: min(560px, calc(100svh - 100px));
+  }
 
   .card-nav-content {
     flex-direction: column;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .nav-card {
@@ -3067,9 +3101,31 @@ html:not(.js) .why-row {
 
   .nav-card-label { font-size: 16px; }
 
-  .nav-card-link { font-size: 14.5px; }
+  .nav-card-link {
+    font-size: 14.5px;
+    /* comfortable 44px touch targets */
+    min-height: 44px;
+    align-items: center;
+  }
 
   .logo-sub { display: none; }
+
+  /* lighter blur keeps mobile scroll smooth */
+  .card-nav,
+  #nav.scrolled .card-nav {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* horizontal event timeline: flick + snap */
+  .tl-viewport {
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tl-node { scroll-snap-align: center; }
+
+  .tl-nav { width: 38px; height: 38px; }
 
   .next-event {
     grid-template-columns: 1fr;
@@ -3108,6 +3164,13 @@ html:not(.js) .why-row {
 
   .tl-prev { left: -6px; }
   .tl-next { right: -6px; }
+
+  /* stop iOS auto-zoom on focus: inputs must be >= 16px */
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -3117,11 +3180,11 @@ html:not(.js) .why-row {
 
   .cta-group .specular-button--lg { min-width: 0; padding: 12px 14px; font-size: .8rem; }
 
-  .stats { gap: 6px; }
+  .stats { gap: 10px; }
 
   .stat-icon { margin-bottom: 2px; font-size: 16px; }
-  .stat-value { font-size: 15px; line-height: 1.1; }
-  .stat-label { font-size: 9px; white-space: nowrap; }
+  .stat-value { font-size: 16px; line-height: 1.1; }
+  .stat-label { font-size: 10px; }
 
   .headline { letter-spacing: -.06em; line-height: 1.08; }
 
@@ -3131,6 +3194,15 @@ html:not(.js) .why-row {
 @media (max-width: 560px) {
   .form-row { grid-template-columns: 1fr; }
 
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 12px;
+    padding-top: 24px;
+  }
+  .stat-icon { font-size: 18px; margin-bottom: 4px; }
+  .stat-value { font-size: 18px; }
+  .stat-label { font-size: 10px; white-space: normal; line-height: 1.3; }
+
   .about-cards { grid-template-columns: 1fr; }
   .about-cards .feature-card:last-child { grid-column: auto; }
 
@@ -3139,11 +3211,109 @@ html:not(.js) .why-row {
   .trust-text { font-size: 15px; }
   .trust-logo { width: 24px; height: 24px; }
 
-  .organized-by-text { font-size: .74rem; }
+  .organized-by-pill {
+    padding: .5rem 1rem .5rem .5rem;
+    gap: .55rem;
+    border-radius: 18px;
+  }
+
+  .organized-by-text {
+    font-size: .74rem;
+    line-height: 1.5;
+    text-align: left;
+  }
 
   .faq-q { gap: 12px; padding: 15px 16px; }
   .faq-ghost { font-size: 1.2rem; min-width: 34px; }
   .faq-ablock { padding-left: 16px; padding-right: 16px; }
+
+  .terminal-body { padding: 18px 16px; min-height: 260px; }
+
+  /* footer status strip: let it wrap instead of squashing */
+  .ft2-strip {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 6px 14px;
+  }
+
+  /* ---- lightbox on small screens ---- */
+  .lb-content { gap: 12px; }
+
+  .lb-title { font-size: 18px; }
+
+  .lb-header { flex-wrap: wrap; }
+
+  .lb-icon-btn, .lb-close { width: 40px; height: 40px; }
+
+  .lb-arrow { width: 38px; height: 38px; }
+  .lb-prev { left: 8px; }
+  .lb-next { right: 8px; }
+
+  /* keyboard hints are meaningless on touch phones */
+  .lb-key-hint { display: none; }
+  .lb-footer-meta { justify-content: center; }
+
+  /* taller tap area, visual bar stays 2px via background-clip */
+  .lb-segment {
+    width: 26px;
+    height: 18px;
+    padding: 8px 0;
+    background-clip: content-box;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-nav-container {
+    width: 95%;
+    top: 0.8rem;
+  }
+
+  .card-nav-top {
+    padding: .35rem .5rem;
+    gap: 6px;
+  }
+
+  .logo-container {
+    position: static;
+    transform: none;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  .logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .logo-text {
+    font-size: .84rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .hamburger-menu {
+    padding: 0 4px;
+  }
+
+  .nav-actions {
+    gap: 6px;
+    padding-right: 0;
+  }
+
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .card-nav-cta-button {
+    height: 32px;
+    padding: 0 .65rem;
+    font-size: 11px;
+    border-radius: 10px;
+  }
 }
 
 @media (max-height: 700px) {

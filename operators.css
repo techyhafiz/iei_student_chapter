@@ -49,7 +49,7 @@
 
 .solo-row .sec-divider-line,
 .faculty-cards-wrap .sec-divider-line {
-  flex: 1 1 140px;
+  flex: 1 1 20px;
   max-width: 240px;
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.45));
@@ -579,9 +579,56 @@
     grid-template-columns: 1fr;
   }
 
+  .solo-cards--admins .solo-card-photo,
+  .solo-cards--fourth .solo-card-photo {
+    max-width: 170px;
+    margin: 0 auto 8px;
+  }
+
   .team-card {
     grid-template-columns: 1fr;
     gap: 14px;
     padding: 16px;
+  }
+}
+
+@media (max-width: 540px) {
+  .solo-cards--faculty .solo-card--faculty-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px 16px;
+    gap: 14px;
+  }
+
+  .solo-cards--faculty .solo-card-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .solo-cards--faculty .solo-card-name,
+  .solo-cards--faculty .solo-card-title,
+  .solo-cards--faculty .solo-card-name-link {
+    text-align: center;
+  }
+
+  .solo-cards--faculty .solo-card-photo {
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .solo-row .sec-divider,
+  .faculty-cards-wrap .sec-divider {
+    gap: 8px;
+    margin: 6px auto 14px;
+  }
+
+  .solo-row .sec-divider-badge,
+  .faculty-cards-wrap .sec-divider-badge {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    padding: 0 4px;
   }
 }
