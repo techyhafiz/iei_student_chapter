@@ -1006,53 +1006,22 @@
   }
 
   /* ------------------------------------------------------------
-     THEME TOGGLE & PALETTE PICKER — 1 Click Live Theme Switcher
+     THEME TOGGLE — Smooth switch between Obsidian Dark & Titanium Light
      ------------------------------------------------------------ */
   var themeToggle = $("#themeToggle");
-  var palettePickerBtn = $("#palettePickerBtn");
-  var paletteDropdown = $("#paletteDropdown");
-  var floatingThemeBtn = $("#floatingThemeBtn");
-
-  function updateActiveOption(theme, palette) {
-    if (!paletteDropdown) return;
-    var opts = paletteDropdown.querySelectorAll(".palette-opt");
-    opts.forEach(function (opt) {
-      var optChoice = opt.getAttribute("data-theme-choice");
-      var optPalette = opt.getAttribute("data-palette");
-      var isActive = false;
-      if (theme === "dark") {
-        isActive = optChoice === "dark";
-      } else {
-        isActive = optChoice === "light" && optPalette === palette;
-      }
-      opt.classList.toggle("is-active", isActive);
-      opt.setAttribute("aria-selected", isActive ? "true" : "false");
-    });
-  }
 
   function applyTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-palette", "titanium-mono");
     if (themeToggle) themeToggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
-    var currentPalette = document.documentElement.getAttribute("data-palette") || "frost-violet";
-    updateActiveOption(theme, currentPalette);
   }
 
-  function applyPalette(paletteName) {
-    document.documentElement.setAttribute("data-palette", paletteName);
-    try { localStorage.setItem("iei-light-palette", paletteName); } catch (e) { }
-    var currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
-    updateActiveOption(currentTheme, paletteName);
-  }
-
-  // Restore stored theme & palette
+  // Restore stored theme or default to light Titanium Minimalist
   var storedTheme = "light";
-  var storedPalette = "titanium-mono";
   try {
     storedTheme = localStorage.getItem("iei-theme") || "light";
-    storedPalette = localStorage.getItem("iei-light-palette") || "titanium-mono";
   } catch (e) { }
 
-  applyPalette(storedPalette);
   applyTheme(storedTheme);
 
   if (themeToggle) {
@@ -1062,86 +1031,6 @@
       var next = current === "light" ? "dark" : "light";
       applyTheme(next);
       try { localStorage.setItem("iei-theme", next); } catch (err) { }
-    });
-  }
-
-  function openDropdownAt(anchorEl, isBottomAnchor) {
-    if (!paletteDropdown || !anchorEl) return;
-    var rect = anchorEl.getBoundingClientRect();
-    paletteDropdown.classList.add("is-open");
-
-    if (isBottomAnchor) {
-      paletteDropdown.style.top = "auto";
-      paletteDropdown.style.bottom = Math.max(70, window.innerHeight - rect.top + 8) + "px";
-      paletteDropdown.style.left = Math.max(12, rect.left) + "px";
-      paletteDropdown.style.right = "auto";
-    } else {
-      paletteDropdown.style.top = (rect.bottom + 8) + "px";
-      paletteDropdown.style.bottom = "auto";
-      paletteDropdown.style.left = Math.min(window.innerWidth - 305, Math.max(10, rect.right - 285)) + "px";
-      paletteDropdown.style.right = "auto";
-    }
-  }
-
-  function closeDropdown() {
-    if (!paletteDropdown) return;
-    paletteDropdown.classList.remove("is-open");
-    if (palettePickerBtn) palettePickerBtn.setAttribute("aria-expanded", "false");
-    if (floatingThemeBtn) floatingThemeBtn.setAttribute("aria-expanded", "false");
-  }
-
-  if (palettePickerBtn && paletteDropdown) {
-    palettePickerBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      if (paletteDropdown.classList.contains("is-open")) {
-        closeDropdown();
-      } else {
-        openDropdownAt(palettePickerBtn, false);
-        palettePickerBtn.setAttribute("aria-expanded", "true");
-      }
-    });
-  }
-
-  if (floatingThemeBtn && paletteDropdown) {
-    floatingThemeBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      if (paletteDropdown.classList.contains("is-open")) {
-        closeDropdown();
-      } else {
-        openDropdownAt(floatingThemeBtn, true);
-        floatingThemeBtn.setAttribute("aria-expanded", "true");
-      }
-    });
-  }
-
-  if (paletteDropdown) {
-    paletteDropdown.querySelectorAll(".palette-opt").forEach(function (opt) {
-      opt.addEventListener("click", function (e) {
-        e.stopPropagation();
-        var choice = opt.getAttribute("data-theme-choice");
-        var palette = opt.getAttribute("data-palette");
-
-        if (choice === "dark") {
-          applyTheme("dark");
-          try { localStorage.setItem("iei-theme", "dark"); } catch (err) { }
-        } else {
-          if (palette) applyPalette(palette);
-          applyTheme("light");
-          try { localStorage.setItem("iei-theme", "light"); } catch (err) { }
-        }
-
-        closeDropdown();
-      });
-    });
-
-    document.addEventListener("click", function (e) {
-      if (paletteDropdown.classList.contains("is-open")) {
-        if (!paletteDropdown.contains(e.target) &&
-            (!palettePickerBtn || !palettePickerBtn.contains(e.target)) &&
-            (!floatingThemeBtn || !floatingThemeBtn.contains(e.target))) {
-          closeDropdown();
-        }
-      }
     });
   }
 
