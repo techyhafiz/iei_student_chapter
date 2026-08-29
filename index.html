@@ -878,17 +878,19 @@
     <section id="terminal" class="section sec-terminal-bottom">
       <div class="terminal-standalone-wrap" data-reveal data-tilt>
         <div class="terminal-header">
-          <span class="terminal-dot dot-red"></span>
-          <span class="terminal-dot dot-yellow"></span>
-          <span class="terminal-dot dot-green"></span>
+          <div class="terminal-dots" aria-hidden="true">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+          </div>
           <span class="terminal-tab mono">iei@csds:~ — chapter.sh</span>
-        </div>
-        <div class="term-chips-bar mono" id="termChipsBar">
-          <button type="button" class="term-chip is-active" data-cmd="status"><span class="term-chip-icon">⚡</span> status</button>
-          <button type="button" class="term-chip" data-cmd="scope"><span class="term-chip-icon">🎯</span> scope</button>
-          <button type="button" class="term-chip" data-cmd="events"><span class="term-chip-icon">🗓️</span> events</button>
-          <button type="button" class="term-chip" data-cmd="team"><span class="term-chip-icon">👥</span> team</button>
-          <button type="button" class="term-chip" data-cmd="join"><span class="term-chip-icon">🚀</span> join</button>
+          <div class="term-chips-bar terminal-tabs mono" id="termChipsBar" role="tablist">
+            <button type="button" class="term-chip term-tab is-active" data-cmd="status" role="tab" aria-selected="true"><span class="term-chip-icon tab-icon">⚡</span> status.sh</button>
+            <button type="button" class="term-chip term-tab" data-cmd="scope" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">🎯</span> scope.sh</button>
+            <button type="button" class="term-chip term-tab" data-cmd="events" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">🗓️</span> events.sh</button>
+            <button type="button" class="term-chip term-tab" data-cmd="team" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">👥</span> team.sh</button>
+            <button type="button" class="term-chip term-tab" data-cmd="join" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">🚀</span> join.sh</button>
+          </div>
         </div>
         <div class="terminal-body mono" id="termBody" aria-live="polite"></div>
       </div>

@@ -1182,7 +1182,7 @@
   });
 
   /* ------------------------------------------------------------
-     ABOUT TERMINAL — typed sequence & quick chips
+     ABOUT TERMINAL — typed sequence & desktop window tabs
      ------------------------------------------------------------ */
   var termBody = $("#termBody");
   var termChips = $all(".term-chip");
@@ -1231,6 +1231,7 @@
     clearTermTyping();
     termChips.forEach(function (c) {
       c.classList.toggle("is-active", c.getAttribute("data-cmd") === cmdKey);
+      c.setAttribute("aria-selected", c.getAttribute("data-cmd") === cmdKey ? "true" : "false");
     });
     termBody.innerHTML = "";
     var script = termCommands[cmdKey];
