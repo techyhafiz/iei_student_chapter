@@ -3000,22 +3000,31 @@ html:not(.js) .why-row {
 
 .lb-segment {
   width: 28px;
-  min-width: 24px;
-  height: 44px;
-  min-height: 44px;
-  padding: 20px 0;
+  height: 3px;
+  min-height: 3px;
+  max-height: 3px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.22);
-  background-clip: content-box;
-  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.25);
   border: none;
   cursor: pointer;
+  padding: 0;
+  margin: 0;
   touch-action: manipulation;
   transition: background .25s ease, opacity .25s ease;
+  position: relative;
+}
+
+.lb-segment::before {
+  content: "";
+  position: absolute;
+  top: -14px;
+  bottom: -14px;
+  left: 0;
+  right: 0;
 }
 
 :root[data-theme="light"] .lb-segment {
-  background: rgba(124, 58, 237, 0.18);
+  background: rgba(124, 58, 237, 0.2);
 }
 
 .lb-segment.is-passed {
@@ -3028,12 +3037,12 @@ html:not(.js) .why-row {
 
 .lb-segment.is-active {
   background: #e879f9;
-  box-shadow: 0 0 8px rgba(232, 121, 249, 0.7);
+  box-shadow: 0 0 6px rgba(232, 121, 249, 0.8);
 }
 
 :root[data-theme="light"] .lb-segment.is-active {
   background: #7c3aed;
-  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+  box-shadow: 0 0 6px rgba(124, 58, 237, 0.6);
 }
 
 .lb-counter {
@@ -3732,16 +3741,15 @@ html:not(.js) .why-row {
   .lb-key-hint { display: none; }
   .lb-footer-meta { justify-content: center; }
 
-  /* Sleek thin linear progress indicator with 44px tap zone on mobile */
+  /* Sleek thin linear progress indicator on mobile */
   .lb-segment {
     width: 22px;
-    min-width: 20px;
-    height: 44px;
-    min-height: 44px;
-    padding: 20px 0;
+    height: 3px;
+    min-height: 3px;
+    max-height: 3px;
+    padding: 0;
+    margin: 0;
     border-radius: 2px;
-    background-clip: content-box;
-    box-sizing: border-box;
     touch-action: manipulation;
   }
 }
