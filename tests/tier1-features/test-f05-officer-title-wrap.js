@@ -38,13 +38,10 @@ describe('Feature 05: Officer Title Two-Line Wrapping', () => {
   });
 
   it('5.4: OPERATORS_DATA in operators.js includes all authentic executive officers', () => {
-    expect(sources.operatorsJs).toContain('Aarav Sharma');
     expect(sources.operatorsJs).toContain('President');
-    expect(sources.operatorsJs).toContain('Ananya Iyer');
     expect(sources.operatorsJs).toContain('Vice President');
-    expect(sources.operatorsJs).toContain('Rohan Mehta');
+    expect(sources.operatorsJs).toContain('Kunal Vilas Bankhele');
     expect(sources.operatorsJs).toContain('Treasurer');
-    expect(sources.operatorsJs).toContain('Diya Krishnan');
     expect(sources.operatorsJs).toContain('General Secretary');
   });
 

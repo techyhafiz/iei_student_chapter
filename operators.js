@@ -21,83 +21,80 @@ document.addEventListener("DOMContentLoaded", () => {
       group: "faculty"
     },
     {
-      name: "Aarav Sharma",
+      name: "[TBA]",
       title: "President",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "#",
+      image: "assets/team/placeholder-avatar.svg",
       group: "admin"
     },
     {
-      name: "Ananya Iyer",
+      name: "[TBA]",
       title: "Vice President",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "#",
+      image: "assets/team/placeholder-avatar.svg",
       group: "admin"
     },
     {
-      name: "Rohan Mehta",
+      name: "Kunal Vilas Bankhele",
       title: "Treasurer",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/kunal-bankhele-b0a892262",
+      image: "assets/team/kunal-bankhele.jpg",
       group: "admin"
     },
     {
-      name: "Diya Krishnan",
+      name: "[TBA]",
       title: "General Secretary",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "#",
+      image: "assets/team/placeholder-avatar.svg",
       group: "admin"
     },
     {
-      name: "Vihaan Reddy",
+      name: "Samiksha Kotkar",
       title: "Technical Lead",
       team: "TECHNICAL",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/samiksha-kotkar-259375321",
+      image: "assets/team/samiksha-kotkar.jpg",
       group: "lead",
       members: [
-        { name: "Aditya Verma", linkedin: "https://www.linkedin.com/" },
-        { name: "Neha Gupta", linkedin: "https://www.linkedin.com/" },
-        { name: "Arjun Nair", linkedin: "https://www.linkedin.com/" }
+        { name: "Bhavik Pachani", linkedin: "https://www.linkedin.com/in/bhavik-pachani" },
+        { name: "Priyanshu Kamlesh Yadav", linkedin: "https://www.linkedin.com/in/priyanshu-yadav-9a2810383" },
+        { name: "Krishna Gupta", linkedin: "https://www.linkedin.com/in/krishna-gupta" }
       ]
     },
     {
-      name: "Ishita Desai",
+      name: "Akshay Kashinath Narote",
       title: "Events Lead",
       team: "EVENTS",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/akshay-narote-6054632b8",
+      image: "assets/team/akshay-narote.jpg",
       group: "lead",
       members: [
-        { name: "Kavya Pillai", linkedin: "https://www.linkedin.com/" },
-        { name: "Dev Patel", linkedin: "https://www.linkedin.com/" },
-        { name: "Sana Sheikh", linkedin: "https://www.linkedin.com/" }
+        { name: "Sudeep Swadesh Sharma", linkedin: "https://www.linkedin.com/in/sudeep-sharma-0b627637a" },
+        { name: "Shreyash Khese", linkedin: "https://www.linkedin.com/in/shreyash-khese-468356414" }
       ]
     },
     {
-      name: "Kabir Malhotra",
+      name: "Anisha Anand Sasane",
       title: "PR Lead",
       team: "PR",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/anisha-sasane-3186b9398",
+      image: "assets/team/anisha-sasane.jpg",
       group: "lead",
       members: [
-        { name: "Rahul Joshi", linkedin: "https://www.linkedin.com/" },
-        { name: "Meera Menon", linkedin: "https://www.linkedin.com/" },
-        { name: "Tanvi Kulkarni", linkedin: "https://www.linkedin.com/" }
+        { name: "Anaya Pramod Malvadkar", linkedin: "https://www.linkedin.com/in/anaya-malvadkar-434a03388" },
+        { name: "Siddharth Sairam Bhatkar", linkedin: "https://www.linkedin.com/in/siddharth-bhatkar-a79439329" },
+        { name: "Drushti Digambar Mane", linkedin: "https://www.linkedin.com/in/drushti-mane-a8325741a" }
       ]
     },
     {
-      name: "Anika Bose",
+      name: "Ayush Singh",
       title: "Creative Lead",
       team: "CREATIVE",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1534751516642-a171edd26cb0?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/ayush-singh-6b709032a",
+      image: "assets/team/ayush-singh.jpg",
       group: "lead",
       members: [
-        { name: "Vivaan Chatterjee", linkedin: "https://www.linkedin.com/" },
-        { name: "Nisha Rathod", linkedin: "https://www.linkedin.com/" },
-        { name: "Aisha Fernandes", linkedin: "https://www.linkedin.com/" }
+        { name: "Shrawani Shrikant Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420" }
       ]
     }
   ];
@@ -141,21 +138,23 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="solo-cards ${cardsClass}">
           ${members
             .map(
-              (op) => `
+              (op) => {
+                const hasLinkedin = op.linkedin && op.linkedin !== "#";
+                const linkAttr = hasLinkedin ? `href="${op.linkedin}" target="_blank" rel="noopener noreferrer"` : `href="javascript:void(0)" aria-disabled="true" style="pointer-events:none; opacity:${op.name === '[TBA]' ? '0.6' : '1'};"`;
+                return `
             <article class="solo-card${withMemberLists && op.members ? " solo-card--lead" : ""}">
-              <a class="solo-card-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+              <a class="solo-card-photo" ${linkAttr} aria-label="${op.name} on LinkedIn">
                 <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
               </a>
-              <a class="solo-card-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+              <a class="solo-card-name-link" ${linkAttr} aria-label="${op.name} on LinkedIn">
                 <h3 class="solo-card-name">${op.name}</h3>
               </a>
               <p class="solo-card-title">${op.title}</p>
-              <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
-                ${LINKEDIN_ICON}
-              </a>
+              ${hasLinkedin ? `<a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">${LINKEDIN_ICON}</a>` : `<span class="profile-btn-icon" style="opacity:0.35;">${LINKEDIN_ICON}</span>`}
               ${withMemberLists ? renderMemberList(op.members) : ""}
             </article>
-          `
+          `;
+              }
             )
             .join("")}
         </div>
@@ -176,19 +175,19 @@ document.addEventListener("DOMContentLoaded", () => {
             .map((op) => {
               const teamKey = (op.team || "").toLowerCase();
               const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
+              const hasLinkedin = op.linkedin && op.linkedin !== "#";
+              const linkAttr = hasLinkedin ? `href="${op.linkedin}" target="_blank" rel="noopener noreferrer"` : `href="javascript:void(0)" aria-disabled="true" style="pointer-events:none; opacity:${op.name === '[TBA]' ? '0.6' : '1'};"`;
               return `
                 <article class="team-card" data-team="${teamKey}">
                   <div class="team-card-lead-pod-box">
                     <span class="lead-pod-tag mono">LEAD</span>
-                    <a class="solo-card-photo" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                    <a class="solo-card-photo" ${linkAttr} aria-label="${op.name} on LinkedIn">
                       <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
                     </a>
-                    <a class="team-card-lead-pod-name-link" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
+                    <a class="team-card-lead-pod-name-link" ${linkAttr} aria-label="${op.name} on LinkedIn">
                       <p class="team-card-lead-pod-name">${op.name}</p>
                     </a>
-                    <a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">
-                      ${LINKEDIN_ICON}
-                    </a>
+                    ${hasLinkedin ? `<a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">${LINKEDIN_ICON}</a>` : `<span class="profile-btn-icon" style="opacity:0.35;">${LINKEDIN_ICON}</span>`}
                   </div>
                   <div class="team-card-right">
                     <h3 class="team-card-team">${teamName}</h3>
