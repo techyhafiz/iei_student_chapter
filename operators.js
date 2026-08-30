@@ -35,10 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
       group: "admin"
     },
     {
-      name: "Kunal Vilas Bankhele",
+      name: "Kunal Bankhele",
       title: "Treasurer",
       linkedin: "https://www.linkedin.com/in/kunal-bankhele-b0a892262",
-      image: "assets/team/kunal-bankhele.jpg",
+      image: "assets/team/placeholder-avatar.svg",
       group: "admin"
     },
     {
@@ -53,37 +53,37 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Technical Lead",
       team: "TECHNICAL",
       linkedin: "https://www.linkedin.com/in/samiksha-kotkar-259375321",
-      image: "assets/team/samiksha-kotkar.jpg",
+      image: "assets/team/placeholder-avatar.svg",
       group: "lead",
       members: [
         { name: "Bhavik Pachani", linkedin: "https://www.linkedin.com/in/bhavik-pachani" },
-        { name: "Priyanshu Kamlesh Yadav", linkedin: "https://www.linkedin.com/in/priyanshu-yadav-9a2810383" },
+        { name: "Priyanshu Yadav", linkedin: "https://www.linkedin.com/in/priyanshu-yadav-9a2810383" },
         { name: "Krishna Gupta", linkedin: "https://www.linkedin.com/in/krishna-gupta" }
       ]
     },
     {
-      name: "Akshay Kashinath Narote",
+      name: "Akshay Narote",
       title: "Events Lead",
       team: "EVENTS",
       linkedin: "https://www.linkedin.com/in/akshay-narote-6054632b8",
-      image: "assets/team/akshay-narote.jpg",
+      image: "assets/team/placeholder-avatar.svg",
       group: "lead",
       members: [
-        { name: "Sudeep Swadesh Sharma", linkedin: "https://www.linkedin.com/in/sudeep-sharma-0b627637a" },
+        { name: "Sudeep Sharma", linkedin: "https://www.linkedin.com/in/sudeep-sharma-0b627637a" },
         { name: "Shreyash Khese", linkedin: "https://www.linkedin.com/in/shreyash-khese-468356414" }
       ]
     },
     {
-      name: "Anisha Anand Sasane",
+      name: "Anisha Sasane",
       title: "PR Lead",
       team: "PR",
       linkedin: "https://www.linkedin.com/in/anisha-sasane-3186b9398",
-      image: "assets/team/anisha-sasane.jpg",
+      image: "assets/team/placeholder-avatar.svg",
       group: "lead",
       members: [
-        { name: "Anaya Pramod Malvadkar", linkedin: "https://www.linkedin.com/in/anaya-malvadkar-434a03388" },
-        { name: "Siddharth Sairam Bhatkar", linkedin: "https://www.linkedin.com/in/siddharth-bhatkar-a79439329" },
-        { name: "Drushti Digambar Mane", linkedin: "https://www.linkedin.com/in/drushti-mane-a8325741a" }
+        { name: "Anaya Malvadkar", linkedin: "https://www.linkedin.com/in/anaya-malvadkar-434a03388" },
+        { name: "Siddharth Bhatkar", linkedin: "https://www.linkedin.com/in/siddharth-bhatkar-a79439329" },
+        { name: "Drushti Mane", linkedin: "https://www.linkedin.com/in/drushti-mane-a8325741a" }
       ]
     },
     {
@@ -91,10 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Creative Lead",
       team: "CREATIVE",
       linkedin: "https://www.linkedin.com/in/ayush-singh-6b709032a",
-      image: "assets/team/ayush-singh.jpg",
+      image: "assets/team/placeholder-avatar.svg",
       group: "lead",
       members: [
-        { name: "Shrawani Shrikant Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420" }
+        { name: "Shrawani Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420" }
       ]
     }
   ];

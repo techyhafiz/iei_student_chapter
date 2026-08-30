@@ -24,14 +24,14 @@ describe('Feature 16: Content & Contact Data Preservation', () => {
   it('16.3: complete student executive roster is defined in operators data', () => {
     expect(sources.operatorsJs).toContain('President');
     expect(sources.operatorsJs).toContain('Vice President');
-    expect(sources.operatorsJs).toContain('Kunal Vilas Bankhele');
+    expect(sources.operatorsJs).toContain('Kunal Bankhele');
     expect(sources.operatorsJs).toContain('General Secretary');
   });
 
   it('16.4: domain leads and member teams are fully defined in operators data', () => {
     expect(sources.operatorsJs).toContain('Samiksha Kotkar');
-    expect(sources.operatorsJs).toContain('Akshay Kashinath Narote');
-    expect(sources.operatorsJs).toContain('Anisha Anand Sasane');
+    expect(sources.operatorsJs).toContain('Akshay Narote');
+    expect(sources.operatorsJs).toContain('Anisha Sasane');
     expect(sources.operatorsJs).toContain('Ayush Singh');
   });
 
