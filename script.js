@@ -1329,12 +1329,17 @@
     var target = parseInt(el.dataset.count, 10) || 0;
     var suffix = el.dataset.suffix || "";
     activateMetricFx(el);
-    if (!hasGsap || reduced) { el.textContent = target + suffix; setRing(metricCard(el), 100); return; }
+    if (!hasGsap || reduced || target === 0) {
+      el.textContent = target + suffix;
+      setRing(metricCard(el), 100);
+      settleMetricFx(el);
+      return;
+    }
     var obj = { v: 0 };
     gsap.to(obj, {
       v: target, duration: 1.8, ease: "power2.out", onUpdate: function () {
         el.textContent = Math.round(obj.v) + suffix;
-        setRing(metricCard(el), (obj.v / target) * 100);
+        setRing(metricCard(el), (obj.v / (target || 1)) * 100);
       },
       onComplete: function () { settleMetricFx(el); }
     });

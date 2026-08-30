@@ -11,11 +11,11 @@ describe('Feature 06: Bento Metric Cards Optimization', () => {
   const rules = parseCssRules(sources.stylesCss);
 
   it('6.1: HTML defines all 3 key metric cards with authentic counts and specular attributes', () => {
-    expect(sources.html).toContain('data-count="500"');
+    expect(sources.html).toContain('data-count="240"');
     expect(sources.html).toContain('Active Students');
-    expect(sources.html).toContain('data-count="30"');
+    expect(sources.html).toContain('data-count="20"');
     expect(sources.html).toContain('Core Operations Members');
-    expect(sources.html).toContain('data-count="15"');
+    expect(sources.html).toContain('data-count="0"');
     expect(sources.html).toContain('Events Organized');
     expect(sources.html).toContain('specular-card__fx');
     expect(sources.html).toContain('data-metric-specular');
