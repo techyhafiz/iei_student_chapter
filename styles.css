@@ -2963,6 +2963,13 @@ html:not(.js) .why-row {
   transition: all .22s;
 }
 
+.ft2-soc svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  display: block;
+}
+
 .ft2-soc:hover {
   color: var(--v5);
   background: rgba(139, 92, 246, .22);
