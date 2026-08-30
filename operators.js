@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       name: "Hafiz Mujawar",
-      title: "General Secretary",
+      title: "Secretary",
       linkedin: "https://www.linkedin.com/in/hafizmujawar",
       image: "assets/team/hafiz-mujawar.jpg",
       group: "admin"

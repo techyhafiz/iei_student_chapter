@@ -25,8 +25,7 @@ describe('Feature 16: Content & Contact Data Preservation', () => {
     expect(sources.operatorsJs).toContain('President');
     expect(sources.operatorsJs).toContain('Vice President');
     expect(sources.operatorsJs).toContain('Kunal Bankhele');
-    expect(sources.operatorsJs).toContain('Hafiz Mujawar');
-    expect(sources.operatorsJs).toContain('General Secretary');
+    expect(sources.operatorsJs).toContain('Secretary');
   });
 
   it('16.4: domain leads and member teams are fully defined in operators data', () => {

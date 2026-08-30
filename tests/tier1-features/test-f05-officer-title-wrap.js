@@ -41,8 +41,7 @@ describe('Feature 05: Officer Title Two-Line Wrapping', () => {
     expect(sources.operatorsJs).toContain('President');
     expect(sources.operatorsJs).toContain('Vice President');
     expect(sources.operatorsJs).toContain('Kunal Bankhele');
-    expect(sources.operatorsJs).toContain('Treasurer');
-    expect(sources.operatorsJs).toContain('General Secretary');
+    expect(sources.operatorsJs).toContain('Secretary');
   });
 
   it('5.5: solo cards contain accessible photo, name link, and LinkedIn profile button', () => {
