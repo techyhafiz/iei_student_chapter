@@ -21,14 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
       group: "faculty"
     },
     {
-      name: "[TBA]",
+      name: "Ronak Sangam",
       title: "President",
       linkedin: "#",
       image: "assets/team/placeholder-avatar.svg",
       group: "admin"
     },
     {
-      name: "[TBA]",
+      name: "Ashutosh Lakhera",
       title: "Vice President",
       linkedin: "#",
       image: "assets/team/placeholder-avatar.svg",

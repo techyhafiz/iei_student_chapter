@@ -22,7 +22,9 @@ describe('Feature 16: Content & Contact Data Preservation', () => {
   });
 
   it('16.3: complete student executive roster is defined in operators data', () => {
+    expect(sources.operatorsJs).toContain('Ronak Sangam');
     expect(sources.operatorsJs).toContain('President');
+    expect(sources.operatorsJs).toContain('Ashutosh Lakhera');
     expect(sources.operatorsJs).toContain('Vice President');
     expect(sources.operatorsJs).toContain('Kunal Bankhele');
     expect(sources.operatorsJs).toContain('Secretary');

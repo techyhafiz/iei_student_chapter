@@ -38,7 +38,9 @@ describe('Feature 05: Officer Title Two-Line Wrapping', () => {
   });
 
   it('5.4: OPERATORS_DATA in operators.js includes all authentic executive officers', () => {
+    expect(sources.operatorsJs).toContain('Ronak Sangam');
     expect(sources.operatorsJs).toContain('President');
+    expect(sources.operatorsJs).toContain('Ashutosh Lakhera');
     expect(sources.operatorsJs).toContain('Vice President');
     expect(sources.operatorsJs).toContain('Kunal Bankhele');
     expect(sources.operatorsJs).toContain('Secretary');
