@@ -25,6 +25,7 @@ describe('Feature 16: Content & Contact Data Preservation', () => {
     expect(sources.operatorsJs).toContain('President');
     expect(sources.operatorsJs).toContain('Vice President');
     expect(sources.operatorsJs).toContain('Kunal Bankhele');
+    expect(sources.operatorsJs).toContain('Hafiz Mujawar');
     expect(sources.operatorsJs).toContain('General Secretary');
   });
 

@@ -7,17 +7,17 @@
 document.addEventListener("DOMContentLoaded", () => {
   const OPERATORS_DATA = [
     {
-      name: "Dr. Rajesh Kumar",
+      name: "Dr. Deepika Ajalkar",
       title: "Head of Department (HOD)",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/deepika-ajalkar-226b08243",
+      image: "assets/team/deepika-ajalkar.jpg",
       group: "faculty"
     },
     {
-      name: "Prof. Priya Nair",
+      name: "Prof. Gayatri Deshmukh",
       title: "Faculty Coordinator",
-      linkedin: "https://www.linkedin.com/",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&h=700&q=80",
+      linkedin: "https://www.linkedin.com/in/gayatri-deshmukh-87b38a1b1",
+      image: "assets/team/gayatri-deshmukh.jpg",
       group: "faculty"
     },
     {
@@ -42,10 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
       group: "admin"
     },
     {
-      name: "[TBA]",
+      name: "Hafiz Mujawar",
       title: "General Secretary",
-      linkedin: "#",
-      image: "assets/team/placeholder-avatar.svg",
+      linkedin: "https://www.linkedin.com/in/hafizmujawar",
+      image: "assets/team/hafiz-mujawar.jpg",
       group: "admin"
     },
     {
