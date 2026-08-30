@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Kunal Bankhele",
       title: "Treasurer",
       linkedin: "https://www.linkedin.com/in/kunal-bankhele-b0a892262",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/kunal-bankhele.jpg",
       group: "admin"
     },
     {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Technical Lead",
       team: "TECHNICAL",
       linkedin: "https://www.linkedin.com/in/samiksha-kotkar-259375321",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/samiksha-kotkar.jpg",
       group: "lead",
       members: [
         { name: "Bhavik Pachani", linkedin: "https://www.linkedin.com/in/bhavik-pachani" },
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Events Lead",
       team: "EVENTS",
       linkedin: "https://www.linkedin.com/in/akshay-narote-6054632b8",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/akshay-narote.jpg",
       group: "lead",
       members: [
         { name: "Sudeep Sharma", linkedin: "https://www.linkedin.com/in/sudeep-sharma-0b627637a" },
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "PR Lead",
       team: "PR",
       linkedin: "https://www.linkedin.com/in/anisha-sasane-3186b9398",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/anisha-sasane.jpg",
       group: "lead",
       members: [
         { name: "Anaya Malvadkar", linkedin: "https://www.linkedin.com/in/anaya-malvadkar-434a03388" },
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Creative Lead",
       team: "CREATIVE",
       linkedin: "https://www.linkedin.com/in/ayush-singh-6b709032a",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/ayush-singh.jpg",
       group: "lead",
       members: [
         { name: "Shrawani Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420" }
