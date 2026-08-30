@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Dr. Deepika Ajalkar",
       title: "Head of Department (HOD)",
       linkedin: "https://www.linkedin.com/in/deepika-ajalkar-226b08243?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/deepika-ajalkar.jpg",
+      image: "assets/team/deepika-ajalkar.webp",
       group: "faculty"
     },
     {
       name: "Prof. Gayatri Deshmukh",
       title: "Faculty Coordinator",
       linkedin: "https://www.linkedin.com/in/gayatri-deshmukh-87b38a1b1?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/gayatri-deshmukh.jpg",
+      image: "assets/team/gayatri-deshmukh.webp",
       group: "faculty"
     },
     {
@@ -38,14 +38,14 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Kunal Bankhele",
       title: "Treasurer",
       linkedin: "https://www.linkedin.com/in/kunal-bankhele-b0a892262?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/kunal-bankhele.jpg",
+      image: "assets/team/kunal-bankhele.webp",
       group: "admin"
     },
     {
       name: "Hafiz Mujawar",
       title: "Secretary",
       linkedin: "https://www.linkedin.com/in/hafizmujawar?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/hafiz-mujawar.jpg",
+      image: "assets/team/hafiz-mujawar.webp",
       group: "admin"
     },
     {
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Technical Lead",
       team: "TECHNICAL",
       linkedin: "https://www.linkedin.com/in/samiksha-kotkar-259375321?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/samiksha-kotkar.jpg",
+      image: "assets/team/samiksha-kotkar.webp",
       group: "lead",
       members: [
         { name: "Bhavik Pachani", linkedin: "https://www.linkedin.com/public-profile/settings/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact_info%3BWCXi9YCTTqWUjEQfjIvevg%3D%3D" },
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Events Lead",
       team: "EVENTS",
       linkedin: "https://www.linkedin.com/in/akshay-narote-6054632b8",
-      image: "assets/team/akshay-narote.jpg",
+      image: "assets/team/akshay-narote.webp",
       group: "lead",
       members: [
         { name: "Sudeep Sharma", linkedin: "https://www.linkedin.com/in/sudeep-sharma-0b627637a?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "PR Lead",
       team: "PR",
       linkedin: "https://www.linkedin.com/in/anisha-sasane-3186b9398?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/anisha-sasane.jpg",
+      image: "assets/team/anisha-sasane.webp",
       group: "lead",
       members: [
         { name: "Anaya Malvadkar", linkedin: "https://www.linkedin.com/in/anaya-malvadkar-434a03388" },
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Creative Lead",
       team: "CREATIVE",
       linkedin: "https://www.linkedin.com/in/ayush-singh-6b709032a?utm_source=share_via&utm_content=profile&utm_medium=member_android",
-      image: "assets/team/ayush-singh.jpg",
+      image: "assets/team/ayush-singh.webp",
       group: "lead",
       members: [
         { name: "Shrawani Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
