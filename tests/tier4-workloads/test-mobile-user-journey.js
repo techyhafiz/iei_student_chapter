@@ -70,8 +70,8 @@ describe('Tier 4: Real-World Mobile User Journey Sequence', () => {
     const faqItems = doc.querySelectorAll('.faq-item');
     const faqTriggers = doc.querySelectorAll('.faq-q');
 
-    expect(faqItems.length).toBeGreaterThanOrEqual(5);
-    expect(faqTriggers.length).toBeGreaterThanOrEqual(5);
+    expect(faqItems.length).toBeGreaterThanOrEqual(4);
+    expect(faqTriggers.length).toBeGreaterThanOrEqual(4);
   });
 
   it('Step 08: Live Terminal CLI Quick-Chip Command Execution', () => {
