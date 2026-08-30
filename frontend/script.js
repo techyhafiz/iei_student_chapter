@@ -1148,31 +1148,111 @@
   }
 
   /* ------------------------------------------------------------
-      GALLERY FILTER COUNTS — computed from actual .gal-item elements
-      Call this whenever items are added / removed from the mosaic.
+      GALLERY API FETCHING & RENDERING
       ------------------------------------------------------------ */
-  function updateGalFilterCounts() {
-    var allItems = $all(".gal-item");
-    var counts = { all: allItems.length };
-    allItems.forEach(function (item) {
-      var cat = item.dataset.category || "workshop";
+  var initialGalleryCounts = {};
+
+  function updateGalFilterCounts(items) {
+    var counts = { all: items.length };
+    items.forEach(function (g) {
+      var cat = g.events && g.events.category ? g.events.category : "other";
       counts[cat] = (counts[cat] || 0) + 1;
     });
     $all(".gal-filter-btn").forEach(function (btn) {
       var cat = btn.dataset.cat;
       var n = counts[cat] !== undefined ? counts[cat] : 0;
-      /* strip any existing bracket then re-append */
       var label = btn.textContent.replace(/\s*\[\d+\]$/, "").trim();
       btn.textContent = label + " [" + n + "]";
     });
   }
-  /* run once on page load */
-  updateGalFilterCounts();
-  /* expose globally so backend-injected content can call it after adding new cards */
-  window.updateGalFilterCounts = updateGalFilterCounts;
+
+  async function fetchPublicGalleries(category = 'all', isInitial = false) {
+    var clMosaic = document.getElementById("clMosaic");
+    if (!clMosaic) return;
+    clMosaic.innerHTML = '<p class="mono" style="color:var(--border); padding:2rem; width:100%; text-align:center;">[ Loading Database... ]</p>';
+    
+    try {
+      var url = category === 'all' 
+        ? 'http://localhost:5000/api/gallery' 
+        : 'http://localhost:5000/api/gallery?category=' + encodeURIComponent(category);
+        
+      var res = await fetch(url);
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to fetch');
+      
+      var galleries = data.galleries || [];
+      
+      if (isInitial) {
+        updateGalFilterCounts(galleries);
+      }
+
+      if (galleries.length === 0) {
+        clMosaic.innerHTML = '<p class="mono" style="color:var(--border); padding:2rem; width:100%; text-align:center;">[ No entries found ]</p>';
+        return;
+      }
+      
+      clMosaic.innerHTML = '';
+      var newItems = [];
+      
+      galleries.forEach(function (g) {
+        var ev = g.events || {};
+        var cat = ev.category || 'other';
+        var title = ev.title || 'UNKNOWN';
+        var dateStr = ev.event_date ? new Date(ev.event_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase() : '-';
+        var monthYear = ev.event_date ? new Date(ev.event_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase() : '-';
+        var summary = g.short_summary ? '<p class="gal-card-desc" style="font-size:0.85rem; opacity:0.8; margin-top:0.5rem;">' + g.short_summary + '</p>' : '';
+
+        var article = document.createElement("article");
+        article.className = "gal-card gal-item";
+        article.id = "gal-" + g.id;
+        article.dataset.category = cat;
+        article.dataset.caption = title.toUpperCase();
+        article.dataset.date = dateStr;
+        article.tabIndex = 0;
+        article.setAttribute('role', 'button');
+        article.setAttribute('aria-label', 'Open album: ' + title);
+        
+        var mediaHtml = '';
+        if (g.cover_image_url) {
+           mediaHtml = '<img src="' + g.cover_image_url + '" style="width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; z-index:0; opacity:0.6;">';
+        } else {
+           mediaHtml = '<div class="matrix-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M24 8L38 16V32L24 40L10 32V16L24 8Z"/></svg></div>';
+        }
+
+        article.innerHTML = '\n          <div class="tactical-matrix">\n            <span class="matrix-corner tl">+</span>\n            <span class="matrix-corner tr">+</span>\n            <span class="matrix-corner bl">+</span>\n            <span class="matrix-corner br">+</span>\n            ' + mediaHtml + '\n            <span class="matrix-date-capsule mono" style="position:relative; z-index:1;">' + monthYear + '</span>\n          </div>\n          <div class="gal-card-body">\n            <h3 class="gal-card-title">' + title + '</h3>\n            ' + summary + '\n          </div>\n        ';
+        
+        clMosaic.appendChild(article);
+        newItems.push(article);
+      });
+      
+      galItems = $all(".gal-item");
+      
+      if (hasGsap && !reduced) {
+        gsap.fromTo(newItems,
+          { opacity: 0, y: 26, scale: .96 },
+          {
+            opacity: 1, y: 0, scale: 1,
+            duration: .55, stagger: .05, ease: "power3.out",
+            overwrite: true, clearProps: "transform"
+          }
+        );
+        if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
+      }
+      if (typeof window.__updateReelUI === "function") window.__updateReelUI();
+
+    } catch (err) {
+      clMosaic.innerHTML = '<p class="mono" style="color:#ff4444; padding:2rem; width:100%; text-align:center;">[ API ERROR: ' + err.message + ' ]</p>';
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    fetchPublicGalleries('all', true);
+  });
+
+
 
   /* ------------------------------------------------------------
-      GALLERY CATEGORY FILTERING (animated, with plain fallback)
+      GALLERY CATEGORY FILTERING (API based)
       ------------------------------------------------------------ */
   var galFilterBtns = $all(".gal-filter-btn");
   galFilterBtns.forEach(function (btn) {
@@ -1181,34 +1261,7 @@
       galFilterBtns.forEach(function (b) { b.classList.remove("is-active"); });
       btn.classList.add("is-active");
       var cat = btn.dataset.cat;
-
-      galItems.forEach(function (item) {
-        var match = cat === "all" || (item.dataset.category || "workshop") === cat;
-        if (hasGsap && !reduced) { gsap.killTweensOf(item); }
-        item.classList.toggle("is-filtered-out", !match);
-      });
-
-      /* surviving frames cascade back into the reel */
-      if (hasGsap && !reduced) {
-        var show = galItems.filter(function (item) {
-          return !item.classList.contains("is-filtered-out");
-        });
-        gsap.fromTo(show,
-          { opacity: 0, y: 26, scale: .96 },
-          {
-            opacity: 1, y: 0, scale: 1,
-            duration: .55, stagger: .05, ease: "power3.out",
-            overwrite: true, clearProps: "transform"
-          }
-        );
-      }
-
-      if (hasGsap && typeof ScrollTrigger !== "undefined") {
-        ScrollTrigger.refresh();
-      }
-      if (typeof window.__updateReelUI === "function") {
-        window.__updateReelUI();
-      }
+      fetchPublicGalleries(cat, false);
     });
   });
 

@@ -360,9 +360,221 @@
         </section>
       </div>
 
+            <!-- ============================================================ -->
+        <!-- GALLERY MANAGEMENT -->
+        <!-- ============================================================ -->
+        <section id="galleryManagementSection" class="admin-panel hidden" style="margin-top: 2rem;">
+          <div class="dashboard-header" style="border-bottom: none; padding-bottom: 0;">
+            <h2 style="font-size: 1.25rem;">Gallery & Past Events Management</h2>
+          </div>
+          <div id="galleryListView">
+            <div id="galleryListContainer"><p>Loading galleries...</p></div>
+          </div>
+          <div id="galleryDetailsView" class="hidden">
+            <div class="dashboard-header" style="margin-top: 1rem;">
+              <div>
+                <h3 id="galleryDetailsTitle">Event Title</h3>
+                <p id="galleryDetailsStatus" class="panel-desc" style="margin:0; font-size: 0.8rem;"></p>
+              </div>
+              <button class="btn btn-sm" onclick="closeGalleryDetails()" style="background: var(--bg); color: var(--fg); border: 1px solid var(--border);">Back to List</button>
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; overflow-x: auto;">
+              <button id="galTabCover" class="btn btn-sm" style="background: var(--primary); color: #000;" onclick="switchGalleryTab('cover')">Cover</button>
+              <button id="galTabMedia" class="btn btn-sm" style="background: transparent; color: var(--fg);" onclick="switchGalleryTab('media')">Media</button>
+              <button id="galTabGuests" class="btn btn-sm" style="background: transparent; color: var(--fg);" onclick="switchGalleryTab('guests')">Guests</button>
+              <button id="galTabSponsors" class="btn btn-sm" style="background: transparent; color: var(--fg);" onclick="switchGalleryTab('sponsors')">Sponsors</button>
+              <button id="galTabSections" class="btn btn-sm" style="background: transparent; color: var(--fg);" onclick="switchGalleryTab('sections')">Sections</button>
+            </div>
+            <div id="galViewCover">
+              <div id="galCoverMsg" class="msg hidden"></div>
+              <form id="galleryCoverForm">
+                <input type="hidden" id="galEventId">
+                <div class="form-group">
+                  <label for="galShortSummary">Short Summary</label>
+                  <input type="text" id="galShortSummary">
+                </div>
+                <div class="form-group">
+                  <label for="galFullDesc">Full Description</label>
+                  <textarea id="galFullDesc" rows="4" style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box;"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="galCopyright">Copyright Text</label>
+                  <input type="text" id="galCopyright">
+                </div>
+                <div class="form-group">
+                  <label for="galIsPublished">Status</label>
+                  <select id="galIsPublished" style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px;">
+                    <option value="false">Draft (Hidden)</option>
+                    <option value="true">Published</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn" id="saveGalCoverBtn">Save Gallery Info</button>
+              </form>
+              <hr style="border: 0; border-top: 1px solid var(--border); margin: 2rem 0;">
+              <h4>Cover Image</h4>
+              <div id="galCoverPreview" style="margin-bottom: 1rem;"></div>
+              <form id="galleryCoverImageForm">
+                <div class="form-group">
+                  <label>Upload/Replace Cover Image</label>
+                  <input type="file" id="galCoverFile" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-sm" id="saveGalCoverImageBtn">Upload Cover</button>
+              </form>
+            </div>
+            <div id="galViewMedia" class="hidden">
+              <button class="btn btn-sm" style="margin-bottom: 1rem;" onclick="openGalMediaForm()">+ Add Media</button>
+              <div id="galMediaListContainer"></div>
+              <div id="galMediaFormSection" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <h4 id="galMediaFormTitle">Add Media</h4>
+                <div id="galMediaMsg" class="msg hidden"></div>
+                <form id="galleryMediaForm">
+                  <input type="hidden" id="galMediaId">
+                  <div class="form-group" id="galMediaFileGroup">
+                    <label>File (Image/Video)</label>
+                    <input type="file" id="galMediaFile" accept="image/*,video/*">
+                  </div>
+                  <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="galMediaTitle">
+                  </div>
+                  <div class="form-group">
+                    <label>Caption</label>
+                    <input type="text" id="galMediaCaption">
+                  </div>
+                  <div class="form-group" style="display:flex; align-items:center; gap:0.5rem;">
+                    <input type="checkbox" id="galMediaFeatured" style="width:auto;">
+                    <label style="margin:0;">Featured</label>
+                  </div>
+                  <div class="form-group">
+                    <label>Display Order</label>
+                    <input type="number" id="galMediaOrder" value="0">
+                  </div>
+                  <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn" id="saveGalMediaBtn">Save Media</button>
+                    <button type="button" class="btn" onclick="closeGalMediaForm()" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div id="galViewGuests" class="hidden">
+              <button class="btn btn-sm" style="margin-bottom: 1rem;" onclick="openGalGuestForm()">+ Add Guest</button>
+              <div id="galGuestListContainer"></div>
+              <div id="galGuestFormSection" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <h4 id="galGuestFormTitle">Add Guest</h4>
+                <div id="galGuestMsg" class="msg hidden"></div>
+                <form id="galleryGuestForm">
+                  <input type="hidden" id="galGuestId">
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="galGuestName" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Designation</label>
+                    <input type="text" id="galGuestDesignation">
+                  </div>
+                  <div class="form-group">
+                    <label>Organization</label>
+                    <input type="text" id="galGuestOrganization">
+                  </div>
+                  <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="galGuestBio" rows="3" style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box;"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>LinkedIn URL</label>
+                    <input type="text" id="galGuestLinkedin">
+                  </div>
+                  <div class="form-group">
+                    <label>Display Order</label>
+                    <input type="number" id="galGuestOrder" value="0">
+                  </div>
+                  <div class="form-group" id="galGuestFileGroup">
+                    <label>Photo (Optional)</label>
+                    <input type="file" id="galGuestFile" accept="image/*">
+                  </div>
+                  <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn" id="saveGalGuestBtn">Save Guest</button>
+                    <button type="button" class="btn" onclick="closeGalGuestForm()" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div id="galViewSponsors" class="hidden">
+              <button class="btn btn-sm" style="margin-bottom: 1rem;" onclick="openGalSponsorForm()">+ Add Sponsor</button>
+              <div id="galSponsorListContainer"></div>
+              <div id="galSponsorFormSection" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <h4 id="galSponsorFormTitle">Add Sponsor</h4>
+                <div id="galSponsorMsg" class="msg hidden"></div>
+                <form id="gallerySponsorForm">
+                  <input type="hidden" id="galSponsorId">
+                  <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="galSponsorName" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Website URL</label>
+                    <input type="text" id="galSponsorUrl">
+                  </div>
+                  <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="galSponsorDescription" rows="3" style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box;"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Display Order</label>
+                    <input type="number" id="galSponsorOrder" value="0">
+                  </div>
+                  <div class="form-group" id="galSponsorFileGroup">
+                    <label>Logo (Optional)</label>
+                    <input type="file" id="galSponsorFile" accept="image/*">
+                  </div>
+                  <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn" id="saveGalSponsorBtn">Save Sponsor</button>
+                    <button type="button" class="btn" onclick="closeGalSponsorForm()" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div id="galViewSections" class="hidden">
+              <button class="btn btn-sm" style="margin-bottom: 1rem;" onclick="openGalSectionForm()">+ Add Section</button>
+              <div id="galSectionListContainer"></div>
+              <div id="galSectionFormSection" class="hidden" style="margin-top: 2rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                <h4 id="galSectionFormTitle">Add Section</h4>
+                <div id="galSectionMsg" class="msg hidden"></div>
+                <form id="gallerySectionForm">
+                  <input type="hidden" id="galSectionId">
+                  <div class="form-group">
+                    <label>Type</label>
+                    <select id="galSectionType" style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px;">
+                      <option value="text">Text</option>
+                      <option value="html">HTML</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Title (Optional)</label>
+                    <input type="text" id="galSectionTitle">
+                  </div>
+                  <div class="form-group">
+                    <label>Content</label>
+                    <textarea id="galSectionContent" rows="5" required style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box;"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Display Order</label>
+                    <input type="number" id="galSectionOrder" value="0">
+                  </div>
+                  <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn" id="saveGalSectionBtn">Save Section</button>
+                    <button type="button" class="btn" onclick="closeGalSectionForm()" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
     </main>
   </div>
 
   <script src="admin.js"></script>
+  <script src="admin-gallery.js"></script>
 </body>
 </html>

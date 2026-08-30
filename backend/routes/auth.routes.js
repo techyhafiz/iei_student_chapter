@@ -61,11 +61,12 @@ router.post('/login', async (req, res) => {
       });
     }
 
-    // On successful authentication, return user data and the access token
+    // On successful authentication, return user data, access token, and refresh token
     return res.json({
       success: true,
       message: "Login successful",
       token: authData.session.access_token,
+      refreshToken: authData.session.refresh_token,
       user: {
         id: admin.id,
         auth_user_id: authUserId,
@@ -83,6 +84,36 @@ router.post('/login', async (req, res) => {
       success: false,
       message: "An unexpected error occurred"
     });
+  }
+});
+
+// Route to refresh token
+router.post('/refresh', async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+      return res.status(400).json({ success: false, message: "No refresh token provided" });
+    }
+
+    const { createClient } = require('@supabase/supabase-js');
+    const authClient = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_PUBLISHABLE_KEY, {
+      auth: { persistSession: false, autoRefreshToken: false }
+    });
+
+    const { data: authData, error: authError } = await authClient.auth.refreshSession({ refresh_token: refreshToken });
+
+    if (authError || !authData?.session) {
+      return res.status(401).json({ success: false, message: "Invalid or expired refresh token" });
+    }
+
+    return res.json({
+      success: true,
+      token: authData.session.access_token,
+      refreshToken: authData.session.refresh_token
+    });
+  } catch (err) {
+    console.error('Unexpected error in /refresh:', err);
+    return res.status(500).json({ success: false, message: "An unexpected error occurred" });
   }
 });
 

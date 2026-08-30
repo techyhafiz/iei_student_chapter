@@ -336,6 +336,11 @@ logoutBtn.addEventListener('click', () => {
   document.getElementById('memberForm').reset();
   document.getElementById('teamForm').reset();
   document.getElementById('memberPhotoForm').reset();
+  
+  // Gallery CMS Cleanup
+  if (window.cleanupGalleryState) window.cleanupGalleryState();
+  const gallerySection = document.getElementById('galleryManagementSection');
+  if (gallerySection) gallerySection.classList.add('hidden');
 });
 
 // View Logic
@@ -382,7 +387,19 @@ function showDashboard() {
     teamManagementSection.classList.add('hidden');
   }
 
-  if (!hasEventsPerm && !hasTeamPerm && currentUser.role !== 'super_admin') {
+  // Gallery Management Permission Check
+  const galleryManagementSection = document.getElementById('galleryManagementSection');
+  const hasGalleryPerm = currentUser.role === 'super_admin' || (currentUser.permissions && currentUser.permissions.gallery);
+
+  if (hasGalleryPerm && galleryManagementSection) {
+    galleryManagementSection.classList.remove('hidden');
+    if (normalAdminWelcomeMsg) normalAdminWelcomeMsg.classList.add('hidden');
+    if (window.fetchAdminGalleries) window.fetchAdminGalleries();
+  } else if (galleryManagementSection) {
+    galleryManagementSection.classList.add('hidden');
+  }
+
+  if (!hasEventsPerm && !hasTeamPerm && !hasGalleryPerm && currentUser.role !== 'super_admin') {
     if (normalAdminWelcomeMsg) normalAdminWelcomeMsg.classList.remove('hidden');
   }
 }
