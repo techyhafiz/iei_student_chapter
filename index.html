@@ -294,14 +294,14 @@
       <article class="glass next-event" data-reveal id="nextEventCard">
         <div class="next-event-date mono" id="nextEventDateBlock">
           <span class="next-event-label">NEXT EVENT</span>
-          <div class="next-event-tba" id="nextEventDateDisplay"><strong>DATE</strong><span id="nextEventDateText">TO BE ANNOUNCED</span></div>
+          <div class="next-event-tba" id="nextEventDateDisplay"><strong>DATE</strong><span id="nextEventDateText">[TBA]</span></div>
         </div>
         <div class="next-event-content">
-          <div class="ev-top mono"><span class="ev-tag" id="nextEventTag">UPCOMING · DETAILS SOON</span></div>
-          <h3 id="nextEventTitle">NEXT CLUB <span class="grad">ACTIVITY</span></h3>
-          <p id="nextEventDesc">Our next workshop, competition, or technical session will be announced here. Contact the club to express interest or suggest an activity.</p>
-          <div class="next-event-meta mono" id="nextEventMeta">DATE TBA · CYBERSECURITY DEPARTMENT</div>
-          <a href="#join" class="specular-button specular-button--sm is-primary"><span class="specular-button__label">Contact The Club
+          <div class="ev-top mono"><span class="ev-tag" id="nextEventTag">UPCOMING · SCHEDULE TBA</span></div>
+          <h3 id="nextEventTitle">INAUGURAL CHAPTER EVENT <span class="grad">[TBA]</span></h3>
+          <p id="nextEventDesc">Our inaugural technical workshop, CTF challenges, and opening session schedule will be published here. Stay connected on WhatsApp for announcements.</p>
+          <div class="next-event-meta mono" id="nextEventMeta">DATE [TBA] · CYBERSECURITY DEPARTMENT, GHRCEM</div>
+          <a href="#join" class="specular-button specular-button--sm is-primary"><span class="specular-button__label">Join Community
             →</span></a>
         </div>
       </article>
@@ -310,14 +310,94 @@
         <div class="tl-viewport" id="evViewport" tabindex="0" aria-label="Past events timeline">
           <div class="tl-track" id="evTrack">
 
-            <!-- Milestone 01 (Latest): Threat Intel -->
-            <button type="button" class="tl-node btn-ev-gallery is-selected" data-gal-target="gal-threat-intel" aria-label="THREAT INTEL IN THE AGE OF AI - NOV 09, 2025">
+            <!-- Milestone 01: Inaugural Workshop -->
+            <button type="button" class="tl-node btn-ev-gallery is-selected" data-gal-target="gal-threat-intel" aria-label="INAUGURAL CHAPTER WORKSHOP [TBA]">
               <div class="tl-date">
                 <time>
-                  <span class="tl-day">09</span>
-                  <span class="tl-mo">NOV</span>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
                 </time>
-                <span class="tl-year mono">2025</span>
+                <span class="tl-year mono">[TBA]</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">INAUGURAL CHAPTER WORKSHOP [TBA]</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 02: Campus CTF -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-red-blue" aria-label="CAMPUS CTF INITIATIVE [TBA]">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
+                </time>
+                <span class="tl-year mono">[TBA]</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">CTF</span>
+                <h3 class="tl-name">CAMPUS CTF INITIATIVE [TBA]</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 03: Red vs Blue -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-ctf-finals" aria-label="RED VS BLUE DEFENSE LAB [TBA]">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
+                </time>
+                <span class="tl-year mono">[TBA]</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">DRILL</span>
+                <h3 class="tl-name">RED VS BLUE DEFENSE LAB [TBA]</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 04: OSINT -->
+            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-osint" aria-label="OSINT & FORENSICS LAB [TBA]">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
+                </time>
+                <span class="tl-year mono">[TBA]</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">OSINT &amp; FORENSICS LAB [TBA]</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 05: Threat Intel -->
+            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-hardware" aria-label="THREAT INTEL WORKSHOP [TBA]">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
+                </time>
+                <span class="tl-year mono">[TBA]</span>
               </div>
               <div class="tl-marker">
                 <span class="tl-tick tl-tick-top"></span>
@@ -326,98 +406,18 @@
               </div>
               <div class="tl-card">
                 <span class="ev-tag mono">SESSION</span>
-                <h3 class="tl-name">THREAT INTEL IN THE AGE OF AI</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 02: Red vs Blue -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-red-blue" aria-label="RED VS BLUE: LIVE FIRE - OCT 20, 2025">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">20</span>
-                  <span class="tl-mo">OCT</span>
-                </time>
-                <span class="tl-year mono">2025</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">DRILL</span>
-                <h3 class="tl-name">RED VS BLUE: LIVE FIRE</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 03: Hackathon -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-ctf-finals" aria-label="CYBER DEFENSE HACKATHON - OCT 02, 2025">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">02</span>
-                  <span class="tl-mo">OCT</span>
-                </time>
-                <span class="tl-year mono">2025</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">HACKATHON</span>
-                <h3 class="tl-name">CYBER DEFENSE HACKATHON</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 04: OSINT -->
-            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-osint" aria-label="OSINT: FIND ANYTHING - SEP 18, 2025">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">18</span>
-                  <span class="tl-mo">SEP</span>
-                </time>
-                <span class="tl-year mono">2025</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">OSINT: FIND ANYTHING</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 05: Hardware & Badge Hacking -->
-            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-hardware" aria-label="HARDWARE & BADGE HACKING - AUG 10, 2025">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">10</span>
-                  <span class="tl-mo">AUG</span>
-                </time>
-                <span class="tl-year mono">2025</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">HARDWARE &amp; BADGE HACKING</h3>
+                <h3 class="tl-name">THREAT INTEL WORKSHOP [TBA]</h3>
               </div>
             </button>
 
             <!-- Milestone 06: Malware Analysis -->
-            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-malware" aria-label="MALWARE REVERSE ENGINEERING 101 - MAY 22, 2025">
+            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-malware" aria-label="MALWARE ANALYSIS 101 [TBA]">
               <div class="tl-date">
                 <time>
-                  <span class="tl-day">22</span>
-                  <span class="tl-mo">MAY</span>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
                 </time>
-                <span class="tl-year mono">2025</span>
+                <span class="tl-year mono">[TBA]</span>
               </div>
               <div class="tl-marker">
                 <span class="tl-tick tl-tick-top"></span>
@@ -426,18 +426,18 @@
               </div>
               <div class="tl-card">
                 <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">MALWARE REVERSE ENGINEERING 101</h3>
+                <h3 class="tl-name">MALWARE ANALYSIS 101 [TBA]</h3>
               </div>
             </button>
 
             <!-- Milestone 07: National Cyber Drill -->
-            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-cyber-drill" aria-label="NATIONAL CYBER DRILL // BLUE CELL - MAR 14, 2025">
+            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-cyber-drill" aria-label="CYBER DEFENSE DRILL [TBA]">
               <div class="tl-date">
                 <time>
-                  <span class="tl-day">14</span>
-                  <span class="tl-mo">MAR</span>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
                 </time>
-                <span class="tl-year mono">2025</span>
+                <span class="tl-year mono">[TBA]</span>
               </div>
               <div class="tl-marker">
                 <span class="tl-tick tl-tick-top"></span>
@@ -446,18 +446,18 @@
               </div>
               <div class="tl-card">
                 <span class="ev-tag mono">DRILL</span>
-                <h3 class="tl-name">NATIONAL CYBER DRILL // BLUE CELL</h3>
+                <h3 class="tl-name">CYBER DEFENSE DRILL [TBA]</h3>
               </div>
             </button>
 
-            <!-- Milestone 08: Grid Con '24 -->
-            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-gridcon" aria-label="ANNUAL HACKATHON GRID CON '24 - NOV 18, 2024">
+            <!-- Milestone 08: Annual Hackathon -->
+            <button type="button" class="tl-node btn-ev-gallery tl-node--collapsible" data-gal-target="gal-gridcon" aria-label="ANNUAL CHAPTER HACKATHON [TBA]">
               <div class="tl-date">
                 <time>
-                  <span class="tl-day">18</span>
-                  <span class="tl-mo">NOV</span>
+                  <span class="tl-day">TBA</span>
+                  <span class="tl-mo">2026</span>
                 </time>
-                <span class="tl-year mono">2024</span>
+                <span class="tl-year mono">[TBA]</span>
               </div>
               <div class="tl-marker">
                 <span class="tl-tick tl-tick-top"></span>
@@ -466,7 +466,7 @@
               </div>
               <div class="tl-card">
                 <span class="ev-tag mono">COMPETITION</span>
-                <h3 class="tl-name">ANNUAL HACKATHON GRID CON '24</h3>
+                <h3 class="tl-name">ANNUAL CHAPTER HACKATHON [TBA]</h3>
               </div>
             </button>
 
@@ -506,7 +506,7 @@
 
         <!-- Card 01: Application Security -->
         <article class="gal-card gal-item" id="gal-ctf-finals" data-category="competition"
-          data-caption="APPLICATION SECURITY" data-date="OCT 2025" tabindex="0" role="button"
+          data-caption="APPLICATION SECURITY [TBA]" data-date="[TBA] 2026" tabindex="0" role="button"
           aria-label="Open album: Application Security">
           <div class="tactical-matrix">
             <span class="matrix-corner tl">+</span>
@@ -521,16 +521,16 @@
                 <line x1="38" y1="16" x2="24" y2="24"/>
               </svg>
             </div>
-            <span class="matrix-date-capsule mono">OCT 2025</span>
+            <span class="matrix-date-capsule mono">[TBA] 2026</span>
           </div>
           <div class="gal-card-body">
-            <h3 class="gal-card-title">Application Security</h3>
+            <h3 class="gal-card-title">Application Security [TBA]</h3>
           </div>
         </article>
 
         <!-- Card 02: Cloud Security -->
         <article class="gal-card gal-item" id="gal-osint" data-category="workshop"
-          data-caption="CLOUD SECURITY" data-date="SEP 2025" tabindex="0" role="button"
+          data-caption="CLOUD SECURITY [TBA]" data-date="[TBA] 2026" tabindex="0" role="button"
           aria-label="Open album: Cloud Security">
           <div class="tactical-matrix">
             <span class="matrix-corner tl">+</span>
@@ -542,16 +542,16 @@
                 <path d="M16 34H34C38.42 34 42 30.42 42 26C42 21.85 38.85 18.44 34.8 18.05C33.3 12.25 28.1 8 22 8C14.82 8 9 13.82 9 21C6.15 21.8 4 24.4 4 27.5C4 31.09 6.91 34 10.5 34H16Z"/>
               </svg>
             </div>
-            <span class="matrix-date-capsule mono">SEP 2025</span>
+            <span class="matrix-date-capsule mono">[TBA] 2026</span>
           </div>
           <div class="gal-card-body">
-            <h3 class="gal-card-title">Cloud Security</h3>
+            <h3 class="gal-card-title">Cloud Security [TBA]</h3>
           </div>
         </article>
 
         <!-- Card 03: Defensive Engineering -->
         <article class="gal-card gal-item" id="gal-red-blue" data-category="drill"
-          data-caption="DEFENSIVE ENGINEERING" data-date="OCT 2025" tabindex="0" role="button"
+          data-caption="DEFENSIVE ENGINEERING [TBA]" data-date="[TBA] 2026" tabindex="0" role="button"
           aria-label="Open album: Defensive Engineering">
           <div class="tactical-matrix">
             <span class="matrix-corner tl">+</span>
@@ -568,16 +568,16 @@
                 <line x1="36" y1="24" x2="44" y2="24"/>
               </svg>
             </div>
-            <span class="matrix-date-capsule mono">OCT 2025</span>
+            <span class="matrix-date-capsule mono">[TBA] 2026</span>
           </div>
           <div class="gal-card-body">
-            <h3 class="gal-card-title">Defensive Engineering</h3>
+            <h3 class="gal-card-title">Defensive Engineering [TBA]</h3>
           </div>
         </article>
 
         <!-- Card 04: Digital Forensics -->
         <article class="gal-card gal-item" id="gal-hardware" data-category="workshop"
-          data-caption="DIGITAL FORENSICS" data-date="AUG 2025" tabindex="0" role="button"
+          data-caption="DIGITAL FORENSICS [TBA]" data-date="[TBA] 2026" tabindex="0" role="button"
           aria-label="Open album: Digital Forensics">
           <div class="tactical-matrix">
             <span class="matrix-corner tl">+</span>
@@ -594,16 +594,16 @@
                 <path d="M10 26C10.5 31 13 36 17 39"/>
               </svg>
             </div>
-            <span class="matrix-date-capsule mono">AUG 2025</span>
+            <span class="matrix-date-capsule mono">[TBA] 2026</span>
           </div>
           <div class="gal-card-body">
-            <h3 class="gal-card-title">Digital Forensics</h3>
+            <h3 class="gal-card-title">Digital Forensics [TBA]</h3>
           </div>
         </article>
 
         <!-- Card 05: Malware Analysis -->
         <article class="gal-card gal-item" id="gal-malware" data-category="workshop"
-          data-caption="MALWARE ANALYSIS" data-date="MAY 2025" tabindex="0" role="button"
+          data-caption="MALWARE ANALYSIS [TBA]" data-date="[TBA] 2026" tabindex="0" role="button"
           aria-label="Open album: Malware Analysis">
           <div class="tactical-matrix">
             <span class="matrix-corner tl">+</span>
@@ -624,16 +624,16 @@
                 <line x1="28" y1="8" x2="30" y2="5"/>
               </svg>
             </div>
-            <span class="matrix-date-capsule mono">MAY 2025</span>
+            <span class="matrix-date-capsule mono">[TBA] 2026</span>
           </div>
           <div class="gal-card-body">
-            <h3 class="gal-card-title">Malware Analysis</h3>
+            <h3 class="gal-card-title">Malware Analysis [TBA]</h3>
           </div>
         </article>
 
         <!-- Card 06: Network Security -->
         <article class="gal-card gal-item" id="gal-cyber-drill" data-category="drill"
-          data-caption="NETWORK SECURITY" data-date="MAR 2025" tabindex="0" role="button"
+          data-caption="NETWORK SECURITY [TBA]" data-date="[TBA] 2026" tabindex="0" role="button"
           aria-label="Open album: Network Security">
           <div class="tactical-matrix">
             <span class="matrix-corner tl">+</span>
@@ -646,10 +646,10 @@
                 <polyline points="18 24 22 28 30 19"/>
               </svg>
             </div>
-            <span class="matrix-date-capsule mono">MAR 2025</span>
+            <span class="matrix-date-capsule mono">[TBA] 2026</span>
           </div>
           <div class="gal-card-body">
-            <h3 class="gal-card-title">Network Security</h3>
+            <h3 class="gal-card-title">Network Security [TBA]</h3>
           </div>
         </article>
 
