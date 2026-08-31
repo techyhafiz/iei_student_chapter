@@ -5,6 +5,67 @@ let authToken = null;
 let currentUser = null;
 let selectedAdminId = null;
 
+// Session Refresh Interceptor
+const originalFetch = window.fetch;
+window.fetch = async function(...args) {
+  let [resource, config] = args;
+  
+  if (authToken && typeof resource === 'string' && resource.startsWith(API_URL) && !resource.includes('/auth/login') && !resource.includes('/auth/refresh')) {
+    config = config || {};
+    config.headers = config.headers || {};
+    if (!config.headers['Authorization']) {
+       config.headers['Authorization'] = `Bearer ${authToken}`;
+    }
+  }
+
+  let response = await originalFetch(resource, config);
+  
+  if (response.status === 401 && typeof resource === 'string' && resource.startsWith(API_URL) && !resource.includes('/auth/login') && !resource.includes('/auth/refresh')) {
+    const refreshToken = localStorage.getItem('admin_refresh_token');
+    if (refreshToken) {
+      try {
+        const refreshRes = await originalFetch(`${API_URL}/auth/refresh`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refreshToken })
+        });
+        
+        const data = await refreshRes.json();
+        if (refreshRes.ok && data.success && data.token) {
+          authToken = data.token;
+          localStorage.setItem('admin_refresh_token', data.refreshToken);
+          
+          if (config && config.headers) {
+            config.headers['Authorization'] = `Bearer ${authToken}`;
+          }
+          response = await originalFetch(resource, config);
+        } else {
+          forceLogout();
+        }
+      } catch (err) {
+        forceLogout();
+      }
+    } else {
+      forceLogout();
+    }
+  }
+  return response;
+};
+
+function forceLogout() {
+  authToken = null;
+  currentUser = null;
+  localStorage.removeItem('admin_refresh_token');
+  localStorage.removeItem('admin_user');
+  if (typeof loginSection !== 'undefined' && loginSection) loginSection.classList.remove('hidden');
+  if (typeof dashboardSection !== 'undefined' && dashboardSection) dashboardSection.classList.add('hidden');
+  const errorEl = document.getElementById('loginError');
+  if (errorEl) {
+    errorEl.textContent = 'Session expired. Please log in again.';
+    errorEl.classList.remove('hidden');
+  }
+}
+
 // DOM Elements
 const loginSection = document.getElementById('loginSection');
 const dashboardSection = document.getElementById('dashboardSection');
@@ -56,8 +117,12 @@ loginForm.addEventListener('submit', async (e) => {
     }
 
     // Success
-    authToken = data.token; // Keep in memory only
+    authToken = data.token;
     currentUser = data.user;
+    if (data.refreshToken) {
+      localStorage.setItem('admin_refresh_token', data.refreshToken);
+      localStorage.setItem('admin_user', JSON.stringify(currentUser));
+    }
     
     // Clear password from memory explicitly
     document.getElementById('password').value = '';
@@ -309,6 +374,8 @@ logoutBtn.addEventListener('click', () => {
   currentUser = null;
   selectedAdminId = null;
   loadedAdmins = [];
+  localStorage.removeItem('admin_refresh_token');
+  localStorage.removeItem('admin_user');
   loginSection.classList.remove('hidden');
   dashboardSection.classList.add('hidden');
   resetPasswordSection.classList.add('hidden');
@@ -465,7 +532,7 @@ function renderEventsList(events) {
       <tr>
         <td class="mono">${ev.event_date ? ev.event_date.split('T')[0] : '-'}</td>
         <td>${ev.title}</td>
-        <td><span class="badge" style="background: ${ev.status === 'published' ? '#00e676' : ev.status === 'archived' ? '#ff4d4d' : 'var(--primary)'}">${ev.status}</span></td>
+        <td><span class="badge" style="background: ${ev.status === 'published' ? '#00e676' : ev.status === 'archived' ? '#ff4d4d' : 'var(--accent)'}">${ev.status}</span></td>
         <td>${hasPoster ? 'Yes' : 'No'}</td>
         <td style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
           <button class="btn btn-sm" onclick="openEventForm('${ev.id}')">Edit</button>
@@ -790,20 +857,20 @@ window.switchTeamTab = (tab) => {
   if (tab === 'faculty') {
     if (teamViewFaculty) teamViewFaculty.classList.remove('hidden');
     if (tabBtnFaculty) {
-      tabBtnFaculty.style.background = 'var(--primary)';
-      tabBtnFaculty.style.color = '#000';
+      tabBtnFaculty.style.background = 'var(--accent)';
+      tabBtnFaculty.style.color = 'var(--on-accent)';
     }
   } else if (tab === 'executive') {
     if (teamViewExecutive) teamViewExecutive.classList.remove('hidden');
     if (tabBtnExecutive) {
-      tabBtnExecutive.style.background = 'var(--primary)';
-      tabBtnExecutive.style.color = '#000';
+      tabBtnExecutive.style.background = 'var(--accent)';
+      tabBtnExecutive.style.color = 'var(--on-accent)';
     }
   } else if (tab === 'teams') {
     if (teamViewTeams) teamViewTeams.classList.remove('hidden');
     if (tabBtnTeams) {
-      tabBtnTeams.style.background = 'var(--primary)';
-      tabBtnTeams.style.color = '#000';
+      tabBtnTeams.style.background = 'var(--accent)';
+      tabBtnTeams.style.color = 'var(--on-accent)';
     }
     if (window.closeTeamDetails) closeTeamDetails(); // always reset to list view
   }
@@ -891,11 +958,11 @@ function renderMemberTable(members, container, isDynamicTeamMember = false) {
         <td>${m.name}</td>
         <td>${m.position || '-'}</td>
         <td>${hasPhoto ? 'Yes' : 'No'}</td>
-        <td><span class="badge" style="background: ${m.status === 'published' ? '#00e676' : m.status === 'archived' ? '#ff4d4d' : 'var(--primary)'}">${m.status}</span></td>
+        <td><span class="badge" style="background: ${m.status === 'published' ? '#00e676' : m.status === 'archived' ? '#ff4d4d' : 'var(--accent)'}">${m.status}</span></td>
         <td style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
           <button class="btn btn-sm" onclick="openMemberFormEdit('${m.id}')">Edit</button>
           <button class="btn btn-sm" onclick="openMemberPhotoForm('${m.id}')">Photo</button>
-          ${isDynamicTeamMember && !m.is_lead ? `<button class="btn btn-sm" style="background: var(--primary); color: #000;" onclick="assignLead('${m.team_id}', '${m.id}')">Assign Lead</button>` : ''}
+          ${isDynamicTeamMember && !m.is_lead ? `<button class="btn btn-sm" style="background: var(--accent); color: var(--on-accent);" onclick="assignLead('${m.team_id}', '${m.id}')">Assign Lead</button>` : ''}
           ${m.status !== 'archived' ? `<button class="btn btn-sm btn-danger" onclick="archiveMember('${m.id}')">Archive</button>` : ''}
         </td>
       </tr>
@@ -932,7 +999,7 @@ function renderTeamsList() {
       <tr>
         <td class="mono">${t.display_order}</td>
         <td>${t.name}</td>
-        <td><span class="badge" style="background: ${t.status === 'published' ? '#00e676' : t.status === 'archived' ? '#ff4d4d' : 'var(--primary)'}">${t.status}</span></td>
+        <td><span class="badge" style="background: ${t.status === 'published' ? '#00e676' : t.status === 'archived' ? '#ff4d4d' : 'var(--accent)'}">${t.status}</span></td>
         <td style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
           <button class="btn btn-sm" onclick="openTeamDetails('${t.id}')">Manage</button>
           <button class="btn btn-sm" onclick="openTeamFormEdit('${t.id}')">Edit</button>
@@ -1412,3 +1479,30 @@ function hideAllTeamForms() {
   if (teamFormSection) teamFormSection.classList.add('hidden');
   if (memberPhotoFormSection) memberPhotoFormSection.classList.add('hidden');
 }
+
+// Session Restoration
+document.addEventListener('DOMContentLoaded', async () => {
+  const storedRefreshToken = localStorage.getItem('admin_refresh_token');
+  const storedUser = localStorage.getItem('admin_user');
+  
+  if (storedRefreshToken && storedUser) {
+    try {
+      const res = await window.fetch(`${API_URL}/auth/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken: storedRefreshToken })
+      });
+      const data = await res.json();
+      if (res.ok && data.success && data.token) {
+        authToken = data.token;
+        localStorage.setItem('admin_refresh_token', data.refreshToken);
+        currentUser = JSON.parse(storedUser);
+        showDashboard();
+      } else {
+        forceLogout();
+      }
+    } catch (err) {
+      forceLogout();
+    }
+  }
+});

@@ -36,8 +36,8 @@ window.switchGalleryTab = (tab) => {
   
   if (activeView) activeView.classList.remove('hidden');
   if (activeTab) {
-    activeTab.style.background = 'var(--primary)';
-    activeTab.style.color = '#000';
+    activeTab.style.background = 'var(--accent)';
+    activeTab.style.color = 'var(--on-accent)';
   }
 };
 
@@ -94,7 +94,7 @@ function renderGalleryList(combined) {
     if (gal) {
       statusBadge = gal.is_published 
         ? '<span class="badge" style="background: #00e676;">Published</span>' 
-        : '<span class="badge" style="background: var(--primary);">Draft</span>';
+        : '<span class="badge" style="background: var(--accent); color: var(--on-accent);">Draft</span>';
     }
     html += `
       <tr>

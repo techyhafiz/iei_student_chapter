@@ -30,7 +30,7 @@ body {
   margin-bottom: 0.5rem;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
-  color: var(--fg);
+  color: var(--text);
 }
 
 .form-group input {
@@ -38,7 +38,7 @@ body {
   padding: 0.75rem;
   background: var(--bg);
   border: 1px solid var(--border);
-  color: var(--fg);
+  color: var(--text);
   border-radius: 4px;
   font-family: 'Inter', sans-serif;
   box-sizing: border-box;
@@ -46,14 +46,14 @@ body {
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: var(--accent);
 }
 
 .btn {
   width: 100%;
   padding: 0.75rem;
-  background: var(--primary);
-  color: #000;
+  background: var(--accent);
+  color: var(--on-accent);
   border: none;
   font-weight: 600;
   cursor: pointer;
@@ -82,8 +82,8 @@ body {
 }
 
 .badge {
-  background: var(--primary);
-  color: #000;
+  background: var(--accent);
+  color: var(--on-accent);
   padding: 0.2rem 0.5rem;
   font-size: 0.7rem;
   border-radius: 4px;
@@ -99,7 +99,7 @@ body {
 
 .panel-desc {
   font-size: 0.85rem;
-  color: var(--fg);
+  color: var(--text);
   opacity: 0.7;
   margin-bottom: 1.5rem;
 }
@@ -146,7 +146,7 @@ body {
 }
 
 .admin-table th {
-  color: var(--fg-muted);
+  color: var(--muted);
   font-weight: 500;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -183,7 +183,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--fg-muted);
+  color: var(--muted);
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
   border-radius: 4px;
