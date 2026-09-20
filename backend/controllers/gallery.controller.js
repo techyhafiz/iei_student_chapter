@@ -283,6 +283,41 @@ async function deleteSponsor(req, res) {
   } catch (err) { return res.status(500).json({ success: false, message: 'Unexpected error' }); }
 }
 
+async function uploadSectionImage(req, res) {
+  try {
+    const { eventId } = req.params;
+    if (!isValidUUID(eventId)) return res.status(400).json({ success: false, message: 'Invalid event ID format' });
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No image file provided' });
+    }
+
+    const { data, error } = await galleryService.uploadSectionImage(
+      eventId,
+      req.file.buffer,
+      req.file.originalname,
+      req.file.mimetype
+    );
+
+    if (error) {
+      if (error.code === 'NOT_FOUND') {
+        return res.status(404).json({ success: false, message: 'Event not found' });
+      }
+      console.error('Error uploading section image:', error);
+      return res.status(500).json({ success: false, message: 'Failed to upload section image' });
+    }
+
+    return res.json({
+      success: true,
+      message: 'Section image uploaded successfully',
+      image: data
+    });
+  } catch (error) {
+    console.error('Unexpected error in uploadSectionImage:', error);
+    return res.status(500).json({ success: false, message: 'An unexpected error occurred' });
+  }
+}
+
 async function addSection(req, res) {
   try {
     const { eventId } = req.params;
@@ -320,6 +355,7 @@ module.exports = {
   deleteGallery,
   uploadCover,
   uploadMedia,
+  uploadSectionImage,
   deleteMedia,
   uploadGuestPhoto,
   uploadSponsorLogo,

@@ -369,6 +369,35 @@ async function uploadMedia(eventId, fileBuffer, originalName, mimeType, mediaDat
   return { data: enrichMediaUrl(mediaRow), error: null };
 }
 
+async function uploadSectionImage(eventId, fileBuffer, originalName, mimeType) {
+  // Inline images for Event Details sections. Attached to the EVENT itself
+  // (any status) — no gallery row required and no database row created.
+  // Returns storage URL only; the caller embeds it in section content blocks.
+  const { data: event, error: eventError } = await supabase
+    .from('events')
+    .select('id')
+    .eq('id', eventId)
+    .maybeSingle();
+
+  if (eventError) return { data: null, error: eventError };
+  if (!event) return { data: null, error: { message: 'Event not found', code: 'NOT_FOUND' } };
+
+  const storagePath = generateGalleryPath('sections', eventId, originalName, mimeType);
+
+  const { error: uploadError } = await supabase.storage
+    .from('event-gallery')
+    .upload(storagePath, fileBuffer, { contentType: mimeType, upsert: false });
+
+  if (uploadError) return { data: null, error: uploadError };
+
+  const fullStoragePath = `event-gallery/${storagePath}`;
+
+  return {
+    data: { storagePath: fullStoragePath, publicUrl: getGalleryCoverUrl(fullStoragePath) },
+    error: null
+  };
+}
+
 async function deleteMedia(mediaId) {
   const { data: media, error: mediaError } = await supabase
     .from('event_media')
@@ -573,6 +602,7 @@ module.exports = {
   deleteGallery,
   uploadCover,
   uploadMedia,
+  uploadSectionImage,
   deleteMedia,
   uploadGuestPhoto,
   uploadSponsorLogo,

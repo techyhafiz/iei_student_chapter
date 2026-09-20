@@ -37,6 +37,22 @@ const handleMulterError = (err, req, res, next) => {
   next();
 };
 
+// Stricter instance for Event Details section images (images only, 5 MB)
+const uploadSectionImage = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5 MB
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (allowedTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file type. Only JPEG, PNG, and WebP images are allowed.'));
+    }
+  }
+});
+
 // ============================================================
 // PUBLIC ROUTES
 // ============================================================
@@ -58,6 +74,20 @@ router.delete('/:eventId', ...adminMiddleware, galleryController.deleteGallery);
 // --- Storage Upload Routes ---
 router.post('/:eventId/cover', ...adminMiddleware, upload.single('cover'), handleMulterError, galleryController.uploadCover);
 router.post('/:eventId/media', ...adminMiddleware, upload.single('media'), handleMulterError, galleryController.uploadMedia);
+
+const handleSectionImageError = (err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ success: false, message: 'File too large. Maximum size is 5 MB.' });
+    }
+    return res.status(400).json({ success: false, message: `Upload error: ${err.message}` });
+  }
+  if (err) {
+    return res.status(400).json({ success: false, message: err.message });
+  }
+  next();
+};
+router.post('/:eventId/section-image', ...adminMiddleware, uploadSectionImage.single('image'), handleSectionImageError, galleryController.uploadSectionImage);
 router.delete('/media/:mediaId', ...adminMiddleware, galleryController.deleteMedia);
 router.post('/:eventId/guests/:guestId/photo', ...adminMiddleware, upload.single('photo'), handleMulterError, galleryController.uploadGuestPhoto);
 router.post('/:eventId/sponsors/:sponsorId/logo', ...adminMiddleware, upload.single('logo'), handleMulterError, galleryController.uploadSponsorLogo);

@@ -1,7 +1,7 @@
 const supabase = require('../config/supabase');
 
 // Fields returned to public users (excludes internal/admin-only fields)
-const PUBLIC_SELECT_FIELDS = 'id, title, description, category, event_date, start_time, end_time, location, poster_url, status, featured, display_order, created_at, updated_at';
+const PUBLIC_SELECT_FIELDS = 'id, title, description, category, event_date, start_time, end_time, location, poster_url, status, featured, display_order, registration_enabled, registration_deadline, registration_url, event_countdown_enabled, event_countdown_at, created_at, updated_at';
 
 // Fields returned to admin users (includes all fields)
 const ADMIN_SELECT_FIELDS = '*, admins:created_by(id, name)';
@@ -85,6 +85,37 @@ async function getPublishedEventById(id) {
   return { data: enrichPosterUrl(data), error: null };
 }
 
+/**
+ * Get rich detail sections for a published event.
+ * Reads the existing event_sections table directly — no gallery required,
+ * so Upcoming events (and Past events without a gallery) expose the same
+ * admin-managed detail content. Returns [] when there are no sections.
+ * @param {string} id - Event UUID
+ * @returns {Object} { data, error }
+ */
+async function getEventSections(id) {
+  const { data: event, error: eventError } = await supabase
+    .from('events')
+    .select('id')
+    .eq('id', id)
+    .eq('status', 'published')
+    .maybeSingle();
+
+  if (eventError) return { data: null, error: eventError };
+  if (!event) return { data: null, error: { code: 'NOT_FOUND', message: 'Event not found' } };
+
+  const { data, error } = await supabase
+    .from('event_sections')
+    .select('id, section_type, title, content, display_order')
+    .eq('event_id', id)
+    .order('display_order', { ascending: true })
+    .order('created_at', { ascending: true });
+
+  if (error) return { data: null, error };
+
+  return { data: data || [], error: null };
+}
+
 // ============================================================
 // ADMIN QUERIES
 // ============================================================
@@ -141,6 +172,11 @@ async function createEvent(eventData, adminId) {
       status: eventData.status || 'draft',
       featured: eventData.featured === true,
       display_order: Number.isInteger(eventData.display_order) ? eventData.display_order : 0,
+      registration_enabled: eventData.registration_enabled === true,
+      registration_deadline: eventData.registration_deadline || null,
+      registration_url: eventData.registration_url || null,
+      event_countdown_enabled: eventData.event_countdown_enabled === true,
+      event_countdown_at: eventData.event_countdown_at || null,
       created_by: adminId,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -166,12 +202,22 @@ async function updateEvent(id, updateData) {
   const allowedFields = [
     'title', 'description', 'category', 'event_date',
     'start_time', 'end_time', 'location', 'status',
-    'featured', 'display_order'
+    'featured', 'display_order',
+    'registration_enabled', 'registration_deadline', 'registration_url',
+    'event_countdown_enabled', 'event_countdown_at'
   ];
 
   for (const field of allowedFields) {
     if (updateData[field] !== undefined) {
       updateObj[field] = updateData[field];
+    }
+  }
+
+  // Normalize empty strings to null for optional nullable fields so a
+  // registration-disabled (or countdown-less) update never stores junk.
+  for (const field of ['registration_deadline', 'registration_url', 'event_countdown_at']) {
+    if (updateObj[field] === '') {
+      updateObj[field] = null;
     }
   }
 
@@ -342,6 +388,7 @@ async function removePoster(eventId) {
 module.exports = {
   getPublishedEvents,
   getPublishedEventById,
+  getEventSections,
   getAllEventsAdmin,
   getEventByIdAdmin,
   createEvent,

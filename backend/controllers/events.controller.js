@@ -1,4 +1,5 @@
 const eventsService = require('../services/events.service');
+const eventsLifecycleService = require('../services/events.lifecycle');
 
 // Valid values for category and status
 const VALID_CATEGORIES = ['workshop', 'hackathon', 'session', 'drill', 'competition', 'seminar', 'meetup', 'other'];
@@ -26,6 +27,17 @@ function isValidDate(str) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(str)) return false;
   const d = new Date(str + 'T00:00:00Z');
   return !isNaN(d.getTime());
+}
+
+/**
+ * Validate a datetime string (ISO 8601 / TIMESTAMPTZ).
+ * Supports: 2026-09-25T18:30:00+05:30, 2026-09-25T18:30:00Z, 2026-09-25, etc.
+ * @param {string} str
+ * @returns {boolean}
+ */
+function isValidDateTime(str) {
+  const d = new Date(str);
+  return !isNaN(d.getTime()) && /^\d{4}-\d{2}-\d{2}(T|$)/.test(str);
 }
 
 /**
@@ -136,6 +148,45 @@ function validateEventData(data, isCreate = true) {
     }
   }
 
+  // Registration enabled
+  if (data.registration_enabled !== undefined && data.registration_enabled !== null) {
+    if (typeof data.registration_enabled !== 'boolean') {
+      errors.push('Registration enabled must be a boolean');
+    }
+  }
+
+  // Registration deadline
+  if (data.registration_deadline !== undefined && data.registration_deadline !== null) {
+    if (!isValidDateTime(data.registration_deadline)) {
+      errors.push('Registration deadline must be a valid ISO 8601 datetime');
+    }
+  }
+
+  // Registration URL (optional: absent, null, or empty string all mean "no URL")
+  if (data.registration_url !== undefined && data.registration_url !== null && data.registration_url !== "") {
+    if (typeof data.registration_url !== 'string') {
+      errors.push('Registration URL must be a string');
+    } else if (data.registration_url.length > 500) {
+      errors.push('Registration URL must be 500 characters or fewer');
+    } else if (!/^https?:\/\/.+/.test(data.registration_url)) {
+      errors.push('Registration URL must start with http:// or https://');
+    }
+  }
+
+  // Event countdown enabled
+  if (data.event_countdown_enabled !== undefined && data.event_countdown_enabled !== null) {
+    if (typeof data.event_countdown_enabled !== 'boolean') {
+      errors.push('Event countdown enabled must be a boolean');
+    }
+  }
+
+  // Event countdown at
+  if (data.event_countdown_at !== undefined && data.event_countdown_at !== null) {
+    if (!isValidDateTime(data.event_countdown_at)) {
+      errors.push('Event countdown date must be a valid ISO 8601 datetime');
+    }
+  }
+
   return errors;
 }
 
@@ -211,6 +262,36 @@ async function getPublicEvent(req, res) {
     return res.json({ success: true, event: data });
   } catch (error) {
     console.error('Unexpected error in getPublicEvent:', error);
+    return res.status(500).json({ success: false, message: 'An unexpected error occurred' });
+  }
+}
+
+/**
+ * GET /api/events/:id/sections
+ * Public: Get rich detail sections for a published event.
+ * Reads event_sections directly — no gallery required.
+ */
+async function getEventSections(req, res) {
+  try {
+    const { id } = req.params;
+
+    if (!isValidUUID(id)) {
+      return res.status(400).json({ success: false, message: 'Invalid event ID format' });
+    }
+
+    const { data, error } = await eventsService.getEventSections(id);
+
+    if (error) {
+      if (error.code === 'NOT_FOUND') {
+        return res.status(404).json({ success: false, message: 'Event not found' });
+      }
+      console.error('Error fetching event sections:', error);
+      return res.status(500).json({ success: false, message: 'Failed to retrieve event sections' });
+    }
+
+    return res.json({ success: true, sections: data });
+  } catch (error) {
+    console.error('Unexpected error in getEventSections:', error);
     return res.status(500).json({ success: false, message: 'An unexpected error occurred' });
   }
 }
@@ -418,13 +499,56 @@ async function removePoster(req, res) {
   }
 }
 
+// ============================================================
+// LIFECYCLE CONTROLLERS
+// ============================================================
+
+/**
+ * GET /api/events/lifecycle/dry-run
+ * Admin: Preview which published events would transition to draft.
+ */
+async function dryRunLifecycle(req, res) {
+  try {
+    const { data, error } = await eventsLifecycleService.dryRunLifecycle();
+    if (error) {
+      console.error('Error in dry-run lifecycle:', error);
+      return res.status(500).json({ success: false, message: 'Failed to run lifecycle dry-run' });
+    }
+    return res.json({ success: true, lifecycle: data });
+  } catch (error) {
+    console.error('Unexpected error in dryRunLifecycle:', error);
+    return res.status(500).json({ success: false, message: 'An unexpected error occurred' });
+  }
+}
+
+/**
+ * POST /api/events/lifecycle/execute
+ * Admin: Execute lifecycle — transition expired published events to draft.
+ */
+async function executeLifecycle(req, res) {
+  try {
+    const { data, error } = await eventsLifecycleService.executeLifecycle();
+    if (error) {
+      console.error('Error executing lifecycle:', error);
+      return res.status(500).json({ success: false, message: 'Failed to execute lifecycle' });
+    }
+    return res.json({ success: true, lifecycle: data });
+  } catch (error) {
+    console.error('Unexpected error in executeLifecycle:', error);
+    return res.status(500).json({ success: false, message: 'An unexpected error occurred' });
+  }
+}
+
 module.exports = {
   listPublicEvents,
   getPublicEvent,
+  getEventSections,
   listAdminEvents,
   createEvent,
   updateEvent,
   deleteEvent,
   uploadPoster,
-  removePoster
+  removePoster,
+  dryRunLifecycle,
+  executeEventLifecycle: executeLifecycle
 };

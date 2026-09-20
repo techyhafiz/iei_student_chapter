@@ -108,6 +108,8 @@
           <h3>Events Management</h3>
           <p class="panel-desc">Manage public events and their posters.</p>
           <button type="button" class="btn btn-sm" id="openCreateEventBtn" style="margin-bottom: 1rem;">Create New Event</button>
+          <button type="button" class="btn btn-sm" id="openHistoricalEventBtn" style="margin-bottom: 1rem; margin-left: 0.5rem; background: transparent; border: 1px solid var(--border);">Add Historical Past Event</button>
+          <p id="historicalHint" class="msg hidden" style="margin-bottom: 1rem;">Historical mode: enter the past date/time and details of an event that happened before this CMS existed, then Publish to show it in public Past Events.</p>
 
           <div id="eventsListContainer">
             <p>Loading events...</p>
@@ -132,7 +134,16 @@
               <div style="display:flex; gap:1rem;">
                 <div class="form-group" style="flex:1;">
                   <label for="eventCategory">Category (Tag)</label>
-                  <input type="text" id="eventCategory" placeholder="e.g. WORKSHOP, DRILL">
+                  <select id="eventCategory" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px;">
+                    <option value="workshop">Workshop</option>
+                    <option value="hackathon">Hackathon</option>
+                    <option value="session">Session</option>
+                    <option value="drill">Drill</option>
+                    <option value="competition">Competition</option>
+                    <option value="seminar">Seminar</option>
+                    <option value="meetup">Meetup</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
                 <div class="form-group" style="flex:1;">
                   <label for="eventDate">Date</label>
@@ -156,9 +167,44 @@
                 <input type="text" id="eventLocation">
               </div>
 
+              <div style="display:flex; gap:1rem;">
+                <div class="form-group" style="flex:1; display:flex; align-items:center; gap:0.5rem;">
+                  <input type="checkbox" id="eventFeatured" style="width:auto;">
+                  <label for="eventFeatured" style="margin:0;">Featured event</label>
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label for="eventDisplayOrder">Display order</label>
+                  <input type="number" id="eventDisplayOrder" value="0" step="1" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px;">
+                </div>
+              </div>
+
+              <div class="form-group" style="border-top:1px solid var(--border); padding-top:1rem; margin-top:1rem;">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  <input type="checkbox" id="eventRegEnabled" style="width:auto;">
+                  <label for="eventRegEnabled" style="margin:0; font-weight:bold;">Enable registration</label>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="eventRegUrl">Registration URL</label>
-                <input type="url" id="eventRegUrl">
+                <input type="url" id="eventRegUrl" placeholder="https://...">
+              </div>
+
+              <div class="form-group">
+                <label for="eventRegDeadline">Registration deadline (optional)</label>
+                <input type="datetime-local" id="eventRegDeadline" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px; color-scheme: dark;">
+              </div>
+
+              <div class="form-group" style="border-top:1px solid var(--border); padding-top:1rem; margin-top:1rem;">
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  <input type="checkbox" id="eventCountdownEnabled" style="width:auto;">
+                  <label for="eventCountdownEnabled" style="margin:0; font-weight:bold;">Enable event countdown</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="eventCountdownAt">Countdown target (optional, defaults to event start)</label>
+                <input type="datetime-local" id="eventCountdownAt" style="width:100%; padding:0.75rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px; color-scheme: dark;">
               </div>
 
               <div class="form-group">
@@ -194,7 +240,7 @@
 
               <div style="display: flex; gap: 1rem;">
                 <button type="submit" class="btn" id="savePosterBtn">Upload/Replace Poster</button>
-                <button type="button" class="btn btn-danger" id="removePosterBtn" style="flex:1;">Remove Poster</button>
+                <button type="button" class="btn btn-danger" id="removePosterBtn" style="flex:1;">Delete Cover/Poster</button>
                 <button type="button" class="btn" id="cancelPosterBtn" style="background: transparent; border: 1px solid var(--border); color: var(--fg);">Cancel</button>
               </div>
             </form>
@@ -543,10 +589,11 @@
                 <form id="gallerySectionForm">
                   <input type="hidden" id="galSectionId">
                   <div class="form-group">
-                    <label>Type</label>
+                    <label>Visible in</label>
                     <select id="galSectionType" style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px;">
-                      <option value="text">Text</option>
-                      <option value="html">HTML</option>
+                      <option value="both">Both phases (Upcoming + Past)</option>
+                      <option value="pre">Upcoming / Pre-event only</option>
+                      <option value="post">Past / Post-event only</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -554,8 +601,16 @@
                     <input type="text" id="galSectionTitle">
                   </div>
                   <div class="form-group">
-                    <label>Content</label>
-                    <textarea id="galSectionContent" rows="5" required style="width: 100%; padding: 0.75rem; background: var(--bg); border: 1px solid var(--border); color: var(--fg); border-radius: 4px; font-family: 'Inter', sans-serif; box-sizing: border-box;"></textarea>
+                    <label>Content blocks</label>
+                    <div id="galBlocksList" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.75rem;"></div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                      <button type="button" class="btn btn-sm" data-add-block="text">+ Add Text</button>
+                      <button type="button" class="btn btn-sm" data-add-block="image">+ Add Image</button>
+                      <button type="button" class="btn btn-sm" data-add-block="link">+ Add Link</button>
+                      <button type="button" class="btn btn-sm" data-add-block="video">+ Add Video Link</button>
+                      <button type="button" class="btn btn-sm" data-add-block="resource">+ Add Resource</button>
+                    </div>
+                    <input type="hidden" id="galSectionContent">
                   </div>
                   <div class="form-group">
                     <label>Display Order</label>

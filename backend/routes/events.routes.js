@@ -79,8 +79,21 @@ router.post('/:id/poster', ...adminMiddleware, upload.single('poster'), handleMu
 router.delete('/:id/poster', ...adminMiddleware, eventsController.removePoster);
 
 // ============================================================
+// LIFECYCLE ROUTES (Admin only)
+// ============================================================
+
+// GET /api/events/lifecycle/dry-run — Preview which events would transition
+router.get('/lifecycle/dry-run', ...adminMiddleware, eventsController.dryRunLifecycle);
+
+// POST /api/events/lifecycle/execute — Execute lifecycle transition
+router.post('/lifecycle/execute', ...adminMiddleware, eventsController.executeEventLifecycle);
+
+// ============================================================
 // PUBLIC ROUTE WITH PARAM (must be after /admin)
 // ============================================================
+
+// GET /api/events/:id/sections — Rich detail sections (no gallery required)
+router.get('/:id/sections', eventsController.getEventSections);
 
 // GET /api/events/:id — Get a single published event
 router.get('/:id', eventsController.getPublicEvent);

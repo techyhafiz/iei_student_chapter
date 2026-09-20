@@ -682,11 +682,12 @@ function renderSectionList() {
     container.innerHTML = '<p>No sections found.</p>';
     return;
   }
-  let html = `<div class="admin-table-wrapper"><table class="admin-table"><thead><tr><th>Title</th><th>Type</th><th>Actions</th></tr></thead><tbody>`;
+  let html = `<div class="admin-table-wrapper"><table class="admin-table"><thead><tr><th>Title</th><th>Visible in</th><th>Actions</th></tr></thead><tbody>`;
   currentGallerySections.forEach(s => {
+    const phaseLabel = s.section_type === 'pre' ? 'Upcoming only' : s.section_type === 'post' ? 'Past only' : 'Both phases';
     html += `<tr>
       <td>${s.title || '-'}</td>
-      <td>${s.section_type}</td>
+      <td>${phaseLabel}</td>
       <td>
         <button class="btn btn-sm" onclick="editGalSection('${s.id}')">Edit</button>
         <button class="btn btn-sm btn-danger" onclick="deleteGalSection('${s.id}')">Delete</button>
@@ -697,11 +698,148 @@ function renderSectionList() {
   container.innerHTML = html;
 }
 
+// =======================
+// RICH CONTENT BLOCKS (Event Details sections)
+// Blocks serialize to JSON in the section content field.
+// Phase (pre/post/both) is stored in section_type.
+// =======================
+let galBlocks = [];
+
+function galEscAttr(s) {
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function galBlockTemplate(kind) {
+  if (kind === 'image') return { k: 'image', url: '', caption: '' };
+  if (kind === 'link') return { k: 'link', url: '', label: '' };
+  if (kind === 'video') return { k: 'video', url: '', label: '' };
+  if (kind === 'resource') return { k: 'resource', url: '', label: '', desc: '' };
+  return { k: 'text', text: '' };
+}
+
+function galBlocksFromContent(content) {
+  if (!content) return [];
+  try {
+    const parsed = JSON.parse(content);
+    if (Array.isArray(parsed)) {
+      return parsed.filter(b => b && typeof b === 'object' && ['text', 'image', 'link', 'video', 'resource'].includes(b.k));
+    }
+  } catch (e) { /* legacy plain text falls through */ }
+  return [{ k: 'text', text: content }];
+}
+
+function galPhaseForRow(sectionType) {
+  return (sectionType === 'pre' || sectionType === 'post') ? sectionType : 'both';
+}
+
+function galSyncBlocksToForm() {
+  document.getElementById('galSectionContent').value = JSON.stringify(galBlocks);
+}
+
+function galBlockField(i, name, label, value, placeholder, rows) {
+  const v = galEscAttr(value || '');
+  const ph = placeholder ? ` placeholder="${galEscAttr(placeholder)}"` : '';
+  const input = rows
+    ? `<textarea data-block="${i}" data-field="${name}" rows="${rows}" style="width:100%; padding:0.5rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px; box-sizing:border-box;"${ph}>${v}</textarea>`
+    : `<input type="text" data-block="${i}" data-field="${name}" value="${v}"${ph} style="width:100%; padding:0.5rem; background:var(--bg); border:1px solid var(--border); color:var(--fg); border-radius:4px; box-sizing:border-box;">`;
+  return `<label style="display:block; font-size:0.8rem; margin-bottom:0.25rem;">${label}</label>${input}`;
+}
+
+function renderGalBlocks() {
+  const list = document.getElementById('galBlocksList');
+  const kindNames = { text: 'Text', image: 'Image', link: 'Link', video: 'Video Link', resource: 'Resource' };
+  if (galBlocks.length === 0) {
+    list.innerHTML = '<p class="mono" style="font-size:0.8rem;">No content yet — use the buttons below to add text, images, links, videos or resources.</p>';
+    return;
+  }
+  list.innerHTML = galBlocks.map((b, i) => {
+    let fields = '';
+    if (b.k === 'text') fields = galBlockField(i, 'text', 'Text', b.text, 'Write content...', 3);
+    else if (b.k === 'image') fields =
+      galBlockField(i, 'url', 'Image URL', b.url, 'https://... or upload below') +
+      (b.url ? `<img src="${galEscAttr(b.url)}" alt="preview" style="max-width:120px; border-radius:6px; margin:0.25rem 0;">` : '') +
+      `<div style="display:flex; gap:0.5rem; align-items:center; margin:0.25rem 0;"><input type="file" accept="image/jpeg,image/png,image/webp" data-block-upload="${i}"><button type="button" class="btn btn-sm" onclick="galBlockUpload(${i})">Upload</button><span class="mono" id="galBlockUploadMsg${i}" style="font-size:0.75rem;"></span></div>` +
+      galBlockField(i, 'caption', 'Caption (optional)', b.caption, '');
+    else if (b.k === 'link') fields = galBlockField(i, 'label', 'Link text', b.label, 'Register here') + galBlockField(i, 'url', 'URL', b.url, 'https://...');
+    else if (b.k === 'video') fields = galBlockField(i, 'label', 'Title (optional)', b.label, 'Event teaser') + galBlockField(i, 'url', 'Video URL (YouTube / Vimeo / mp4)', b.url, 'https://...');
+    else fields = galBlockField(i, 'label', 'Title', b.label, 'Resource name') + galBlockField(i, 'url', 'URL', b.url, 'https://...') + galBlockField(i, 'desc', 'Description (optional)', b.desc, '');
+    return `<div style="border:1px solid var(--border); border-radius:6px; padding:0.75rem;" data-block-card="${i}">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <strong class="mono" style="font-size:0.75rem;">${kindNames[b.k] || b.k}</strong>
+        <span>
+          <button type="button" class="btn btn-sm" onclick="galBlockMove(${i},-1)" ${i === 0 ? 'disabled' : ''}>↑</button>
+          <button type="button" class="btn btn-sm" onclick="galBlockMove(${i},1)" ${i === galBlocks.length - 1 ? 'disabled' : ''}>↓</button>
+          <button type="button" class="btn btn-sm btn-danger" onclick="galBlockRemove(${i})">Remove</button>
+        </span>
+      </div>${fields}</div>`;
+  }).join('');
+  list.querySelectorAll('[data-block]').forEach(el => {
+    el.addEventListener('input', () => {
+      const bi = parseInt(el.dataset.block, 10);
+      if (galBlocks[bi]) { galBlocks[bi][el.dataset.field] = el.value; galSyncBlocksToForm(); }
+    });
+  });
+}
+
+window.galBlockAdd = (kind) => {
+  galBlocks.push(galBlockTemplate(kind));
+  galSyncBlocksToForm();
+  renderGalBlocks();
+};
+
+window.galBlockRemove = (i) => {
+  galBlocks.splice(i, 1);
+  galSyncBlocksToForm();
+  renderGalBlocks();
+};
+
+window.galBlockMove = (i, dir) => {
+  const j = i + dir;
+  if (j < 0 || j >= galBlocks.length) return;
+  const t = galBlocks[i]; galBlocks[i] = galBlocks[j]; galBlocks[j] = t;
+  galSyncBlocksToForm();
+  renderGalBlocks();
+};
+
+window.galBlockUpload = async (i) => {
+  const fileInput = document.querySelector(`[data-block-upload="${i}"]`);
+  const msg = document.getElementById('galBlockUploadMsg' + i);
+  if (!fileInput || !fileInput.files || !fileInput.files.length) {
+    if (msg) msg.textContent = 'Choose a file first.';
+    return;
+  }
+  if (msg) msg.textContent = 'Uploading...';
+  try {
+    const formData = new FormData();
+    formData.append('image', fileInput.files[0]);
+    const res = await fetch(`${API_URL}/gallery/${currentGalleryEventId}/section-image`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${authToken}` },
+      body: formData
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Upload failed');
+    galBlocks[i].url = data.image.publicUrl;
+    galSyncBlocksToForm();
+    renderGalBlocks();
+  } catch (err) {
+    if (msg) msg.textContent = err.message;
+    else alert(err.message);
+  }
+};
+
+document.querySelectorAll('[data-add-block]').forEach(btn => {
+  btn.addEventListener('click', () => window.galBlockAdd(btn.dataset.addBlock));
+});
+
 window.openGalSectionForm = () => {
   document.getElementById('gallerySectionForm').reset();
   document.getElementById('galSectionId').value = '';
   document.getElementById('galSectionFormTitle').textContent = 'Add Section';
   document.getElementById('galSectionMsg').className = 'msg hidden';
+  galBlocks = [];
+  galSyncBlocksToForm();
+  renderGalBlocks();
   document.getElementById('galSectionFormSection').classList.remove('hidden');
 };
 
@@ -710,11 +848,13 @@ window.editGalSection = (id) => {
   if (!s) return;
   document.getElementById('gallerySectionForm').reset();
   document.getElementById('galSectionId').value = s.id;
-  document.getElementById('galSectionType').value = s.section_type || 'text';
+  document.getElementById('galSectionType').value = galPhaseForRow(s.section_type);
   document.getElementById('galSectionTitle').value = s.title || '';
-  document.getElementById('galSectionContent').value = s.content || '';
   document.getElementById('galSectionOrder').value = s.display_order || 0;
-  
+  galBlocks = galBlocksFromContent(s.content);
+  galSyncBlocksToForm();
+  renderGalBlocks();
+
   document.getElementById('galSectionFormTitle').textContent = 'Edit Section';
   document.getElementById('galSectionMsg').className = 'msg hidden';
   document.getElementById('galSectionFormSection').classList.remove('hidden');
@@ -726,6 +866,13 @@ window.closeGalSectionForm = () => {
 
 document.getElementById('gallerySectionForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const msg0 = document.getElementById('galSectionMsg');
+  const hasContent = galBlocks.some(b => (b.text && b.text.trim()) || (b.url && b.url.trim()));
+  if (!hasContent) {
+    msg0.textContent = 'Add at least one content block with text or a URL.';
+    msg0.className = 'msg error-msg';
+    return;
+  }
   const id = document.getElementById('galSectionId').value;
   const btn = document.getElementById('saveGalSectionBtn');
   btn.disabled = true;

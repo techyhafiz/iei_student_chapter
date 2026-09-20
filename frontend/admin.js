@@ -505,6 +505,22 @@ async function fetchAdminEvents() {
   }
 }
 
+// Convert a TIMESTAMPTZ ISO string to a datetime-local input value (YYYY-MM-DDTHH:MM)
+function toLocalInputValue(isoStr) {
+  if (!isoStr) return '';
+  const d = new Date(isoStr);
+  if (isNaN(d.getTime())) return '';
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+// Convert a datetime-local input value to an ISO string (or null when empty)
+function fromLocalInputValue(val) {
+  if (!val) return null;
+  const d = new Date(val);
+  return isNaN(d.getTime()) ? null : d.toISOString();
+}
+
 function renderEventsList(events) {
   if (!events || events.length === 0) {
     eventsListContainer.innerHTML = '<p>No events found. Create one to get started.</p>';
@@ -528,16 +544,21 @@ function renderEventsList(events) {
   
   events.forEach(ev => {
     const hasPoster = !!ev.poster_url;
+    const flags = [];
+    if (ev.registration_enabled) flags.push('REG');
+    if (ev.event_countdown_enabled) flags.push('COUNTDOWN');
+    if (ev.featured) flags.push('FEATURED');
     html += `
       <tr>
         <td class="mono">${ev.event_date ? ev.event_date.split('T')[0] : '-'}</td>
-        <td>${ev.title}</td>
+        <td>${ev.title}${flags.length ? ` <span class="mono" style="font-size:0.7rem; color:var(--accent);">[${flags.join(' · ')}]</span>` : ''}</td>
         <td><span class="badge" style="background: ${ev.status === 'published' ? '#00e676' : ev.status === 'archived' ? '#ff4d4d' : 'var(--accent)'}">${ev.status}</span></td>
         <td>${hasPoster ? 'Yes' : 'No'}</td>
         <td style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
           <button class="btn btn-sm" onclick="openEventForm('${ev.id}')">Edit</button>
           <button class="btn btn-sm" onclick="openPosterForm('${ev.id}')">Poster</button>
           ${ev.status !== 'published' ? `<button class="btn btn-sm" style="background: #00e676; color: #000;" onclick="publishEvent('${ev.id}')">Publish</button>` : ''}
+          ${ev.status === 'published' ? `<button class="btn btn-sm" onclick="unpublishEvent('${ev.id}')">Unpublish</button>` : ''}
           ${ev.status !== 'archived' ? `<button class="btn btn-sm btn-danger" onclick="archiveEvent('${ev.id}')">Archive</button>` : ''}
         </td>
       </tr>
@@ -553,6 +574,19 @@ openCreateEventBtn.addEventListener('click', () => {
   eventForm.reset();
   document.getElementById('eventId').value = '';
   document.getElementById('eventFormTitle').textContent = 'Create Event';
+  document.getElementById('historicalHint').className = 'msg hidden';
+  eventMsg.className = 'msg hidden';
+  posterFormSection.classList.add('hidden');
+  eventFormSection.classList.remove('hidden');
+  eventFormSection.scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('openHistoricalEventBtn').addEventListener('click', () => {
+  eventForm.reset();
+  document.getElementById('eventId').value = '';
+  document.getElementById('eventFormTitle').textContent = 'Add Historical Past Event';
+  document.getElementById('eventStatus').value = 'draft';
+  document.getElementById('historicalHint').className = 'msg success-msg';
   eventMsg.className = 'msg hidden';
   posterFormSection.classList.add('hidden');
   eventFormSection.classList.remove('hidden');
@@ -566,15 +600,22 @@ window.openEventForm = (id) => {
   eventForm.reset();
   document.getElementById('eventId').value = ev.id;
   document.getElementById('eventFormTitle').textContent = 'Edit Event';
+  document.getElementById('historicalHint').className = 'msg hidden';
   
   document.getElementById('eventTitle').value = ev.title || '';
   document.getElementById('eventDesc').value = ev.description || '';
-  document.getElementById('eventCategory').value = ev.category || '';
+  document.getElementById('eventCategory').value = ev.category || 'workshop';
   document.getElementById('eventDate').value = ev.event_date ? ev.event_date.split('T')[0] : '';
   document.getElementById('eventStartTime').value = ev.start_time || '';
   document.getElementById('eventEndTime').value = ev.end_time || '';
   document.getElementById('eventLocation').value = ev.location || '';
+  document.getElementById('eventFeatured').checked = ev.featured === true;
+  document.getElementById('eventDisplayOrder').value = Number.isInteger(ev.display_order) ? ev.display_order : 0;
+  document.getElementById('eventRegEnabled').checked = ev.registration_enabled === true;
   document.getElementById('eventRegUrl').value = ev.registration_url || '';
+  document.getElementById('eventRegDeadline').value = toLocalInputValue(ev.registration_deadline);
+  document.getElementById('eventCountdownEnabled').checked = ev.event_countdown_enabled === true;
+  document.getElementById('eventCountdownAt').value = toLocalInputValue(ev.event_countdown_at);
   document.getElementById('eventStatus').value = ev.status || 'draft';
   
   eventMsg.className = 'msg hidden';
@@ -593,6 +634,7 @@ eventForm.addEventListener('submit', async (e) => {
   eventMsg.className = 'msg hidden';
   
   const id = document.getElementById('eventId').value;
+  const displayOrderRaw = document.getElementById('eventDisplayOrder').value;
   const payload = {
     title: document.getElementById('eventTitle').value,
     description: document.getElementById('eventDesc').value,
@@ -601,7 +643,13 @@ eventForm.addEventListener('submit', async (e) => {
     start_time: document.getElementById('eventStartTime').value || null,
     end_time: document.getElementById('eventEndTime').value || null,
     location: document.getElementById('eventLocation').value,
+    featured: document.getElementById('eventFeatured').checked,
+    display_order: displayOrderRaw === '' ? 0 : parseInt(displayOrderRaw, 10),
+    registration_enabled: document.getElementById('eventRegEnabled').checked,
     registration_url: document.getElementById('eventRegUrl').value,
+    registration_deadline: fromLocalInputValue(document.getElementById('eventRegDeadline').value),
+    event_countdown_enabled: document.getElementById('eventCountdownEnabled').checked,
+    event_countdown_at: fromLocalInputValue(document.getElementById('eventCountdownAt').value),
     status: document.getElementById('eventStatus').value
   };
   
@@ -649,6 +697,10 @@ eventForm.addEventListener('submit', async (e) => {
 // Publish/Archive Inline Handlers
 window.publishEvent = async (id) => {
   await updateEventStatus(id, 'published');
+};
+
+window.unpublishEvent = async (id) => {
+  await updateEventStatus(id, 'draft');
 };
 
 window.archiveEvent = async (id) => {
