@@ -1148,21 +1148,52 @@ html[data-theme="light"] .icon-sun { display: none; }
   transform: translateY(-8px);
 }
 
-/* When intro is active: hero-core is waiting inside the core */
+/* When intro is active: hide nav, hero elements, scroll hint, ticker band, and bottom dock */
+body.is-intro-active .card-nav-container,
+body.is-intro-active .hero-core,
+body.is-intro-active .scroll-hint,
+body.is-intro-active .ticker-band,
+body.is-intro-active .bottom-dock {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+body.is-intro-active .card-nav-container {
+  transform: translate(-50%, -40px) !important;
+}
+
 body.is-intro-active .hero-core {
-  opacity: 0;
-  transform: scale(0.92);
-  pointer-events: none;
+  transform: scale(0.9) !important;
 }
 
-/* When intro transitions/completes: hero-core blooms in */
-body.is-intro-revealed .hero-core {
-  opacity: 1;
-  transform: scale(1);
-  pointer-events: auto;
+.card-nav-container {
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Settled state: video fades down or into the frame poster, keeping the sci-fi mechanical frame */
+.scroll-hint,
+.ticker-band,
+.bottom-dock {
+  transition: opacity 0.8s ease;
+}
+
+/* When intro transitions/completes: hero-core and website bloom in */
+body.is-intro-revealed .card-nav-container,
+body.is-intro-revealed .hero-core,
+body.is-intro-revealed .scroll-hint,
+body.is-intro-revealed .ticker-band,
+body.is-intro-revealed .bottom-dock {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+body.is-intro-revealed .card-nav-container {
+  transform: translateX(-50%) !important;
+}
+
+/* Settled state: video fades down into the frame poster, keeping the sci-fi mechanical frame */
 body.is-intro-revealed .hero-shield-video {
   opacity: 0;
 }

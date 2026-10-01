@@ -53,7 +53,7 @@
   </script>
 </head>
 
-<body>
+<body class="is-intro-active">
 
   <!-- ======= PRELOADER (injected visibility via .js class) ======= -->
   <!-- ⚠️ UNCOMMENT before deployment — disabled only for faster local debugging -->
@@ -71,6 +71,16 @@
     <style>
       #loader {
         display: none !important
+      }
+      body.is-intro-active .card-nav-container,
+      body.is-intro-active .hero-core,
+      body.is-intro-active .scroll-hint,
+      body.is-intro-active .ticker-band,
+      body.is-intro-active .bottom-dock {
+        opacity: 1 !important;
+        transform: none !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
       }
     </style>
   </noscript>
