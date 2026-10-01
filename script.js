@@ -914,7 +914,6 @@
 
   function finishLoader() {
     if (loader) { loader.classList.add("done"); }
-    document.body.style.overflow = "";
     playHeroIntro();
   }
 
@@ -964,7 +963,12 @@
   /* ============================================================
      3D CYBER SHIELD INTRO & SEAMLESS HERO BLOSSOM
      ============================================================ */
+  var heroIntroStarted = false;
+
   function playHeroIntro() {
+    if (heroIntroStarted) return;
+    heroIntroStarted = true;
+
     var video = document.getElementById("heroShieldVideo");
     var wrap = document.getElementById("heroShieldWrap");
     var skipBtn = document.getElementById("heroShieldSkip");
@@ -972,6 +976,13 @@
     if (!video || !wrap) return;
 
     var revealed = false;
+    var completed = false;
+
+    // Reset scroll to top immediately so page reload doesn't trigger scroll reveals
+    if (typeof history !== "undefined" && "scrollRestoration" in history) {
+      try { history.scrollRestoration = "manual"; } catch (e) {}
+    }
+    window.scrollTo(0, 0);
 
     function revealHero(immediate) {
       if (revealed) return;
@@ -991,68 +1002,116 @@
           { textShadow: "none", duration: 1.4, ease: "power2.out" }
         );
       }
+    }
 
-      // Pause video after transition to free up GPU resources
+    function completeIntro() {
+      if (completed) return;
+      completed = true;
+      revealHero(true);
+      document.body.classList.add("is-intro-complete");
       setTimeout(function () {
         try { video.pause(); } catch (e) {}
-      }, 800);
+      }, 500);
     }
 
     // Check if reduced motion
     var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced || reduced) {
       revealHero(true);
+      completeIntro();
       return;
     }
 
     // Set initial active state
     document.body.classList.add("is-intro-active");
 
-    // Play video
+    // Play full video
     var playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise.catch(function () {
         // Autoplay policy blocked video -> immediately reveal hero cleanly
         revealHero(true);
+        completeIntro();
       });
     }
 
-    // Listen to video timeupdate: at 6.0s (as brackets finish opening), reveal real DOM
+    // Listen to video timeupdate:
+    // At ~6.8s: shield deconstructs outward with glowing purple crystal,
+    // blooming real HTML UI on top while the video continues playing through to the end!
     video.addEventListener("timeupdate", function () {
-      if (video.currentTime >= 6.0 && !revealed) {
+      if (video.currentTime >= 6.8 && !revealed) {
         revealHero(false);
       }
     });
 
-    // When video ends (fallback)
+    // When the full video finishes:
     video.addEventListener("ended", function () {
-      revealHero(false);
+      completeIntro();
     });
 
     // Skip button click
     if (skipBtn) {
       skipBtn.addEventListener("click", function (e) {
         e.preventDefault();
-        revealHero(false);
+        revealHero(true);
+        completeIntro();
       });
     }
 
-    // User scroll or interaction skips intro immediately so visitors are never blocked
-    var scrollTriggered = false;
-    function onUserInteraction() {
-      if (scrollTriggered || revealed) return;
-      scrollTriggered = true;
-      revealHero(false);
-      window.removeEventListener("scroll", onUserInteraction);
-    }
-    window.addEventListener("scroll", onUserInteraction, { passive: true });
+    // Intentional user skip gestures (after 800ms grace period so reload jitter doesn't trigger)
+    var graceTimer = false;
+    setTimeout(function () {
+      graceTimer = true;
+    }, 800);
 
-    // Safety timeout: reveal after 7s regardless of video events
+    function onWheel(e) {
+      if (!graceTimer || revealed) return;
+      if (Math.abs(e.deltaY) > 25) {
+        revealHero(false);
+        window.removeEventListener("wheel", onWheel);
+      }
+    }
+    window.addEventListener("wheel", onWheel, { passive: true });
+
+    function onKey(e) {
+      if (revealed) return;
+      if (e.key === "Escape" || e.key === " " || e.key === "ArrowDown" || e.key === "PageDown") {
+        revealHero(false);
+        window.removeEventListener("keydown", onKey);
+      }
+    }
+    window.addEventListener("keydown", onKey);
+
+    var touchStartY = 0;
+    window.addEventListener("touchstart", function (e) {
+      if (e.touches && e.touches.length) {
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    window.addEventListener("touchmove", function (e) {
+      if (!graceTimer || revealed) return;
+      if (e.touches && e.touches.length) {
+        var diff = touchStartY - e.touches[0].clientY;
+        if (diff > 40) {
+          revealHero(false);
+        }
+      }
+    }, { passive: true });
+
+    // Safety timeout: reveal after 8.5s if video stalls
     setTimeout(function () {
       if (!revealed) {
         revealHero(false);
       }
-    }, 7000);
+    }, 8500);
+
+    // Final safety timeout: complete after 11s
+    setTimeout(function () {
+      if (!completed) {
+        completeIntro();
+      }
+    }, 11000);
 
     // Subtle 3D mouse parallax tracking on desktop
     if (window.innerWidth > 768 && hero) {

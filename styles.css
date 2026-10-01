@@ -1148,12 +1148,17 @@ html[data-theme="light"] .icon-sun { display: none; }
   transform: translateY(-8px);
 }
 
-/* When intro is active: hide nav, hero elements, scroll hint, ticker band, and bottom dock */
+/* When intro is active: hide nav, hero elements, scroll hint, ticker band, bottom dock, and subsequent sections */
+body.is-intro-active {
+  overflow: hidden !important;
+}
+
 body.is-intro-active .card-nav-container,
 body.is-intro-active .hero-core,
 body.is-intro-active .scroll-hint,
 body.is-intro-active .ticker-band,
-body.is-intro-active .bottom-dock {
+body.is-intro-active .bottom-dock,
+body.is-intro-active main.page > section:not(#hero) {
   opacity: 0 !important;
   pointer-events: none !important;
   visibility: hidden !important;
@@ -1164,7 +1169,7 @@ body.is-intro-active .card-nav-container {
 }
 
 body.is-intro-active .hero-core {
-  transform: scale(0.9) !important;
+  transform: scale(0.88) !important;
 }
 
 .card-nav-container {
@@ -1173,16 +1178,18 @@ body.is-intro-active .hero-core {
 
 .scroll-hint,
 .ticker-band,
-.bottom-dock {
+.bottom-dock,
+main.page > section:not(#hero) {
   transition: opacity 0.8s ease;
 }
 
-/* When intro transitions/completes: hero-core and website bloom in */
+/* When intro transitions/blooms: real UI blooms in over the playing 3D video */
 body.is-intro-revealed .card-nav-container,
 body.is-intro-revealed .hero-core,
 body.is-intro-revealed .scroll-hint,
 body.is-intro-revealed .ticker-band,
-body.is-intro-revealed .bottom-dock {
+body.is-intro-revealed .bottom-dock,
+body.is-intro-revealed main.page > section:not(#hero) {
   opacity: 1 !important;
   transform: none !important;
   visibility: visible !important;
@@ -1193,21 +1200,44 @@ body.is-intro-revealed .card-nav-container {
   transform: translateX(-50%) !important;
 }
 
-/* Settled state: video fades down into the frame poster, keeping the sci-fi mechanical frame */
+/* Keep the video playing vibrantly in the background while UI is revealed */
 body.is-intro-revealed .hero-shield-video {
-  opacity: 0;
+  opacity: 0.85;
 }
 
 body.is-intro-revealed .hero-shield-poster {
-  opacity: 0.42; /* Keeps the mechanical brackets framing the screen! */
+  opacity: 0;
 }
 
 body.is-intro-revealed .hero-shield-glow {
   opacity: 0.6;
 }
 
-/* Light theme handling: smooth blend so it looks gorgeous on both themes */
-:root[data-theme="light"] body.is-intro-revealed .hero-shield-poster {
+/* Once full video completes: gently settle into cosmic ambient background */
+body.is-intro-complete .hero-shield-video {
+  opacity: 0.30;
+}
+
+body.is-intro-complete .hero-shield-poster {
+  opacity: 0.40;
+}
+
+/* Light theme handling: keep perfectly legible and clean */
+:root[data-theme="light"] body.is-intro-active .hero-shield-wrap {
+  filter: contrast(1.05) brightness(1.1);
+}
+
+:root[data-theme="light"] body.is-intro-revealed .hero-shield-video {
+  opacity: 0.22;
+  filter: contrast(1.15) brightness(1.2);
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] body.is-intro-complete .hero-shield-video {
+  opacity: 0.08;
+}
+
+:root[data-theme="light"] body.is-intro-complete .hero-shield-poster {
   opacity: 0.12;
   filter: contrast(1.15) brightness(1.2);
   mix-blend-mode: multiply;
