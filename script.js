@@ -1742,7 +1742,24 @@
   var lbDotsWrap = $("#lbDots");
   var lbDotCount = -1;
 
+  var EVENT_CAPTIONS = {
+    "gal-cybersecurity-roadmap": [
+      "Official Session Poster: Cybersecurity Roadmap — A Practical Guide to Building Your Cybersecurity Career with Mr. Abuzaid Shaikh.",
+      "Session Kickoff: Attentive gathering of students and faculty members in the seminar hall.",
+      "Keynote Address: Mr. Abuzaid Shaikh delivering practical insights on cybersecurity career paths and industry requirements.",
+      "Interactive Stage Presentation: Deep dive into cloud technologies, DevSecOps tools, and industry-standard certifications.",
+      "Felicitation Ceremony: Faculty presenting a memento to Mr. Abuzaid Shaikh in recognition of an inspiring, impactful session."
+    ]
+  };
+
   var EVENT_ALBUMS = {
+    "gal-cybersecurity-roadmap": [
+      "assets/events/cybersecurity-roadmap/cover.webp",
+      "assets/events/cybersecurity-roadmap/01-audience.webp",
+      "assets/events/cybersecurity-roadmap/02-keynote.webp",
+      "assets/events/cybersecurity-roadmap/03-presentation.webp",
+      "assets/events/cybersecurity-roadmap/04-felicitation.webp"
+    ],
     "gal-ctf-finals": [
       "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80",
@@ -1955,6 +1972,15 @@
       );
     }
     if (lbCount) lbCount.textContent = pad2(lbIndex + 1) + " / " + pad2(lbAlbum.length);
+    if (lbDesc) {
+      var evId = currentGalItem ? currentGalItem.id : "";
+      var capList = EVENT_CAPTIONS[evId];
+      if (capList && capList[lbIndex]) {
+        lbDesc.textContent = capList[lbIndex];
+      } else if (currentGalItem && currentGalItem.dataset.desc) {
+        lbDesc.textContent = currentGalItem.dataset.desc;
+      }
+    }
     var disabled = lbAlbum.length < 2;
     lbPrev.disabled = disabled;
     lbNext.disabled = disabled;
