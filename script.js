@@ -961,7 +961,112 @@
      HERO INTRO — handled by CSS `anim` keyframe reveals
      (reference-style). GSAP only drives scroll parallax below.
      ------------------------------------------------------------ */
-  function playHeroIntro() { /* CSS-driven */ }
+  /* ============================================================
+     3D CYBER SHIELD INTRO & SEAMLESS HERO BLOSSOM
+     ============================================================ */
+  function playHeroIntro() {
+    var video = document.getElementById("heroShieldVideo");
+    var wrap = document.getElementById("heroShieldWrap");
+    var skipBtn = document.getElementById("heroShieldSkip");
+    var hero = document.getElementById("hero");
+    if (!video || !wrap) return;
+
+    var revealed = false;
+
+    function revealHero(immediate) {
+      if (revealed) return;
+      revealed = true;
+      document.body.classList.remove("is-intro-active");
+      document.body.classList.add("is-intro-revealed");
+
+      if (skipBtn) {
+        skipBtn.classList.add("is-hidden");
+      }
+
+      // Energy flash / pulse on hero headline
+      var heroTitle = document.getElementById("heroTitle");
+      if (heroTitle && window.gsap && !immediate) {
+        gsap.fromTo(heroTitle, 
+          { textShadow: "0 0 35px rgba(168, 85, 247, 0.9), 0 0 70px rgba(0, 240, 255, 0.6)" },
+          { textShadow: "none", duration: 1.4, ease: "power2.out" }
+        );
+      }
+
+      // Pause video after transition to free up GPU resources
+      setTimeout(function () {
+        try { video.pause(); } catch (e) {}
+      }, 800);
+    }
+
+    // Check if reduced motion
+    var prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced || reduced) {
+      revealHero(true);
+      return;
+    }
+
+    // Set initial active state
+    document.body.classList.add("is-intro-active");
+
+    // Play video
+    var playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(function () {
+        // Autoplay policy blocked video -> immediately reveal hero cleanly
+        revealHero(true);
+      });
+    }
+
+    // Listen to video timeupdate: at 6.0s (as brackets finish opening), reveal real DOM
+    video.addEventListener("timeupdate", function () {
+      if (video.currentTime >= 6.0 && !revealed) {
+        revealHero(false);
+      }
+    });
+
+    // When video ends (fallback)
+    video.addEventListener("ended", function () {
+      revealHero(false);
+    });
+
+    // Skip button click
+    if (skipBtn) {
+      skipBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        revealHero(false);
+      });
+    }
+
+    // User scroll or interaction skips intro immediately so visitors are never blocked
+    var scrollTriggered = false;
+    function onUserInteraction() {
+      if (scrollTriggered || revealed) return;
+      scrollTriggered = true;
+      revealHero(false);
+      window.removeEventListener("scroll", onUserInteraction);
+    }
+    window.addEventListener("scroll", onUserInteraction, { passive: true });
+
+    // Safety timeout: reveal after 7s regardless of video events
+    setTimeout(function () {
+      if (!revealed) {
+        revealHero(false);
+      }
+    }, 7000);
+
+    // Subtle 3D mouse parallax tracking on desktop
+    if (window.innerWidth > 768 && hero) {
+      hero.addEventListener("mousemove", function (e) {
+        var rect = hero.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        wrap.style.transform = "perspective(1000px) rotateY(" + (x * 5) + "deg) rotateX(" + (-y * 5) + "deg) scale(1.02)";
+      });
+      hero.addEventListener("mouseleave", function () {
+        wrap.style.transform = "none";
+      });
+    }
+  }
 
   /* ------------------------------------------------------------
      LENIS SMOOTH SCROLL

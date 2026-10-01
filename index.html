@@ -145,7 +145,22 @@
         <div class="hero-bg-fade"></div>
       </div>
 
-      <div class="hero-core">
+      <!-- 3D Cyber Shield Intro & Interactive Backdrop -->
+      <div class="hero-shield-wrap" id="heroShieldWrap" aria-hidden="true">
+        <video id="heroShieldVideo" class="hero-shield-video" playsinline muted autoplay preload="auto" poster="assets/cyber-shield-poster.webp">
+          <source src="assets/cyber-shield-intro.webm" type="video/webm">
+          <source src="assets/cyber-shield-intro.mp4" type="video/mp4">
+        </video>
+        <img id="heroShieldPoster" class="hero-shield-poster" src="assets/cyber-shield-opened.webp" alt="" aria-hidden="true" loading="lazy">
+        <div class="hero-shield-glow"></div>
+      </div>
+
+      <button type="button" class="hero-shield-skip mono" id="heroShieldSkip" aria-label="Skip 3D Intro">
+        <span>SKIP 3D INTRO</span>
+        <span class="skip-arrow">⏭</span>
+      </button>
+
+      <div class="hero-core" id="heroCore">
         <h1 class="headline" id="heroTitle">
           <span class="headline-line"><span class="bracket">{</span><span class="shimmer-text">Break Systems</span></span>
           <span class="headline-line"><span class="shimmer-text">Build Engineers</span><span class="bracket">}</span></span>
