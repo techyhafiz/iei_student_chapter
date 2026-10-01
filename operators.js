@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
       group: "lead",
       members: [
         { name: "Bhavik Pachani", linkedin: "https://www.linkedin.com/public-profile/settings/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact_info%3BWCXi9YCTTqWUjEQfjIvevg%3D%3D" },
-        { name: "Priyanshu Yadav", linkedin: "https://www.linkedin.com/in/priyanshu-yadav-9a2810383?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
-        { name: "Krishna Gupta", linkedin: "https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav" }
+        { name: "Krishna Gupta", linkedin: "https://www.linkedin.com/me?trk=p_mwlite_feed-secondary_nav" },
+        { name: "Priyanshu Yadav", linkedin: "https://www.linkedin.com/in/priyanshu-yadav-9a2810383?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
       ]
     },
     {
@@ -69,6 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
       image: "assets/team/akshay-narote.webp",
       group: "lead",
       members: [
+        { name: "Bhagyashree Akkalwar", linkedin: "#" },
+        { name: "Samruddhi Wakadkar", linkedin: "#" },
+        { name: "Aryan Gurkhe", linkedin: "#" },
+        { name: "Ajit Gulbhile (Finance)", linkedin: "#" },
         { name: "Sudeep Sharma", linkedin: "https://www.linkedin.com/in/sudeep-sharma-0b627637a?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
         { name: "Shreyash Khese", linkedin: "https://www.linkedin.com/in/shreyash-khese-468356414?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
       ]
@@ -82,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
       group: "lead",
       members: [
         { name: "Anaya Malvadkar", linkedin: "https://www.linkedin.com/in/anaya-malvadkar-434a03388" },
-        { name: "Siddharth Bhatkar", linkedin: "https://www.linkedin.com/in/siddharth-bhatkar-a79439329?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
         { name: "Drushti Mane", linkedin: "https://www.linkedin.com/in/drushti-mane-a8325741a?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
       ]
     },
@@ -94,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
       image: "assets/team/ayush-singh.webp",
       group: "lead",
       members: [
+        { name: "Mayank Ahir", linkedin: "#" },
+        { name: "Ruturaj Chobhe", linkedin: "#" },
         { name: "Shrawani Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
       ]
     }
@@ -112,14 +117,22 @@ document.addEventListener("DOMContentLoaded", () => {
         <ul>
           ${members
             .map(
-              (m) => `
+              (m) => {
+                const hasLink = m.linkedin && m.linkedin !== "#";
+                return `
             <li class="member-line">
-              <a class="member-line-name" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">${m.name}</a>
+              ${hasLink
+                ? `<a class="member-line-name" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">${m.name}</a>
               <a class="member-line-link" href="${m.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
                 ${LINKEDIN_ICON}
-              </a>
+              </a>`
+                : `<span class="member-line-name">${m.name}</span>
+              <span class="member-line-link" style="opacity:0.35;" aria-hidden="true">
+                ${LINKEDIN_ICON}
+              </span>`}
             </li>
-          `
+          `;
+              }
             )
             .join("")}
         </ul>
