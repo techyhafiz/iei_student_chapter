@@ -1010,8 +1010,11 @@
       revealHero(true);
       document.body.classList.add("is-intro-complete");
       setTimeout(function () {
-        try { video.pause(); } catch (e) {}
-      }, 500);
+        try {
+          video.pause();
+          wrap.style.display = "none";
+        } catch (e) {}
+      }, 1000);
     }
 
     // Check if reduced motion

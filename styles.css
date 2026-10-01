@@ -1206,20 +1206,31 @@ body.is-intro-revealed .hero-shield-video {
 }
 
 body.is-intro-revealed .hero-shield-poster {
-  opacity: 0;
+  display: none !important;
 }
 
 body.is-intro-revealed .hero-shield-glow {
   opacity: 0.6;
 }
 
-/* Once full video completes: gently settle into cosmic ambient background */
+/* Once intro completes (video ends or skipped): shield was only for intro, fade out completely to clean space background */
+body.is-intro-complete .hero-shield-wrap {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
+}
+
 body.is-intro-complete .hero-shield-video {
-  opacity: 0.30;
+  opacity: 0 !important;
 }
 
 body.is-intro-complete .hero-shield-poster {
-  opacity: 0.40;
+  display: none !important;
+}
+
+body.is-intro-complete .hero-shield-glow {
+  opacity: 0 !important;
 }
 
 /* Light theme handling: keep perfectly legible and clean */
@@ -1233,14 +1244,9 @@ body.is-intro-complete .hero-shield-poster {
   mix-blend-mode: multiply;
 }
 
-:root[data-theme="light"] body.is-intro-complete .hero-shield-video {
-  opacity: 0.08;
-}
-
-:root[data-theme="light"] body.is-intro-complete .hero-shield-poster {
-  opacity: 0.12;
-  filter: contrast(1.15) brightness(1.2);
-  mix-blend-mode: multiply;
+:root[data-theme="light"] body.is-intro-complete .hero-shield-wrap {
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 :root[data-theme="light"] .hero-shield-skip {
