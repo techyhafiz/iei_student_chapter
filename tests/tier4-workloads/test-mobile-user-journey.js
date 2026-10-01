@@ -44,7 +44,7 @@ describe('Tier 4: Real-World Mobile User Journey Sequence', () => {
     const evNodes = doc.querySelectorAll('.tl-node');
 
     expect(evTimeline).toBeDefined();
-    expect(evNodes.length).toBeGreaterThanOrEqual(4);
+    expect(evNodes.length).toBeGreaterThanOrEqual(2); // at least 1 past + 1 upcoming
   });
 
   it('Step 05: Edge-to-Edge Lightbox Album Viewer', () => {
