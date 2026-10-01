@@ -1039,10 +1039,10 @@
     }
 
     // Listen to video timeupdate:
-    // At ~6.8s: shield deconstructs outward with glowing purple crystal,
-    // blooming real HTML UI on top while the video continues playing through to the end!
+    // At ~8.8s: shield deconstruction has fully completed and outer parts cleared to margins,
+    // blooming real HTML UI on top right as deep space opens up!
     video.addEventListener("timeupdate", function () {
-      if (video.currentTime >= 6.8 && !revealed) {
+      if (video.currentTime >= 8.8 && !revealed) {
         revealHero(false);
       }
     });
@@ -1102,12 +1102,12 @@
       }
     }, { passive: true });
 
-    // Safety timeout: reveal after 8.5s if video stalls
+    // Safety timeout: reveal after 9.8s if video stalls
     setTimeout(function () {
       if (!revealed) {
         revealHero(false);
       }
-    }, 8500);
+    }, 9800);
 
     // Final safety timeout: complete after 11s
     setTimeout(function () {

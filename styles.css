@@ -1078,6 +1078,7 @@ html[data-theme="light"] .icon-sun { display: none; }
   display: block;
   pointer-events: none;
   transition: opacity 0.75s ease-out;
+  mix-blend-mode: screen;
 }
 
 .hero-shield-poster {
