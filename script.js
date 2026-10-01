@@ -988,6 +988,7 @@
       if (revealed) return;
       revealed = true;
       document.body.classList.remove("is-intro-active");
+      document.body.classList.add("is-intro-blooming");
       document.body.classList.add("is-intro-revealed");
 
       if (skipBtn) {
@@ -1014,7 +1015,7 @@
           video.pause();
           wrap.style.display = "none";
         } catch (e) {}
-      }, 1000);
+      }, 1200);
     }
 
     // Check if reduced motion
@@ -1027,6 +1028,9 @@
 
     // Set initial active state
     document.body.classList.add("is-intro-active");
+    document.body.classList.remove("is-intro-blooming");
+    document.body.classList.remove("is-intro-revealed");
+    document.body.classList.remove("is-intro-complete");
 
     // Play full video
     var playPromise = video.play();
@@ -1039,9 +1043,13 @@
     }
 
     // Listen to video timeupdate:
-    // At ~8.8s: shield deconstruction has fully completed and outer parts cleared to margins,
-    // blooming real HTML UI on top right as deep space opens up!
+    // At ~6.8s: shield deconstructs and glowing purple core radiates,
+    // beginning the smooth 2.2s background color merge from dark space to purple aurora!
+    // At ~8.8s: outer parts clear to margins, blooming real HTML UI on top of the established aurora!
     video.addEventListener("timeupdate", function () {
+      if (video.currentTime >= 6.8 && !document.body.classList.contains("is-intro-blooming")) {
+        document.body.classList.add("is-intro-blooming");
+      }
       if (video.currentTime >= 8.8 && !revealed) {
         revealHero(false);
       }
