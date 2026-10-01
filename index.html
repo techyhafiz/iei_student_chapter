@@ -244,6 +244,7 @@
             <div class="metric-card-inner">
               <span class="metric-val" data-count="0" data-suffix="">0</span>
               <span class="metric-label">Events Organized</span>
+              <span class="metric-sub-badge mono">INAUGURAL 2026</span>
             </div>
           </div>
         </div>
@@ -503,6 +504,21 @@
       </div>
 
       <div class="cl-mosaic" id="clMosaic">
+        <!-- Empty state placeholder for zero-match filter -->
+        <div class="gal-empty-state" id="galEmptyState" style="display: none;" role="status">
+          <div class="gal-empty-icon" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3 class="gal-empty-title">No events in this track yet</h3>
+          <p class="gal-empty-desc">New events, workshops, and competitions will be published here upon chapter inauguration.</p>
+          <button type="button" class="specular-button specular-button--sm is-primary gal-empty-btn" id="btnGalReset">
+            <span class="specular-button__label">View All Events</span>
+          </button>
+        </div>
 
         <!-- Card 01 -->
         <article class="gal-card gal-item" id="gal-ctf-finals" data-category="competition"
@@ -686,6 +702,7 @@
       <div class="team-filter-bar-wrap" id="teamFilterBarWrap" data-reveal>
         <div class="team-filter-bar mono" id="teamFilterBar" role="tablist" aria-label="Filter club teams">
           <button type="button" class="team-filter-btn is-active" data-team-filter="admin" role="tab" aria-selected="true">OFFICERS</button>
+          <button type="button" class="team-filter-btn" data-team-filter="all" role="tab" aria-selected="false">ALL</button>
           <button type="button" class="team-filter-btn" data-team-filter="technical" role="tab" aria-selected="false">TECHNICAL</button>
           <button type="button" class="team-filter-btn" data-team-filter="events" role="tab" aria-selected="false">EVENTS</button>
           <button type="button" class="team-filter-btn" data-team-filter="pr" role="tab" aria-selected="false">PR</button>
@@ -797,13 +814,15 @@
 
         <form id="joinForm" class="glass form" data-reveal novalidate>
           <div class="form-row">
-            <div class="field">
+            <div class="field" id="field-fName">
               <label class="mono" for="fName">FULL NAME *</label>
-              <input id="fName" name="name" type="text" autocomplete="name" required placeholder="e.g. Rahul Sharma">
+              <input id="fName" name="name" type="text" autocomplete="name" required placeholder="e.g. Rahul Sharma" aria-describedby="fNameErr">
+              <span class="field-error-msg mono" id="fNameErr" aria-live="polite"></span>
             </div>
-            <div class="field">
+            <div class="field" id="field-fMail">
               <label class="mono" for="fMail">EMAIL ADDRESS *</label>
-              <input id="fMail" name="email" type="email" autocomplete="email" required placeholder="student@raisoni.net">
+              <input id="fMail" name="email" type="email" autocomplete="email" required placeholder="student@raisoni.net" aria-describedby="fMailErr">
+              <span class="field-error-msg mono" id="fMailErr" aria-live="polite"></span>
             </div>
           </div>
           <div class="form-row">

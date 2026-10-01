@@ -260,7 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Mobile: show selected department
-      if (filter === "admin") {
+      // Segmented filter supports all 6 filter modes: "all", "admin", "technical", "management", "design", "documentation"
+      if (filter === "all") {
+        if (execRow) execRow.style.display = "";
+        if (teamsRow) teamsRow.style.display = "";
+        teamCards.forEach((card) => (card.style.display = ""));
+      } else if (filter === "admin") {
         if (execRow) execRow.style.display = "";
         if (teamsRow) teamsRow.style.display = "none";
       } else {
@@ -268,7 +273,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (teamsRow) teamsRow.style.display = "";
         teamCards.forEach((card) => {
           const cardTeam = (card.getAttribute("data-team") || "").toLowerCase();
-          if (cardTeam === filter.toLowerCase()) {
+          const match = cardTeam === filter.toLowerCase() ||
+            (filter === "technical" && cardTeam === "technical") ||
+            (filter === "management" && (cardTeam === "events" || cardTeam === "pr" || cardTeam === "management")) ||
+            (filter === "design" && (cardTeam === "creative" || cardTeam === "design")) ||
+            (filter === "documentation" && cardTeam === "documentation");
+          if (match) {
             card.style.display = "";
           } else {
             card.style.display = "none";

@@ -2065,6 +2065,10 @@
         var show = galItems.filter(function (item) {
           return !item.classList.contains("is-filtered-out");
         });
+        var emptyState = $("#galEmptyState");
+        if (emptyState) {
+          emptyState.style.display = show.length === 0 ? "flex" : "none";
+        }
         gsap.fromTo(show,
           { opacity: 0, y: 26, scale: .96 },
           {
@@ -2073,6 +2077,14 @@
             overwrite: true, clearProps: "transform"
           }
         );
+      } else {
+        var show = galItems.filter(function (item) {
+          return !item.classList.contains("is-filtered-out");
+        });
+        var emptyState = $("#galEmptyState");
+        if (emptyState) {
+          emptyState.style.display = show.length === 0 ? "flex" : "none";
+        }
       }
 
       if (hasGsap && typeof ScrollTrigger !== "undefined") {
@@ -2083,6 +2095,14 @@
       }
     });
   });
+
+  var btnGalReset = $("#btnGalReset");
+  if (btnGalReset) {
+    btnGalReset.addEventListener("click", function () {
+      var allBtn = $(".gal-filter-btn[data-cat='all']");
+      if (allBtn) allBtn.click();
+    });
+  }
 
   /* ------------------------------------------------------------
       ARCHIVE INDEX — row selection drives the preview viewer
@@ -2525,25 +2545,93 @@
      ------------------------------------------------------------ */
   var form = $("#joinForm");
   var formStatus = $("#formStatus");
+  var fNameInput = $("#fName");
+  var fMailInput = $("#fMail");
+  var fNameField = $("#field-fName") || (fNameInput ? fNameInput.closest(".field") : null);
+  var fMailField = $("#field-fMail") || (fMailInput ? fMailInput.closest(".field") : null);
+  var fNameErr = $("#fNameErr");
+  var fMailErr = $("#fMailErr");
+
+  function validateField(input, field, errEl, checkFn, errMsg) {
+    if (!input) return true;
+    var val = input.value.trim();
+    var ok = checkFn(val);
+    if (!ok) {
+      if (field) field.classList.add("has-error");
+      input.setAttribute("aria-invalid", "true");
+      if (errEl) errEl.textContent = errMsg;
+      return false;
+    } else {
+      if (field) field.classList.remove("has-error");
+      input.setAttribute("aria-invalid", "false");
+      if (errEl) errEl.textContent = "";
+      return true;
+    }
+  }
+
+  if (fNameInput) {
+    fNameInput.addEventListener("blur", function () {
+      if (fNameInput.value.trim()) {
+        validateField(fNameInput, fNameField, fNameErr, function (v) { return v.length >= 2; }, "Please enter your full name.");
+      }
+    });
+    fNameInput.addEventListener("input", function () {
+      if (fNameField && fNameField.classList.contains("has-error")) {
+        validateField(fNameInput, fNameField, fNameErr, function (v) { return v.length >= 2; }, "Please enter your full name.");
+      }
+    });
+  }
+
+  if (fMailInput) {
+    fMailInput.addEventListener("blur", function () {
+      if (fMailInput.value.trim()) {
+        validateField(fMailInput, fMailField, fMailErr, function (v) { return v.indexOf("@") > 0 && v.indexOf(".") > 0; }, "Please enter a valid email address.");
+      }
+    });
+    fMailInput.addEventListener("input", function () {
+      if (fMailField && fMailField.classList.contains("has-error")) {
+        validateField(fMailInput, fMailField, fMailErr, function (v) { return v.indexOf("@") > 0 && v.indexOf(".") > 0; }, "Please enter a valid email address.");
+      }
+    });
+  }
+
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var name = $("#fName").value.trim();
       var mail = $("#fMail").value.trim();
-      formStatus.classList.remove("err");
-      if (!name || !mail || mail.indexOf("@") < 0) {
+      formStatus.classList.remove("err", "success");
+      formStatus.classList.add("is-active");
+
+      var nameValid = validateField(fNameInput, fNameField, fNameErr, function (v) { return v.length >= 2; }, "Full name is required.");
+      var mailValid = validateField(fMailInput, fMailField, fMailErr, function (v) { return v.indexOf("@") > 0 && v.indexOf(".") > 0; }, "Valid email address is required.");
+
+      if (!name || !mail || mail.indexOf("@") < 0 || !nameValid || !mailValid) {
         formStatus.classList.add("err");
         formStatus.textContent = "> err: name + valid email required to open a channel.";
+        if (!nameValid && fNameInput) fNameInput.focus();
+        else if (!mailValid && fMailInput) fMailInput.focus();
         return;
       }
+
       var btn = form.querySelector("button[type=submit]");
-      btn.disabled = true;
+      var btnLabel = btn ? btn.querySelector(".specular-button__label") : null;
+      var originalBtnText = btnLabel ? btnLabel.innerHTML : "Apply for Membership →";
+      if (btn) btn.disabled = true;
+      if (btnLabel) btnLabel.textContent = "Transmitting Request...";
+      formStatus.className = "mono form-status is-active";
       formStatus.textContent = "> transmitting request ...";
+
       setTimeout(function () {
-        formStatus.textContent = "> request received — an operator will ping " + name.split(" ")[0] + " within 48h. welcome aboard.";
-        btn.disabled = false;
+        var firstName = name.split(" ")[0];
+        formStatus.className = "mono form-status is-active success";
+        formStatus.innerHTML = "<div><strong>✓ Request Received:</strong> Welcome aboard, " + firstName + "! An operator will ping your email within 48h.</div><a href=\"https://chat.whatsapp.com/HSAjnB2Boh9Bu5mdCeHb0F\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"form-success-cta\">Join Official WhatsApp Community ↗</a>";
+        if (btn) btn.disabled = false;
+        if (btnLabel) btnLabel.innerHTML = originalBtnText;
         form.reset();
-      }, 1400);
+        if (fNameField) fNameField.classList.remove("has-error");
+        if (fMailField) fMailField.classList.remove("has-error");
+      }, 1200);
     });
   }
 
