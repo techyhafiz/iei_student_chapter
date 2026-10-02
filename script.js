@@ -813,19 +813,22 @@
       if (shock.amp < 0.001) { shock.amp = 0; }
 
       /* Progressive star density & velocity transition:
-         1. Stars appear directly on screen with low density and gentle slow drift
-         2. After a few seconds (~2.5s), density smoothly increases and speed accelerates,
-            transitioning into the full stream flowing in from the top/right side */
+         1. Initially: very less dense particles (0.12), ultra-slow gentle drift (0.07x),
+            and very less effect of mouse gravity (0.08x).
+         2. Slowly after 4 seconds: gradually start increasing inward flow of particles,
+            density, and mouse gravity over the subsequent 4.5 seconds. */
       var elapsed = Math.max(0, (now - startTime) / 1000);
-      var fade = Math.min(1.0, elapsed / 1.8);
-      var speedFactor = 0.14;
-      var densityFactor = 0.28;
+      var fade = Math.min(1.0, elapsed / 2.2);
+      var speedFactor = 0.07;
+      var densityFactor = 0.12;
+      var mouseGravityFactor = 0.08;
 
-      if (elapsed > 2.5) {
-        var p = Math.min(1.0, (elapsed - 2.5) / 3.5);
+      if (elapsed > 4.0) {
+        var p = Math.min(1.0, (elapsed - 4.0) / 4.5);
         var ease = p * p * (3.0 - 2.0 * p);
-        speedFactor = 0.14 + 0.86 * ease;
-        densityFactor = 0.28 + 0.72 * ease;
+        speedFactor = 0.07 + 0.93 * ease;
+        densityFactor = 0.12 + 0.88 * ease;
+        mouseGravityFactor = 0.08 + 0.92 * ease;
       }
 
       var src = pairs[cur], dst = pairs[1 - cur];
@@ -836,12 +839,12 @@
       gl.useProgram(simProg);
       gl.uniform2f(uSim.res, W, H);
       gl.uniform2f(uSim.mouse, mouse.x, 1 - mouse.y);
-      gl.uniform1f(uSim.amp, amp);
+      gl.uniform1f(uSim.amp, amp * mouseGravityFactor);
       gl.uniform1f(uSim.dt, dt);
       gl.uniform1f(uSim.t, now / 1000);
       gl.uniform1f(uSim.speed, speedFactor);
       gl.uniform2f(uSim.shockPos, shock.x, 1 - shock.y);
-      gl.uniform1f(uSim.shockAmp, shock.amp);
+      gl.uniform1f(uSim.shockAmp, shock.amp * (0.3 + 0.7 * mouseGravityFactor));
       gl.bindVertexArray(srcVao);
       /* TF dest must not be bound to any non-TF target (generic ARRAY_BUFFER
          included) or WebGL2 drops the draw — unbind to keep the sim valid. */

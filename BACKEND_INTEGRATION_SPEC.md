@@ -192,7 +192,7 @@ interface TeamMember {
   id: string;                    // "op-samiksha-kotkar"
   name: string;                  // "Samiksha Kotkar" or "[TBA]"
   title: string;                 // "Technical Lead", "Secretary", "Head of Department (HOD)"
-  team?: "TECHNICAL" | "EVENTS" | "PR" | "CREATIVE"; // Required for domain leads
+  team?: "TECHNICAL" | "MANAGEMENT" | "PR" | "CREATIVE"; // Required for domain leads
   group: "faculty" | "admin" | "lead"; // Determines board row placement
   linkedin: string;              // LinkedIn URL (or "#" if TBA)
   image: string;                 // Path or URL to photo (e.g. "assets/team/samiksha-kotkar.jpg")

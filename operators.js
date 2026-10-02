@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       name: "Akshay Narote",
-      title: "Events Lead",
-      team: "EVENTS",
+      title: "Management Lead",
+      team: "MANAGEMENT",
       linkedin: "https://www.linkedin.com/in/akshay-narote-6054632b8",
       image: "assets/team/akshay-narote.webp",
       group: "lead",
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ------------------------------------------------------------
-     STICKY SEGMENTED TEAM FILTER (OFFICERS, TECHNICAL, EVENTS, PR, CREATIVE)
+     STICKY SEGMENTED TEAM FILTER (OFFICERS, TECHNICAL, MANAGEMENT, PR, CREATIVE)
      On Desktop (> 768px): All rows & cards remain 100% visible in full board layout.
      On Mobile (<= 768px): Filter to selected department for clean zero-scroll view.
      ------------------------------------------------------------ */
