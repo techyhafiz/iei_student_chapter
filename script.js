@@ -277,7 +277,7 @@
        ------------------------------------------------------------ */
   (function () {
     var cv = $("#auroraFx");
-    if (!cv) { return; }
+    if (!cv || window.getComputedStyle(cv).display === "none") { return; }
 
     var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -1055,15 +1055,18 @@
     }
 
     // Listen to video timeupdate:
-    // At ~6.8s: shield deconstructs and glowing purple core radiates,
-    // beginning the smooth 2.2s background color merge from dark space to purple aurora!
-    // At ~8.8s: outer parts clear to margins, blooming real HTML UI on top of the established aurora!
+    // At ~7.2s: shield deconstructs and parts begin clearing outward
+    // At ~9.2s: central area is completely clear, revealing real HTML UI over the cosmos
+    // At ~9.85s+: video reaches the final cosmic void, seamlessly handing off to the static backdrop
     video.addEventListener("timeupdate", function () {
-      if (video.currentTime >= 6.8 && !document.body.classList.contains("is-intro-blooming")) {
+      if (video.currentTime >= 7.2 && !document.body.classList.contains("is-intro-blooming")) {
         document.body.classList.add("is-intro-blooming");
       }
-      if (video.currentTime >= 8.8 && !revealed) {
+      if (video.currentTime >= 9.2 && !revealed) {
         revealHero(false);
+      }
+      if (video.currentTime >= 9.85 && !completed) {
+        completeIntro();
       }
     });
 

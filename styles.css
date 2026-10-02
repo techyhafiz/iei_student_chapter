@@ -304,19 +304,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   box-shadow: 0 0 10px rgba(168, 85, 247, .6);
 }
 
-/* ---------- FILM GRAIN ---------- */
+/* ---------- FILM GRAIN (disabled for max performance and crisp visual clarity) ---------- */
 #noise {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: .035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
+  display: none !important;
 }
-
-:root[data-theme="light"] #noise { opacity: .05; }
 
 /* ---------- PRELOADER ---------- */
 #loader {
@@ -925,20 +916,16 @@ html[data-theme="light"] .icon-sun { display: none; }
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  background-color: #050711;
+  background-image: url("assets/hero-space-backdrop.webp?v=9");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
-/* ---------- AURORA WAVE CANVAS (WebGL, hero only) ---------- */
+/* ---------- AURORA WAVE CANVAS (Disabled in dark mode to 100% match video's deep space backdrop) ---------- */
 #auroraFx {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  /* band the energy to the lower 65% like the reference, fade the top */
-  mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, black 52%, black 82%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 22%, black 52%, black 82%, transparent 100%);
-  transition: opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1), filter 2.2s ease-out;
+  display: none !important;
 }
 
 /* ---------- WARP PARTICLES CANVAS (GPU transform-feedback) ---------- */
@@ -961,22 +948,9 @@ html[data-theme="light"] .icon-sun { display: none; }
   pointer-events: none;
 }
 
-/* soft violet aurora pooling at the hero's base */
+/* Disabled in dark mode to prevent purple wash; preserves video's pristine deep space void */
 .hero-bg::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -12%;
-  width: min(1100px, 130vw);
-  height: 55%;
-  transform: translateX(-50%);
-  background:
-    radial-gradient(45% 60% at 30% 100%, rgba(168, 85, 247, .22), transparent 70%),
-    radial-gradient(40% 55% at 72% 100%, rgba(232, 121, 249, .14), transparent 70%);
-  filter: blur(10px);
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: none !important;
 }
 
 .hero-bg-fade {
@@ -994,6 +968,8 @@ html[data-theme="light"] .icon-sun { display: none; }
   position: absolute;
   inset: 0;
   overflow: hidden;
+  background-image: none !important;
+  background-color: var(--bg-hero, #ffffff) !important;
 }
 
 :root[data-theme="light"] .hero-bg::after {
@@ -1163,7 +1139,6 @@ body.is-intro-active .ticker-band,
 body.is-intro-active .bottom-dock,
 body.is-intro-active #spaceFx,
 body.is-intro-active #warpFx,
-body.is-intro-active #noise,
 body.is-intro-active main.page > section:not(#hero) {
   opacity: 0 !important;
   pointer-events: none !important;
@@ -1203,10 +1178,8 @@ body.is-intro-revealed .bottom-dock,
 body.is-intro-revealed main.page > section:not(#hero),
 body.is-intro-revealed #spaceFx,
 body.is-intro-revealed #warpFx,
-body.is-intro-revealed #noise,
 body.is-intro-complete #spaceFx,
-body.is-intro-complete #warpFx,
-body.is-intro-complete #noise {
+body.is-intro-complete #warpFx {
   opacity: 1 !important;
   transform: none !important;
   visibility: visible !important;
@@ -1219,46 +1192,18 @@ body.is-intro-revealed .card-nav-container {
 
 /* Keep the video playing vibrantly in the background while UI is revealed */
 body.is-intro-revealed .hero-shield-video {
-  opacity: 0.85;
+  opacity: 1;
 }
 
 body.is-intro-revealed .hero-shield-poster {
   display: none !important;
 }
 
-body.is-intro-revealed .hero-shield-glow {
-  opacity: 0.6;
-}
-
-/* Smooth background color merge between intro dark space (Image 1) and hero purple aurora (Image 2) */
-body.is-intro-active:not(.is-intro-blooming):not(.is-intro-revealed):not(.is-intro-complete) #auroraFx {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-}
-
-body.is-intro-active:not(.is-intro-blooming):not(.is-intro-revealed):not(.is-intro-complete) .hero-bg::after {
-  opacity: 0 !important;
-  visibility: hidden !important;
-}
-
-body.is-intro-blooming #auroraFx,
-body.is-intro-revealed #auroraFx,
-body.is-intro-complete #auroraFx {
-  opacity: 1 !important;
-  visibility: visible !important;
-  filter: brightness(1);
-}
-
-body.is-intro-blooming .hero-bg::after,
-body.is-intro-revealed .hero-bg::after,
-body.is-intro-complete .hero-bg::after {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-body.is-intro-blooming .hero-shield-glow {
-  opacity: 0.5;
+body.is-intro-active .hero-shield-glow,
+body.is-intro-blooming .hero-shield-glow,
+body.is-intro-revealed .hero-shield-glow,
+body.is-intro-complete .hero-shield-glow {
+  display: none !important;
 }
 
 /* Once intro completes (video ends or skipped): shield was only for intro, fade out completely to clean space background */
