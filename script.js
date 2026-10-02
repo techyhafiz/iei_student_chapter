@@ -549,13 +549,24 @@
       "uniform float uLight;",
       "uniform float uTime;",
       "uniform float uDpr;",
+      "uniform float uDensity;",
+      "uniform float uFade;",
       "out float vAlpha;",
       "out float vHue;",
       "void main(){",
       "  vec2 clip=(vPos/uRes)*2.0-1.0;",
       "  gl_Position=vec4(clip,0.0,1.0);",
-      "  gl_PointSize=(1.55+vSeed.x*0.80)*uDpr*(1.0+uLight*0.30);",
-      "  vAlpha=clamp(0.35+vSeed.y*0.55,0.0,1.0);",
+      "  /* Smooth density gating: particles above uDensity fade and clip */",
+      "  float densGate=smoothstep(uDensity+0.06, uDensity-0.02, vSeed.y);",
+      "  if(densGate<=0.001){",
+      "    gl_Position=vec4(2.0,2.0,2.0,1.0);",
+      "    vAlpha=0.0;",
+      "    vHue=0.0;",
+      "    return;",
+      "  }",
+      "  /* Delicate subpixel star sizing (smooth starlight points, WCAG crisp) */",
+      "  gl_PointSize=(1.30+vSeed.x*0.75)*uDpr*(1.0+uLight*0.25);",
+      "  vAlpha=clamp(0.38+vSeed.y*0.52,0.0,1.0)*densGate*uFade;",
       "  vHue=vSeed.y;",
       "}",
     ].join("\n");
@@ -571,14 +582,19 @@
       "  vec2 c=gl_PointCoord*2.0-1.0;",
       "  float r=length(c);",
       "  if(r>1.0)discard;",
-      "  float core=exp(-r*r*3.5);",
-      "  float a=vAlpha*core*mix(1.0,0.95,uLight);",
-      "  vec3 violet=vec3(0.78,0.58,1.0);",
-      "  vec3 fuchsia=vec3(0.98,0.62,1.0);",
-      "  vec3 lightCol=mix(fuchsia,violet,vHue);",
-      "  /* Light mode: rich, very dark deep royal purple & obsidian plum */",
-      "  vec3 darkPlum=vec3(0.12,0.03,0.22);",
-      "  vec3 darkViolet=vec3(0.26,0.06,0.45);",
+      "  /* Ultra-smooth Gaussian core + gentle circular starlight corona */",
+      "  float core=exp(-r*r*3.2);",
+      "  float corona=smoothstep(1.0,0.15,r);",
+      "  float shape=core*0.72+corona*0.28;",
+      "  float a=vAlpha*shape*mix(0.95,0.90,uLight);",
+      "  /* Soft celestial starlight: pure diamond white, icy blue, and faint lavender */",
+      "  vec3 starWhite=vec3(0.96,0.98,1.0);",
+      "  vec3 starIce=vec3(0.84,0.92,1.0);",
+      "  vec3 starLavender=vec3(0.90,0.85,1.0);",
+      "  vec3 lightCol=mix(starWhite,mix(starIce,starLavender,vHue),0.40);",
+      "  /* Light mode: rich obsidian plum & deep starlight violet */",
+      "  vec3 darkPlum=vec3(0.14,0.04,0.22);",
+      "  vec3 darkViolet=vec3(0.24,0.08,0.40);",
       "  vec3 darkCol=mix(darkPlum,darkViolet,vHue);",
       "  vec3 col=mix(lightCol,darkCol,uLight);",
       "  o=vec4(col*a,a);",
@@ -712,7 +728,9 @@
       res: gl.getUniformLocation(drawProg, "uRes"),
       light: gl.getUniformLocation(drawProg, "uLight"),
       time: gl.getUniformLocation(drawProg, "uTime"),
-      dpr: gl.getUniformLocation(drawProg, "uDpr")
+      dpr: gl.getUniformLocation(drawProg, "uDpr"),
+      density: gl.getUniformLocation(drawProg, "uDensity"),
+      fade: gl.getUniformLocation(drawProg, "uFade")
     };
 
     var dpr = 1, W = 0, H = 0;
@@ -723,6 +741,7 @@
     var running = false;
     var rafId = 0, last = 0;
     var startTime = performance.now();
+    var starsActivated = false;
 
     function densityField(nx, ny) {
       var d1 = Math.sin(nx * 3.4 + 0.9) * Math.cos(ny * 2.7 + 1.1);
@@ -732,16 +751,7 @@
       return Math.pow(Math.max(0.0, Math.min(1.0, raw)), 2.4);
     }
 
-    function size() {
-      var host = cv.parentElement.getBoundingClientRect();
-      W = Math.max(1, Math.ceil(host.width));
-      H = Math.max(1, Math.ceil(host.height));
-      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      cv.width = W * dpr; cv.height = H * dpr;
-      gl.viewport(0, 0, cv.width, cv.height);
-      startTime = performance.now();
-
-      /* scatter particles with organic cosmic density variation (some areas dense, some voids) */
+    function scatterParticles() {
       var src = pairs[cur], dst = pairs[1 - cur];
       for (var i = 0; i < COUNT; i++) {
         var px = Math.random() * W, py = Math.random() * H;
@@ -763,12 +773,36 @@
       gl.bindBuffer(gl.ARRAY_BUFFER, null);
     }
 
+    function size() {
+      var host = cv.parentElement.getBoundingClientRect();
+      W = Math.max(1, Math.ceil(host.width));
+      H = Math.max(1, Math.ceil(host.height));
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      cv.width = W * dpr; cv.height = H * dpr;
+      gl.viewport(0, 0, cv.width, cv.height);
+      scatterParticles();
+    }
+
+    function activateHeroStars() {
+      startTime = performance.now();
+      starsActivated = true;
+      if (W > 0 && H > 0) {
+        scatterParticles();
+      }
+    }
+    window.__activateHeroStars = activateHeroStars;
+
     function lightTheme() { return document.documentElement.getAttribute("data-theme") === "light" ? 1 : 0; }
 
     function frame(now) {
       if (document.body && document.body.classList.contains("is-intro-active")) {
         rafId = requestAnimationFrame(frame);
         return;
+      }
+      if (!starsActivated) {
+        starsActivated = true;
+        startTime = now;
+        scatterParticles();
       }
       var dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
@@ -778,12 +812,20 @@
       shock.amp *= Math.exp(-4.2 * dt);
       if (shock.amp < 0.001) { shock.amp = 0; }
 
-      /* initial pause/halt followed by gentle, smooth ramp-up to slow speed */
+      /* Progressive star density & velocity transition:
+         1. Stars appear directly on screen with low density and gentle slow drift
+         2. After a few seconds (~2.5s), density smoothly increases and speed accelerates,
+            transitioning into the full stream flowing in from the top/right side */
       var elapsed = Math.max(0, (now - startTime) / 1000);
-      var speedFactor = 0.0;
-      if (elapsed > 0.4) {
-        var ramp = Math.min(1.0, (elapsed - 0.4) / 2.6);
-        speedFactor = ramp * ramp * (3.0 - 2.0 * ramp);
+      var fade = Math.min(1.0, elapsed / 1.8);
+      var speedFactor = 0.14;
+      var densityFactor = 0.28;
+
+      if (elapsed > 2.5) {
+        var p = Math.min(1.0, (elapsed - 2.5) / 3.5);
+        var ease = p * p * (3.0 - 2.0 * p);
+        speedFactor = 0.14 + 0.86 * ease;
+        densityFactor = 0.28 + 0.72 * ease;
       }
 
       var src = pairs[cur], dst = pairs[1 - cur];
@@ -826,11 +868,13 @@
       gl.uniform1f(uDraw.light, lightTheme());
       gl.uniform1f(uDraw.time, now / 1000);
       gl.uniform1f(uDraw.dpr, dpr);
+      gl.uniform1f(uDraw.density, densityFactor);
+      gl.uniform1f(uDraw.fade, fade);
       gl.enable(gl.BLEND);
       if (lightTheme() > 0.5) {
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
       } else {
-        gl.blendFunc(gl.ONE, gl.ONE); /* additive: sparks brighten each other + aurora */
+        gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); /* smooth premultiplied alpha antialiasing */
       }
       gl.bindVertexArray(srcDrawVao);
       gl.drawArrays(gl.POINTS, 0, COUNT);
@@ -1015,6 +1059,10 @@
           { textShadow: "none", duration: 1.4, ease: "power2.out" }
         );
       }
+
+      if (typeof window.__activateHeroStars === "function") {
+        window.__activateHeroStars();
+      }
     }
 
     function completeIntro() {
@@ -1022,12 +1070,15 @@
       completed = true;
       revealHero(true);
       document.body.classList.add("is-intro-complete");
+      if (typeof window.__activateHeroStars === "function") {
+        window.__activateHeroStars();
+      }
       setTimeout(function () {
         try {
           video.pause();
           wrap.style.display = "none";
         } catch (e) {}
-      }, 1200);
+      }, 1400);
     }
 
     // Check if reduced motion
