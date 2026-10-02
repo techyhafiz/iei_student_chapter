@@ -218,6 +218,10 @@
 
     function loop(now) {
       if (!running) { return; }
+      if (document.body && document.body.classList.contains("is-intro-active")) {
+        rafId = requestAnimationFrame(loop);
+        return;
+      }
       drawFrame(now);
       rafId = requestAnimationFrame(loop);
     }
@@ -407,6 +411,10 @@
 
     function loop() {
       if (!visible) { rafId = 0; return; }
+      if (document.body && document.body.classList.contains("is-intro-active") && !document.body.classList.contains("is-intro-blooming")) {
+        rafId = requestAnimationFrame(loop);
+        return;
+      }
       draw();
       rafId = requestAnimationFrame(loop);
     }
@@ -758,6 +766,10 @@
     function lightTheme() { return document.documentElement.getAttribute("data-theme") === "light" ? 1 : 0; }
 
     function frame(now) {
+      if (document.body && document.body.classList.contains("is-intro-active")) {
+        rafId = requestAnimationFrame(frame);
+        return;
+      }
       var dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
       amp += (ampT - amp) * Math.min(1, dt * 4.8);
