@@ -96,6 +96,12 @@ document.addEventListener("DOMContentLoaded", () => {
       linkedin: "https://www.linkedin.com/in/ayush-singh-6b709032a?utm_source=share_via&utm_content=profile&utm_medium=member_android",
       image: "assets/team/ayush-singh.webp",
       group: "lead",
+      colead: {
+        name: "Sakshi Redekar",
+        title: "Creative Co-Lead",
+        linkedin: "https://www.linkedin.com/in/sakshi-redekar-444937330/",
+        image: "assets/team/placeholder-avatar.svg"
+      },
       members: [
         { name: "Mayank Ahir", linkedin: "#" },
         { name: "Ruturaj Chobhe", linkedin: "#" },
@@ -190,6 +196,26 @@ document.addEventListener("DOMContentLoaded", () => {
               const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
               const hasLinkedin = op.linkedin && op.linkedin !== "#";
               const linkAttr = hasLinkedin ? `href="${op.linkedin}" target="_blank" rel="noopener noreferrer"` : `href="javascript:void(0)" aria-disabled="true" style="pointer-events:none; opacity:${op.name === '[TBA]' ? '0.6' : '1'};"`;
+
+              // Co-lead pod (optional)
+              let coleedPod = "";
+              if (op.colead) {
+                const cl = op.colead;
+                const clHasLi = cl.linkedin && cl.linkedin !== "#";
+                const clLinkAttr = clHasLi ? `href="${cl.linkedin}" target="_blank" rel="noopener noreferrer"` : `href="javascript:void(0)" aria-disabled="true" style="pointer-events:none;"`;
+                coleedPod = `
+                  <div class="team-card-lead-pod-box team-card-lead-pod-box--colead">
+                    <span class="lead-pod-tag mono">CO-LEAD</span>
+                    <a class="solo-card-photo" ${clLinkAttr} aria-label="${cl.name} on LinkedIn">
+                      <img src="${cl.image}" alt="${cl.name} portrait" loading="lazy" draggable="false" />
+                    </a>
+                    <a class="team-card-lead-pod-name-link" ${clLinkAttr} aria-label="${cl.name} on LinkedIn">
+                      <p class="team-card-lead-pod-name">${cl.name}</p>
+                    </a>
+                    ${clHasLi ? `<a class="profile-btn-icon" href="${cl.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${cl.name} on LinkedIn">${LINKEDIN_ICON}</a>` : `<span class="profile-btn-icon" style="opacity:0.35;">${LINKEDIN_ICON}</span>`}
+                  </div>`;
+              }
+
               return `
                 <article class="team-card" data-team="${teamKey}">
                   <div class="team-card-lead-pod-box">
@@ -202,6 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </a>
                     ${hasLinkedin ? `<a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">${LINKEDIN_ICON}</a>` : `<span class="profile-btn-icon" style="opacity:0.35;">${LINKEDIN_ICON}</span>`}
                   </div>
+                  ${coleedPod}
                   <div class="team-card-right">
                     <h3 class="team-card-team">${teamName}</h3>
                     ${renderMemberList(op.members)}
@@ -214,6 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
   }
+
 
   const faculty = OPERATORS_DATA.filter((op) => op.group === "faculty");
   const admins = OPERATORS_DATA.filter((op) => op.group === "admin");
