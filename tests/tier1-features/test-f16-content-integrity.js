@@ -9,9 +9,9 @@ const { loadSourceFiles } = require('../helpers/dom-env');
 describe('Feature 16: Content & Contact Data Preservation', () => {
   const sources = loadSourceFiles();
 
-  it('16.1: official college email (ghrcem.pune@raisoni.net) is present and correctly linked', () => {
-    expect(sources.html).toContain('mailto:ghrcem.pune@raisoni.net');
-    expect(sources.html).toContain('ghrcem.pune@raisoni.net');
+  it('16.1: official chapter contact email (contact@ieighrcemp.tech) is present and correctly linked', () => {
+    expect(sources.html).toContain('mailto:contact@ieighrcemp.tech');
+    expect(sources.html).toContain('contact@ieighrcemp.tech');
   });
 
   it('16.2: authentic college and department branding is maintained across all sections', () => {

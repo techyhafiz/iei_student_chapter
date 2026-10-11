@@ -1438,29 +1438,37 @@
       { t: "iei --status", c: "cmd" },
       { t: "● IEI Student Chapter (Department of CSDS, GHRCEM)", c: "out info" },
       { t: "  Affiliation : The Institution of Engineers (India)", c: "out" },
-      { t: "  Status      : Active Operations (2025–2026)", c: "out" },
-      { t: "  Health      : All systems nominal (100% uptime)", c: "ok" }
+      { t: "  Department  : Computer Science & Engineering (Cyber Security & Data Science)", c: "out" },
+      { t: "  Status      : Active Operations · Academic Year 2026", c: "out" },
+      { t: "  Track Record: 6 Technical Events Conducted · 1 Upcoming", c: "out" },
+      { t: "  Health      : All systems nominal (100% operational)", c: "ok" }
     ],
     scope: [
       { t: "iei --scope", c: "cmd" },
-      { t: "● Cross-disciplinary technical integration across all years.", c: "out" },
-      { t: "● Live drills, CTF hackathons, and security engineering.", c: "out" },
-      { t: "● Peer-driven mentoring and direct industry connections.", c: "ok" }
+      { t: "● Offensive security bootcamps, ethical hacking & defensive labs.", c: "out" },
+      { t: "● Generative AI, LLMs & data engineering hands-on skill building.", c: "out" },
+      { t: "● Industry maker lab visits (Infosys Springboard) & technical immersion.", c: "out" },
+      { t: "● Peer-driven mentoring, global higher-ed pathways & career guidance.", c: "ok" }
     ],
     events: [
       { t: "iei --events --latest", c: "cmd" },
-      { t: "● [SESSION] Threat Intel in the Age of AI (NOV 09)", c: "out info" },
-      { t: "● [DRILL]   Red vs Blue: Live Fire (OCT 20)", c: "out" },
-      { t: "● [CTF]     Cyber Defense Hackathon Finals (OCT 02)", c: "ok" }
+      { t: "● [UPCOMING] Club Committee Inauguration Ceremony (OCT 13, 2026)", c: "out info" },
+      { t: "● [SEMINAR]  Cybersecurity Roadmap: Build Your Career (OCT 01, 2026)", c: "out" },
+      { t: "● [WORKSHOP] 2-Day Cybersecurity Workshop: Ethical Hacking (AUG 21, 2026)", c: "out" },
+      { t: "● [SEMINAR]  Engineering Your Future: Career Pathways (AUG 21, 2026)", c: "out" },
+      { t: "● [VISIT]    Industry Visit: Infosys Maker Lab, SIT Lavale (AUG 01, 2026)", c: "out" },
+      { t: "● [EXPO]     GenAI & Student AI Project Expo (JUL 18, 2026)", c: "out" },
+      { t: "● [CEREMONY] Chapter Inauguration & Awards Roadmap (APR 13, 2026)", c: "ok" }
     ],
     team: [
       { t: "iei --team --roster", c: "cmd" },
-      { t: "● Leadership: 4 Executives, 11 Technical Leads, 4 Teams", c: "out info" },
-      { t: "● Total Active Operator Network: 40+ Student Engineers", c: "out" },
-      { t: "● Faculty Guidance: Dr. Rajesh Kumar & Advisory Board", c: "ok" }
+      { t: "● Executive Board: 4 Officers (President, VP, Treasurer, Secretary)", c: "out info" },
+      { t: "● Operational Leads: Technical, Management, PR, Creative (4 Teams)", c: "out" },
+      { t: "● Active Roster: 20+ Core Student Engineers & Coordinators", c: "out" },
+      { t: "● Faculty Guidance: Dr. Deepika Ajalkar (HOD) & Prof. Gayatri Deshmukh", c: "ok" }
     ],
     join: [
-      { t: "./join --club --now", c: "cmd" },
+      { t: "./join --chapter --now", c: "cmd" },
       { t: "[✓] Application channel open. Scroll down to request access.", c: "ok" }
     ]
   };
@@ -1531,13 +1539,14 @@
   }
 
   if (termBody) {
+    var termAnchor = $("#terminal") || $("#about");
     if (hasGsap && !reduced) {
-      ScrollTrigger.create({ trigger: "#about", start: "top 62%", once: true, onEnter: typeTerm });
+      ScrollTrigger.create({ trigger: termAnchor, start: "top 75%", once: true, onEnter: typeTerm });
     } else if ("IntersectionObserver" in window) {
       var tio = new IntersectionObserver(function (en) {
         if (en[0].isIntersecting) { typeTerm(); tio.disconnect(); }
-      }, { threshold: .3 });
-      tio.observe($("#about"));
+      }, { threshold: .2 });
+      tio.observe(termAnchor);
     } else { renderTermInstant(); }
   }
 
@@ -1810,6 +1819,214 @@
   })();
 
   /* ------------------------------------------------------------
+     NEXT EVENT DYNAMIC COUNTDOWN (3D Calendar Flip Card)
+     Target: 11:30 AM IST on 13th October 2026
+     Clamps to 00 at target time without negative values.
+     ------------------------------------------------------------ */
+  (function initEventCountdown() {
+    var countdownEl = $("#nextEventCountdown");
+    if (!countdownEl) return;
+
+    var flipDays = $("#flipDays");
+    var flipHours = $("#flipHours");
+    var flipMins = $("#flipMins");
+    var flipSecs = $("#flipSecs");
+    var statusTextEl = $("#cdStatusText");
+
+    // Target: 11:30 AM IST on 13 October 2026 (UTC+05:30)
+    var targetIso = countdownEl.getAttribute("data-target") || "2026-10-13T11:30:00+05:30";
+    var targetTime = new Date(targetIso).getTime();
+    var isInitialized = false;
+
+    function pad2(n) {
+      return (n < 10 ? "0" : "") + Math.max(0, Math.floor(n));
+    }
+
+    function setFlipInstant(cardEl, val) {
+      if (!cardEl) return;
+      cardEl.setAttribute("data-value", val);
+      var digits = cardEl.querySelectorAll(".card-digit");
+      for (var i = 0; i < digits.length; i++) {
+        digits[i].textContent = val;
+      }
+    }
+
+    function updateFlipCard(cardEl, newVal) {
+      if (!cardEl) return;
+      var curVal = cardEl.getAttribute("data-value");
+      if (curVal === newVal) return;
+
+      var bgTopDigit = cardEl.querySelector(".bg-top .card-digit");
+      var bgBtmDigit = cardEl.querySelector(".bg-bottom .card-digit");
+      var flapTopDigit = cardEl.querySelector(".flap-top .card-digit");
+      var flapBtmDigit = cardEl.querySelector(".flap-bottom .card-digit");
+
+      if (bgTopDigit) bgTopDigit.textContent = newVal;
+      if (bgBtmDigit) bgBtmDigit.textContent = curVal;
+      if (flapTopDigit) flapTopDigit.textContent = curVal;
+      if (flapBtmDigit) flapBtmDigit.textContent = newVal;
+
+      cardEl.classList.remove("is-flipping");
+      void cardEl.offsetWidth; // force browser layout reflow to re-trigger keyframe
+      cardEl.classList.add("is-flipping");
+
+      cardEl.setAttribute("data-value", newVal);
+
+      clearTimeout(cardEl._flipTimer);
+      cardEl._flipTimer = setTimeout(function () {
+        cardEl.classList.remove("is-flipping");
+        if (bgBtmDigit) bgBtmDigit.textContent = newVal;
+        if (flapTopDigit) flapTopDigit.textContent = newVal;
+      }, 540);
+    }
+
+    function tick() {
+      var now = Date.now();
+      var diff = targetTime - now;
+
+      if (diff <= 0) {
+        // Target reached or passed: strictly clamp to 00
+        if (!isInitialized) {
+          setFlipInstant(flipDays, "00");
+          setFlipInstant(flipHours, "00");
+          setFlipInstant(flipMins, "00");
+          setFlipInstant(flipSecs, "00");
+          isInitialized = true;
+        } else {
+          updateFlipCard(flipDays, "00");
+          updateFlipCard(flipHours, "00");
+          updateFlipCard(flipMins, "00");
+          updateFlipCard(flipSecs, "00");
+        }
+        if (statusTextEl && statusTextEl.textContent !== "EVENT IS LIVE") {
+          statusTextEl.textContent = "EVENT IS LIVE";
+        }
+        countdownEl.classList.add("is-live");
+        return;
+      }
+
+      var totalSecs = Math.floor(diff / 1000);
+      var days = Math.floor(totalSecs / 86400);
+      var hours = Math.floor((totalSecs % 86400) / 3600);
+      var mins = Math.floor((totalSecs % 3600) / 60);
+      var secs = totalSecs % 60;
+
+      var daysStr = pad2(days);
+      var hoursStr = pad2(hours);
+      var minsStr = pad2(mins);
+      var secsStr = pad2(secs);
+
+      if (!isInitialized) {
+        setFlipInstant(flipDays, daysStr);
+        setFlipInstant(flipHours, hoursStr);
+        setFlipInstant(flipMins, minsStr);
+        setFlipInstant(flipSecs, secsStr);
+        isInitialized = true;
+      } else {
+        updateFlipCard(flipDays, daysStr);
+        updateFlipCard(flipHours, hoursStr);
+        updateFlipCard(flipMins, minsStr);
+        updateFlipCard(flipSecs, secsStr);
+      }
+    }
+
+    // Run immediately to populate digits without delay
+    tick();
+
+    // Update every second with calendar flip animation
+    setInterval(tick, 1000);
+
+    // Refresh immediately when tab regains focus
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) tick();
+    });
+  })();
+
+  /* ==========================================================================
+     [HERO COUNTDOWN SCRIPT: START]
+     Feature: Live Cyber HUD Telemetry Countdown for Home Hero Section
+     Target: 11:30 AM IST on 13th October 2026 (UTC+05:30)
+     To remove this hero countdown in the future:
+     Delete this entire (function initHeroCountdown() { ... })(); block.
+     ========================================================================== */
+  (function initHeroCountdown() {
+    var heroCd = $("#heroCountdown");
+    if (!heroCd) return;
+
+    var daysEl = $("#heroCdDays");
+    var hoursEl = $("#heroCdHours");
+    var minsEl = $("#heroCdMins");
+    var secsEl = $("#heroCdSecs");
+    var statusEl = $("#heroCdStatus");
+
+    var barDays = $("#heroBarDays");
+    var barHours = $("#heroBarHours");
+    var barMins = $("#heroBarMins");
+    var barSecs = $("#heroBarSecs");
+
+    var targetIso = heroCd.getAttribute("data-target") || "2026-10-13T11:30:00+05:30";
+    var targetTime = new Date(targetIso).getTime();
+
+    function pad2(n) {
+      return (n < 10 ? "0" : "") + Math.max(0, Math.floor(n));
+    }
+
+    function tick() {
+      var now = Date.now();
+      var diff = targetTime - now;
+
+      if (diff <= 0) {
+        // Target reached or passed: strictly clamp to 00
+        if (daysEl && daysEl.textContent !== "00") daysEl.textContent = "00";
+        if (hoursEl && hoursEl.textContent !== "00") hoursEl.textContent = "00";
+        if (minsEl && minsEl.textContent !== "00") minsEl.textContent = "00";
+        if (secsEl && secsEl.textContent !== "00") secsEl.textContent = "00";
+        if (statusEl && statusEl.textContent !== "CEREMONY IS LIVE") {
+          statusEl.textContent = "CEREMONY IS LIVE";
+        }
+        if (barDays) barDays.style.width = "0%";
+        if (barHours) barHours.style.width = "0%";
+        if (barMins) barMins.style.width = "0%";
+        if (barSecs) barSecs.style.width = "0%";
+        heroCd.classList.add("is-live");
+        return;
+      }
+
+      var totalSecs = Math.floor(diff / 1000);
+      var days = Math.floor(totalSecs / 86400);
+      var hours = Math.floor((totalSecs % 86400) / 3600);
+      var mins = Math.floor((totalSecs % 3600) / 60);
+      var secs = totalSecs % 60;
+
+      var daysStr = pad2(days);
+      var hoursStr = pad2(hours);
+      var minsStr = pad2(mins);
+      var secsStr = pad2(secs);
+
+      if (daysEl && daysEl.textContent !== daysStr) daysEl.textContent = daysStr;
+      if (hoursEl && hoursEl.textContent !== hoursStr) hoursEl.textContent = hoursStr;
+      if (minsEl && minsEl.textContent !== minsStr) minsEl.textContent = minsStr;
+      if (secsEl && secsEl.textContent !== secsStr) secsEl.textContent = secsStr;
+
+      // Update telemetry meter gauges
+      if (barSecs) barSecs.style.width = Math.max(2, Math.round((secs / 60) * 100)) + "%";
+      if (barMins) barMins.style.width = Math.max(2, Math.round((mins / 60) * 100)) + "%";
+      if (barHours) barHours.style.width = Math.max(2, Math.round((hours / 24) * 100)) + "%";
+      if (barDays) barDays.style.width = Math.min(100, Math.max(5, Math.round((days / 30) * 100))) + "%";
+    }
+
+    tick();
+    setInterval(tick, 1000);
+
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) tick();
+    });
+  })();
+  /* ==========================================================================
+     [HERO COUNTDOWN SCRIPT: END]
+     ========================================================================== */
+
+  /* ------------------------------------------------------------
      EVENTS — activity calendar timeline (HORIZONTAL)
      alternating branches + filter + scroll/drag navigation.
      Default view anchors on the next upcoming event so past
@@ -1918,7 +2135,7 @@
         var isExpanded = evShell.classList.toggle("is-expanded");
         tlExpandBtn.setAttribute("aria-expanded", isExpanded ? "true" : "false");
         if (tlExpandText) {
-          tlExpandText.textContent = isExpanded ? "Show Less" : "View All Past Events (8)";
+          tlExpandText.textContent = isExpanded ? "Show Less" : "View All Events (6 Past · 1 Upcoming)";
         }
         if (hasGsap && typeof ScrollTrigger !== "undefined") {
           setTimeout(function () { ScrollTrigger.refresh(); }, 150);
@@ -1991,11 +2208,43 @@
 
   var EVENT_CAPTIONS = {
     "gal-cybersecurity-roadmap": [
-      "Official Session Poster: Cybersecurity Roadmap — A Practical Guide to Building Your Cybersecurity Career with Mr. Abuzaid Shaikh.",
-      "Session Kickoff: Attentive gathering of students and faculty members in the seminar hall.",
-      "Keynote Address: Mr. Abuzaid Shaikh delivering practical insights on cybersecurity career paths and industry requirements.",
-      "Interactive Stage Presentation: Deep dive into cloud technologies, DevSecOps tools, and industry-standard certifications.",
+      "Official Session Keynote: Cybersecurity Roadmap — A Practical Guide to Building Your Cybersecurity Career with Mr. Abuzaid Shaikh.",
+      "Auditorium Session: Attentive gathering of 120 undergraduates and faculty coordinators in the seminar hall.",
+      "Keynote Address: Mr. Abuzaid Shaikh presenting foundational domains, containerization, and DevSecOps roadmaps.",
+      "Interactive Stage Presentation: Practical deep dive into Red Hat Enterprise Linux, cloud infrastructure, and certification roadmaps.",
       "Felicitation Ceremony: Faculty presenting a memento to Mr. Abuzaid Shaikh in recognition of an inspiring, impactful session."
+    ],
+    "gal-cybersecurity-bootcamp": [
+      "Cohort Valediction: Mr. Tejas Dabhade with department faculty and 2nd-year B.Tech CSE (Cyber Security) undergraduates following the intensive 2-day workshop.",
+      "Computing Laboratory Cohort: Hands-on participants gathered in the lab with the Cyber Bootcamp briefing board, exploring security fundamentals.",
+      "Offensive Security Keynote: Mr. Tejas Dabhade demonstrating Metasploit payload generation, listener configurations, and defensive counter-strategies.",
+      "Hands-On Lab Engagement: Undergraduates executing Linux security configurations, packet analysis, and live ethical hacking activities across workstations."
+    ],
+    "gal-engineering-your-future": [
+      "Keynote Stage Presentation: Ms. Priyancee Singh discussing extracurricular skill building, profile enhancement, and global career opportunities in E-322.",
+      "Auditorium Cohort: Attentive gathering of 120 engineering undergraduates and faculty coordinators in the seminar hall.",
+      "Global Mobility Dialogue: Interactive breakdown of global higher education ecosystems, admission timelines, and diaspora analytics.",
+      "Official Session Poster: Session on Engineering Your Future with Ms. Nisha Verma (Assistant Branch Manager) and Ms. Priyancee Singh (Team Head, Edwise International)."
+    ],
+    "gal-infosys-maker-lab": [
+      "Cohort Lounge Session: 30 engineering undergraduates and coordinators in the modern Infosys Maker Lab lounge at SIT Campus, Lavale.",
+      "Live Hardware Walkthrough: Mentors demonstrating embedded firmware, cloud-connected IoT architectures, and real-time telemetry streaming.",
+      "Laboratory Delegation: Student cohort gathered in the prototyping workspace exploring containerized microservices and edge computing.",
+      "Official Industry Visit Flyer: Educational industrial exposure organized under the aegis of IEI Student Chapter, GHRCEM Pune."
+    ],
+    "gal-genai-sdp-expo": [
+      "Project Demonstration: Undergraduates presenting live Generative AI applications to HOD Dr. Deepika Ajalkar and Prof. Gayatri Deshmukh.",
+      "Hands-On Lab Session: Students building prompt engineering workflows and exploring LLM fine-tuning in the computing laboratory.",
+      "Architecture Lecture: In-depth technical walkthrough covering RAG architecture, vector search, and agentic automation pipelines.",
+      "Expo Jury Evaluation: Expert faculty jury reviewing student AI prototypes and evaluating implementation rigor.",
+      "Official Program Poster: 1-Week Skill Development Program & AI Project Expo in association with Dalvik Inovex and IEI."
+    ],
+    "gal-chapter-inauguration": [
+      "Grand Inauguration Ceremony: Student committee executives, faculty coordinators, HOD Dr. Deepika Ajalkar, and institute directors formally launching the chapter.",
+      "Auditorium Inaugural Address: Prof. Nitin P. Mawale addressing enthusiastic engineering undergraduates in ENTC Seminar Hall (E-316).",
+      "Faculty Advisory Board: IEI Faculty Coordinators Prof. Gayatri Deshmukh and Prof. Pratiksha Wagh with Guest Speaker Prof. Nitin P. Mawale.",
+      "Expert Session Keynote: Interactive presentation on student chapter competition platforms, project grants, and national best chapter awards.",
+      "Official Event Poster: Inauguration of IEI Student Chapter & Expert Session on Journey Towards IEI Students Chapter Awards with Prof. Nitin P. Mawale."
     ]
   };
 
@@ -2006,6 +2255,38 @@
       "assets/events/cybersecurity-roadmap/02-keynote.webp",
       "assets/events/cybersecurity-roadmap/03-presentation.webp",
       "assets/events/cybersecurity-roadmap/04-felicitation.webp"
+    ],
+    "gal-cybersecurity-bootcamp": [
+      "assets/events/cybersecurity-bootcamp/cover.webp",
+      "assets/events/cybersecurity-bootcamp/02-cyber-bootcamp-lab.webp",
+      "assets/events/cybersecurity-bootcamp/03-metasploit-demo.webp",
+      "assets/events/cybersecurity-bootcamp/04-hands-on-workstations.webp"
+    ],
+    "gal-engineering-your-future": [
+      "assets/events/engineering-your-future/cover.webp",
+      "assets/events/engineering-your-future/02-audience-hall.webp",
+      "assets/events/engineering-your-future/03-global-diaspora.webp",
+      "assets/events/engineering-your-future/04-official-poster.webp"
+    ],
+    "gal-infosys-maker-lab": [
+      "assets/events/infosys-maker-lab/cover.webp",
+      "assets/events/infosys-maker-lab/02-interactive-demo.webp",
+      "assets/events/infosys-maker-lab/03-lab-group.webp",
+      "assets/events/infosys-maker-lab/04-announcement.webp"
+    ],
+    "gal-genai-sdp-expo": [
+      "assets/events/genai-sdp-expo/cover.webp",
+      "assets/events/genai-sdp-expo/02-hands-on-lab.webp",
+      "assets/events/genai-sdp-expo/03-architecture-lecture.webp",
+      "assets/events/genai-sdp-expo/04-expo-jury-review.webp",
+      "assets/events/genai-sdp-expo/05-official-poster.webp"
+    ],
+    "gal-chapter-inauguration": [
+      "assets/events/chapter-inauguration/cover.webp",
+      "assets/events/chapter-inauguration/02-auditorium-hall.webp",
+      "assets/events/chapter-inauguration/03-faculty-leads.webp",
+      "assets/events/chapter-inauguration/04-session-keynote.webp",
+      "assets/events/chapter-inauguration/05-official-poster.webp"
     ],
     "gal-ctf-finals": [
       "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80",
@@ -2887,24 +3168,70 @@
         return;
       }
 
+      var yearInput = $("#fYear");
+      var trackInput = $("#fTrack");
+      var msgInput = $("#fMsg");
+      var year = yearInput ? yearInput.value.trim() : "";
+      var track = trackInput ? trackInput.value.trim() : "";
+      var message = msgInput ? msgInput.value.trim() : "";
+
       var btn = form.querySelector("button[type=submit]");
       var btnLabel = btn ? btn.querySelector(".specular-button__label") : null;
       var originalBtnText = btnLabel ? btnLabel.innerHTML : "Apply for Membership →";
       if (btn) btn.disabled = true;
-      if (btnLabel) btnLabel.textContent = "Transmitting Request...";
+      if (btnLabel) btnLabel.textContent = "Opening Mail Client...";
       formStatus.className = "mono form-status is-active";
-      formStatus.textContent = "> transmitting request ...";
+      formStatus.textContent = "> preparing pre-filled membership template ...";
 
-      setTimeout(function () {
-        var firstName = name.split(" ")[0];
-        formStatus.className = "mono form-status is-active success";
-        formStatus.innerHTML = "<div><strong>✓ Request Received:</strong> Welcome aboard, " + firstName + "! An operator will ping your email within 48h.</div><a href=\"https://chat.whatsapp.com/HSAjnB2Boh9Bu5mdCeHb0F\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"form-success-cta\">Join Official WhatsApp Community ↗</a>";
-        if (btn) btn.disabled = false;
-        if (btnLabel) btnLabel.innerHTML = originalBtnText;
-        form.reset();
-        if (fNameField) fNameField.classList.remove("has-error");
-        if (fMailField) fMailField.classList.remove("has-error");
-      }, 1200);
+      var recipient = "contact@ieighrcemp.tech";
+      var subject = "IEI Student Chapter Membership Application — " + name + (year ? " (" + year + ")" : "");
+      var body = "Respected Core Committee / Team IEI,\n\n" +
+        "I am writing to apply for student membership in the IEI Student Chapter (Department of Cyber Security, GHRCEM Pune).\n\n" +
+        "APPLICANT DETAILS\n" +
+        "==================================================\n" +
+        "• Full Name             : " + name + "\n" +
+        "• Email Address         : " + mail + "\n" +
+        "• Academic Year & Branch: " + (year || "Not specified") + "\n" +
+        "• Preferred Domain/Team : " + (track || "Undecided — Open to all domains") + "\n\n" +
+        "STATEMENT OF PURPOSE / MESSAGE\n" +
+        "==================================================\n" +
+        (message ? message : "(No additional note provided)") + "\n\n" +
+        "==================================================\n" +
+        "I am looking forward to contributing to the chapter's initiatives, technical workshops, and cybersecurity events.\n\n" +
+        "Warm regards,\n" +
+        name + "\n" +
+        mail;
+
+      var mailtoUrl = "mailto:" + encodeURIComponent(recipient) +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+
+      // Trigger user's default mail client directly
+      try {
+        window.location.href = mailtoUrl;
+      } catch (err) {
+        var mailLink = document.createElement("a");
+        mailLink.href = mailtoUrl;
+        mailLink.style.display = "none";
+        document.body.appendChild(mailLink);
+        mailLink.click();
+        setTimeout(function () {
+          if (mailLink.parentNode) mailLink.parentNode.removeChild(mailLink);
+        }, 500);
+      }
+
+      var firstName = name.split(" ")[0];
+      formStatus.className = "mono form-status is-active success";
+      formStatus.innerHTML = "<div><strong>✓ Email Draft Ready:</strong> Your mail client has been opened with your pre-filled application for <strong>contact@ieighrcemp.tech</strong>. Just click send to submit!</div>" +
+        "<div style=\"display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;\">" +
+        "<a href=\"" + mailtoUrl + "\" class=\"form-success-cta\" style=\"background: var(--v5, #a855f7); color:#fff; border-color: rgba(232,121,249,0.5);\">Open Mail App Directly ↗</a>" +
+        "<a href=\"https://chat.whatsapp.com/HSAjnB2Boh9Bu5mdCeHb0F\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"form-success-cta\">Join Official WhatsApp Community ↗</a>" +
+        "</div>";
+
+      if (btn) btn.disabled = false;
+      if (btnLabel) btnLabel.innerHTML = originalBtnText;
+      if (fNameField) fNameField.classList.remove("has-error");
+      if (fMailField) fMailField.classList.remove("has-error");
     });
   }
 

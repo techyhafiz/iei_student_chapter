@@ -22,8 +22,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=10">
-  <link rel="stylesheet" href="operators.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=13">
+  <link rel="stylesheet" href="operators.css?v=5">
   <script>
     (function () {
       var stored = 'dark';
@@ -133,9 +133,9 @@
           <div class="nav-column">
             <span class="nav-col-heading mono">Connect</span>
             <div class="nav-col-items">
-              <a class="nav-card-link" href="mailto:ghrcem.pune@raisoni.net"><span>Email</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" data-social="linkedin"><span>LinkedIn</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="https://instagram.com" target="_blank" rel="noopener noreferrer" data-social="instagram"><span>Instagram</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
+              <a class="nav-card-link" href="mailto:contact@ieighrcemp.tech"><span>Email</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
+              <a class="nav-card-link" href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" data-social="linkedin"><span>LinkedIn</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
+              <a class="nav-card-link" href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" data-social="instagram"><span>Instagram</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -185,6 +185,84 @@
         <p class="subhead anim" style="--d:.28s">A technical community where cybersecurity students learn, build,
           compete, collaborate, and grow into capable professionals and future engineers.</p>
 
+        <!-- ============================================================ -->
+        <!-- [HERO COUNTDOWN EDIT: START]                                 -->
+        <!-- Feature: Live Cyber HUD Telemetry Countdown on Home Hero     -->
+        <!-- To remove this hero countdown in the future:                 -->
+        <!-- 1. Delete this entire block from [HERO COUNTDOWN EDIT: START]-->
+        <!--    down to [HERO COUNTDOWN EDIT: END].                       -->
+        <!-- 2. Related CSS rules are marked in styles.css                -->
+        <!-- 3. Related script is marked in script.js                     -->
+        <!-- ============================================================ -->
+        <div class="hero-countdown anim" id="heroCountdown" data-target="2026-10-13T11:30:00+05:30" style="--d:.34s" aria-label="Countdown to Inauguration Ceremony">
+          <div class="hero-cd-badge mono">
+            <span class="hero-cd-pulse" aria-hidden="true"></span>
+            <span class="hero-cd-tag" id="heroCdStatus">NEXT EVENT</span>
+            <span class="hero-cd-sep" aria-hidden="true">//</span>
+            <span class="hero-cd-target">OCT 13 · 11:30 AM IST</span>
+          </div>
+
+          <div class="hero-cd-console" role="timer" aria-live="off">
+            <!-- DAYS -->
+            <div class="hero-cd-cell" data-unit="days">
+              <span class="hero-cd-corner tl" aria-hidden="true"></span>
+              <span class="hero-cd-corner tr" aria-hidden="true"></span>
+              <span class="hero-cd-corner bl" aria-hidden="true"></span>
+              <span class="hero-cd-corner br" aria-hidden="true"></span>
+              <div class="hero-cd-val mono" id="heroCdDays">00</div>
+              <div class="hero-cd-label mono">DAYS</div>
+              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarDays" style="width: 100%"></span></div>
+            </div>
+
+            <div class="hero-cd-divider mono" aria-hidden="true">:</div>
+
+            <!-- HOURS -->
+            <div class="hero-cd-cell" data-unit="hours">
+              <span class="hero-cd-corner tl" aria-hidden="true"></span>
+              <span class="hero-cd-corner tr" aria-hidden="true"></span>
+              <span class="hero-cd-corner bl" aria-hidden="true"></span>
+              <span class="hero-cd-corner br" aria-hidden="true"></span>
+              <div class="hero-cd-val mono" id="heroCdHours">00</div>
+              <div class="hero-cd-label mono">HOURS</div>
+              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarHours" style="width: 100%"></span></div>
+            </div>
+
+            <div class="hero-cd-divider mono" aria-hidden="true">:</div>
+
+            <!-- MINS -->
+            <div class="hero-cd-cell" data-unit="mins">
+              <span class="hero-cd-corner tl" aria-hidden="true"></span>
+              <span class="hero-cd-corner tr" aria-hidden="true"></span>
+              <span class="hero-cd-corner bl" aria-hidden="true"></span>
+              <span class="hero-cd-corner br" aria-hidden="true"></span>
+              <div class="hero-cd-val mono" id="heroCdMins">00</div>
+              <div class="hero-cd-label mono">MINS</div>
+              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarMins" style="width: 100%"></span></div>
+            </div>
+
+            <div class="hero-cd-divider mono" aria-hidden="true">:</div>
+
+            <!-- SECS -->
+            <div class="hero-cd-cell" data-unit="secs">
+              <span class="hero-cd-corner tl" aria-hidden="true"></span>
+              <span class="hero-cd-corner tr" aria-hidden="true"></span>
+              <span class="hero-cd-corner bl" aria-hidden="true"></span>
+              <span class="hero-cd-corner br" aria-hidden="true"></span>
+              <div class="hero-cd-val mono" id="heroCdSecs">00</div>
+              <div class="hero-cd-label mono">SECS</div>
+              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarSecs" style="width: 100%"></span></div>
+            </div>
+          </div>
+
+          <div class="hero-cd-footer mono">
+            <span class="hero-cd-event-name"><span class="cd-hash">#</span> COMMITTEE INAUGURATION 2026</span>
+            <a href="#events" class="hero-cd-link" title="Jump to Inauguration Ceremony details">VIEW EVENT →</a>
+          </div>
+        </div>
+        <!-- ============================================================ -->
+        <!-- [HERO COUNTDOWN EDIT: END]                                   -->
+        <!-- ============================================================ -->
+
         <div class="cta-group anim" style="--d:.4s">
           <a href="#join" class="specular-button specular-button--lg is-primary">
             <span class="specular-button__label">
@@ -233,7 +311,6 @@
     <!-- ======= ABOUT / OVERVIEW ======= -->
     <section id="about" class="section">
       <header class="sec-head-center">
-        <p class="section-tag mono" data-reveal>// 01 — OVERVIEW</p>
         <h2 class="sec-title bento-sec-title" data-reveal>The Vision Behind
           <span class="grad iei-drop-glow">IEI Student Chapter</span>
         </h2>
@@ -262,13 +339,13 @@
             </div>
           </div>
 
-          <!-- Card 3: 1 Event Organized -->
+          <!-- Card 3: 6+ Events Organized -->
           <div class="bento-metric-card metric-card--specular" data-tilt data-metric-specular>
             <span class="specular-card__fx" aria-hidden="true"></span>
             <div class="metric-card-inner">
-              <span class="metric-val" data-count="1" data-suffix="">1</span>
+              <span class="metric-val" data-count="6" data-suffix="+">6+</span>
               <span class="metric-label">Events Organized</span>
-              <span class="metric-sub-badge mono">INAUGURAL 2026</span>
+              <span class="metric-sub-badge mono">CONDUCTED 2026</span>
             </div>
           </div>
         </div>
@@ -310,22 +387,109 @@
     <!-- ======= EVENTS ======= -->
     <section id="events" class="section">
       <header class="sec-head-center">
-        <p class="section-tag mono" data-reveal>// 02 — EVENTS</p>
         <h2 class="sec-title" data-reveal>Event <span class="grad">Journey</span></h2>
         <p class="sec-desc" data-reveal>Every milestone is carefully planned — sessions, workshops, drills and
           hackathons that build real capability.</p>
       </header>
 
-      <article class="glass next-event" data-reveal id="nextEventCard">
+      <article class="glass next-event" data-reveal id="nextEventCard" data-target="2026-10-13T11:30:00+05:30">
         <div class="next-event-date mono" id="nextEventDateBlock">
-          <span class="next-event-label">NEXT EVENT</span>
+          <div class="next-event-date-head">
+            <span class="next-event-label">NEXT EVENT</span>
+            <div class="next-event-time-pill" title="Target start time: 11:30 AM IST">
+              <span class="time-dot"></span>11:30 AM IST
+            </div>
+          </div>
           <div class="next-event-tba" id="nextEventDateDisplay"><strong>13</strong><span id="nextEventDateText">OCT 2026</span></div>
         </div>
         <div class="next-event-content">
           <div class="ev-top mono"><span class="ev-tag" id="nextEventTag">UPCOMING · CEREMONY</span></div>
           <h3 id="nextEventTitle">CLUB COMMITTEE INAUGURATION <span class="grad">2026</span></h3>
           <p id="nextEventDesc">Official inauguration ceremony of the IEI Student Chapter Committee at the Department of CSE (Data Science &amp; Cyber Security), GHRCEM Pune.</p>
-          <div class="next-event-meta mono" id="nextEventMeta">13 OCTOBER 2026 · GHRCEM CAMPUS, WAGHOLI, PUNE</div>
+          <div class="next-event-meta mono" id="nextEventMeta">13 OCTOBER 2026 · 11:30 AM IST · GHRCEM CAMPUS, WAGHOLI, PUNE</div>
+
+          <!-- Dynamic Countdown Component -->
+          <div class="next-event-countdown" id="nextEventCountdown" aria-label="Event countdown to 11:30 AM IST, 13 October 2026" data-target="2026-10-13T11:30:00+05:30">
+            <div class="cd-header mono">
+              <div class="cd-live-badge">
+                <span class="cd-pulse-dot" id="cdPulseDot"></span>
+                <span class="cd-status-text" id="cdStatusText">COUNTDOWN TO CEREMONY</span>
+              </div>
+              <span class="cd-target-label">OCT 13, 2026 · 11:30 AM IST</span>
+            </div>
+            <div class="cd-flip-grid" role="timer" aria-label="Event countdown flip calendar" aria-live="off">
+              <!-- DAYS FLIP UNIT -->
+              <div class="flip-unit">
+                <div class="calendar-rings" aria-hidden="true">
+                  <span class="c-ring"></span>
+                  <span class="c-ring"></span>
+                </div>
+                <div class="flip-card" id="flipDays" data-value="00">
+                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdDays">00</span></div>
+                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-crease" aria-hidden="true"></div>
+                </div>
+                <span class="flip-label mono">DAYS</span>
+              </div>
+
+              <span class="cd-sep mono" aria-hidden="true">:</span>
+
+              <!-- HOURS FLIP UNIT -->
+              <div class="flip-unit">
+                <div class="calendar-rings" aria-hidden="true">
+                  <span class="c-ring"></span>
+                  <span class="c-ring"></span>
+                </div>
+                <div class="flip-card" id="flipHours" data-value="00">
+                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdHours">00</span></div>
+                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-crease" aria-hidden="true"></div>
+                </div>
+                <span class="flip-label mono">HOURS</span>
+              </div>
+
+              <span class="cd-sep mono" aria-hidden="true">:</span>
+
+              <!-- MINS FLIP UNIT -->
+              <div class="flip-unit">
+                <div class="calendar-rings" aria-hidden="true">
+                  <span class="c-ring"></span>
+                  <span class="c-ring"></span>
+                </div>
+                <div class="flip-card" id="flipMins" data-value="00">
+                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdMins">00</span></div>
+                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-crease" aria-hidden="true"></div>
+                </div>
+                <span class="flip-label mono">MINS</span>
+              </div>
+
+              <span class="cd-sep mono" aria-hidden="true">:</span>
+
+              <!-- SECS FLIP UNIT -->
+              <div class="flip-unit">
+                <div class="calendar-rings" aria-hidden="true">
+                  <span class="c-ring"></span>
+                  <span class="c-ring"></span>
+                </div>
+                <div class="flip-card" id="flipSecs" data-value="00">
+                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdSecs">00</span></div>
+                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
+                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
+                  <div class="card-crease" aria-hidden="true"></div>
+                </div>
+                <span class="flip-label mono">SECS</span>
+              </div>
+            </div>
+          </div>
+
           <a href="#join" class="specular-button specular-button--sm is-primary"><span class="specular-button__label">Join Community
             →</span></a>
         </div>
@@ -335,7 +499,107 @@
         <div class="tl-viewport" id="evViewport" tabindex="0" aria-label="Past events timeline">
           <div class="tl-track" id="evTrack">
 
-            <!-- Milestone 01 -->
+            <!-- Milestone 01: IEI Chapter Inauguration & Expert Session -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-chapter-inauguration" aria-label="Chapter Inauguration & Expert Session">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">13</span>
+                  <span class="tl-mo">APR</span>
+                </time>
+                <span class="tl-year mono">2026</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">SEMINAR</span>
+                <h3 class="tl-name">IEI INAUGURATION &amp; AWARDS</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 02: 1-Week SDP & AI Project Expo -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-genai-sdp-expo" aria-label="1-Week SDP & AI Project Expo: AI Agents & GenAI">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">18</span>
+                  <span class="tl-mo">JUL</span>
+                </time>
+                <span class="tl-year mono">2026</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">GENAI &amp; AI AGENTS EXPO</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 03: Industry Visit to Infosys Maker Lab -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-infosys-maker-lab" aria-label="Industry Visit: Infosys Maker Lab">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">01</span>
+                  <span class="tl-mo">AUG</span>
+                </time>
+                <span class="tl-year mono">2026</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">INFOSYS MAKER LAB VISIT</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 04: 2-Day Cybersecurity Workshop -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-cybersecurity-bootcamp" aria-label="2-Day Hands-on Cybersecurity Workshop: Ethical Hacking &amp; Offensive Security">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">21</span>
+                  <span class="tl-mo">AUG</span>
+                </time>
+                <span class="tl-year mono">2026</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">WORKSHOP</span>
+                <h3 class="tl-name">CYBERSECURITY BOOTCAMP</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 05: Engineering Your Future -->
+            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-engineering-your-future" aria-label="Session on Engineering Your Future - Career Pathways">
+              <div class="tl-date">
+                <time>
+                  <span class="tl-day">21</span>
+                  <span class="tl-mo">AUG</span>
+                </time>
+                <span class="tl-year mono">2026</span>
+              </div>
+              <div class="tl-marker">
+                <span class="tl-tick tl-tick-top"></span>
+                <span class="tl-dot"></span>
+                <span class="tl-tick tl-tick-bottom"></span>
+              </div>
+              <div class="tl-card">
+                <span class="ev-tag mono">SEMINAR</span>
+                <h3 class="tl-name">ENGINEERING YOUR FUTURE</h3>
+              </div>
+            </button>
+
+            <!-- Milestone 06: Cybersecurity Roadmap -->
             <button type="button" class="tl-node btn-ev-gallery is-selected" data-gal-target="gal-cybersecurity-roadmap" aria-label="Cybersecurity Roadmap: Build Your Career">
               <div class="tl-date">
                 <time>
@@ -355,7 +619,7 @@
               </div>
             </button>
 
-            <!-- Milestone 02 — Club Committee Inauguration (Upcoming) -->
+            <!-- Milestone 07 — Club Committee Inauguration (Upcoming) -->
             <button type="button" class="tl-node" aria-label="Club Committee Inauguration 2026">
               <div class="tl-date">
                 <time>
@@ -375,15 +639,13 @@
               </div>
             </button>
 
-            <!-- Future event milestones will be added here -->
-
           </div>
         </div>
 
         <div class="tl-expand-wrap" id="tlExpandWrap">
           <button type="button" id="tlExpandBtn" class="specular-button specular-button--sm is-ghost" aria-expanded="false">
             <span class="specular-button__label">
-              <span id="tlExpandText">View All Events (1 Past · 1 Upcoming)</span>
+              <span id="tlExpandText">View All Events (6 Past · 1 Upcoming)</span>
               <span id="tlExpandArrow">↓</span>
             </span>
           </button>
@@ -398,7 +660,6 @@
     <section id="gallery" class="section">
       <div class="sec-head">
         <div>
-          <p class="section-tag mono" data-reveal>// 03 — GALLERY</p>
           <h2 class="sec-title" data-reveal>Past <span class="grad">Events</span></h2>
         </div>
         <div class="gal-filter-bar mono" data-reveal id="galFilterBar">
@@ -452,7 +713,130 @@
         </article>
 
 
-        <!-- Future event gallery cards will be added here -->
+        <!-- Card 02: 2-Day Cybersecurity Workshop -->
+        <article class="gal-card gal-item" id="gal-cybersecurity-bootcamp" data-category="workshop"
+          data-caption="2-Day Hands-on Cybersecurity Workshop: Ethical Hacking &amp; Offensive Security" data-date="21 AUG 2026"
+          data-desc="Resource Person: Mr. Tejas Dabhade (Founder @SecByTrust | Offensive Security). A 2-day intensive, beginner-friendly cybersecurity workshop conducted for second-year B.Tech CSE (Cyber Security) undergraduates at GHRCEM Pune. Core curriculum covered cybersecurity fundamentals, ethical hacking methodology, attacker mindset, Linux/networking essentials, hands-on vulnerability exploration, CTF-style challenges, and career roadmaps in offensive security."
+          tabindex="0" role="button"
+          aria-label="Open album: 2-Day Cybersecurity Workshop">
+          <div class="tactical-matrix">
+            <img src="assets/events/cybersecurity-bootcamp/cover.webp" alt="2-Day Cybersecurity Workshop Cohort with Mr. Tejas Dabhade" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <span class="matrix-date-capsule mono">21 AUG 2026</span>
+          </div>
+          <div class="gal-card-body">
+            <div class="gal-card-meta mono">
+              <span class="ev-tag">WORKSHOP</span>
+              <span class="gal-card-frames">4 PHOTOS ↗</span>
+            </div>
+            <h3 class="gal-card-title">2-Day Hands-on Cybersecurity Workshop</h3>
+            <p class="gal-card-speaker mono">MR. TEJAS DABHADE · FOUNDER @SECBYTRUST | OFFENSIVE SECURITY</p>
+            <p class="gal-card-desc">Intensive boot camp covering Linux security, ethical hacking, attacker mindset, and CTF challenges for 2nd-year CSE undergraduates.</p>
+          </div>
+        </article>
+
+        <!-- Card 03: Engineering Your Future -->
+        <article class="gal-card gal-item" id="gal-engineering-your-future" data-category="seminar"
+          data-caption="Engineering Your Future: Career Pathways, Skills and Emerging Opportunities" data-date="21 AUG 2026"
+          data-desc="Delivered by Ms. Nisha Verma (Assistant Branch Manager) and Ms. Priyancee Singh (Team Head, Edwise International). An expert career guidance session providing 120 engineering undergraduates with comprehensive insights into global higher education ecosystems, standardized examination roadmaps, profile building, Statement of Purpose (SOP) strategies, and emerging engineering specializations. Organized by Dept. of CSE (Cyber Security &amp; Data Science) under the aegis of IEI Student Chapter, GHRCEM Pune."
+          tabindex="0" role="button"
+          aria-label="Open album: Engineering Your Future">
+          <div class="tactical-matrix">
+            <img src="assets/events/engineering-your-future/cover.webp" alt="Session on Engineering Your Future - Keynote Speaker Ms. Priyancee Singh in E-322" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <span class="matrix-date-capsule mono">21 AUG 2026</span>
+          </div>
+          <div class="gal-card-body">
+            <div class="gal-card-meta mono">
+              <span class="ev-tag">SEMINAR</span>
+              <span class="gal-card-frames">4 PHOTOS ↗</span>
+            </div>
+            <h3 class="gal-card-title">Engineering Your Future: Career Pathways &amp; Skills</h3>
+            <p class="gal-card-speaker mono">MS. NISHA VERMA &amp; MS. PRIYANCEE SINGH · EDWISE INTERNATIONAL</p>
+            <p class="gal-card-desc">Expert masterclass on global higher education ecosystems, international research fellowships, standardized exams, and extracurricular profile building.</p>
+          </div>
+        </article>
+
+        <!-- Card 04: Infosys Maker Lab Industry Visit -->
+        <article class="gal-card gal-item" id="gal-infosys-maker-lab" data-category="workshop"
+          data-caption="Industry Visit: Infosys Maker Lab (Infosys Springboard)" data-date="01 AUG 2026"
+          data-desc="Hosted by Infosys Maker Lab Technical Team at Symbiosis Institute of Technology (SIT) Campus, Lavale, Pune under the aegis of IEI Student Chapter, GHRCEM. 30 engineering undergraduates participated in live walkthroughs and hands-on sessions covering enterprise prototyping infrastructure, embedded firmware, cloud-connected IoT telemetry, and containerized microservices under the Infosys Springboard initiative."
+          tabindex="0" role="button"
+          aria-label="Open album: Infosys Maker Lab Industry Visit">
+          <div class="tactical-matrix">
+            <img src="assets/events/infosys-maker-lab/cover.webp" alt="Infosys Maker Lab Industry Visit - 30 Student Cohort in Lounge" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <span class="matrix-date-capsule mono">01 AUG 2026</span>
+          </div>
+          <div class="gal-card-body">
+            <div class="gal-card-meta mono">
+              <span class="ev-tag">WORKSHOP</span>
+              <span class="gal-card-frames">4 PHOTOS ↗</span>
+            </div>
+            <h3 class="gal-card-title">Industry Visit: Infosys Maker Lab</h3>
+            <p class="gal-card-speaker mono">INFOSYS MAKER LAB TECHNICAL TEAM · SIT CAMPUS, LAVALE</p>
+            <p class="gal-card-desc">Full-day experiential industrial exposure to enterprise prototyping, IoT telemetry streaming, and containerized architectures.</p>
+          </div>
+        </article>
+
+        <!-- Card 05: 1-Week Skill Development Program & AI Project Expo -->
+        <article class="gal-card gal-item" id="gal-genai-sdp-expo" data-category="workshop"
+          data-caption="1-Week Skill Development Program &amp; AI Project Expo" data-date="18 JUL 2026"
+          data-desc="Organized by Dept. of CSE (Cyber Security &amp; Data Science), GHRCEM Pune in association with Dalvik Inovex, IEEE Student Branch, and IEI Student Chapter. Students completed comprehensive hands-on training in GenAI, Large Language Models, RAG Architecture, Custom GPTs, Visual Diffusion, and No-Code Agentic Automation, followed by a competitive live project exhibition judged by expert faculty."
+          tabindex="0" role="button"
+          aria-label="Open album: 1-Week Skill Development Program and AI Project Expo">
+          <div class="tactical-matrix">
+            <img src="assets/events/genai-sdp-expo/cover.webp" alt="AI Project Demonstration - Students presenting GenAI project with laptop to faculty" class="matrix-cover-img" style="object-position: center 8%;" loading="lazy">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <span class="matrix-date-capsule mono">18 JUL 2026</span>
+          </div>
+          <div class="gal-card-body">
+            <div class="gal-card-meta mono">
+              <span class="ev-tag">WORKSHOP</span>
+              <span class="gal-card-frames">5 PHOTOS ↗</span>
+            </div>
+            <h3 class="gal-card-title">1-Week SDP &amp; AI Project Expo</h3>
+            <p class="gal-card-speaker mono">IN ASSOCIATION WITH DALVIK INOVEX · GHRCEM PUNE</p>
+            <p class="gal-card-desc">Intensive hands-on workshop on AI agents, LLMs, RAG architecture, and prompt engineering culminating in a live student project expo.</p>
+          </div>
+        </article>
+
+        <!-- Card 06: Chapter Inauguration & Expert Session -->
+        <article class="gal-card gal-item" id="gal-chapter-inauguration" data-category="seminar"
+          data-caption="Chapter Inauguration &amp; Expert Session: Journey Towards Awards" data-date="13 APR 2026"
+          data-desc="Guest Speaker: Prof. Nitin P. Mawale (Faculty Adviser Member, All-India Students Committee of IEI). Official inauguration ceremony of the IEI Student Chapter at GHRCEM Pune, featuring an inspiring expert session on IEI student opportunities, national competition platforms, best chapter award roadmaps, and career advancement. Organized jointly by Dept. of Cyber Security and Mechanical Engineering."
+          tabindex="0" role="button"
+          aria-label="Open album: Chapter Inauguration and Expert Session">
+          <div class="tactical-matrix">
+            <img src="assets/events/chapter-inauguration/cover.webp" alt="Inauguration of IEI Student Chapter Committee Launch Group Photo" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
+            <span class="matrix-corner tl">+</span>
+            <span class="matrix-corner tr">+</span>
+            <span class="matrix-corner bl">+</span>
+            <span class="matrix-corner br">+</span>
+            <span class="matrix-date-capsule mono">13 APR 2026</span>
+          </div>
+          <div class="gal-card-body">
+            <div class="gal-card-meta mono">
+              <span class="ev-tag">SEMINAR</span>
+              <span class="gal-card-frames">5 PHOTOS ↗</span>
+            </div>
+            <h3 class="gal-card-title">IEI Chapter Inauguration &amp; Expert Session</h3>
+            <p class="gal-card-speaker mono">PROF. NITIN P. MAWALE · ALL-INDIA STUDENTS COMMITTEE, IEI</p>
+            <p class="gal-card-desc">Grand inauguration ceremony and expert roadmap session on national student chapter competitions, awards, and industry excellence.</p>
+          </div>
+        </article>
 
       </div>
     </section>
@@ -460,7 +844,6 @@
     <!-- ======= FACULTY (Before Club Members) ======= -->
     <div class="faculty-board section" id="faculty" data-reveal>
       <header class="sec-head-center">
-        <p class="section-tag mono" data-reveal>// 04 — GUIDANCE</p>
         <h2 class="sec-title" data-reveal>Guided By <span class="grad">Experience</span></h2>
       </header>
       <div class="faculty-cards-wrap" style="max-width: 1000px; margin: 32px auto 0;">
@@ -478,7 +861,6 @@
     <!-- ======= TEAM ======= -->
     <section id="team" class="operators-deck-section section">
       <div class="sec-head-center">
-        <p class="section-tag mono" data-reveal>// 05 — TEAM</p>
         <h2 class="sec-title" data-reveal>Club <span class="grad">Members</span></h2>
         <p class="sec-desc" data-reveal>The operators behind the chapter — executives, leads and members who keep it
           running.</p>
@@ -492,7 +874,6 @@
           <button type="button" class="team-filter-btn" data-team-filter="management" role="tab" aria-selected="false">MANAGEMENT</button>
           <button type="button" class="team-filter-btn" data-team-filter="pr" role="tab" aria-selected="false">PR</button>
           <button type="button" class="team-filter-btn" data-team-filter="creative" role="tab" aria-selected="false">CREATIVE</button>
-          <button type="button" class="team-filter-btn" data-team-filter="social-media" role="tab" aria-selected="false">SOCIAL MEDIA</button>
         </div>
       </div>
 
@@ -504,7 +885,6 @@
     <!-- ======= FAQ ======= -->
     <section id="faq" class="section">
       <header class="sec-head-center">
-        <p class="section-tag mono" data-reveal>// 06 — FAQS</p>
         <h2 class="sec-title" data-reveal>Frequently Asked <span class="grad">Questions</span></h2>
         <p class="sec-desc" data-reveal>Everything students usually ask before requesting access.</p>
       </header>
@@ -574,7 +954,7 @@
           </button>
           <div class="faq-a">
             <div class="faq-ablock">
-              <p class="faq-answer">Connect directly with our community through our <a href="https://chat.whatsapp.com/HSAjnB2Boh9Bu5mdCeHb0F" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">Official WhatsApp Group ↗</a> or reach out to the core executive team at GHRCEM.</p>
+              <p class="faq-answer">Connect directly with our community through our <a href="https://chat.whatsapp.com/HSAjnB2Boh9Bu5mdCeHb0F" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">Official WhatsApp Group ↗</a>, email us at <a href="mailto:contact@ieighrcemp.tech" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">contact@ieighrcemp.tech</a>, or connect with us on <a href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">Instagram ↗</a> and <a href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">LinkedIn ↗</a>.</p>
               <span class="faq-status mono">✓ ANSWERED // 04</span>
             </div>
           </div>
@@ -586,15 +966,14 @@
     <section id="join" class="section">
       <div class="join-grid">
         <div class="join-info">
-          <p class="section-tag mono" data-reveal>// 07 — JOIN THE CHAPTER</p>
           <h2 class="sec-title" data-reveal>Become a <span class="grad">Member</span></h2>
           <p class="lead" data-reveal>Join a community driven by technical innovation, hands-on cybersecurity, and collaborative engineering excellence at GHRCEM. Zero experience required — curiosity is your only prerequisite.</p>
           <ul class="mono-list mono" data-reveal>
-            <li><span class="prompt">&gt;</span> mail — ghrcem.pune@raisoni.net</li>
+            <li><span class="prompt">&gt;</span> mail — <a href="mailto:contact@ieighrcemp.tech" style="color: inherit; text-decoration: underline; text-underline-offset: 3px;">contact@ieighrcemp.tech</a></li>
             <li><span class="prompt">&gt;</span> campus — GHRCEM, Wagholi, Pune</li>
           </ul>
           <div class="socials mono" data-reveal>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" data-social="github">[GITHUB]</a><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" data-social="linkedin">[LINKEDIN]</a><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" data-social="instagram">[INSTA]</a>
+            <a href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" data-social="linkedin">[LINKEDIN]</a><a href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" data-social="instagram">[INSTA]</a>
           </div>
         </div>
 
@@ -619,11 +998,11 @@
             <div class="field">
               <label class="mono" for="fTrack">PREFERRED DOMAIN / TEAM</label>
               <select id="fTrack" name="track">
-                <option>Undecided — Open to all domains</option>
-                <option>Technical Team (Offensive Security / CTFs / Development)</option>
-                <option>Management Team (Events, Operations &amp; PR)</option>
-                <option>Design Team (UI/UX, Graphics &amp; Creative Media)</option>
-                <option>Documentation Team (Technical Writing &amp; Reports)</option>
+                <option value="Undecided — Open to all domains">Undecided — Open to all domains</option>
+                <option value="Technical Team (Offensive Security / CTFs / Development)">Technical Team (Offensive Security / CTFs / Development)</option>
+                <option value="Management Team (Operations / Events / Finance)">Management Team (Operations / Events / Finance)</option>
+                <option value="PR Team (Public Relations / Media / Outreach)">PR Team (Public Relations / Media / Outreach)</option>
+                <option value="Creative Team (UI/UX / Visual Design / Media)">Creative Team (UI/UX / Visual Design / Media)</option>
               </select>
             </div>
           </div>
@@ -697,22 +1076,17 @@
       </div>
 
       <div class="ft2-row">
-        <a class="ft2-mail mono" href="mailto:ghrcem.pune@raisoni.net">ghrcem.pune@raisoni.net</a>
+        <a class="ft2-mail mono" href="mailto:contact@ieighrcemp.tech">contact@ieighrcemp.tech</a>
         <span class="ft2-sep-v" aria-hidden="true"></span>
         <span class="ft2-loc mono">GHRCEM Campus · Domkhel Rd, Wagholi, Pune, MH — 412207</span>
         <div class="ft2-flex"></div>
         <div class="ft2-socials">
-          <a class="ft2-soc" href="https://github.com" target="_blank" rel="noopener noreferrer" data-social="github" aria-label="GitHub" title="GitHub">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-            </svg>
-          </a>
-          <a class="ft2-soc" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" data-social="linkedin" aria-label="LinkedIn" title="LinkedIn">
+          <a class="ft2-soc" href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" data-social="linkedin" aria-label="LinkedIn" title="LinkedIn">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
               <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
             </svg>
           </a>
-          <a class="ft2-soc" href="https://instagram.com" target="_blank" rel="noopener noreferrer" data-social="instagram" aria-label="Instagram" title="Instagram">
+          <a class="ft2-soc" href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" data-social="instagram" aria-label="Instagram" title="Instagram">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
@@ -838,8 +1212,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="operators.js?v=6" defer></script>
-  <script src="script.js?v=10"></script>
+  <script src="operators.js?v=8" defer></script>
+  <script src="script.js?v=13"></script>
 </body>
 
 </html>

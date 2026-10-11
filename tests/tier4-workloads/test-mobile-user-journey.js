@@ -106,6 +106,6 @@ describe('Tier 4: Real-World Mobile User Journey Sequence', () => {
     expect(footer).toBeDefined();
     expect(wordmark).toBeDefined();
     expect(emailLink).toBeDefined();
-    expect(emailLink.getAttribute('href')).toBe('mailto:ghrcem.pune@raisoni.net');
+    expect(emailLink.getAttribute('href')).toBe('mailto:contact@ieighrcemp.tech');
   });
 });

@@ -97,18 +97,11 @@ document.addEventListener("DOMContentLoaded", () => {
       image: "assets/team/ayush-singh.webp",
       group: "lead",
       members: [
+        { name: "Sakshi Redekar", linkedin: "https://www.linkedin.com/in/sakshi-redekar-444937330" },
         { name: "Mayank Ahir", linkedin: "#" },
         { name: "Ruturaj Chobhe", linkedin: "#" },
         { name: "Shrawani Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
       ]
-    },
-    {
-      name: "Sakshi Redekar",
-      title: "Social Media Lead",
-      team: "SOCIAL MEDIA",
-      linkedin: "https://www.linkedin.com/in/sakshi-redekar-444937330",
-      image: "assets/team/placeholder-avatar.svg",
-      group: "lead"
     }
   ];
 
