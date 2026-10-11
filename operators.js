@@ -101,6 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "Ruturaj Chobhe", linkedin: "#" },
         { name: "Shrawani Ingle", linkedin: "https://www.linkedin.com/in/shrawani-ingle-9a0a72420?utm_source=share_via&utm_content=profile&utm_medium=member_android" }
       ]
+    },
+    {
+      name: "Sakshi Redekar",
+      title: "Social Media Lead",
+      team: "SOCIAL MEDIA",
+      linkedin: "https://www.linkedin.com/in/sakshi-redekar-444937330",
+      image: "assets/team/placeholder-avatar.svg",
+      group: "lead"
     }
   ];
 
@@ -186,10 +194,30 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="team-cards">
           ${leads
             .map((op) => {
-              const teamKey = (op.team || "").toLowerCase();
+              const teamKey = (op.team || "").toLowerCase().replace(/\s+/g, "-");
               const teamName = (op.team || op.title.replace(/\s*lead$/i, "").toUpperCase()) + " TEAM";
               const hasLinkedin = op.linkedin && op.linkedin !== "#";
               const linkAttr = hasLinkedin ? `href="${op.linkedin}" target="_blank" rel="noopener noreferrer"` : `href="javascript:void(0)" aria-disabled="true" style="pointer-events:none; opacity:${op.name === '[TBA]' ? '0.6' : '1'};"`;
+              const hasMembers = Array.isArray(op.members) && op.members.length > 0;
+
+              if (!hasMembers) {
+                return `
+                  <article class="team-card team-card--solo" data-team="${teamKey}">
+                    <h3 class="team-card-team">${(op.team || "SOCIAL MEDIA").toUpperCase()}</h3>
+                    <div class="team-card-lead-pod-box">
+                      <a class="solo-card-photo" ${linkAttr} aria-label="${op.name} on LinkedIn">
+                        <img src="${op.image}" alt="${op.name} portrait" loading="lazy" draggable="false" />
+                      </a>
+                      <a class="team-card-lead-pod-name-link" ${linkAttr} aria-label="${op.name} on LinkedIn">
+                        <p class="team-card-lead-pod-name">${op.name}</p>
+                      </a>
+                      <span class="lead-tag mono">LEAD</span>
+                      ${hasLinkedin ? `<a class="profile-btn-icon" href="${op.linkedin}" target="_blank" rel="noopener noreferrer" aria-label="${op.name} on LinkedIn">${LINKEDIN_ICON}</a>` : `<span class="profile-btn-icon" style="opacity:0.35;">${LINKEDIN_ICON}</span>`}
+                    </div>
+                  </article>
+                `;
+              }
+
               return `
                 <article class="team-card" data-team="${teamKey}">
                   <div class="team-card-lead-pod-box">
@@ -290,7 +318,8 @@ document.addEventListener("DOMContentLoaded", () => {
             (filter === "technical" && cardTeam === "technical") ||
             (filter === "management" && (cardTeam === "events" || cardTeam === "pr" || cardTeam === "management")) ||
             (filter === "design" && (cardTeam === "creative" || cardTeam === "design")) ||
-            (filter === "documentation" && cardTeam === "documentation");
+            (filter === "documentation" && cardTeam === "documentation") ||
+            (filter === "social-media" && (cardTeam === "social-media" || cardTeam === "social media"));
           if (match) {
             card.style.display = "";
           } else {
