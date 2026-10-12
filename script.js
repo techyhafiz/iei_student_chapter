@@ -1109,17 +1109,17 @@
     }
 
     // Listen to video timeupdate:
-    // At ~7.2s: shield deconstructs and parts begin clearing outward
-    // At ~9.2s: central area is completely clear, revealing real HTML UI over the cosmos
-    // At ~9.85s+: video reaches the final cosmic void, seamlessly handing off to the static backdrop
+    // At ~4.6s: shield deconstructs and parts begin clearing outward
+    // At ~5.4s: central area is completely clear, revealing real HTML UI over the cosmos
+    // At ~6.6s+: video reaches the final cosmic void, seamlessly handing off to the static backdrop
     video.addEventListener("timeupdate", function () {
-      if (video.currentTime >= 7.2 && !document.body.classList.contains("is-intro-blooming")) {
+      if (video.currentTime >= 4.6 && !document.body.classList.contains("is-intro-blooming")) {
         document.body.classList.add("is-intro-blooming");
       }
-      if (video.currentTime >= 9.2 && !revealed) {
+      if (video.currentTime >= 5.4 && !revealed) {
         revealHero(false);
       }
-      if (video.currentTime >= 9.85 && !completed) {
+      if (video.currentTime >= 6.6 && !completed) {
         completeIntro();
       }
     });
@@ -1179,19 +1179,19 @@
       }
     }, { passive: true });
 
-    // Safety timeout: reveal after 9.8s if video stalls
+    // Safety timeout: reveal after 5.8s if video stalls
     setTimeout(function () {
       if (!revealed) {
         revealHero(false);
       }
-    }, 9800);
+    }, 5800);
 
-    // Final safety timeout: complete after 11s
+    // Final safety timeout: complete after 7.5s
     setTimeout(function () {
       if (!completed) {
         completeIntro();
       }
-    }, 11000);
+    }, 7500);
 
     // Subtle 3D mouse parallax tracking on desktop
     if (window.innerWidth > 768 && hero) {

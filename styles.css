@@ -917,7 +917,7 @@ html[data-theme="light"] .icon-sun { display: none; }
   pointer-events: none;
   overflow: hidden;
   background-color: #050711;
-  background-image: url("assets/hero-space-backdrop.webp?v=9");
+  background-image: url("assets/hero-space-backdrop.webp?v=12");
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
