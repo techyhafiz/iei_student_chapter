@@ -24,14 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
       name: "Ronak Sangam",
       title: "President",
       linkedin: "#",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/ronak-sangam.webp",
       group: "admin"
     },
     {
       name: "Ashutosh Lakhera",
       title: "Vice President",
       linkedin: "#",
-      image: "assets/team/placeholder-avatar.svg",
+      image: "assets/team/ashutosh-lakhera.webp",
       group: "admin"
     },
     {
