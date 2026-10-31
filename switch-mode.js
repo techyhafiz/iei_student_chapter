@@ -22,7 +22,7 @@ const MAINT_HTML = path.join(ROOT, 'index.maintenance.html');
 function getStatus() {
   if (!fs.existsSync(INDEX_HTML)) return 'MISSING';
   const indexContent = fs.readFileSync(INDEX_HTML, 'utf8');
-  if (indexContent.includes('Portal Under Scheduled Maintenance') || indexContent.includes('IEI STUDENT CHAPTER — SCHEDULED MAINTENANCE')) {
+  if (indexContent.includes('Site Under Maintenance') || indexContent.includes('Portal Under Scheduled Maintenance') || indexContent.includes('IEI STUDENT CHAPTER — SCHEDULED MAINTENANCE')) {
     return 'MAINTENANCE';
   }
   return 'LIVE';
