@@ -12,7 +12,8 @@ const PROJECT_ROOT = path.resolve(__dirname, '../..');
 
 // Load project source files
 function loadSourceFiles() {
-  const htmlPath = path.join(PROJECT_ROOT, 'index.html');
+  const prodHtmlPath = path.join(PROJECT_ROOT, 'index.prod.html');
+  const htmlPath = fs.existsSync(prodHtmlPath) ? prodHtmlPath : path.join(PROJECT_ROOT, 'index.html');
   const stylesPath = path.join(PROJECT_ROOT, 'styles.css');
   const operatorsCssPath = path.join(PROJECT_ROOT, 'operators.css');
   const scriptPath = path.join(PROJECT_ROOT, 'script.js');

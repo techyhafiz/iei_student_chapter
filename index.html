@@ -4,1216 +4,563 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>IEI Student Chapter — Cybersecurity Department | Break Systems Build Engineers</title>
+  <title>Scheduled Maintenance | IEI Student Chapter — Cybersecurity Department</title>
   <meta name="description"
-    content="IEI Student Chapter at the Cybersecurity Department. Workshops, technical events, research, and engineering innovation.">
-  <script>document.documentElement.classList.add('js');</script>
-  <script>
-    (function () {
-      try {
-        var t = localStorage.getItem('iei-theme');
-        if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
-      } catch (e) { }
-    })();
-  </script>
+    content="The IEI Student Chapter portal is currently undergoing scheduled platform upgrades and maintenance. We will be back online shortly.">
+  <meta name="google-site-verification" content="google784fb1d765be3eb8">
   <link rel="icon" type="image/webp" href="assets/menu-logo.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=13">
-  <link rel="stylesheet" href="operators.css?v=5">
-  <script>
-    (function () {
-      var stored = 'dark';
-      try { stored = localStorage.getItem('iei-theme') || 'dark'; } catch(e){}
-      document.documentElement.setAttribute('data-theme', stored);
-      if (stored === 'light') {
-        document.documentElement.setAttribute('data-palette', 'titanium-mono');
+  <style>
+    /* ============================================================
+       IEI STUDENT CHAPTER — SCHEDULED MAINTENANCE PAGE
+       Design: Strict Light Theme Directive Compliant
+       Zero external JS dependencies, lightweight, responsive.
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-surface: #f1f5f9;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --brand-blue: #2563eb;
+      --brand-blue-hover: #1d4ed8;
+      --amber-bg: #fef3c7;
+      --amber-border: #fcd34d;
+      --amber-text: #b45309;
+      --emerald-bg: #d1fae5;
+      --emerald-border: #6ee7b7;
+      --emerald-text: #047857;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg-page);
+      color: var(--text-body);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 16px;
+      background-image: 
+        radial-gradient(var(--border-strong) 1px, transparent 1px);
+      background-size: 24px 24px;
+      position: relative;
+    }
+
+    /* Ambient soft gradient glow behind card (Strict light theme) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(800px, 90vw);
+      height: min(500px, 70vh);
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(241, 245, 249, 0) 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      width: 100%;
+      max-width: 820px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 9999px;
+      box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+      z-index: 1;
+      margin-bottom: 24px;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 2px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .brand-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .brand-text span {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .status-beacon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--amber-bg);
+      border: 1px solid var(--amber-border);
+      color: var(--amber-text);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f59e0b;
+      position: relative;
+    }
+
+    .pulse-dot::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 2px solid #f59e0b;
+      animation: pulsePing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes pulsePing {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    /* Main Container */
+    .main-wrap {
+      width: 100%;
+      max-width: 820px;
+      z-index: 1;
+      margin: auto 0;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 44px 40px;
+      box-shadow: 
+        0 20px 40px -15px rgba(15, 23, 42, 0.07),
+        0 1px 3px 0 rgba(15, 23, 42, 0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #38bdf8, #6366f1);
+    }
+
+    .hero-badge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .category-pill {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--brand-blue);
+      background: rgba(37, 99, 235, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .system-code {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    h1 {
+      font-size: clamp(1.85rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+      line-height: 1.18;
+      margin-bottom: 12px;
+    }
+
+    .tagline-bracket {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-bottom: 18px;
+      display: inline-block;
+    }
+
+    .lead-p {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--text-body);
+      margin-bottom: 28px;
+      max-width: 680px;
+    }
+
+    /* Diagnostics / Progress Status Grid */
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .status-tile {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .tile-label {
+      font-size: 0.76rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tile-val {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tile-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .ind-active {
+      background: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+
+    .ind-success {
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .ind-pending {
+      background: #f59e0b;
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 28px 0;
+    }
+
+    /* Action bar */
+    .actions-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .buttons-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.18s ease;
+      min-height: 44px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--brand-blue);
+      color: #ffffff;
+      border: 1px solid var(--brand-blue);
+      box-shadow: 0 2px 6px -1px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-blue-hover);
+      border-color: var(--brand-blue-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      border: 1px solid var(--border-strong);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-surface);
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+
+    .meta-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Footer */
+    .footer-wrap {
+      width: 100%;
+      max-width: 820px;
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      padding: 0 8px;
+    }
+
+    .team-preview-link {
+      color: var(--brand-blue);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 0.75rem;
+      padding: 6px 12px;
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .team-preview-link:hover {
+      background: var(--bg-surface);
+      border-color: var(--border-strong);
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 640px) {
+      body {
+        padding: 16px 12px;
       }
-    })();
-    function toggleAppTheme(e) {
-      if (e) { e.preventDefault(); e.stopPropagation(); }
-      var cur = document.documentElement.getAttribute('data-theme') || 'dark';
-      var next = (cur === 'light') ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-theme', next);
-      if (next === 'light') {
-        document.documentElement.setAttribute('data-palette', 'titanium-mono');
-      } else {
-        document.documentElement.removeAttribute('data-palette');
+
+      .top-bar {
+        padding: 10px 14px;
       }
-      try { localStorage.setItem('iei-theme', next); } catch(err){}
-      var btn = document.getElementById('themeToggle');
-      if (btn) {
-        btn.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false');
-        btn.setAttribute('title', next === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode');
+
+      .card {
+        padding: 30px 22px;
+        border-radius: 20px;
+      }
+
+      .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .actions-wrap {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .buttons-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .footer-wrap {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
       }
     }
-  </script>
+  </style>
 </head>
 
-<body class="is-intro-active">
+<body>
 
-  <!-- ======= PRELOADER (injected visibility via .js class) ======= -->
-  <!-- ⚠️ UNCOMMENT before deployment — disabled only for faster local debugging -->
-  <!--
-  <div id="loader" aria-hidden="true">
-    <div class="load-inner mono">
-      <div class="load-logo">IEI<span>_</span></div>
-      <div id="loadLines" class="load-lines"></div>
-      <div class="load-bar"><span id="loadFill"></span></div>
-      <div class="load-meta"><span>ESTABLISHING SECURE CHANNEL</span><span id="loadPct">000%</span></div>
+  <!-- Top Navigation Pill -->
+  <header class="top-bar">
+    <a href="#" class="brand-wrap" aria-label="IEI Student Chapter Home">
+      <img src="assets/menu-logo.webp" alt="IEI Logo" class="brand-logo" width="36" height="36">
+      <div class="brand-text">
+        IEI Student Chapter
+        <span>Cybersecurity Dept. • GHRCEM</span>
+      </div>
+    </a>
+    <div class="status-beacon" role="status" aria-live="polite">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span>SYSTEM UPGRADE</span>
     </div>
-  </div>
-  -->
-  <noscript>
-    <style>
-      #loader {
-        display: none !important
-      }
-      body.is-intro-active .card-nav-container,
-      body.is-intro-active .hero-core,
-      body.is-intro-active .scroll-hint,
-      body.is-intro-active .ticker-band,
-      body.is-intro-active .bottom-dock {
-        opacity: 1 !important;
-        transform: none !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-      }
-    </style>
-  </noscript>
+  </header>
 
-  <!-- ======= GLOBAL FX LAYERS ======= -->
-  <div id="progressBar" aria-hidden="true"></div>
-  <canvas id="spaceFx" aria-hidden="true"></canvas>
-  <div id="noise" aria-hidden="true"></div>
+  <!-- Main Maintenance Card -->
+  <main class="main-wrap">
+    <article class="card">
+      <div class="hero-badge-wrap">
+        <span class="category-pill">Infrastructure Notice</span>
+        <span class="system-code">INC-2026-SYS</span>
+      </div>
 
-  <!-- ======= CARD NAV (floating pill) ======= -->
-  <div class="card-nav-container" id="nav">
-    <nav class="card-nav" aria-label="Primary">
-      <div class="card-nav-top">
-        <button class="hamburger-menu" id="navBurger" type="button" role="button" aria-label="Open menu"
-          aria-expanded="false" aria-controls="navContent" tabindex="0">
-          <div class="hamburger-line"></div>
-          <div class="hamburger-line"></div>
-        </button>
-        <a class="logo-container" href="#hero" aria-label="IEI Student Chapter — home">
-          <img src="assets/menu-logo.webp" alt="IEI Student Chapter logo" class="logo">
-          <span class="logo-text">IEI<span class="logo-sub">Student Chapter</span></span>
-        </a>
-        <div class="nav-actions">
-          <button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch theme" aria-pressed="false" title="Toggle Dark/Light Mode" onclick="toggleAppTheme(event)">
-            <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
-            <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-            <span class="toggle-thumb" aria-hidden="true"></span>
-          </button>
-          <a class="card-nav-cta-button" href="#join">Join Us</a>
+      <h1>Portal Under Scheduled Maintenance</h1>
+      <div class="tagline-bracket">{Break Systems, Build Engineers}</div>
+
+      <p class="lead-p">
+        We are actively performing scheduled system maintenance, database indexing, and infrastructure enhancements across our digital portal. Our platform will return to full operational readiness shortly.
+      </p>
+
+      <!-- Live Telemetry Grid -->
+      <div class="status-grid" aria-label="System status checklist">
+        <div class="status-tile">
+          <span class="tile-label">Platform Core</span>
+          <span class="tile-val">
+            <span class="tile-indicator ind-active" aria-hidden="true"></span>
+            Upgrading v2.4
+          </span>
+        </div>
+        <div class="status-tile">
+          <span class="tile-label">Data & Auth Integrity</span>
+          <span class="tile-val">
+            <span class="tile-indicator ind-success" aria-hidden="true"></span>
+            Verified & Secure
+          </span>
+        </div>
+        <div class="status-tile">
+          <span class="tile-label">Events & CTF Engine</span>
+          <span class="tile-val">
+            <span class="tile-indicator ind-pending" aria-hidden="true"></span>
+            Syncing Schedules
+          </span>
         </div>
       </div>
-      <div class="card-nav-content" id="navContent" aria-hidden="true">
-        <div class="nav-columns-wrap">
-          <div class="nav-column">
-            <span class="nav-col-heading mono">Overview</span>
-            <div class="nav-col-items">
-              <a class="nav-card-link" href="#about"><span>About</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="#events"><span>Events</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="#gallery"><span>Gallery</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-          <div class="nav-column">
-            <span class="nav-col-heading mono">Organization</span>
-            <div class="nav-col-items">
-              <a class="nav-card-link" href="#team"><span>Team</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="#faq"><span>FAQs</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="#join"><span>Join Us</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-          <div class="nav-column">
-            <span class="nav-col-heading mono">Connect</span>
-            <div class="nav-col-items">
-              <a class="nav-card-link" href="mailto:contact@ieighrcemp.tech"><span>Email</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" data-social="linkedin"><span>LinkedIn</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-              <a class="nav-card-link" href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" data-social="instagram"><span>Instagram</span><span class="nav-card-link-icon" aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-  </div>
 
-  <main class="page">
+      <div class="divider"></div>
 
-    <!-- ======= HERO ======= -->
-    <section id="hero">
-      <!-- Cosmic background: starfield canvas + glow waves + fades (zero external images) -->
-      <!-- Aurora wave shader + GPU warp particles: layered hero energy -->
-      <div class="hero-bg" aria-hidden="true">
-        <canvas id="auroraFx"></canvas>
-        <canvas id="warpFx"></canvas>
-        <div class="hero-bg-fade"></div>
-      </div>
-
-      <!-- 3D Cyber Shield Intro (Plays during intro only) -->
-      <div class="hero-shield-wrap" id="heroShieldWrap" aria-hidden="true">
-        <video id="heroShieldVideo" class="hero-shield-video" playsinline muted autoplay preload="auto" poster="assets/cyber-shield-poster.webp?v=12">
-          <source src="assets/cyber-shield-intro.mp4?v=12" type="video/mp4">
-          <source src="assets/cyber-shield-intro.webm?v=12" type="video/webm">
-        </video>
-        <div class="hero-shield-glow"></div>
-      </div>
-
-      <button type="button" class="hero-shield-skip mono" id="heroShieldSkip" aria-label="Skip 3D Intro">
-        <span>SKIP 3D INTRO</span>
-        <span class="skip-arrow">⏭</span>
-      </button>
-
-      <div class="hero-core" id="heroCore">
-        <h1 class="headline" id="heroTitle">
-          <span class="headline-line"><span class="bracket">{</span><span class="shimmer-text">Break Systems</span></span>
-          <span class="headline-line"><span class="shimmer-text">Build Engineers</span><span class="bracket">}</span></span>
-        </h1>
-
-        <div class="organized-by-banner anim" style="--d:.22s">
-          <a class="organized-by-pill" href="#about" title="About the IEI Student Chapter">
-            <span class="organized-by-text">Organised by <strong
-                class="organized-by-highlight">G H Raisoni College</strong> <span class="organized-by-dept">· Department of Cyber Security &amp; Data Science</span></span>
+      <!-- Action & Emergency Inquiries -->
+      <div class="actions-wrap">
+        <div class="buttons-group">
+          <a href="mailto:contact@ieighrcemp.tech" class="btn btn-primary" aria-label="Send email inquiry">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span>Contact Chapter Lead</span>
+          </a>
+          <a href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Visit LinkedIn page">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Visit Instagram page">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            <span>Instagram</span>
           </a>
         </div>
-
-        <p class="subhead anim" style="--d:.28s">A technical community where cybersecurity students learn, build,
-          compete, collaborate, and grow into capable professionals and future engineers.</p>
-
-        <!-- ============================================================ -->
-        <!-- [HERO COUNTDOWN EDIT: START]                                 -->
-        <!-- Feature: Live Cyber HUD Telemetry Countdown on Home Hero     -->
-        <!-- To remove this hero countdown in the future:                 -->
-        <!-- 1. Delete this entire block from [HERO COUNTDOWN EDIT: START]-->
-        <!--    down to [HERO COUNTDOWN EDIT: END].                       -->
-        <!-- 2. Related CSS rules are marked in styles.css                -->
-        <!-- 3. Related script is marked in script.js                     -->
-        <!-- ============================================================ -->
-        <div class="hero-countdown anim" id="heroCountdown" data-target="2026-10-13T11:30:00+05:30" style="--d:.34s" aria-label="Countdown to Inauguration Ceremony">
-          <div class="hero-cd-badge mono">
-            <span class="hero-cd-pulse" aria-hidden="true"></span>
-            <span class="hero-cd-tag" id="heroCdStatus">NEXT EVENT</span>
-            <span class="hero-cd-sep" aria-hidden="true">//</span>
-            <span class="hero-cd-target">OCT 13 · 11:30 AM IST</span>
-          </div>
-
-          <div class="hero-cd-console" role="timer" aria-live="off">
-            <!-- DAYS -->
-            <div class="hero-cd-cell" data-unit="days">
-              <span class="hero-cd-corner tl" aria-hidden="true"></span>
-              <span class="hero-cd-corner tr" aria-hidden="true"></span>
-              <span class="hero-cd-corner bl" aria-hidden="true"></span>
-              <span class="hero-cd-corner br" aria-hidden="true"></span>
-              <div class="hero-cd-val mono" id="heroCdDays">00</div>
-              <div class="hero-cd-label mono">DAYS</div>
-              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarDays" style="width: 100%"></span></div>
-            </div>
-
-            <div class="hero-cd-divider mono" aria-hidden="true">:</div>
-
-            <!-- HOURS -->
-            <div class="hero-cd-cell" data-unit="hours">
-              <span class="hero-cd-corner tl" aria-hidden="true"></span>
-              <span class="hero-cd-corner tr" aria-hidden="true"></span>
-              <span class="hero-cd-corner bl" aria-hidden="true"></span>
-              <span class="hero-cd-corner br" aria-hidden="true"></span>
-              <div class="hero-cd-val mono" id="heroCdHours">00</div>
-              <div class="hero-cd-label mono">HOURS</div>
-              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarHours" style="width: 100%"></span></div>
-            </div>
-
-            <div class="hero-cd-divider mono" aria-hidden="true">:</div>
-
-            <!-- MINS -->
-            <div class="hero-cd-cell" data-unit="mins">
-              <span class="hero-cd-corner tl" aria-hidden="true"></span>
-              <span class="hero-cd-corner tr" aria-hidden="true"></span>
-              <span class="hero-cd-corner bl" aria-hidden="true"></span>
-              <span class="hero-cd-corner br" aria-hidden="true"></span>
-              <div class="hero-cd-val mono" id="heroCdMins">00</div>
-              <div class="hero-cd-label mono">MINS</div>
-              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarMins" style="width: 100%"></span></div>
-            </div>
-
-            <div class="hero-cd-divider mono" aria-hidden="true">:</div>
-
-            <!-- SECS -->
-            <div class="hero-cd-cell" data-unit="secs">
-              <span class="hero-cd-corner tl" aria-hidden="true"></span>
-              <span class="hero-cd-corner tr" aria-hidden="true"></span>
-              <span class="hero-cd-corner bl" aria-hidden="true"></span>
-              <span class="hero-cd-corner br" aria-hidden="true"></span>
-              <div class="hero-cd-val mono" id="heroCdSecs">00</div>
-              <div class="hero-cd-label mono">SECS</div>
-              <div class="hero-cd-meter" aria-hidden="true"><span class="hero-cd-meter-bar" id="heroBarSecs" style="width: 100%"></span></div>
-            </div>
-          </div>
-
-          <div class="hero-cd-footer mono">
-            <span class="hero-cd-event-name"><span class="cd-hash">#</span> COMMITTEE INAUGURATION 2026</span>
-            <a href="#events" class="hero-cd-link" title="Jump to Inauguration Ceremony details">VIEW EVENT →</a>
-          </div>
-        </div>
-        <!-- ============================================================ -->
-        <!-- [HERO COUNTDOWN EDIT: END]                                   -->
-        <!-- ============================================================ -->
-
-        <div class="cta-group anim" style="--d:.4s">
-          <a href="#join" class="specular-button specular-button--lg is-primary">
-            <span class="specular-button__label">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
-                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"></path>
-                <path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"></path>
-                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"></path>
-              </svg>
-              Join The Club
-            </span>
-          </a>
-          <a href="#events" class="specular-button specular-button--lg is-ghost">
-            <span class="specular-button__label">
-              View Events
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
-            </span>
-          </a>
+        <div class="meta-note">
+          <span>Auto-checks every 60s</span>
         </div>
       </div>
-
-
-
-      <!-- Scroll to explore -->
-      <div class="scroll-hint mono" aria-hidden="true">
-        <span>SCROLL TO EXPLORE</span>
-        <span class="scroll-line"></span>
-      </div>
-    </section>
-
-    <!-- ======= TICKER BAND ======= -->
-    <div class="ticker-band" aria-hidden="true">
-      <div class="ticker-track">
-        <span><em>BREAK SYSTEMS</em><b>◆</b><em>BUILD DEFENDERS</em><b>◆</b><em>HANDS-ON LABS</em><b>◆</b><em>ZERO
-            TRUST</em><b>◆</b><em>THINK LIKE AN ATTACKER</em><b>◆</b></span>
-        <span><em>BREAK SYSTEMS</em><b>◆</b><em>BUILD DEFENDERS</em><b>◆</b><em>HANDS-ON LABS</em><b>◆</b><em>ZERO
-            TRUST</em><b>◆</b><em>THINK LIKE AN ATTACKER</em><b>◆</b></span>
-      </div>
-    </div>
-
-    <!-- ======= ABOUT / OVERVIEW ======= -->
-    <section id="about" class="section">
-      <header class="sec-head-center">
-        <h2 class="sec-title bento-sec-title" data-reveal>The Vision Behind
-          <span class="grad iei-drop-glow">IEI Student Chapter</span>
-        </h2>
-        <p class="sec-desc" data-reveal>The IEI Student Chapter is a student-led technical community established for
-          the Department of Cyber Security &amp; Data Science at G H Raisoni College under the Institution of Engineers (India).</p>
-      </header>
-
-      <div class="overview-bento-container" data-reveal>
-        <!-- 3 Key Metric Cards — WebGL Specular Prismatic Rim Refraction -->
-        <div class="bento-metrics-grid">
-          <!-- Card 1: 240+ Active Students -->
-          <div class="bento-metric-card metric-card--specular" data-tilt data-metric-specular>
-            <span class="specular-card__fx" aria-hidden="true"></span>
-            <div class="metric-card-inner">
-              <span class="metric-val" data-count="240" data-suffix="+">240+</span>
-              <span class="metric-label">Active Students</span>
-            </div>
-          </div>
-
-          <!-- Card 2: 20+ Core Operations Members -->
-          <div class="bento-metric-card metric-card--specular" data-tilt data-metric-specular>
-            <span class="specular-card__fx" aria-hidden="true"></span>
-            <div class="metric-card-inner">
-              <span class="metric-val" data-count="20" data-suffix="+">20+</span>
-              <span class="metric-label">Core Operations Members</span>
-            </div>
-          </div>
-
-          <!-- Card 3: 6+ Events Organized -->
-          <div class="bento-metric-card metric-card--specular" data-tilt data-metric-specular>
-            <span class="specular-card__fx" aria-hidden="true"></span>
-            <div class="metric-card-inner">
-              <span class="metric-val" data-count="6" data-suffix="+">6+</span>
-              <span class="metric-label">Events Organized</span>
-              <span class="metric-sub-badge mono">CONDUCTED 2026</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4 Key Initiatives & Pillars -->
-        <div class="why-list" style="margin-top: 28px;">
-          <div class="why-row" style="--i:0">
-            <span class="why-num">01</span>
-            <div class="why-copy">
-              <h3 class="why-row-title">Technical Events &amp; Seminars</h3>
-              <p class="why-row-desc">Organizing expert tech talks, interactive seminars, and hands-on bootcamps across the academic year.</p>
-            </div>
-          </div>
-          <div class="why-row" style="--i:1">
-            <span class="why-num">02</span>
-            <div class="why-copy">
-              <h3 class="why-row-title">Industry &amp; Alumni Connect</h3>
-              <p class="why-row-desc">Hosting guest lectures, networking sessions, and career guidance with working practitioners.</p>
-            </div>
-          </div>
-          <div class="why-row" style="--i:2">
-            <span class="why-num">03</span>
-            <div class="why-copy">
-              <h3 class="why-row-title">Peer Mentorship &amp; Collaboration</h3>
-              <p class="why-row-desc">Connecting seniors and juniors for project guidance, study cohorts, and academic knowledge transfer.</p>
-            </div>
-          </div>
-          <div class="why-row" style="--i:3">
-            <span class="why-num">04</span>
-            <div class="why-copy">
-              <h3 class="why-row-title">Department Community &amp; Leadership</h3>
-              <p class="why-row-desc">Managing student initiatives, chapter operations, hackathons, and intra-college competitions.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= EVENTS ======= -->
-    <section id="events" class="section">
-      <header class="sec-head-center">
-        <h2 class="sec-title" data-reveal>Event <span class="grad">Journey</span></h2>
-        <p class="sec-desc" data-reveal>Every milestone is carefully planned — sessions, workshops, drills and
-          hackathons that build real capability.</p>
-      </header>
-
-      <article class="glass next-event" data-reveal id="nextEventCard" data-target="2026-10-13T11:30:00+05:30">
-        <div class="next-event-date mono" id="nextEventDateBlock">
-          <div class="next-event-date-head">
-            <span class="next-event-label">NEXT EVENT</span>
-            <div class="next-event-time-pill" title="Target start time: 11:30 AM IST">
-              <span class="time-dot"></span>11:30 AM IST
-            </div>
-          </div>
-          <div class="next-event-tba" id="nextEventDateDisplay"><strong>13</strong><span id="nextEventDateText">OCT 2026</span></div>
-        </div>
-        <div class="next-event-content">
-          <div class="ev-top mono"><span class="ev-tag" id="nextEventTag">UPCOMING · CEREMONY</span></div>
-          <h3 id="nextEventTitle">CLUB COMMITTEE INAUGURATION <span class="grad">2026</span></h3>
-          <p id="nextEventDesc">Official inauguration ceremony of the IEI Student Chapter Committee at the Department of CSE (Data Science &amp; Cyber Security), GHRCEM Pune.</p>
-          <div class="next-event-meta mono" id="nextEventMeta">13 OCTOBER 2026 · 11:30 AM IST · GHRCEM CAMPUS, WAGHOLI, PUNE</div>
-
-          <!-- Dynamic Countdown Component -->
-          <div class="next-event-countdown" id="nextEventCountdown" aria-label="Event countdown to 11:30 AM IST, 13 October 2026" data-target="2026-10-13T11:30:00+05:30">
-            <div class="cd-header mono">
-              <div class="cd-live-badge">
-                <span class="cd-pulse-dot" id="cdPulseDot"></span>
-                <span class="cd-status-text" id="cdStatusText">COUNTDOWN TO CEREMONY</span>
-              </div>
-              <span class="cd-target-label">OCT 13, 2026 · 11:30 AM IST</span>
-            </div>
-            <div class="cd-flip-grid" role="timer" aria-label="Event countdown flip calendar" aria-live="off">
-              <!-- DAYS FLIP UNIT -->
-              <div class="flip-unit">
-                <div class="calendar-rings" aria-hidden="true">
-                  <span class="c-ring"></span>
-                  <span class="c-ring"></span>
-                </div>
-                <div class="flip-card" id="flipDays" data-value="00">
-                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdDays">00</span></div>
-                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-crease" aria-hidden="true"></div>
-                </div>
-                <span class="flip-label mono">DAYS</span>
-              </div>
-
-              <span class="cd-sep mono" aria-hidden="true">:</span>
-
-              <!-- HOURS FLIP UNIT -->
-              <div class="flip-unit">
-                <div class="calendar-rings" aria-hidden="true">
-                  <span class="c-ring"></span>
-                  <span class="c-ring"></span>
-                </div>
-                <div class="flip-card" id="flipHours" data-value="00">
-                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdHours">00</span></div>
-                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-crease" aria-hidden="true"></div>
-                </div>
-                <span class="flip-label mono">HOURS</span>
-              </div>
-
-              <span class="cd-sep mono" aria-hidden="true">:</span>
-
-              <!-- MINS FLIP UNIT -->
-              <div class="flip-unit">
-                <div class="calendar-rings" aria-hidden="true">
-                  <span class="c-ring"></span>
-                  <span class="c-ring"></span>
-                </div>
-                <div class="flip-card" id="flipMins" data-value="00">
-                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdMins">00</span></div>
-                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-crease" aria-hidden="true"></div>
-                </div>
-                <span class="flip-label mono">MINS</span>
-              </div>
-
-              <span class="cd-sep mono" aria-hidden="true">:</span>
-
-              <!-- SECS FLIP UNIT -->
-              <div class="flip-unit">
-                <div class="calendar-rings" aria-hidden="true">
-                  <span class="c-ring"></span>
-                  <span class="c-ring"></span>
-                </div>
-                <div class="flip-card" id="flipSecs" data-value="00">
-                  <div class="card-half card-top bg-top"><span class="card-digit mono" id="cdSecs">00</span></div>
-                  <div class="card-half card-bottom bg-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-top flap-top"><span class="card-digit mono">00</span></div>
-                  <div class="card-half card-bottom flap-bottom"><span class="card-digit mono">00</span></div>
-                  <div class="card-crease" aria-hidden="true"></div>
-                </div>
-                <span class="flip-label mono">SECS</span>
-              </div>
-            </div>
-          </div>
-
-          <a href="#join" class="specular-button specular-button--sm is-primary"><span class="specular-button__label">Join Community
-            →</span></a>
-        </div>
-      </article>
-
-      <div class="tl-shell" id="evShell" data-reveal>
-        <div class="tl-viewport" id="evViewport" tabindex="0" aria-label="Past events timeline">
-          <div class="tl-track" id="evTrack">
-
-            <!-- Milestone 01: IEI Chapter Inauguration & Expert Session -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-chapter-inauguration" aria-label="Chapter Inauguration & Expert Session">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">13</span>
-                  <span class="tl-mo">APR</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">SEMINAR</span>
-                <h3 class="tl-name">IEI INAUGURATION &amp; AWARDS</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 02: 1-Week SDP & AI Project Expo -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-genai-sdp-expo" aria-label="1-Week SDP & AI Project Expo: AI Agents & GenAI">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">18</span>
-                  <span class="tl-mo">JUL</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">GENAI &amp; AI AGENTS EXPO</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 03: Industry Visit to Infosys Maker Lab -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-infosys-maker-lab" aria-label="Industry Visit: Infosys Maker Lab">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">01</span>
-                  <span class="tl-mo">AUG</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">INFOSYS MAKER LAB VISIT</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 04: 2-Day Cybersecurity Workshop -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-cybersecurity-bootcamp" aria-label="2-Day Hands-on Cybersecurity Workshop: Ethical Hacking &amp; Offensive Security">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">21</span>
-                  <span class="tl-mo">AUG</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">WORKSHOP</span>
-                <h3 class="tl-name">CYBERSECURITY BOOTCAMP</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 05: Engineering Your Future -->
-            <button type="button" class="tl-node btn-ev-gallery" data-gal-target="gal-engineering-your-future" aria-label="Session on Engineering Your Future - Career Pathways">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">21</span>
-                  <span class="tl-mo">AUG</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">SEMINAR</span>
-                <h3 class="tl-name">ENGINEERING YOUR FUTURE</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 06: Cybersecurity Roadmap -->
-            <button type="button" class="tl-node btn-ev-gallery is-selected" data-gal-target="gal-cybersecurity-roadmap" aria-label="Cybersecurity Roadmap: Build Your Career">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">01</span>
-                  <span class="tl-mo">OCT</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">SEMINAR</span>
-                <h3 class="tl-name">CYBERSECURITY ROADMAP</h3>
-              </div>
-            </button>
-
-            <!-- Milestone 07 — Club Committee Inauguration (Upcoming) -->
-            <button type="button" class="tl-node" aria-label="Club Committee Inauguration 2026">
-              <div class="tl-date">
-                <time>
-                  <span class="tl-day">13</span>
-                  <span class="tl-mo">OCT</span>
-                </time>
-                <span class="tl-year mono">2026</span>
-              </div>
-              <div class="tl-marker">
-                <span class="tl-tick tl-tick-top"></span>
-                <span class="tl-dot"></span>
-                <span class="tl-tick tl-tick-bottom"></span>
-              </div>
-              <div class="tl-card">
-                <span class="ev-tag mono">UPCOMING · CEREMONY</span>
-                <h3 class="tl-name">CLUB COMMITTEE INAUGURATION</h3>
-              </div>
-            </button>
-
-          </div>
-        </div>
-
-        <div class="tl-expand-wrap" id="tlExpandWrap">
-          <button type="button" id="tlExpandBtn" class="specular-button specular-button--sm is-ghost" aria-expanded="false">
-            <span class="specular-button__label">
-              <span id="tlExpandText">View All Events (6 Past · 1 Upcoming)</span>
-              <span id="tlExpandArrow">↓</span>
-            </span>
-          </button>
-        </div>
-
-        <button type="button" class="tl-nav tl-prev mono" aria-label="Scroll to earlier events">&#8592;</button>
-        <button type="button" class="tl-nav tl-next mono" aria-label="Scroll to later events">&#8594;</button>
-      </div>
-    </section>
-
-    <!-- ======= GALLERY ======= -->
-    <section id="gallery" class="section">
-      <div class="sec-head">
-        <div>
-          <h2 class="sec-title" data-reveal>Past <span class="grad">Events</span></h2>
-        </div>
-        <div class="gal-filter-bar mono" data-reveal id="galFilterBar">
-          <button type="button" class="filter-btn gal-filter-btn is-active" data-cat="all">ALL</button>
-          <button type="button" class="filter-btn gal-filter-btn" data-cat="seminar">SEMINARS</button>
-          <button type="button" class="filter-btn gal-filter-btn" data-cat="workshop">WORKSHOPS</button>
-          <button type="button" class="filter-btn gal-filter-btn" data-cat="competition">COMPETITIONS</button>
-        </div>
-      </div>
-
-      <div class="cl-mosaic" id="clMosaic">
-        <!-- Empty state placeholder for zero-match filter -->
-        <div class="gal-empty-state" id="galEmptyState" style="display: none;" role="status">
-          <div class="gal-empty-icon" aria-hidden="true">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
-          </div>
-          <h3 class="gal-empty-title">No events in this track yet</h3>
-          <p class="gal-empty-desc">New events, workshops, and competitions will be published here upon chapter inauguration.</p>
-          <button type="button" class="specular-button specular-button--sm is-primary gal-empty-btn" id="btnGalReset">
-            <span class="specular-button__label">View All Events</span>
-          </button>
-        </div>
-
-        <!-- Card 01: Cybersecurity Roadmap -->
-        <article class="gal-card gal-item" id="gal-cybersecurity-roadmap" data-category="seminar"
-          data-caption="Cybersecurity Roadmap: Build Your Career" data-date="01 OCT 2026"
-          data-desc="Resource Person: Mr. Abuzaid Shaikh (Analyst – DevSecOps, RiskBerg Consulting | RHCSA | Red Hat Certified Specialist in Containers). The session provided students with practical insights into building a career in cybersecurity, covering essential skills, domains, tools, cloud technologies, certifications, and various career paths. Organized by Dept. of CSE (CS &amp; DS) in association with IEI Student Chapter, GHRCEM Pune."
-          tabindex="0" role="button"
-          aria-label="Open album: Cybersecurity Roadmap">
-          <div class="tactical-matrix">
-            <img src="assets/events/cybersecurity-roadmap/cover.webp" alt="Cybersecurity Roadmap Session Poster - Mr. Abuzaid Shaikh" class="matrix-cover-img" loading="lazy">
-            <span class="matrix-corner tl">+</span>
-            <span class="matrix-corner tr">+</span>
-            <span class="matrix-corner bl">+</span>
-            <span class="matrix-corner br">+</span>
-            <span class="matrix-date-capsule mono">01 OCT 2026</span>
-          </div>
-          <div class="gal-card-body">
-            <div class="gal-card-meta mono">
-              <span class="ev-tag">SEMINAR</span>
-              <span class="gal-card-frames">5 PHOTOS ↗</span>
-            </div>
-            <h3 class="gal-card-title">Cybersecurity Roadmap: Build Your Career</h3>
-            <p class="gal-card-speaker mono">MR. ABUZAID SHAIKH · ANALYST – DEVSECOPS, RISKBERG CONSULTING</p>
-            <p class="gal-card-desc">Practical guide into cybersecurity domains, tools, cloud technologies, certifications, and career paths for engineering students.</p>
-          </div>
-        </article>
-
-
-        <!-- Card 02: 2-Day Cybersecurity Workshop -->
-        <article class="gal-card gal-item" id="gal-cybersecurity-bootcamp" data-category="workshop"
-          data-caption="2-Day Hands-on Cybersecurity Workshop: Ethical Hacking &amp; Offensive Security" data-date="21 AUG 2026"
-          data-desc="Resource Person: Mr. Tejas Dabhade (Founder @SecByTrust | Offensive Security). A 2-day intensive, beginner-friendly cybersecurity workshop conducted for second-year B.Tech CSE (Cyber Security) undergraduates at GHRCEM Pune. Core curriculum covered cybersecurity fundamentals, ethical hacking methodology, attacker mindset, Linux/networking essentials, hands-on vulnerability exploration, CTF-style challenges, and career roadmaps in offensive security."
-          tabindex="0" role="button"
-          aria-label="Open album: 2-Day Cybersecurity Workshop">
-          <div class="tactical-matrix">
-            <img src="assets/events/cybersecurity-bootcamp/cover.webp" alt="2-Day Cybersecurity Workshop Cohort with Mr. Tejas Dabhade" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
-            <span class="matrix-corner tl">+</span>
-            <span class="matrix-corner tr">+</span>
-            <span class="matrix-corner bl">+</span>
-            <span class="matrix-corner br">+</span>
-            <span class="matrix-date-capsule mono">21 AUG 2026</span>
-          </div>
-          <div class="gal-card-body">
-            <div class="gal-card-meta mono">
-              <span class="ev-tag">WORKSHOP</span>
-              <span class="gal-card-frames">4 PHOTOS ↗</span>
-            </div>
-            <h3 class="gal-card-title">2-Day Hands-on Cybersecurity Workshop</h3>
-            <p class="gal-card-speaker mono">MR. TEJAS DABHADE · FOUNDER @SECBYTRUST | OFFENSIVE SECURITY</p>
-            <p class="gal-card-desc">Intensive boot camp covering Linux security, ethical hacking, attacker mindset, and CTF challenges for 2nd-year CSE undergraduates.</p>
-          </div>
-        </article>
-
-        <!-- Card 03: Engineering Your Future -->
-        <article class="gal-card gal-item" id="gal-engineering-your-future" data-category="seminar"
-          data-caption="Engineering Your Future: Career Pathways, Skills and Emerging Opportunities" data-date="21 AUG 2026"
-          data-desc="Delivered by Ms. Nisha Verma (Assistant Branch Manager) and Ms. Priyancee Singh (Team Head, Edwise International). An expert career guidance session providing 120 engineering undergraduates with comprehensive insights into global higher education ecosystems, standardized examination roadmaps, profile building, Statement of Purpose (SOP) strategies, and emerging engineering specializations. Organized by Dept. of CSE (Cyber Security &amp; Data Science) under the aegis of IEI Student Chapter, GHRCEM Pune."
-          tabindex="0" role="button"
-          aria-label="Open album: Engineering Your Future">
-          <div class="tactical-matrix">
-            <img src="assets/events/engineering-your-future/cover.webp" alt="Session on Engineering Your Future - Keynote Speaker Ms. Priyancee Singh in E-322" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
-            <span class="matrix-corner tl">+</span>
-            <span class="matrix-corner tr">+</span>
-            <span class="matrix-corner bl">+</span>
-            <span class="matrix-corner br">+</span>
-            <span class="matrix-date-capsule mono">21 AUG 2026</span>
-          </div>
-          <div class="gal-card-body">
-            <div class="gal-card-meta mono">
-              <span class="ev-tag">SEMINAR</span>
-              <span class="gal-card-frames">4 PHOTOS ↗</span>
-            </div>
-            <h3 class="gal-card-title">Engineering Your Future: Career Pathways &amp; Skills</h3>
-            <p class="gal-card-speaker mono">MS. NISHA VERMA &amp; MS. PRIYANCEE SINGH · EDWISE INTERNATIONAL</p>
-            <p class="gal-card-desc">Expert masterclass on global higher education ecosystems, international research fellowships, standardized exams, and extracurricular profile building.</p>
-          </div>
-        </article>
-
-        <!-- Card 04: Infosys Maker Lab Industry Visit -->
-        <article class="gal-card gal-item" id="gal-infosys-maker-lab" data-category="workshop"
-          data-caption="Industry Visit: Infosys Maker Lab (Infosys Springboard)" data-date="01 AUG 2026"
-          data-desc="Hosted by Infosys Maker Lab Technical Team at Symbiosis Institute of Technology (SIT) Campus, Lavale, Pune under the aegis of IEI Student Chapter, GHRCEM. 30 engineering undergraduates participated in live walkthroughs and hands-on sessions covering enterprise prototyping infrastructure, embedded firmware, cloud-connected IoT telemetry, and containerized microservices under the Infosys Springboard initiative."
-          tabindex="0" role="button"
-          aria-label="Open album: Infosys Maker Lab Industry Visit">
-          <div class="tactical-matrix">
-            <img src="assets/events/infosys-maker-lab/cover.webp" alt="Infosys Maker Lab Industry Visit - 30 Student Cohort in Lounge" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
-            <span class="matrix-corner tl">+</span>
-            <span class="matrix-corner tr">+</span>
-            <span class="matrix-corner bl">+</span>
-            <span class="matrix-corner br">+</span>
-            <span class="matrix-date-capsule mono">01 AUG 2026</span>
-          </div>
-          <div class="gal-card-body">
-            <div class="gal-card-meta mono">
-              <span class="ev-tag">WORKSHOP</span>
-              <span class="gal-card-frames">4 PHOTOS ↗</span>
-            </div>
-            <h3 class="gal-card-title">Industry Visit: Infosys Maker Lab</h3>
-            <p class="gal-card-speaker mono">INFOSYS MAKER LAB TECHNICAL TEAM · SIT CAMPUS, LAVALE</p>
-            <p class="gal-card-desc">Full-day experiential industrial exposure to enterprise prototyping, IoT telemetry streaming, and containerized architectures.</p>
-          </div>
-        </article>
-
-        <!-- Card 05: 1-Week Skill Development Program & AI Project Expo -->
-        <article class="gal-card gal-item" id="gal-genai-sdp-expo" data-category="workshop"
-          data-caption="1-Week Skill Development Program &amp; AI Project Expo" data-date="18 JUL 2026"
-          data-desc="Organized by Dept. of CSE (Cyber Security &amp; Data Science), GHRCEM Pune in association with Dalvik Inovex, IEEE Student Branch, and IEI Student Chapter. Students completed comprehensive hands-on training in GenAI, Large Language Models, RAG Architecture, Custom GPTs, Visual Diffusion, and No-Code Agentic Automation, followed by a competitive live project exhibition judged by expert faculty."
-          tabindex="0" role="button"
-          aria-label="Open album: 1-Week Skill Development Program and AI Project Expo">
-          <div class="tactical-matrix">
-            <img src="assets/events/genai-sdp-expo/cover.webp" alt="AI Project Demonstration - Students presenting GenAI project with laptop to faculty" class="matrix-cover-img" style="object-position: center 8%;" loading="lazy">
-            <span class="matrix-corner tl">+</span>
-            <span class="matrix-corner tr">+</span>
-            <span class="matrix-corner bl">+</span>
-            <span class="matrix-corner br">+</span>
-            <span class="matrix-date-capsule mono">18 JUL 2026</span>
-          </div>
-          <div class="gal-card-body">
-            <div class="gal-card-meta mono">
-              <span class="ev-tag">WORKSHOP</span>
-              <span class="gal-card-frames">5 PHOTOS ↗</span>
-            </div>
-            <h3 class="gal-card-title">1-Week SDP &amp; AI Project Expo</h3>
-            <p class="gal-card-speaker mono">IN ASSOCIATION WITH DALVIK INOVEX · GHRCEM PUNE</p>
-            <p class="gal-card-desc">Intensive hands-on workshop on AI agents, LLMs, RAG architecture, and prompt engineering culminating in a live student project expo.</p>
-          </div>
-        </article>
-
-        <!-- Card 06: Chapter Inauguration & Expert Session -->
-        <article class="gal-card gal-item" id="gal-chapter-inauguration" data-category="seminar"
-          data-caption="Chapter Inauguration &amp; Expert Session: Journey Towards Awards" data-date="13 APR 2026"
-          data-desc="Guest Speaker: Prof. Nitin P. Mawale (Faculty Adviser Member, All-India Students Committee of IEI). Official inauguration ceremony of the IEI Student Chapter at GHRCEM Pune, featuring an inspiring expert session on IEI student opportunities, national competition platforms, best chapter award roadmaps, and career advancement. Organized jointly by Dept. of Cyber Security and Mechanical Engineering."
-          tabindex="0" role="button"
-          aria-label="Open album: Chapter Inauguration and Expert Session">
-          <div class="tactical-matrix">
-            <img src="assets/events/chapter-inauguration/cover.webp" alt="Inauguration of IEI Student Chapter Committee Launch Group Photo" class="matrix-cover-img" style="object-position: center center;" loading="lazy">
-            <span class="matrix-corner tl">+</span>
-            <span class="matrix-corner tr">+</span>
-            <span class="matrix-corner bl">+</span>
-            <span class="matrix-corner br">+</span>
-            <span class="matrix-date-capsule mono">13 APR 2026</span>
-          </div>
-          <div class="gal-card-body">
-            <div class="gal-card-meta mono">
-              <span class="ev-tag">SEMINAR</span>
-              <span class="gal-card-frames">5 PHOTOS ↗</span>
-            </div>
-            <h3 class="gal-card-title">IEI Chapter Inauguration &amp; Expert Session</h3>
-            <p class="gal-card-speaker mono">PROF. NITIN P. MAWALE · ALL-INDIA STUDENTS COMMITTEE, IEI</p>
-            <p class="gal-card-desc">Grand inauguration ceremony and expert roadmap session on national student chapter competitions, awards, and industry excellence.</p>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ======= FACULTY (Before Club Members) ======= -->
-    <div class="faculty-board section" id="faculty" data-reveal>
-      <header class="sec-head-center">
-        <h2 class="sec-title" data-reveal>Guided By <span class="grad">Experience</span></h2>
-      </header>
-      <div class="faculty-cards-wrap" style="max-width: 1000px; margin: 32px auto 0;">
-        <div class="sec-divider" style="margin-bottom: 24px;" aria-hidden="true" data-reveal>
-          <span class="sec-divider-line"></span>
-          <span class="sec-divider-badge mono">◆ FACULTY ADVISORY ◆</span>
-          <span class="sec-divider-line"></span>
-        </div>
-        <div class="solo-cards solo-cards--faculty" id="facultyCards">
-          <!-- Faculty cards rendered dynamically by operators.js -->
-        </div>
-      </div>
-    </div>
-
-    <!-- ======= TEAM ======= -->
-    <section id="team" class="operators-deck-section section">
-      <div class="sec-head-center">
-        <h2 class="sec-title" data-reveal>Club <span class="grad">Members</span></h2>
-        <p class="sec-desc" data-reveal>The operators behind the chapter — executives, leads and members who keep it
-          running.</p>
-      </div>
-
-      <div class="team-filter-bar-wrap" id="teamFilterBarWrap" data-reveal>
-        <div class="team-filter-bar mono" id="teamFilterBar" role="tablist" aria-label="Filter club teams">
-          <button type="button" class="team-filter-btn is-active" data-team-filter="admin" role="tab" aria-selected="true">OFFICERS</button>
-          <button type="button" class="team-filter-btn" data-team-filter="all" role="tab" aria-selected="false">ALL</button>
-          <button type="button" class="team-filter-btn" data-team-filter="technical" role="tab" aria-selected="false">TECHNICAL</button>
-          <button type="button" class="team-filter-btn" data-team-filter="management" role="tab" aria-selected="false">MANAGEMENT</button>
-          <button type="button" class="team-filter-btn" data-team-filter="pr" role="tab" aria-selected="false">PR</button>
-          <button type="button" class="team-filter-btn" data-team-filter="creative" role="tab" aria-selected="false">CREATIVE</button>
-        </div>
-      </div>
-
-      <div class="operators-solo-board" id="opSoloBoard" data-reveal>
-        <!-- Solo operator cards rendered dynamically by operators.js -->
-      </div>
-    </section>
-
-    <!-- ======= FAQ ======= -->
-    <section id="faq" class="section">
-      <header class="sec-head-center">
-        <h2 class="sec-title" data-reveal>Frequently Asked <span class="grad">Questions</span></h2>
-        <p class="sec-desc" data-reveal>Everything students usually ask before requesting access.</p>
-      </header>
-
-      <div class="faq-list" data-reveal>
-        <div class="faq-item">
-          <button type="button" class="faq-q" aria-expanded="false">
-            <span class="faq-ghost mono" aria-hidden="true">01</span>
-            <span class="faq-qrow">
-              <span class="faq-prompt mono">&gt;_</span>
-              <span class="faq-question">What is the IEI Student Chapter?</span>
-            </span>
-            <span class="faq-plus" aria-hidden="true"></span>
-          </button>
-          <div class="faq-a">
-            <div class="faq-ablock">
-              <p class="faq-answer">A student-led technical community established for the Cybersecurity Department
-                under the Institution of Engineers (India) — a platform to learn, collaborate, build projects,
-                organize events and connect classroom concepts with real-world engineering.</p>
-              <span class="faq-status mono">✓ ANSWERED // 01</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-q" aria-expanded="false">
-            <span class="faq-ghost mono" aria-hidden="true">02</span>
-            <span class="faq-qrow">
-              <span class="faq-prompt mono">&gt;_</span>
-              <span class="faq-question">What does the chapter actually do?</span>
-            </span>
-            <span class="faq-plus" aria-hidden="true"></span>
-          </button>
-          <div class="faq-a">
-            <div class="faq-ablock">
-              <p class="faq-answer">Hands-on technical workshops, capture-the-flag (CTF) competitions, cybersecurity hackathons, expert guest lectures, and collaborative project development.</p>
-              <span class="faq-status mono">✓ ANSWERED // 02</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-q" aria-expanded="false">
-            <span class="faq-ghost mono" aria-hidden="true">03</span>
-            <span class="faq-qrow">
-              <span class="faq-prompt mono">&gt;_</span>
-              <span class="faq-question">When and where do you meet?</span>
-            </span>
-            <span class="faq-plus" aria-hidden="true"></span>
-          </button>
-          <div class="faq-a">
-            <div class="faq-ablock">
-              <p class="faq-answer">Meetings and workshops are scheduled around department events and announced via the official WhatsApp group and notices at GHRCEM Campus, Wagholi, Pune.</p>
-              <span class="faq-status mono">✓ ANSWERED // 03</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button type="button" class="faq-q" aria-expanded="false">
-            <span class="faq-ghost mono" aria-hidden="true">04</span>
-            <span class="faq-qrow">
-              <span class="faq-prompt mono">&gt;_</span>
-              <span class="faq-question">How do I connect?</span>
-            </span>
-            <span class="faq-plus" aria-hidden="true"></span>
-          </button>
-          <div class="faq-a">
-            <div class="faq-ablock">
-              <p class="faq-answer">Connect directly with our community through our <a href="https://chat.whatsapp.com/HSAjnB2Boh9Bu5mdCeHb0F" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">Official WhatsApp Group ↗</a>, email us at <a href="mailto:contact@ieighrcemp.tech" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">contact@ieighrcemp.tech</a>, or connect with us on <a href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">Instagram ↗</a> and <a href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" style="color: var(--accent-cyan, #00f0ff); text-decoration: underline; text-underline-offset: 3px;">LinkedIn ↗</a>.</p>
-              <span class="faq-status mono">✓ ANSWERED // 04</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ======= JOIN ======= -->
-    <section id="join" class="section">
-      <div class="join-grid">
-        <div class="join-info">
-          <h2 class="sec-title" data-reveal>Become a <span class="grad">Member</span></h2>
-          <p class="lead" data-reveal>Join a community driven by technical innovation, hands-on cybersecurity, and collaborative engineering excellence at GHRCEM. Zero experience required — curiosity is your only prerequisite.</p>
-          <ul class="mono-list mono" data-reveal>
-            <li><span class="prompt">&gt;</span> mail — <a href="mailto:contact@ieighrcemp.tech" style="color: inherit; text-decoration: underline; text-underline-offset: 3px;">contact@ieighrcemp.tech</a></li>
-            <li><span class="prompt">&gt;</span> campus — GHRCEM, Wagholi, Pune</li>
-          </ul>
-          <div class="socials mono" data-reveal>
-            <a href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" data-social="linkedin">[LINKEDIN]</a><a href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" data-social="instagram">[INSTA]</a>
-          </div>
-        </div>
-
-        <form id="joinForm" class="glass form" data-reveal novalidate>
-          <div class="form-row">
-            <div class="field" id="field-fName">
-              <label class="mono" for="fName">FULL NAME *</label>
-              <input id="fName" name="name" type="text" autocomplete="name" required placeholder="e.g. Rahul Sharma" aria-describedby="fNameErr">
-              <span class="field-error-msg mono" id="fNameErr" aria-live="polite"></span>
-            </div>
-            <div class="field" id="field-fMail">
-              <label class="mono" for="fMail">EMAIL ADDRESS *</label>
-              <input id="fMail" name="email" type="email" autocomplete="email" required placeholder="student@raisoni.net" aria-describedby="fMailErr">
-              <span class="field-error-msg mono" id="fMailErr" aria-live="polite"></span>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label class="mono" for="fYear">YEAR &amp; BRANCH</label>
-              <input id="fYear" name="year" type="text" placeholder="e.g. 2nd Year · CSE (Cybersecurity / CSDS)">
-            </div>
-            <div class="field">
-              <label class="mono" for="fTrack">PREFERRED DOMAIN / TEAM</label>
-              <select id="fTrack" name="track">
-                <option value="Undecided — Open to all domains">Undecided — Open to all domains</option>
-                <option value="Technical Team (Offensive Security / CTFs / Development)">Technical Team (Offensive Security / CTFs / Development)</option>
-                <option value="Management Team (Operations / Events / Finance)">Management Team (Operations / Events / Finance)</option>
-                <option value="PR Team (Public Relations / Media / Outreach)">PR Team (Public Relations / Media / Outreach)</option>
-                <option value="Creative Team (UI/UX / Visual Design / Media)">Creative Team (UI/UX / Visual Design / Media)</option>
-              </select>
-            </div>
-          </div>
-          <div class="field">
-            <label class="mono" for="fMsg">STATEMENT OF PURPOSE</label>
-            <textarea id="fMsg" name="message" rows="4"
-              placeholder="Why would you like to join the IEI Student Chapter? Tell us about your interests, projects, or what you hope to build with us..."></textarea>
-          </div>
-          <button type="submit" class="specular-button specular-button--md is-primary btn-block">
-            <span class="specular-button__label">Apply for Membership →</span>
-          </button>
-          <p id="formStatus" class="mono form-status" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
-
-    <!-- ======= LIVE CHAPTER TERMINAL ======= -->
-    <section id="terminal" class="section sec-terminal-bottom">
-      <div class="terminal-standalone-wrap" data-reveal data-tilt>
-        <div class="terminal-header">
-          <div class="terminal-dots" aria-hidden="true">
-            <span class="terminal-dot dot-red"></span>
-            <span class="terminal-dot dot-yellow"></span>
-            <span class="terminal-dot dot-green"></span>
-          </div>
-          <span class="terminal-tab mono">iei@csds:~ — chapter.sh</span>
-          <div class="term-chips-bar terminal-tabs mono" id="termChipsBar" role="tablist">
-            <button type="button" class="term-chip term-tab is-active" data-cmd="status" role="tab" aria-selected="true"><span class="term-chip-icon tab-icon">⚡</span> status.sh</button>
-            <button type="button" class="term-chip term-tab" data-cmd="scope" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">🎯</span> scope.sh</button>
-            <button type="button" class="term-chip term-tab" data-cmd="events" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">🗓️</span> events.sh</button>
-            <button type="button" class="term-chip term-tab" data-cmd="team" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">👥</span> team.sh</button>
-            <button type="button" class="term-chip term-tab" data-cmd="join" role="tab" aria-selected="false"><span class="term-chip-icon tab-icon">🚀</span> join.sh</button>
-          </div>
-        </div>
-        <div class="terminal-body mono" id="termBody" aria-live="polite"></div>
-      </div>
-    </section>
-
+    </article>
   </main>
 
-  <!-- ======= FOOTER ======= -->
-  <footer id="footer">
-    <div class="ft2-strip mono">
-      <span>IEI STUDENT CHAPTER</span>
-      <span class="ft2-live"><i></i>CHAPTER ACTIVE</span>
-      <span class="ft2-ver">CYBERSECURITY DEPT · GHRCEMP, WAGHOLI, PUNE</span>
+  <!-- Page Footer -->
+  <footer class="footer-wrap">
+    <div>
+      © 2026 Institution of Engineers (India) — Student Chapter • Department of Cybersecurity
     </div>
-
-    <div class="ft2-inner">
-      <div class="ft2-cta">
-        <div>
-          <p class="ft2-kicker mono">// END_OF_TRANSMISSION — MEMBERSHIPS OPEN</p>
-          <h2 class="ft2-title">Learn. Break. <span>Defend.</span></h2>
-          <p class="ft2-sub">Join a culture built on trust, driven by curiosity, bound by impact — and become the
-            engineer they'll call when it matters.</p>
-        </div>
-        <a href="#join" class="ft2-register"><span class="ft2-register-dot"></span>Join The Club</a>
-      </div>
-
-      <div class="ft2-nav">
-        <span class="ft2-nav-label mono">[ navigate ]</span>
-        <div class="ft2-chips mono">
-          <a href="#about">About</a>
-          <a href="#events">Events</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#faculty">Faculty</a>
-          <a href="#team">Team</a>
-          <a href="#faq">FAQs</a>
-          <a href="#join">Join</a>
-        </div>
-      </div>
-
-      <div class="ft2-row">
-        <a class="ft2-mail mono" href="mailto:contact@ieighrcemp.tech">contact@ieighrcemp.tech</a>
-        <span class="ft2-sep-v" aria-hidden="true"></span>
-        <span class="ft2-loc mono">GHRCEM Campus · Domkhel Rd, Wagholi, Pune, MH — 412207</span>
-        <div class="ft2-flex"></div>
-        <div class="ft2-socials">
-          <a class="ft2-soc" href="https://www.linkedin.com/company/ieighrcemp" target="_blank" rel="noopener noreferrer" data-social="linkedin" aria-label="LinkedIn" title="LinkedIn">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-              <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-            </svg>
-          </a>
-          <a class="ft2-soc" href="https://instagram.com/iei_ghrcem" target="_blank" rel="noopener noreferrer" data-social="instagram" aria-label="Instagram" title="Instagram">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="ft2-meta mono">
-        <span>© 2026 IEI STUDENT CHAPTER // CYBERSECURITY · The Institution of Engineers (India)</span>
-        <span class="ft2-made">G H RAISONI COLLEGE OF ENGINEERING & MANAGEMENT · PUNE</span>
-      </div>
-    </div>
-
-    <div class="footer-wordmark-wrap">
-      <div class="footer-wordmark foot-word" aria-hidden="true">IEI STUDENT CHAPTER</div>
-    </div>
+    <!-- Internal Preview Link for Executive Committee -->
+    <a href="index.prod.html" class="team-preview-link" title="Direct access to full production site">
+      <span>Team Preview (Full Site)</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </footer>
 
-  <!-- ======= LIGHTBOX (Apple-grade Gallery Viewer) ======= -->
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <div class="lb-content">
-      <!-- Top header: Event info & Action buttons -->
-      <div class="lb-header">
-        <div class="lb-header-info">
-          <div class="lb-header-badge">
-            <span id="lbEventTracker" class="lb-ev-tracker">EVENT 01 OF 08</span>
-            <span class="lb-badge-dot">•</span>
-            <span id="lbDate" class="lb-date-text">OCT 2025</span>
-          </div>
-          <h2 id="lbName" class="lb-title">Application Security</h2>
-        </div>
+  <script>
+    // Automatic refresh check every 60 seconds to detect when maintenance finishes
+    setTimeout(function () {
+      window.location.reload();
+    }, 60000);
+  </script>
 
-        <div class="lb-header-actions">
-          <button class="lb-close" aria-label="Close viewer" title="Close (Esc)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Edge-to-Edge Media Stage with Ambient Glow & Auto-hiding Arrows -->
-      <div class="lb-stage">
-        <button class="lb-arrow lb-prev" aria-label="Previous slide" title="Previous slide (←)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-
-        <div id="lbContent" class="lb-frame"></div>
-
-        <button class="lb-arrow lb-next" aria-label="Next slide" title="Next slide (→)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
-      </div>
-
-      <!-- Segmented Bar & Slide Counter positioned cleanly below the image -->
-      <div class="lb-progress-bar-wrap">
-        <div id="lbSegments" class="lb-segments" aria-label="Slide progress"></div>
-        <span id="lbCount" class="lb-counter" aria-live="polite">01 / 01</span>
-      </div>
-
-      <!-- Unified Footer Bar -->
-      <div class="lb-footer">
-        <p id="lbDesc" class="lb-desc"></p>
-        <div class="lb-footer-meta">
-          <div class="lb-key-hint">
-            <kbd>←</kbd> <kbd>→</kbd> <span>Navigate</span>
-          </div>
-          <div class="lb-key-hint">
-            <kbd>ESC</kbd> <span>Dismiss</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======= QUICK NAVIGATION / BACK TO TOP ======= -->
-  <div id="quickNav" class="quick-nav mono" aria-label="Quick navigation">
-    <button type="button" id="btnQuickTop" class="quick-top-btn glass" aria-label="Scroll to top">
-      <span class="quick-arrow">↑</span>
-      <span class="quick-text">TOP</span>
-    </button>
-  </div>
-
-  <!-- ======= NATIVE IOS BOTTOM SHEET (DRAWER) ======= -->
-  <div id="bottomSheet" class="bottom-sheet" role="dialog" aria-modal="true" aria-hidden="true">
-    <div id="sheetBackdrop" class="sheet-backdrop"></div>
-    <div class="sheet-panel glass" id="sheetPanel">
-      <div class="sheet-handle-bar" id="sheetHandle">
-        <span class="sheet-handle"></span>
-      </div>
-      <button type="button" id="sheetClose" class="sheet-close-btn" aria-label="Close drawer">&times;</button>
-      <div id="sheetBody" class="sheet-body">
-        <!-- Dynamic content injected by JS -->
-      </div>
-    </div>
-  </div>
-
-  <!-- ======= FLOATING BOTTOM THUMB DOCK (MOBILE ONLY) ======= -->
-  <nav id="bottomDock" class="bottom-dock mono" aria-label="Mobile quick dock">
-    <div class="dock-inner glass">
-      <a href="#about" class="dock-tab is-active" data-dock="about" aria-label="About section">
-        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-        <span class="dock-label">About</span>
-      </a>
-      <a href="#events" class="dock-tab" data-dock="events" aria-label="Events timeline">
-        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span class="dock-label">Events</span>
-      </a>
-      <a href="#team" class="dock-tab" data-dock="team" aria-label="Team members">
-        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <span class="dock-label">Team</span>
-      </a>
-      <a href="#faq" class="dock-tab" data-dock="faq" aria-label="Frequently asked questions">
-        <svg class="dock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <span class="dock-label">FAQs</span>
-      </a>
-      <a href="#join" class="dock-tab dock-tab-cta" data-dock="join" aria-label="Apply to join">
-        <span class="dock-cta-pill">Apply</span>
-      </a>
-    </div>
-  </nav>
-
-  <!-- ======= LIBS + APP ======= -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-  <script src="operators.js?v=8" defer></script>
-  <script src="script.js?v=13"></script>
 </body>
 
 </html>
